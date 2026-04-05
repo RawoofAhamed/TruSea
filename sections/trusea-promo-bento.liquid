@@ -1,0 +1,480 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.show_section != false %}
+<section class="ts-bento ts-section" id="ts-bento"
+  style="
+    --ts-bento-bg: {{ section.settings.bg_color | default: '#F5F9F7' }};
+    --ts-bento-heading: {{ section.settings.heading_color | default: '#0E2541' }};
+    --ts-bento-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
+  "
+>
+  <div class="ts-container">
+    <div class="ts-bento-header ts-reveal">
+      <div class="ts-tag">{{ section.settings.section_eyebrow | default: "Today's Offers" }}</div>
+      <h2 class="ts-bento-title">
+        {{ section.settings.section_heading_line1 | default: 'Fresh' }} <span style="color:var(--ts-bento-accent)">{{ section.settings.section_heading_accent | default: 'Deals' }}</span> {{ section.settings.section_heading_line2 | default: '& Platters' }}
+      </h2>
+    </div>
+
+    <div class="ts-bento-grid">
+
+      <!-- CARD 1: Seafood Platter Promo (tall left) -->
+      <div class="ts-bento-card ts-bento-card--main ts-reveal-left" style="
+        {% if section.settings.card1_image != blank %}
+          background-image: linear-gradient(155deg, rgba(14,37,65,.85) 0%, rgba(14,37,65,.6) 100%), url('{{ section.settings.card1_image | image_url: width: 800 }}');
+          background-size: cover;
+          background-position: center;
+        {% else %}
+          background: linear-gradient(155deg, #1a4b82 0%, #0e2541 100%);
+        {% endif %}
+      ">
+        <!-- Decorative price tags -->
+        <div class="ts-bento-price-tag ts-bento-price-tag--lg" style="top:25%;right:20px;">₹{{ section.settings.card1_price1 | default: '35' }}</div>
+        <div class="ts-bento-price-tag ts-bento-price-tag--md" style="top:48%;right:40px;">₹{{ section.settings.card1_price2 | default: '38' }}</div>
+        <div class="ts-bento-price-tag ts-bento-price-tag--sm" style="top:65%;right:15px;">₹{{ section.settings.card1_price3 | default: '45' }}</div>
+
+        <!-- Promo badge -->
+        <div class="ts-bento-promo-badge">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3CBFA0" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        </div>
+
+        <div class="ts-bento-card-content">
+          <div class="ts-bento-eyebrow">{{ section.settings.card1_eyebrow | default: 'Buy 2 Get 1' }}</div>
+          <h3 class="ts-bento-card-title">{{ section.settings.card1_title | default: 'Seafood Platters' }}</h3>
+          <p class="ts-bento-card-desc">{{ section.settings.card1_desc | default: 'Freshest mix platters at unbeatable value. Perfect for family dinners.' }}</p>
+          <div class="ts-bento-ref">{{ section.settings.card1_ref | default: 'Ref#: COMBO2025' }}</div>
+          <a href="{{ section.settings.card1_url | default: '/collections/all' }}" class="ts-btn ts-btn-primary" style="margin-top:20px;align-self:flex-start;">
+            Order Now
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+
+        <!-- Bottom social proof with Unsplash avatars -->
+        <div class="ts-bento-social">
+          <div class="ts-bento-avatars">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&h=60&fit=crop&crop=face&auto=format&q=80" alt="Customer" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face&auto=format&q=80" alt="Customer" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop&crop=face&auto=format&q=80" alt="Customer" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&crop=face&auto=format&q=80" alt="Customer" loading="lazy">
+          </div>
+          <span>1,200+ happy customers</span>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="ts-bento-right">
+
+        <!-- CARD 2: Meal Deal (top right) -->
+        <div class="ts-bento-card ts-bento-card--deal ts-reveal-right" style="
+          {% if section.settings.card2_image != blank %}
+            background-image: linear-gradient(135deg, rgba(255,255,255,.92) 0%, rgba(245,249,247,.85) 100%), url('{{ section.settings.card2_image | image_url: width: 600 }}');
+            background-size: cover;
+            background-position: center;
+          {% else %}
+            background: var(--ts-white);
+          {% endif %}
+        ">
+          <div class="ts-bento-deal-badge">DEAL</div>
+          <div class="ts-bento-deal-inner">
+            <div>
+              <div class="ts-bento-eyebrow" style="color:var(--ts-navy)">{{ section.settings.card2_eyebrow | default: 'Fish Taco' }}</div>
+              <h3 class="ts-bento-card-title ts-navy">{{ section.settings.card2_title | default: 'Meal Deals' }}</h3>
+              <div class="ts-bento-deal-prices">
+                <span class="ts-bento-price-chip">₹{{ section.settings.card2_price1 | default: '513' }}</span>
+                <span class="ts-bento-price-line" style="text-decoration:line-through;color:var(--ts-gray);font-size:13px;">₹{{ section.settings.card2_original | default: '699' }}</span>
+              </div>
+            </div>
+            {% if section.settings.card2_image2 != blank %}
+              <img src="{{ section.settings.card2_image2 | image_url: width: 160 }}" alt="{{ section.settings.card2_title }}" class="ts-bento-deal-img" loading="lazy">
+            {% else %}
+              <div class="ts-bento-deal-img-placeholder">
+                <svg width="60" height="48" viewBox="0 0 60 48" fill="none">
+                  <ellipse cx="30" cy="24" rx="28" ry="16" fill="rgba(60,191,160,0.12)"/>
+                  <path d="M8 24C8 24 18 14 30 18C40 21 50 24 50 24" stroke="#3CBFA0" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </div>
+            {% endif %}
+          </div>
+          <a href="{{ section.settings.card2_url | default: '/collections/all' }}" class="ts-btn ts-btn-primary" style="font-size:13px;padding:10px 20px;align-self:flex-start;margin-top:16px;">View Deal</a>
+        </div>
+
+        <!-- CARD 3: SelFish Club mini (bottom right, dark) -->
+        <div class="ts-bento-card ts-bento-card--club ts-reveal-right ts-delay-2" style="
+          {% if section.settings.card3_image != blank %}
+            background-image: linear-gradient(135deg, rgba(14,37,65,.92) 0%, rgba(8,24,41,.88) 100%), url('{{ section.settings.card3_image | image_url: width: 600 }}');
+            background-size: cover;
+            background-position: center;
+          {% else %}
+            background: linear-gradient(135deg, var(--ts-navy) 0%, var(--ts-navy-dark) 100%);
+          {% endif %}
+        ">
+          <div class="ts-bento-club-inner">
+            <div>
+              <div class="ts-bento-eyebrow" style="color:var(--ts-mint)">{{ section.settings.card3_eyebrow | default: 'Members Only' }}</div>
+              <h3 class="ts-bento-card-title" style="color:white;font-size:17px;">{{ section.settings.card3_title | default: 'Become our privileged SelFish Club member.' }}</h3>
+              <p class="ts-bento-card-desc" style="color:rgba(255,255,255,.55);font-size:12px;margin-top:6px;">{{ section.settings.card3_desc | default: 'Join for exclusive photo and member-only discounts.' }}</p>
+            </div>
+            <a href="{{ section.settings.card3_url | default: '/pages/selfish-club' }}" class="ts-btn ts-btn-primary" style="font-size:12px;padding:9px 18px;align-self:flex-start;margin-top:12px;">Join Club →</a>
+          </div>
+
+          <!-- Unsplash avatars stack -->
+          <div class="ts-bento-club-avatars">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&h=80&fit=crop&crop=face&auto=format&q=80" alt="Club Member" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=80&h=80&fit=crop&crop=face&auto=format&q=80" alt="Club Member" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face&auto=format&q=80" alt="Club Member" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=face&auto=format&q=80" alt="Club Member" loading="lazy">
+          </div>
+        </div>
+
+      </div><!-- /ts-bento-right -->
+    </div><!-- /ts-bento-grid -->
+  </div>
+</section>
+{% endif %}
+
+<style>
+.ts-bento {
+  background: var(--ts-bento-bg, var(--ts-off-white));
+  padding: 80px 0 90px;
+  font-family: var(--ts-font);
+  overflow: hidden;
+}
+
+/* Header */
+.ts-bento-header {
+  text-align: center;
+  margin-bottom: 44px;
+}
+.ts-bento-title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900;
+  color: var(--ts-bento-heading, var(--ts-navy));
+  margin: 12px 0 0;
+  letter-spacing: -.02em;
+}
+
+/* Grid */
+.ts-bento-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.ts-bento-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Card base */
+.ts-bento-card {
+  border-radius: var(--ts-radius-lg);
+  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--ts-transition);
+  display: flex;
+  flex-direction: column;
+}
+.ts-bento-card:hover { transform: translateY(-4px); box-shadow: var(--ts-shadow-lg); }
+
+/* Card 1: Main platter */
+.ts-bento-card--main {
+  min-height: 460px;
+  color: var(--ts-white);
+}
+
+/* Price tags floating */
+.ts-bento-price-tag {
+  position: absolute;
+  background: var(--ts-mint);
+  color: var(--ts-white);
+  border-radius: var(--ts-radius-full);
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ts-bento-price-tag--lg { width: 56px; height: 56px; font-size: 15px; }
+.ts-bento-price-tag--md { width: 48px; height: 48px; font-size: 13px; }
+.ts-bento-price-tag--sm { width: 40px; height: 40px; font-size: 12px; }
+
+/* Promo badge */
+.ts-bento-promo-badge {
+  position: absolute;
+  top: 20px; right: 80px;
+  animation: ts-float 4s ease-in-out infinite;
+}
+
+.ts-bento-card-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.ts-bento-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ts-mint);
+  margin-bottom: 8px;
+}
+.ts-bento-card-title {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--ts-white);
+  margin: 0 0 10px;
+  line-height: 1.2;
+}
+.ts-bento-card-title.ts-navy { color: var(--ts-navy); }
+.ts-bento-card-desc {
+  font-size: 14px;
+  color: rgba(255,255,255,.65);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 220px;
+}
+.ts-bento-ref {
+  font-size: 11px;
+  color: rgba(255,255,255,.35);
+  margin-top: 12px;
+  letter-spacing: .04em;
+}
+
+/* Social proof */
+.ts-bento-social {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  font-size: 12px;
+  color: rgba(255,255,255,.6);
+}
+.ts-bento-avatars {
+  display: flex;
+}
+.ts-bento-avatars img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,.4);
+  margin-left: -8px;
+}
+.ts-bento-avatars img:first-child { margin-left: 0; }
+
+/* Card 2: Meal deal */
+.ts-bento-card--deal {
+  min-height: 200px;
+  border: 1px solid var(--ts-gray-light);
+}
+.ts-bento-deal-badge {
+  position: absolute;
+  top: 20px; right: 20px;
+  background: var(--ts-mint);
+  color: var(--ts-white);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  padding: 4px 10px;
+  border-radius: var(--ts-radius-full);
+}
+.ts-bento-deal-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+.ts-bento-deal-prices {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+.ts-bento-price-chip {
+  background: var(--ts-mint-pale);
+  color: var(--ts-mint);
+  font-weight: 800;
+  font-size: 18px;
+  padding: 4px 12px;
+  border-radius: var(--ts-radius-full);
+}
+.ts-bento-deal-img {
+  width: 100px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--ts-radius-md);
+  flex-shrink: 0;
+}
+.ts-bento-deal-img-placeholder {
+  width: 100px;
+  height: 80px;
+  background: var(--ts-mint-pale);
+  border-radius: var(--ts-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Card 3: Club */
+.ts-bento-card--club {
+  min-height: 200px;
+}
+.ts-bento-club-inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.ts-bento-club-avatars {
+  display: flex;
+  margin-top: 16px;
+}
+.ts-bento-club-avatars img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,.3);
+  margin-left: -10px;
+  transition: transform .3s ease;
+}
+.ts-bento-club-avatars img:first-child { margin-left: 0; }
+.ts-bento-club-avatars img:hover { transform: translateY(-3px) scale(1.1); z-index: 2; }
+
+/* Responsive */
+@media (max-width: 860px) {
+  .ts-bento-grid { grid-template-columns: 1fr; }
+  .ts-bento-card--main { min-height: 360px; }
+}
+@media (max-width: 480px) {
+  .ts-bento-card { padding: 24px 20px; }
+}
+</style>
+
+<script>
+(function() {
+  const bentoEls = document.querySelectorAll('#ts-bento .ts-reveal, #ts-bento .ts-reveal-left, #ts-bento .ts-reveal-right');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('ts-revealed'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  bentoEls.forEach(el => observer.observe(el));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Promo Bento Grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "⚙️ Section Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "🎨 Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#F5F9F7"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#0e2541"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#3cbfa0"
+    },
+    {
+      "type": "header",
+      "content": "📝 Section Header"
+    },
+    {
+      "type": "text",
+      "id": "section_eyebrow",
+      "label": "Section Eyebrow",
+      "default": "Today's Offers"
+    },
+    {
+      "type": "text",
+      "id": "section_heading_line1",
+      "label": "Heading Line 1",
+      "default": "Fresh"
+    },
+    {
+      "type": "text",
+      "id": "section_heading_accent",
+      "label": "Heading Accent",
+      "default": "Deals"
+    },
+    {
+      "type": "text",
+      "id": "section_heading_line2",
+      "label": "Heading Line 2",
+      "default": "& Platters"
+    },
+    { "type": "header", "content": "🃏 Card 1 — Seafood Platter" },
+    {
+      "type": "text",
+      "id": "card1_eyebrow",
+      "label": "Eyebrow text",
+      "default": "Buy 2 Get 1"
+    },
+    {
+      "type": "text",
+      "id": "card1_title",
+      "label": "Title",
+      "default": "Seafood Platters"
+    },
+    {
+      "type": "textarea",
+      "id": "card1_desc",
+      "label": "Description",
+      "default": "Freshest mix platters at unbeatable value. Perfect for family dinners."
+    },
+    { "type": "text", "id": "card1_price1", "label": "Price Tag 1", "default": "35" },
+    { "type": "text", "id": "card1_price2", "label": "Price Tag 2", "default": "38" },
+    { "type": "text", "id": "card1_price3", "label": "Price Tag 3", "default": "45" },
+    { "type": "text", "id": "card1_ref", "label": "Reference text", "default": "Ref#: COMBO2025" },
+    { "type": "image_picker", "id": "card1_image", "label": "Background Image" },
+    { "type": "url", "id": "card1_url", "label": "CTA Link" },
+    { "type": "header", "content": "Card 2 — Meal Deal" },
+    { "type": "text", "id": "card2_eyebrow", "label": "Eyebrow text", "default": "Fish Taco" },
+    { "type": "text", "id": "card2_title", "label": "Title", "default": "Meal Deals" },
+    { "type": "text", "id": "card2_price1", "label": "Sale Price", "default": "513" },
+    { "type": "text", "id": "card2_original", "label": "Original Price", "default": "699" },
+    { "type": "image_picker", "id": "card2_image", "label": "Background Image" },
+    { "type": "image_picker", "id": "card2_image2", "label": "Deal Product Image" },
+    { "type": "url", "id": "card2_url", "label": "CTA Link" },
+    { "type": "header", "content": "Card 3 — SelFish Club" },
+    { "type": "text", "id": "card3_eyebrow", "label": "Eyebrow text", "default": "Members Only" },
+    { "type": "text", "id": "card3_title", "label": "Title", "default": "Become our privileged SelFish Club member." },
+    { "type": "textarea", "id": "card3_desc", "label": "Description", "default": "Join for exclusive perks and member-only discounts." },
+    { "type": "image_picker", "id": "card3_image", "label": "Background Image" },
+    { "type": "url", "id": "card3_url", "label": "CTA Link" }
+  ],
+  "presets": [
+    {
+      "name": "Promo Bento Grid"
+    }
+  ]
+}
+{% endschema %}

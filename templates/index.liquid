@@ -1,8 +1,14 @@
 {% comment %}
-  Homepage Template — File: templates/index.liquid
-  All content and schema live in sections/ocean-homepage.liquid
+  TruSea Homepage Template
+  Modular sections — each independently configurable in the Shopify editor
 {% endcomment %}
 
-{{ 'ocean-homepage.css' | asset_url | stylesheet_tag }}
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
 
-{% section 'ocean-homepage' %}
+{% section 'trusea-hero' %}
+{% section 'trusea-app-promo' %}
+{% section 'trusea-selfish-promo' %}
+{% section 'trusea-category-grid' %}
+{% section 'trusea-zero-formalin' %}
+{% section 'trusea-promise' %}
+{% section 'trusea-promo-bento' %}

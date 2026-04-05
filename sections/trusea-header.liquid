@@ -1,0 +1,1227 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+
+<header class="ts-header {% if section.settings.sticky %}ts-header--sticky{% endif %}" id="ts-header"
+  style="
+    --ts-header-bg: {{ section.settings.bg_color | default: '#0E2541' }};
+    --ts-header-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
+    --ts-header-text: {{ section.settings.text_color | default: '#FFFFFF' }};
+  "
+>
+  <!-- Top bar: search overlay -->
+  <div class="ts-header-search-overlay" id="ts-search-overlay">
+    <div class="ts-header-search-inner">
+      <form action="/search" method="get" class="ts-search-form">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" name="q" id="ts-search-input" placeholder="Search for fish, prawns, seafood…" autocomplete="off">
+        <button type="button" class="ts-search-close" id="ts-search-close" aria-label="Close search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="ts-header-inner">
+    <!-- Logo -->
+    <a href="/" class="ts-header-logo" aria-label="{{ shop.name }}">
+      {% if section.settings.logo != blank %}
+        <img src="{{ section.settings.logo | image_url: width: 160 }}" alt="{{ shop.name }}" width="130" height="40">
+      {% else %}
+        <span class="ts-logo-text">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22 12C22 12 18 7 12 7C6 7 2 12 2 12C2 12 6 17 12 17C18 17 22 12 22 12Z" stroke="#3CBFA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="2.5" fill="#3CBFA0"/>
+          </svg>
+          <strong>Aqua Fresh</strong>
+        </span>
+      {% endif %}
+    </a>
+
+    <!-- Nav: desktop -->
+    <nav class="ts-header-nav" aria-label="Main navigation">
+      {% if section.settings.menu != blank %}
+        {% for link in linklists[section.settings.menu].links %}
+          <a href="{{ link.url }}" class="ts-nav-link{% if link.active %} active{% endif %}">{{ link.title }}</a>
+        {% endfor %}
+      {% else %}
+        <a href="/collections/all" class="ts-nav-link">Species</a>
+        <a href="/pages/process" class="ts-nav-link">Process</a>
+        <a href="/collections/offers" class="ts-nav-link">Offers</a>
+        <a href="/pages/selfish-club" class="ts-nav-link">SelFish Club</a>
+        <a href="/pages/contact" class="ts-nav-link">Contact</a>
+      {% endif %}
+    </nav>
+
+    <!-- Right icons -->
+    <div class="ts-header-actions">
+      <!-- Location selector -->
+      <div class="ts-location-wrapper" id="ts-location-wrapper">
+        <button class="ts-location-btn" id="ts-location-btn" aria-label="Select location" aria-expanded="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span id="ts-location-label">{{ section.settings.default_location | default: 'Select Area' }}</span>
+          <svg class="ts-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="ts-location-dropdown" id="ts-location-dropdown" aria-hidden="true">
+          <p class="ts-location-title">Enter your pincode</p>
+          <div class="ts-pincode-row">
+            <input type="text" id="ts-pincode-input" placeholder="e.g. 600001" maxlength="6" pattern="[0-9]*" inputmode="numeric">
+            <button type="button" id="ts-pincode-apply" class="ts-btn ts-btn-primary" style="padding:8px 18px;font-size:13px;">Apply</button>
+          </div>
+          <p class="ts-location-or">or choose area</p>
+          <ul class="ts-location-list">
+            {% for block in section.blocks %}
+              {% if block.type == 'location' %}
+                <li>
+                  <button type="button" class="ts-location-option" data-label="{{ block.settings.label }}" data-pincode="{{ block.settings.pincode }}" {{ block.shopify_attributes }}>
+                    {{ block.settings.label }}
+                    {% if block.settings.pincode != blank %}<span>{{ block.settings.pincode }}</span>{% endif %}
+                  </button>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <button class="ts-icon-btn" id="ts-search-trigger" aria-label="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+
+      <!-- Account -->
+      <a href="/account" class="ts-icon-btn" aria-label="Account">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </a>
+
+      <!-- Cart popup trigger -->
+      <div class="ts-cart-wrapper" id="ts-cart-wrapper">
+        <button class="ts-icon-btn ts-cart-btn" id="ts-cart-trigger" aria-label="View cart" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="ts-cart-count" id="ts-cart-badge" {% unless cart.item_count > 0 %}style="display:none"{% endunless %}>{{ cart.item_count }}</span>
+        </button>
+
+        <!-- Mini-cart popup panel -->
+        <div class="ts-minicart" id="ts-minicart" aria-hidden="true" role="dialog" aria-label="Your cart">
+          <div class="ts-minicart-header">
+            <h3 class="ts-minicart-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              Your Cart
+              <span class="ts-minicart-count" id="ts-minicart-count">0</span>
+            </h3>
+            <button class="ts-minicart-close" id="ts-minicart-close" aria-label="Close cart">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+
+          <div class="ts-minicart-body" id="ts-minicart-body">
+            <!-- Items injected by JS -->
+            <div class="ts-minicart-loading" id="ts-minicart-loading">
+              <div class="ts-minicart-spinner"></div>
+            </div>
+          </div>
+
+          <div class="ts-minicart-footer" id="ts-minicart-footer" style="display:none">
+            <div class="ts-minicart-subtotal">
+              <span>Subtotal</span>
+              <strong id="ts-minicart-total">₹0.00</strong>
+            </div>
+            <p class="ts-minicart-note">Taxes and shipping calculated at checkout</p>
+            <a href="/checkout" class="ts-btn ts-btn-primary" style="width:100%;justify-content:center;">
+              Checkout →
+            </a>
+            <a href="/cart" class="ts-minicart-view-link">View full cart</a>
+          </div>
+
+          <div class="ts-minicart-empty" id="ts-minicart-empty" style="display:none">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(60,191,160,.4)" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <p>Your cart is empty</p>
+            <a href="/collections/all" class="ts-btn ts-btn-primary" style="font-size:13px;padding:10px 22px;">Shop Now</a>
+          </div>
+        </div>
+      </div>
+      <!-- Cart backdrop -->
+      <div class="ts-minicart-backdrop" id="ts-minicart-backdrop"></div>
+
+      <!-- Hamburger (mobile) -->
+      <button class="ts-hamburger" id="ts-hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile drawer -->
+  <div class="ts-mobile-drawer" id="ts-mobile-drawer" aria-hidden="true">
+    <div class="ts-drawer-inner">
+      <button class="ts-drawer-close" id="ts-drawer-close" aria-label="Close menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <nav class="ts-drawer-nav">
+        {% if section.settings.menu != blank %}
+          {% for link in linklists[section.settings.menu].links %}
+            <a href="{{ link.url }}" class="ts-drawer-link">{{ link.title }}</a>
+          {% endfor %}
+        {% else %}
+          <a href="/collections/all" class="ts-drawer-link">Species</a>
+          <a href="/pages/process" class="ts-drawer-link">Process</a>
+          <a href="/collections/offers" class="ts-drawer-link">Offers</a>
+          <a href="/pages/selfish-club" class="ts-drawer-link">SelFish Club</a>
+          <a href="/pages/contact" class="ts-drawer-link">Contact</a>
+        {% endif %}
+      </nav>
+      <div class="ts-drawer-actions">
+        <a href="/account" class="ts-btn ts-btn-outline" style="width:100%;justify-content:center;">My Account</a>
+        <a href="/cart" class="ts-btn ts-btn-primary" style="width:100%;justify-content:center;margin-top:12px;">Cart ({{ cart.item_count }})</a>
+      </div>
+    </div>
+  </div>
+  <div class="ts-drawer-backdrop" id="ts-drawer-backdrop"></div>
+</header>
+
+<style>
+/* ---- Header Base ---- */
+.ts-header {
+  height: 80px;
+  background: var(--ts-header-bg, var(--ts-navy));
+  display: flex;
+  align-items: center;
+  transition: all .35s ease;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  position: relative;
+  font-family: var(--ts-font);
+}
+.ts-header--sticky {
+  position: sticky;
+  top: 0;
+}
+.ts-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 32px;
+  height: 68px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* Logo */
+.ts-header-logo { display: flex; align-items: center; flex-shrink: 0; }
+.ts-header-logo img { height: 40px; width: auto; object-fit: contain; }
+.ts-logo-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ts-header-text, var(--ts-white));
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+
+/* Nav */
+.ts-header-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  justify-content: center;
+}
+.ts-nav-link {
+  color: var(--ts-header-text, rgba(255,255,255,.85));
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: var(--ts-radius-full);
+  transition: var(--ts-transition);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.ts-nav-link:hover,
+.ts-nav-link.active {
+  color: var(--ts-header-accent, var(--ts-mint));
+  background: rgba(60,191,160,.12);
+}
+
+/* Right actions */
+.ts-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.ts-icon-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--ts-radius-full);
+  border: none;
+  background: transparent;
+  color: var(--ts-header-text, rgba(255,255,255,.85));
+  cursor: pointer;
+  transition: var(--ts-transition);
+  position: relative;
+  text-decoration: none;
+}
+.ts-icon-btn:hover {
+  background: rgba(255,255,255,.12);
+  color: var(--ts-header-accent, var(--ts-mint));
+}
+.ts-cart-count {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: var(--ts-header-accent, var(--ts-mint));
+  color: var(--ts-white);
+  font-size: 10px;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---- Location Dropdown ---- */
+.ts-location-wrapper {
+  position: relative;
+}
+.ts-location-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
+  color: var(--ts-header-text, rgba(255,255,255,.9));
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 12px;
+  border-radius: var(--ts-radius-full);
+  cursor: pointer;
+  transition: var(--ts-transition);
+  white-space: nowrap;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ts-location-btn:hover {
+  background: rgba(60,191,160,.18);
+  border-color: var(--ts-header-accent, var(--ts-mint));
+  color: var(--ts-header-accent, var(--ts-mint));
+}
+.ts-location-btn svg:first-child { flex-shrink: 0; color: var(--ts-header-accent, var(--ts-mint)); }
+.ts-caret { transition: transform .3s ease; flex-shrink: 0; }
+.ts-location-btn[aria-expanded="true"] .ts-caret { transform: rotate(180deg); }
+#ts-location-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 90px;
+}
+
+.ts-location-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 280px;
+  background: var(--ts-white);
+  border-radius: var(--ts-radius-md);
+  box-shadow: var(--ts-shadow-lg);
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: var(--ts-transition);
+  z-index: 100;
+}
+.ts-location-dropdown.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.ts-location-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ts-navy);
+  margin: 0 0 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.ts-pincode-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.ts-pincode-row input {
+  flex: 1;
+  padding: 9px 14px;
+  border: 1.5px solid var(--ts-gray-light);
+  border-radius: var(--ts-radius-sm);
+  font-size: 14px;
+  font-family: var(--ts-font);
+  outline: none;
+  transition: var(--ts-transition);
+  color: var(--ts-navy);
+}
+.ts-pincode-row input:focus { border-color: var(--ts-header-accent, var(--ts-mint)); }
+.ts-location-or {
+  font-size: 12px;
+  color: var(--ts-gray);
+  text-align: center;
+  margin: 0 0 10px;
+}
+.ts-location-list { display: flex; flex-direction: column; gap: 4px; }
+.ts-location-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: var(--ts-radius-sm);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: var(--ts-font);
+  color: var(--ts-text);
+  text-align: left;
+  transition: var(--ts-transition);
+}
+.ts-location-option:hover {
+  background: var(--ts-mint-pale);
+  color: var(--ts-header-accent, var(--ts-mint));
+}
+.ts-location-option span {
+  font-size: 12px;
+  color: var(--ts-gray);
+  background: var(--ts-gray-light);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* ---- Search Overlay ---- */
+.ts-header-search-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14,37,65,.75);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 80px;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--ts-transition);
+}
+.ts-header-search-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+.ts-header-search-inner {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.ts-search-form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--ts-white);
+  border-radius: var(--ts-radius-full);
+  padding: 14px 20px;
+  box-shadow: var(--ts-shadow-lg);
+}
+.ts-search-form svg:first-child { color: var(--ts-header-accent, var(--ts-mint)); flex-shrink: 0; }
+.ts-search-form input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  font-family: var(--ts-font);
+  color: var(--ts-text);
+  background: transparent;
+}
+.ts-search-form input::placeholder { color: var(--ts-gray); }
+.ts-search-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ts-gray);
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  transition: var(--ts-transition);
+}
+.ts-search-close:hover { color: var(--ts-navy); }
+
+/* ---- Hamburger ---- */
+.ts-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--ts-radius-sm);
+  transition: var(--ts-transition);
+}
+.ts-hamburger:hover { background: rgba(255,255,255,.1); }
+.ts-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--ts-header-text, rgba(255,255,255,.9));
+  border-radius: 2px;
+  transition: var(--ts-transition);
+}
+.ts-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.ts-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.ts-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ---- Mobile Drawer ---- */
+.ts-mobile-drawer {
+  position: fixed;
+  top: 0; right: 0;
+  width: 300px;
+  height: 100%;
+  background: var(--ts-navy);
+  z-index: 1500;
+  transform: translateX(100%);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+}
+.ts-mobile-drawer.open { transform: translateX(0); }
+.ts-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 1400;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--ts-transition);
+}
+.ts-drawer-backdrop.open { opacity: 1; visibility: visible; }
+.ts-drawer-inner {
+  padding: 24px 28px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.ts-drawer-close {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255,255,255,.6);
+  margin-bottom: 24px;
+  padding: 4px;
+}
+.ts-drawer-close:hover { color: var(--ts-white); }
+.ts-drawer-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.ts-drawer-link {
+  color: rgba(255,255,255,.85);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 13px 16px;
+  border-radius: var(--ts-radius-sm);
+  transition: var(--ts-transition);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.ts-drawer-link:hover { color: var(--ts-mint); padding-left: 22px; }
+.ts-drawer-actions { padding-top: 24px; border-top: 1px solid rgba(255,255,255,.1); margin-top: 16px; }
+
+/* ---- Responsive ---- */
+@media (max-width: 960px) {
+  .ts-header-nav { display: none; }
+  .ts-hamburger { display: flex; }
+  .ts-location-btn span { display: none; }
+  #ts-location-label { display: none; }
+}
+@media (max-width: 560px) {
+  .ts-header-inner { padding: 0 16px; }
+  .ts-location-dropdown { right: -60px; width: 260px; }
+}
+
+/* ---- Mini-Cart Popup ---- */
+.ts-cart-wrapper { position: relative; }
+
+.ts-minicart {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 380px;
+  max-width: 100vw;
+  height: 100%;
+  background: var(--ts-white);
+  box-shadow: -8px 0 40px rgba(14,37,65,.18);
+  z-index: 1600;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+  font-family: var(--ts-font);
+}
+.ts-minicart.open { transform: translateX(0); }
+
+.ts-minicart-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(14,37,65,.45);
+  backdrop-filter: blur(3px);
+  z-index: 1590;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s ease;
+}
+.ts-minicart-backdrop.open { opacity: 1; visibility: visible; }
+
+/* Header */
+.ts-minicart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 22px 18px;
+  border-bottom: 1px solid var(--ts-gray-light);
+  flex-shrink: 0;
+}
+.ts-minicart-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ts-navy);
+  margin: 0;
+}
+.ts-minicart-title svg { color: var(--ts-mint); }
+.ts-minicart-count {
+  background: var(--ts-mint);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+.ts-minicart-close {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: var(--ts-gray-light);
+  color: var(--ts-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--ts-transition);
+}
+.ts-minicart-close:hover { background: var(--ts-mint); color: white; }
+
+/* Body / scrollable area */
+.ts-minicart-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+}
+.ts-minicart-body::-webkit-scrollbar { width: 4px; }
+.ts-minicart-body::-webkit-scrollbar-track { background: transparent; }
+.ts-minicart-body::-webkit-scrollbar-thumb { background: var(--ts-gray-light); border-radius: 4px; }
+
+/* Loading spinner */
+.ts-minicart-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+}
+.ts-minicart-spinner {
+  width: 32px; height: 32px;
+  border: 3px solid var(--ts-gray-light);
+  border-top-color: var(--ts-mint);
+  border-radius: 50%;
+  animation: ts-rotate-slow 0.7s linear infinite;
+}
+
+/* Cart item */
+.ts-minicart-item {
+  display: flex;
+  gap: 14px;
+  padding: 16px 22px;
+  border-bottom: 1px solid rgba(0,0,0,.05);
+  position: relative;
+  transition: background .2s ease;
+}
+.ts-minicart-item:hover { background: var(--ts-off-white); }
+
+.ts-minicart-img {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--ts-radius-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--ts-gray-light);
+}
+.ts-minicart-img-placeholder {
+  width: 72px; height: 72px;
+  border-radius: var(--ts-radius-sm);
+  background: var(--ts-mint-pale);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ts-minicart-item-info { flex: 1; min-width: 0; }
+.ts-minicart-item-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ts-navy);
+  line-height: 1.4;
+  margin: 0 0 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ts-minicart-item-variant {
+  font-size: 12px;
+  color: var(--ts-gray);
+  margin: 0 0 8px;
+}
+.ts-minicart-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.ts-minicart-item-price {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ts-navy);
+}
+
+/* Quantity stepper */
+.ts-qty-stepper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--ts-gray-light);
+  border-radius: var(--ts-radius-full);
+  overflow: hidden;
+}
+.ts-qty-btn {
+  width: 28px; height: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--ts-navy);
+  transition: background .15s;
+}
+.ts-qty-btn:hover { background: var(--ts-mint-pale); color: var(--ts-mint); }
+.ts-qty-val {
+  min-width: 28px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ts-navy);
+}
+
+/* Remove button */
+.ts-minicart-remove {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--ts-gray-light);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all .2s ease;
+  color: var(--ts-gray);
+}
+.ts-minicart-item:hover .ts-minicart-remove { opacity: 1; }
+.ts-minicart-remove:hover { background: #fee2e2; color: #ef4444; }
+
+/* Footer */
+.ts-minicart-footer {
+  padding: 18px 22px 24px;
+  border-top: 1px solid var(--ts-gray-light);
+  flex-shrink: 0;
+  background: var(--ts-white);
+}
+.ts-minicart-subtotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 15px;
+  color: var(--ts-navy);
+}
+.ts-minicart-subtotal strong {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ts-navy);
+}
+.ts-minicart-note {
+  font-size: 11px;
+  color: var(--ts-gray);
+  margin: 0 0 14px;
+}
+.ts-minicart-view-link {
+  display: block;
+  text-align: center;
+  font-size: 13px;
+  color: var(--ts-gray);
+  margin-top: 10px;
+  text-decoration: underline;
+  transition: color .2s;
+}
+.ts-minicart-view-link:hover { color: var(--ts-mint); }
+
+/* Empty state */
+.ts-minicart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 60px 24px;
+  text-align: center;
+  flex: 1;
+}
+.ts-minicart-empty p {
+  font-size: 15px;
+  color: var(--ts-gray);
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Add-to-cart toast notification */
+.ts-cart-toast {
+  position: fixed;
+  top: 80px;
+  right: 24px;
+  background: var(--ts-navy);
+  color: white;
+  border-left: 4px solid var(--ts-mint);
+  border-radius: var(--ts-radius-sm);
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--ts-font);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--ts-shadow-lg);
+  z-index: 3000;
+  transform: translateX(120%);
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+  max-width: 320px;
+}
+.ts-cart-toast.show { transform: translateX(0); }
+.ts-cart-toast svg { color: var(--ts-mint); flex-shrink: 0; }
+
+@media (max-width: 420px) {
+  .ts-minicart { width: 100vw; }
+}
+</style>
+
+<script>
+(function() {
+  // Search overlay
+  const searchTrigger = document.getElementById('ts-search-trigger');
+  const searchOverlay = document.getElementById('ts-search-overlay');
+  const searchClose   = document.getElementById('ts-search-close');
+  const searchInput   = document.getElementById('ts-search-input');
+
+  if (searchTrigger) {
+    searchTrigger.addEventListener('click', () => {
+      searchOverlay.classList.add('open');
+      setTimeout(() => searchInput.focus(), 100);
+    });
+  }
+  if (searchClose) {
+    searchClose.addEventListener('click', () => searchOverlay.classList.remove('open'));
+  }
+  if (searchOverlay) {
+    searchOverlay.addEventListener('click', (e) => {
+      if (e.target === searchOverlay) searchOverlay.classList.remove('open');
+    });
+  }
+
+  // Location dropdown
+  const locBtn      = document.getElementById('ts-location-btn');
+  const locDropdown = document.getElementById('ts-location-dropdown');
+  const locLabel    = document.getElementById('ts-location-label');
+  const pincodeInput  = document.getElementById('ts-pincode-input');
+  const pincodeApply  = document.getElementById('ts-pincode-apply');
+
+  if (locBtn && locDropdown) {
+    locBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = locDropdown.classList.toggle('open');
+      locBtn.setAttribute('aria-expanded', open);
+      locDropdown.setAttribute('aria-hidden', !open);
+    });
+    document.addEventListener('click', (e) => {
+      if (!locBtn.contains(e.target) && !locDropdown.contains(e.target)) {
+        locDropdown.classList.remove('open');
+        locBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Apply pincode
+  if (pincodeApply && pincodeInput && locLabel) {
+    pincodeApply.addEventListener('click', () => {
+      const val = pincodeInput.value.trim();
+      if (val.length === 6 && /^\d+$/.test(val)) {
+        locLabel.textContent = val;
+        locDropdown.classList.remove('open');
+        locBtn.setAttribute('aria-expanded', 'false');
+        localStorage.setItem('ts_location', val);
+      } else {
+        pincodeInput.style.borderColor = '#ef4444';
+        setTimeout(() => pincodeInput.style.borderColor = '', 1200);
+      }
+    });
+    pincodeInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') pincodeApply.click();
+    });
+  }
+
+  // Pre-fill saved location
+  const saved = localStorage.getItem('ts_location');
+  if (saved && locLabel) locLabel.textContent = saved;
+
+  // Location list options
+  document.querySelectorAll('.ts-location-option').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const label = e.currentTarget.dataset.label;
+      const pin   = e.currentTarget.dataset.pincode;
+      if (locLabel) locLabel.textContent = pin ? label + ' – ' + pin : label;
+      locDropdown.classList.remove('open');
+      locBtn.setAttribute('aria-expanded', 'false');
+      localStorage.setItem('ts_location', label);
+    });
+  });
+
+  // Mobile drawer
+  const hamburger = document.getElementById('ts-hamburger');
+  const drawer    = document.getElementById('ts-mobile-drawer');
+  const backdrop  = document.getElementById('ts-drawer-backdrop');
+  const drawerClose = document.getElementById('ts-drawer-close');
+
+  function openDrawer() {
+    drawer.classList.add('open');
+    backdrop.classList.add('open');
+    hamburger.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    backdrop.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  if (hamburger) hamburger.addEventListener('click', openDrawer);
+  if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
+  if (backdrop) backdrop.addEventListener('click', closeDrawer);
+
+  // =============================================
+  // MINI-CART POPUP
+  // =============================================
+  const cartTrigger    = document.getElementById('ts-cart-trigger');
+  const minicart       = document.getElementById('ts-minicart');
+  const minicartClose  = document.getElementById('ts-minicart-close');
+  const minicartBd     = document.getElementById('ts-minicart-backdrop');
+  const minicartBody   = document.getElementById('ts-minicart-body');
+  const minicartFooter = document.getElementById('ts-minicart-footer');
+  const minicartEmpty  = document.getElementById('ts-minicart-empty');
+  const minicartCount  = document.getElementById('ts-minicart-count');
+  const minicartTotal  = document.getElementById('ts-minicart-total');
+  const minicartBadge  = document.getElementById('ts-cart-badge');
+  const minicartLoading= document.getElementById('ts-minicart-loading');
+
+  let cartData = null;
+
+  // Format money (paise to rupees)
+  function formatMoney(cents) {
+    return '\u20B9' + (cents / 100).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  // Update header badge count
+  function updateBadge(count) {
+    if (!minicartBadge) return;
+    minicartBadge.textContent = count;
+    minicartBadge.style.display = count > 0 ? 'flex' : 'none';
+  }
+
+  // Render cart items into the panel
+  function renderCart(data) {
+    cartData = data;
+    const itemCount = data.item_count || 0;
+
+    // Update count badge
+    if (minicartCount) minicartCount.textContent = itemCount;
+    updateBadge(itemCount);
+
+    // Hide loading
+    if (minicartLoading) minicartLoading.style.display = 'none';
+
+    // Clear previous items (keep loading / empty / footer)
+    minicartBody.querySelectorAll('.ts-minicart-item').forEach(el => el.remove());
+
+    if (itemCount === 0) {
+      if (minicartEmpty) minicartEmpty.style.display = 'flex';
+      if (minicartFooter) minicartFooter.style.display = 'none';
+      return;
+    }
+
+    if (minicartEmpty) minicartEmpty.style.display = 'none';
+    if (minicartFooter) minicartFooter.style.display = 'block';
+    if (minicartTotal) minicartTotal.textContent = formatMoney(data.total_price);
+
+    // Build item elements
+    const frag = document.createDocumentFragment();
+    (data.items || []).forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'ts-minicart-item';
+      div.dataset.key = item.key;
+      div.innerHTML = `
+        ${item.image
+          ? `<img src="${item.image.replace('_grande', '_medium')}" alt="${item.product_title}" class="ts-minicart-img" loading="lazy">`
+          : `<div class="ts-minicart-img-placeholder"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(60,191,160,.5)" stroke-width="1.5"><path d="M3 12s3-8 9-8 9 8 9 8-3 8-9 8-9-8-9-8z"/><circle cx="12" cy="12" r="3"/></svg></div>`
+        }
+        <div class="ts-minicart-item-info">
+          <p class="ts-minicart-item-title">${item.product_title}</p>
+          ${item.variant_title && item.variant_title !== 'Default Title' ? `<p class="ts-minicart-item-variant">${item.variant_title}</p>` : ''}
+          <div class="ts-minicart-item-row">
+            <div class="ts-qty-stepper" data-key="${item.key}">
+              <button type="button" class="ts-qty-btn ts-qty-minus" aria-label="Decrease quantity">&minus;</button>
+              <span class="ts-qty-val">${item.quantity}</span>
+              <button type="button" class="ts-qty-btn ts-qty-plus" aria-label="Increase quantity">+</button>
+            </div>
+            <span class="ts-minicart-item-price">${formatMoney(item.final_line_price)}</span>
+          </div>
+        </div>
+        <button type="button" class="ts-minicart-remove" data-key="${item.key}" aria-label="Remove ${item.product_title}">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      `;
+      frag.appendChild(div);
+    });
+    minicartBody.prepend(frag);
+
+    // Bind qty buttons
+    minicartBody.querySelectorAll('.ts-qty-stepper').forEach(stepper => {
+      const key = stepper.dataset.key;
+      const valEl = stepper.querySelector('.ts-qty-val');
+      stepper.querySelector('.ts-qty-minus').addEventListener('click', () => {
+        const current = parseInt(valEl.textContent, 10);
+        updateLineItem(key, Math.max(0, current - 1));
+      });
+      stepper.querySelector('.ts-qty-plus').addEventListener('click', () => {
+        const current = parseInt(valEl.textContent, 10);
+        updateLineItem(key, current + 1);
+      });
+    });
+
+    // Bind remove buttons
+    minicartBody.querySelectorAll('.ts-minicart-remove').forEach(btn => {
+      btn.addEventListener('click', () => updateLineItem(btn.dataset.key, 0));
+    });
+  }
+
+  // Fetch cart and render
+  function fetchCart() {
+    if (minicartLoading) minicartLoading.style.display = 'flex';
+    fetch('/cart.js', { credentials: 'same-origin' })
+      .then(r => r.json())
+      .then(renderCart)
+      .catch(() => {
+        if (minicartLoading) minicartLoading.style.display = 'none';
+      });
+  }
+
+  // Update line item quantity via AJAX
+  function updateLineItem(key, quantity) {
+    fetch('/cart/change.js', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+      body: JSON.stringify({ id: key, quantity })
+    })
+    .then(r => r.json())
+    .then(renderCart);
+  }
+
+  // Open mini-cart
+  function openMiniCart() {
+    minicart.classList.add('open');
+    minicartBd.classList.add('open');
+    cartTrigger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    fetchCart();
+  }
+
+  // Close mini-cart
+  function closeMiniCart() {
+    minicart.classList.remove('open');
+    minicartBd.classList.remove('open');
+    cartTrigger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  if (cartTrigger) cartTrigger.addEventListener('click', openMiniCart);
+  if (minicartClose) minicartClose.addEventListener('click', closeMiniCart);
+  if (minicartBd) minicartBd.addEventListener('click', closeMiniCart);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && minicart.classList.contains('open')) closeMiniCart(); });
+
+  // ---- Toast notification when item added to cart ----
+  // Create toast element
+  const toast = document.createElement('div');
+  toast.className = 'ts-cart-toast';
+  toast.setAttribute('role', 'status');
+  toast.setAttribute('aria-live', 'polite');
+  toast.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span id="ts-toast-msg">Added to cart!</span>`;
+  document.body.appendChild(toast);
+
+  function showToast(msg) {
+    document.getElementById('ts-toast-msg').textContent = msg || 'Added to cart!';
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // Intercept Shopify add-to-cart forms / fetch so we can auto-open mini-cart
+  // Hook into the global fetch to detect /cart/add.js calls
+  const _origFetch = window.fetch;
+  window.fetch = function(input, init) {
+    const url = typeof input === 'string' ? input : (input && input.url) || '';
+    if (url.indexOf('/cart/add') !== -1) {
+      return _origFetch.apply(this, arguments).then(response => {
+        // Clone so caller can still read it
+        const clone = response.clone();
+        clone.json().then(data => {
+          if (data && data.title) {
+            // Refresh badge
+            fetch('/cart.js').then(r => r.json()).then(cart => {
+              updateBadge(cart.item_count);
+              showToast(data.title + ' added!');
+              openMiniCart();
+            });
+          }
+        }).catch(() => {});
+        return response;
+      });
+    }
+    return _origFetch.apply(this, arguments);
+  };
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "TruSea Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Navigation Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "default_location",
+      "label": "Default Location Label",
+      "default": "Select Area"
+    },
+    {
+      "type": "header",
+      "content": "🎨 Colors & Style"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#0e2541"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color (mint)",
+      "default": "#3cbfa0"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Navigation text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "Enable Sticky Header",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "location",
+      "name": "Delivery Area",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Area Name",
+          "default": "Chennai Central"
+        },
+        {
+          "type": "text",
+          "id": "pincode",
+          "label": "Pincode",
+          "default": "600001"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TruSea Header",
+      "blocks": [
+        { "type": "location", "settings": { "label": "Adambakkam", "pincode": "600088" } },
+        { "type": "location", "settings": { "label": "Vadapalani", "pincode": "600026" } },
+        { "type": "location", "settings": { "label": "Anna Nagar", "pincode": "600040" } },
+        { "type": "location", "settings": { "label": "T. Nagar", "pincode": "600017" } },
+        { "type": "location", "settings": { "label": "Velachery", "pincode": "600042" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

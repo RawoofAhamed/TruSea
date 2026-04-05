@@ -1,0 +1,388 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.show_section != false %}
+<section class="ts-cat-grid ts-section" id="ts-cat-grid"
+  style="
+    --ts-cat-bg: {{ section.settings.bg_color | default: '#FFFFFF' }};
+    --ts-cat-heading: {{ section.settings.heading_color | default: '#0E2541' }};
+    --ts-cat-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
+  "
+>
+  <div class="ts-container">
+    <div class="ts-cat-grid-layout">
+
+      <!-- Left text -->
+      <div class="ts-cat-grid-left ts-reveal-left">
+        <div class="ts-tag">{{ section.settings.eyebrow | default: 'Fresh Every Morning' }}</div>
+        <h2 class="ts-cat-heading">
+          {{ section.settings.heading_line1 | default: 'Our' }} <span style="color:var(--ts-cat-accent)">{{ section.settings.heading_accent | default: 'Best Delivered' }}</span><br>{{ section.settings.heading_line2 | default: 'Categories' }}
+        </h2>
+        {% if section.settings.subtext != blank %}
+          <p class="ts-cat-sub">{{ section.settings.subtext }}</p>
+        {% endif %}
+        {% if section.settings.cta_url != blank %}
+          <a href="{{ section.settings.cta_url }}" class="ts-btn ts-btn-primary" style="margin-top:24px;">
+            {{ section.settings.cta_text | default: 'Shop All Categories' }}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Right: category circles -->
+      <div class="ts-cat-circles-wrap">
+        <div class="ts-cat-circles">
+          {% assign cat_i = 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'category' %}
+              {% assign cat_i = cat_i | plus: 1 %}
+              {% assign cat_link = block.settings.link | default: '/collections/all' %}
+              {% assign cat_img = block.settings.image %}
+              {% assign cat_name = block.settings.name %}
+              {% if block.settings.collection != blank %}
+                {% assign cat_link = block.settings.collection.url %}
+                {% unless block.settings.image != blank %}
+                  {% assign cat_img = block.settings.collection.featured_image %}
+                {% endunless %}
+                {% if block.settings.name == blank %}
+                  {% assign cat_name = block.settings.collection.title %}
+                {% endif %}
+              {% endif %}
+              <a href="{{ cat_link }}" class="ts-cat-item ts-reveal ts-delay-{{ cat_i }}" {{ block.shopify_attributes }}>
+                <div class="ts-cat-circle">
+                  {% if cat_img != blank %}
+                    <img
+                      src="{{ cat_img | image_url: width: 240 }}"
+                      alt="{{ cat_name }}"
+                      loading="lazy"
+                      width="180"
+                      height="180"
+                    >
+                  {% else %}
+                    <div class="ts-cat-placeholder">
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(60,191,160,.5)" stroke-width="1.5">
+                        <path d="M3 12s3-8 9-8 9 8 9 8-3 8-9 8-9-8-9-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                      </svg>
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="ts-cat-label">
+                  <span class="ts-cat-name">{{ cat_name | default: 'Seafood' }}</span>
+                  {% if block.settings.subtitle != blank %}
+                    <span class="ts-cat-sub-label">{{ block.settings.subtitle }}</span>
+                  {% endif %}
+                </div>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Decorative -->
+  <div class="ts-cat-deco" aria-hidden="true">
+    <div class="ts-cat-deco-circle ts-cat-deco-circle--1"></div>
+    <div class="ts-cat-deco-circle ts-cat-deco-circle--2"></div>
+  </div>
+</section>
+
+<style>
+.ts-cat-grid {
+  position: relative;
+  background: var(--ts-cat-bg, var(--ts-white));
+  padding: 80px 0 90px;
+  font-family: var(--ts-font);
+  overflow: hidden;
+}
+
+/* Layout */
+.ts-cat-grid-layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  align-items: start;
+  gap: 60px;
+}
+
+/* Left Text */
+.ts-cat-heading {
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--ts-cat-heading, var(--ts-navy));
+  margin: 12px 0 16px;
+  letter-spacing: -.02em;
+}
+.ts-cat-sub {
+  font-size: 15px;
+  color: var(--ts-gray);
+  line-height: 1.7;
+  max-width: 280px;
+}
+
+/* Circles Grid */
+.ts-cat-circles-wrap { overflow: hidden; }
+.ts-cat-circles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px 20px;
+}
+
+/* Category Item */
+.ts-cat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.ts-cat-item:hover .ts-cat-circle {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 16px 48px rgba(60,191,160,.25);
+}
+.ts-cat-item:hover .ts-cat-circle::after {
+  opacity: 1;
+}
+
+.ts-cat-circle {
+  width: 152px;
+  height: 152px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--ts-mint-pale);
+  border: 3px solid transparent;
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s ease;
+  position: relative;
+  flex-shrink: 0;
+}
+.ts-cat-circle::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: conic-gradient(var(--ts-mint), var(--ts-mint-light), var(--ts-mint));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+.ts-cat-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .5s ease;
+}
+.ts-cat-item:hover .ts-cat-circle img { transform: scale(1.1); }
+.ts-cat-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ts-cat-label { text-align: center; }
+.ts-cat-name {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ts-navy);
+  margin-bottom: 3px;
+}
+.ts-cat-sub-label {
+  display: block;
+  font-size: 12px;
+  color: var(--ts-gray);
+}
+
+/* Decorative circles */
+.ts-cat-deco { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.ts-cat-deco-circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(60,191,160,.1);
+}
+.ts-cat-deco-circle--1 {
+  width: 300px; height: 300px;
+  top: -80px; right: -60px;
+  animation: ts-rotate-slow 25s linear infinite;
+}
+.ts-cat-deco-circle--2 {
+  width: 200px; height: 200px;
+  bottom: -60px; left: 10%;
+  animation: ts-rotate-slow 30s linear infinite reverse;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .ts-cat-grid-layout { grid-template-columns: 1fr; gap: 40px; }
+  .ts-cat-circles { grid-template-columns: repeat(3, 1fr); }
+  .ts-cat-grid-left { text-align: center; }
+  .ts-cat-sub { max-width: 100%; }
+  .ts-cat-grid-left .ts-btn { display: inline-flex; }
+}
+@media (max-width: 600px) {
+  .ts-cat-circles { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .ts-cat-circle { width: 130px; height: 130px; }
+}
+@media (max-width: 380px) {
+  .ts-cat-circles { grid-template-columns: repeat(2, 1fr); }
+  .ts-cat-circle { width: 110px; height: 110px; }
+}
+</style>
+
+<script>
+(function() {
+  const catRevealEls = document.querySelectorAll('#ts-cat-grid .ts-reveal, #ts-cat-grid .ts-reveal-left');
+  if (!catRevealEls.length) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('ts-revealed');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  catRevealEls.forEach(el => observer.observe(el));
+})();
+</script>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "Category Grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "⚙️ Section Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "🎨 Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#0E2541"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#3CBFA0"
+    },
+    {
+      "type": "header",
+      "content": "📝 Section Text"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tag",
+      "default": "Fresh Every Morning"
+    },
+    {
+      "type": "text",
+      "id": "heading_line1",
+      "label": "Heading — Line 1",
+      "default": "Our"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Heading — Accent word (colored)",
+      "default": "Best Delivered"
+    },
+    {
+      "type": "text",
+      "id": "heading_line2",
+      "label": "Heading — Line 2",
+      "default": "Categories"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Left column subtext",
+      "default": "Zero formalin. Just 100% pure, safe fish for your family. Every batch tested twice."
+    },
+    {
+      "type": "header",
+      "content": "🔘 CTA Button"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Button Text",
+      "default": "Shop All Categories"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA Button URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Link to Collection (auto-fills image & URL)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom Image (overrides collection image)"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Category Name (leave blank to use collection title)",
+          "default": "Category Name"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle / Tag",
+          "default": "So Fresh, It Wiggles"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Custom Link (overrides collection URL)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Grid",
+      "blocks": [
+        { "type": "category", "settings": { "name": "Hilsa – Whole", "subtitle": "So Fresh, It Wiggles" } },
+        { "type": "category", "settings": { "name": "Salmon Fillets", "subtitle": "Perfect Cut" } },
+        { "type": "category", "settings": { "name": "Jumbo Prawns", "subtitle": "Ready to Cook" } },
+        { "type": "category", "settings": { "name": "Seer Fish", "subtitle": "Premium Quality" } },
+        { "type": "category", "settings": { "name": "Crabs", "subtitle": "Caught Daily" } },
+        { "type": "category", "settings": { "name": "Mackerel", "subtitle": "Rich in Omega-3" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

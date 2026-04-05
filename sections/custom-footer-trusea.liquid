@@ -1,200 +1,652 @@
 {% comment %}
-  TruSea Advanced Footer
-  - Logo
-  - Brand info
-  - Quick links
-  - Contact details
-  - Social icons
-  - Newsletter
-  - Payment icons
+  TruSea Premium Footer — Redesigned 2025
+  Trends: glassmorphism accents · gradient text · animated glows
+  · mesh background · floating social icons · bento newsletter
 {% endcomment %}
 
-<footer class="trusea-footer">
-  <div class="page-width">
+<footer class="tsf ts-section" id="ts-footer"
+  style="
+    --tsf-bg: {{ section.settings.bg_color | default: '#060f1c' }};
+    --tsf-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
+    --tsf-text: {{ section.settings.text_color | default: 'rgba(255,255,255,.5)' }};
+    --tsf-heading: {{ section.settings.heading_color | default: 'rgba(255,255,255,.85)' }};
+  "
+>
 
-    <div class="trusea-footer-grid">
+  <!-- ── Decorative mesh / glow background ── -->
+  <div class="tsf-bg" aria-hidden="true">
+    <div class="tsf-glow tsf-glow--1"></div>
+    <div class="tsf-glow tsf-glow--2"></div>
+    <div class="tsf-glow tsf-glow--3"></div>
+    <div class="tsf-mesh"></div>
+    <!-- Floating fish silhouette deco -->
+    <svg class="tsf-fish-deco" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M20 50C20 50 70 10 110 28C145 43 175 50 175 50C175 50 148 62 110 72C70 84 20 50 20 50Z" fill="rgba(60,191,160,0.04)"/>
+      <path d="M175 50L195 38L191 50L195 62Z" fill="rgba(60,191,160,0.04)"/>
+    </svg>
+  </div>
 
-      <!-- BRAND -->
-      <div class="trusea-footer-brand">
-        {% if section.settings.logo != blank %}
-          <img
-            src="{{ section.settings.logo | image_url: width: 220 }}"
-            alt="{{ shop.name }}"
-            class="trusea-footer-logo"
-          >
+  <!-- ── TOP: Brand + Nav + Newsletter in one row ── -->
+  <div class="tsf-inner">
+
+    <!-- ROW 1: main grid -->
+    <div class="tsf-grid">
+
+      <!-- Col 1: Brand -->
+      <div class="tsf-col tsf-col--brand">
+        <a href="/" class="tsf-logo-link">
+          {% if section.settings.logo != blank %}
+            <img src="{{ section.settings.logo | image_url: width: 200 }}" alt="{{ shop.name }}" class="tsf-logo-img" loading="lazy">
+          {% else %}
+            <span class="tsf-logo-wordmark">
+              <span class="tsf-logo-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                  <path d="M22 12C22 12 18 7 12 7C6 7 2 12 2 12C2 12 6 17 12 17C18 17 22 12 22 12Z" stroke="#3CBFA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="12" cy="12" r="2.5" fill="#3CBFA0"/>
+                </svg>
+              </span>
+              <span>Aqua Fresh</span>
+            </span>
+          {% endif %}
+        </a>
+
+        <p class="tsf-tagline">{{ section.settings.brand_text | default: 'Fresh, hygienic and formalin-free seafood — delivered from the sea to your plate.' }}</p>
+
+        <!-- Trust badges -->
+        {% if section.settings.show_trust_badges %}
+        <div class="tsf-trust-row">
+          <div class="tsf-trust-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Zero Formalin
+          </div>
+          <div class="tsf-trust-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Same-Day Delivery
+          </div>
+        </div>
         {% endif %}
 
-        <p class="trusea-footer-text">
-          {{ section.settings.brand_text }}
-        </p>
-
-        <!-- SOCIAL ICONS -->
-        <div class="trusea-social">
-          {% if settings.social_facebook_link != blank %}
-            <a href="{{ settings.social_facebook_link }}">Facebook</a>
-          {% endif %}
+        <!-- Social icons -->
+        <div class="tsf-social">
           {% if settings.social_instagram_link != blank %}
-            <a href="{{ settings.social_instagram_link }}">Instagram</a>
+            <a href="{{ settings.social_instagram_link }}" class="tsf-social-btn" aria-label="Instagram" target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+          {% else %}
+            <a href="#" class="tsf-social-btn" aria-label="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
           {% endif %}
+          {% if settings.social_facebook_link != blank %}
+            <a href="{{ settings.social_facebook_link }}" class="tsf-social-btn" aria-label="Facebook" target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+          {% else %}
+            <a href="#" class="tsf-social-btn" aria-label="Facebook">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+          {% endif %}
+          <a href="https://wa.me/+917397468800" class="tsf-social-btn tsf-social-btn--wa" aria-label="WhatsApp" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor"><path d="M16.04 2.003c-7.732 0-14.037 6.305-14.037 14.037 0 2.48.654 4.903 1.896 7.043L2 30l7.13-1.864a13.97 13.97 0 006.91 1.813h.006c7.73 0 14.036-6.305 14.036-14.037 0-3.747-1.459-7.268-4.11-9.92a13.95 13.95 0 00-9.93-3.99zm8.135 19.8c-.34.96-1.99 1.83-2.74 1.95-.71.11-1.63.16-2.63-.17-.6-.19-1.38-.45-2.38-.88-4.19-1.81-6.91-6.07-7.12-6.35-.21-.28-1.71-2.28-1.71-4.35 0-2.07 1.08-3.09 1.46-3.52.38-.43.83-.54 1.11-.54.28 0 .56 0 .8.01.26.01.61-.1.95.73.34.83 1.15 2.87 1.25 3.08.1.21.17.46.03.74-.14.28-.21.45-.42.69-.21.24-.44.53-.63.71-.21.21-.42.44-.18.86.24.42 1.07 1.77 2.3 2.87 1.58 1.41 2.91 1.85 3.33 2.06.42.21.67.18.92-.11.24-.28 1.06-1.24 1.35-1.67.28-.42.56-.35.95-.21.38.14 2.42 1.14 2.84 1.35.42.21.7.31.8.49.1.18.1 1.04-.24 2.01z"/></svg>
+          </a>
           {% if settings.social_twitter_link != blank %}
-            <a href="{{ settings.social_twitter_link }}">Twitter</a>
+            <a href="{{ settings.social_twitter_link }}" class="tsf-social-btn" aria-label="Twitter/X" target="_blank" rel="noopener">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
           {% endif %}
         </div>
       </div>
 
-      <!-- QUICK LINKS -->
-      <div class="trusea-footer-links">
-        <h4>{{ section.settings.links_title }}</h4>
-        <ul>
-          {% for link in section.settings.menu.links %}
-            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-          {% endfor %}
+      <!-- Col 2: Quick Links -->
+      <div class="tsf-col">
+        <h4 class="tsf-col-heading">
+          <span class="tsf-heading-dot"></span>
+          {{ section.settings.links_title | default: 'Quick Links' }}
+        </h4>
+        <ul class="tsf-links">
+          {% if section.settings.menu != blank %}
+            {% for link in linklists[section.settings.menu].links %}
+              <li><a href="{{ link.url }}" class="tsf-link">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                {{ link.title }}
+              </a></li>
+            {% endfor %}
+          {% else %}
+            <li><a href="/collections/all" class="tsf-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>All Fish</a></li>
+            <li><a href="/pages/process" class="tsf-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>Our Process</a></li>
+            <li><a href="/pages/selfish-club" class="tsf-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>SelFish Club</a></li>
+            <li><a href="/pages/faqs" class="tsf-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>FAQs</a></li>
+            <li><a href="/pages/contact" class="tsf-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>Contact Us</a></li>
+            <li><a href="/policies/privacy-policy" class="tsf-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>Privacy Policy</a></li>
+          {% endif %}
         </ul>
       </div>
 
-      <!-- CONTACT -->
-      <div class="trusea-footer-contact">
-        <h4>Contact</h4>
-        <p>{{ section.settings.address }}</p>
-        <p>📞 {{ section.settings.phone }}</p>
-        <p>✉️ {{ section.settings.email }}</p>
+      <!-- Col 3: Contact -->
+      <div class="tsf-col">
+        <h4 class="tsf-col-heading">
+          <span class="tsf-heading-dot"></span>
+          Contact
+        </h4>
+        <ul class="tsf-contact-list">
+          <li class="tsf-contact-item">
+            <div class="tsf-contact-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <span>{{ section.settings.address | default: 'No.A32, Adambakkam, Chennai 600088' }}</span>
+          </li>
+          <li class="tsf-contact-item">
+            <div class="tsf-contact-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18L6.61 2a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l.91-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 17z"/></svg>
+            </div>
+            <a href="tel:{{ section.settings.phone | default: '+917397468800' | remove: ' ' | remove: '+' | prepend: '+' }}">{{ section.settings.phone | default: '+91 73974 68800' }}</a>
+          </li>
+          <li class="tsf-contact-item">
+            <div class="tsf-contact-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <a href="mailto:{{ section.settings.email | default: 'hello@truseafish.com' }}">{{ section.settings.email | default: 'hello@truseafish.com' }}</a>
+          </li>
+        </ul>
       </div>
 
-      <!-- NEWSLETTER -->
-      <div class="trusea-footer-newsletter">
-        <h4>{{ section.settings.newsletter_title }}</h4>
-        <p>{{ section.settings.newsletter_text }}</p>
+      <!-- Col 4: Newsletter (glassy bento card) -->
+      {% if section.settings.show_newsletter %}
+      <div class="tsf-col tsf-col--newsletter">
+        <div class="tsf-newsletter-card">
+          <div class="tsf-newsletter-glow"></div>
+          <div class="tsf-newsletter-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--tsf-accent)" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+          </div>
+          <h4 class="tsf-newsletter-title">{{ section.settings.newsletter_title | default: 'Get Fresh Updates' }}</h4>
+          <p class="tsf-newsletter-sub">{{ section.settings.newsletter_text | default: 'First catch of the day, exclusive offers & seasonal recipes — straight to your inbox.' }}</p>
 
-        {% form 'customer', class: 'trusea-newsletter-form' %}
-          <input type="hidden" name="contact[tags]" value="newsletter">
-          <input
-            type="email"
-            name="contact[email]"
-            placeholder="Your email address"
-            required
-          >
-          <button type="submit">Subscribe</button>
-        {% endform %}
+          {% form 'customer', class: 'tsf-newsletter-form', id: 'tsf-nl-form' %}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="tsf-nl-input-row">
+              <input
+                type="email"
+                name="contact[email]"
+                id="tsf-nl-email"
+                placeholder="your@email.com"
+                required
+                autocomplete="email"
+              >
+              <button type="submit" class="tsf-nl-btn" aria-label="Subscribe" style="background: var(--tsf-accent)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          {% endform %}
+
+          <p class="tsf-nl-note">No spam. Unsubscribe anytime.</p>
+        </div>
       </div>
+      {% endif %}
 
+    </div><!-- /tsf-grid -->
+
+    <!-- ── Divider with gradient ── -->
+    <div class="tsf-divider">
+      <div class="tsf-divider-line"></div>
+      <div class="tsf-divider-fish" aria-hidden="true">
+        <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+          <path d="M1 8C1 8 7 1 12 3.5C17 6 21 8 21 8C21 8 17 10.5 12 12.5C7 14.5 1 8 1 8Z" fill="#3CBFA0" opacity="0.4"/>
+          <path d="M21 8L24 5L23 8L24 11Z" fill="#3CBFA0" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="tsf-divider-line"></div>
     </div>
 
-    <!-- BOTTOM -->
-    <div class="trusea-footer-bottom">
-      <p>© {{ "now" | date: "%Y" }} {{ shop.name }}. All rights reserved.</p>
+    <!-- ── Bottom bar ── -->
+    <div class="tsf-bottom">
+      <p class="tsf-copyright">
+        © {{ "now" | date: "%Y" }} <strong>{{ shop.name }}</strong>. All rights reserved.
+        <span class="tsf-made-with">Made with <span class="tsf-heart">♥</span> in Chennai</span>
+      </p>
 
-      <!-- PAYMENT ICONS -->
+      <div class="tsf-bottom-links">
+        <a href="/policies/privacy-policy">Privacy</a>
+        <span class="tsf-sep">·</span>
+        <a href="/policies/terms-of-service">Terms</a>
+        <span class="tsf-sep">·</span>
+        <a href="/policies/refund-policy">Refunds</a>
+      </div>
+
       {% if section.settings.show_payment_icons %}
-        <div class="trusea-payments">
+        <div class="tsf-payments">
           {{ shop.enabled_payment_types | payment_type_svg_tag }}
         </div>
       {% endif %}
     </div>
 
-  </div>
+  </div><!-- /tsf-inner -->
 </footer>
 
 <style>
-.trusea-footer {
-  background: #0E2541;
-  color: #fff;
-  padding: 50px 0 20px;
+/* ============================
+   TruSea Footer — Premium 2025
+   ============================ */
+.tsf {
+  position: relative;
+  background: var(--tsf-bg, #060f1c);
+  font-family: var(--ts-font, 'Inter', sans-serif);
+  overflow: hidden;
 }
 
-.trusea-footer-grid {
+/* ---- Mesh / glow background ---- */
+.tsf-bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+
+.tsf-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: .35;
+}
+.tsf-glow--1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(60,191,160,.25) 0%, transparent 70%);
+  top: -180px; left: -100px;
+  animation: ts-float 14s ease-in-out infinite;
+}
+.tsf-glow--2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(14,37,65,.6) 0%, transparent 70%);
+  top: 0; right: -80px;
+  animation: ts-float-alt 18s ease-in-out infinite 3s;
+}
+.tsf-glow--3 {
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(60,191,160,.12) 0%, transparent 70%);
+  bottom: 60px; left: 40%;
+  animation: ts-float 10s ease-in-out infinite 5s;
+}
+
+/* Dot mesh grid */
+.tsf-mesh {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(60,191,160,.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.tsf-fish-deco {
+  position: absolute;
+  bottom: 60px; right: 0;
+  width: 360px;
+  opacity: .4;
+}
+
+/* ---- Inner container ---- */
+.tsf-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 72px 32px 32px;
+}
+
+/* ---- Main grid ---- */
+.tsf-grid {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
-  gap: 36px;
+  grid-template-columns: 1.3fr 1fr 1fr 1.25fr;
+  gap: 52px;
+  margin-bottom: 52px;
 }
 
-.trusea-footer-logo {
-  max-width: 160px;
-  margin-bottom: 12px;
+/* ---- Brand column ---- */
+.tsf-logo-link { display: inline-block; margin-bottom: 18px; }
+.tsf-logo-img { height: 40px; width: auto; }
+.tsf-logo-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -.02em;
+}
+.tsf-logo-icon {
+  width: 36px; height: 36px;
+  background: rgba(60,191,160,.15);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.trusea-footer-text {
+.tsf-tagline {
   font-size: 14px;
-  color: #cfd8df;
-  line-height: 1.6;
+  color: var(--tsf-text, rgba(255,255,255,.5));
+  line-height: 1.7;
+  max-width: 280px;
+  margin-bottom: 20px;
 }
 
-.trusea-footer h4 {
-  margin-bottom: 12px;
+/* Trust badges */
+.tsf-trust-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
 }
+.tsf-trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--tsf-accent, #3CBFA0);
+  background: rgba(60,191,160,.08);
+  border: 1px solid rgba(60,191,160,.2);
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: .02em;
+}
+.tsf-trust-badge svg { flex-shrink: 0; }
 
-.trusea-footer a {
-  color: #cfd8df;
+/* Social icons */
+.tsf-social {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tsf-social-btn {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.65);
+  transition: all .25s ease;
   text-decoration: none;
 }
-
-.trusea-footer a:hover {
-  color: #ffffff;
+.tsf-social-btn:hover {
+  background: rgba(60,191,160,.15);
+  border-color: rgba(60,191,160,.35);
+  color: #3CBFA0;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(60,191,160,.2);
+}
+.tsf-social-btn--wa:hover {
+  background: rgba(37,211,102,.15);
+  border-color: rgba(37,211,102,.35);
+  color: #25D366;
 }
 
-.trusea-footer-links ul {
+/* ---- Column headings ---- */
+.tsf-col-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--tsf-heading, rgba(255,255,255,.85));
+  margin: 0 0 20px;
+}
+.tsf-heading-dot {
+  width: 6px; height: 6px;
+  background: var(--tsf-accent, #3CBFA0);
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(60,191,160,.7);
+  flex-shrink: 0;
+  animation: ts-scale-pulse 2s ease-in-out infinite;
+}
+
+/* ---- Nav links ---- */
+.tsf-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   list-style: none;
   padding: 0;
+  margin: 0;
 }
-
-.trusea-footer-links li {
-  margin-bottom: 8px;
-}
-
-.trusea-social a {
-  display: inline-block;
-  margin-right: 12px;
-  font-size: 14px;
-}
-
-.trusea-footer-newsletter input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  border: none;
-}
-
-.trusea-footer-newsletter button {
-  width: 100%;
-  padding: 10px;
-  background: #1fa3c9;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.trusea-footer-bottom {
-  margin-top: 30px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(255,255,255,0.15);
+.tsf-link {
   display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--tsf-text, rgba(255,255,255,.5));
+  text-decoration: none;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  transition: all .2s ease;
+}
+.tsf-link svg { color: rgba(60,191,160,0); transition: color .2s, transform .2s; }
+.tsf-link:hover {
+  color: var(--tsf-heading, rgba(255,255,255,.9));
+  padding-left: 4px;
+}
+.tsf-link:hover svg {
+  color: var(--tsf-accent, #3CBFA0);
+  transform: translateX(3px);
+}
+
+/* ---- Contact list ---- */
+.tsf-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+}
+.tsf-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--tsf-text, rgba(255,255,255,.55));
+  line-height: 1.5;
+}
+.tsf-contact-icon {
+  width: 30px; height: 30px;
+  background: rgba(60,191,160,.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--tsf-accent, #3CBFA0);
+}
+.tsf-contact-item a {
+  color: var(--tsf-text, rgba(255,255,255,.55));
+  text-decoration: none;
+  transition: color .2s;
+}
+.tsf-contact-item a:hover { color: var(--tsf-accent, #3CBFA0); }
+
+/* App badges */
+.tsf-app-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,.7);
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  padding: 7px 12px;
+  text-decoration: none;
+  transition: all .2s ease;
+}
+.tsf-app-badge:hover {
+  background: rgba(60,191,160,.12);
+  border-color: rgba(60,191,160,.3);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ---- Newsletter glass card ---- */
+.tsf-newsletter-card {
+  position: relative;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 20px;
+  padding: 28px 24px 24px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+.tsf-newsletter-glow {
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(60,191,160,.15) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: ts-float 8s ease-in-out infinite;
+}
+.tsf-newsletter-icon {
+  width: 44px; height: 44px;
+  background: rgba(60,191,160,.12);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.tsf-newsletter-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 6px;
+}
+.tsf-newsletter-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,.45);
+  line-height: 1.65;
+  margin: 0 0 18px;
+}
+.tsf-newsletter-form { margin: 0; }
+.tsf-nl-input-row {
+  display: flex;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.tsf-nl-input-row:focus-within {
+  border-color: rgba(60,191,160,.5);
+  box-shadow: 0 0 0 3px rgba(60,191,160,.08);
+}
+.tsf-nl-input-row input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: #fff;
+  font-family: var(--ts-font, 'Inter', sans-serif);
+}
+.tsf-nl-input-row input::placeholder { color: rgba(255,255,255,.3); }
+.tsf-nl-btn {
+  width: 44px;
+  background: #3CBFA0;
+  border: none;
+  border-radius: 0 11px 11px 0;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s;
+  flex-shrink: 0;
+}
+.tsf-nl-btn:hover { background: #2da88b; }
+.tsf-nl-note {
+  font-size: 11px;
+  color: rgba(255,255,255,.25);
+  margin: 10px 0 0;
+  text-align: center;
+}
+
+/* ---- Divider ---- */
+.tsf-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.tsf-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(60,191,160,.2), transparent);
+}
+.tsf-divider-fish { opacity: .6; animation: ts-float 5s ease-in-out infinite; }
+
+/* ---- Bottom bar ---- */
+.tsf-bottom {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.tsf-copyright {
+  font-size: 13px;
+  color: rgba(255,255,255,.3);
+  margin: 0;
+  display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 6px;
 }
-
-.trusea-payments svg {
-  height: 28px;
+.tsf-copyright strong { color: rgba(255,255,255,.55); font-weight: 600; }
+.tsf-made-with {
+  color: rgba(255,255,255,.2);
+  font-size: 12px;
 }
+.tsf-heart { color: #3CBFA0; animation: ts-scale-pulse 2s ease-in-out infinite; display: inline-block; }
 
-/* Mobile */
-@media (max-width: 900px) {
-  .trusea-footer-grid {
-    grid-template-columns: 1fr;
-  }
+.tsf-bottom-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tsf-bottom-links a {
+  font-size: 12px;
+  color: rgba(255,255,255,.3);
+  text-decoration: none;
+  transition: color .2s;
+}
+.tsf-bottom-links a:hover { color: #3CBFA0; }
+.tsf-sep { color: rgba(255,255,255,.1); font-size: 12px; }
 
-  .trusea-footer-bottom {
-    text-align: center;
-    justify-content: center;
-  }
+.tsf-payments {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  opacity: .5;
+}
+.tsf-payments svg { height: 22px; filter: grayscale(1) brightness(3); }
+
+/* ---- Responsive ---- */
+@media (max-width: 1100px) {
+  .tsf-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+  .tsf-col--newsletter { grid-column: 1 / -1; max-width: 540px; }
+}
+@media (max-width: 700px) {
+  .tsf-inner { padding: 52px 20px 28px; }
+  .tsf-grid { grid-template-columns: 1fr; gap: 32px; }
+  .tsf-col--newsletter { max-width: 100%; }
+  .tsf-bottom { justify-content: center; text-align: center; }
+  .tsf-bottom-links { justify-content: center; }
+  .tsf-payments { justify-content: center; }
 }
 </style>
 
 {% schema %}
 {
-  "name": "TruSea Advanced Footer",
+  "name": "TruSea Premium Footer",
   "settings": [
     {
       "type": "image_picker",
@@ -204,37 +656,63 @@
     {
       "type": "textarea",
       "id": "brand_text",
-      "label": "Brand Description",
-      "default": "Fresh, hygienic and formalin-free seafood delivered straight from the sea."
+      "label": "Brand Tagline",
+      "default": "Fresh, hygienic and formalin-free seafood — delivered from the sea to your plate."
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
     },
     {
       "type": "text",
       "id": "links_title",
-      "label": "Links Heading",
+      "label": "Links Column Heading",
       "default": "Quick Links"
     },
     {
       "type": "link_list",
       "id": "menu",
-      "label": "Select Menu"
+      "label": "Footer Menu"
+    },
+    {
+      "type": "header",
+      "content": "Contact Details"
     },
     {
       "type": "textarea",
       "id": "address",
       "label": "Address",
-      "default": "Chennai, Tamil Nadu"
+      "default": "No.A32, Adambakkam, Chennai 600088"
     },
     {
       "type": "text",
       "id": "phone",
       "label": "Phone Number",
-      "default": "+91 90000 00000"
+      "default": "+91 73974 68800"
     },
     {
       "type": "text",
       "id": "email",
       "label": "Email",
-      "default": "support@truseafish.com"
+      "default": "hello@truseafish.com"
+    },
+    {
+      "type": "header",
+      "content": "App Downloads"
+    },
+    {
+      "type": "url",
+      "id": "play_store_url",
+      "label": "Google Play Store URL"
+    },
+    {
+      "type": "url",
+      "id": "app_store_url",
+      "label": "Apple App Store URL"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
     },
     {
       "type": "text",
@@ -243,21 +721,61 @@
       "default": "Get Fresh Updates"
     },
     {
-      "type": "text",
+      "type": "textarea",
       "id": "newsletter_text",
-      "label": "Newsletter Text",
-      "default": "Fresh catch alerts, offers & recipes."
+      "label": "Newsletter Subtext",
+      "default": "First catch of the day, exclusive offers & seasonal recipes — straight to your inbox."
     },
     {
       "type": "checkbox",
       "id": "show_payment_icons",
-      "label": "Show payment icons",
+      "label": "Show Payment Icons",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "🎨 Colors & Display"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Footer background",
+      "default": "#060f1c"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color (mint)",
+      "default": "#3cbfa0"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body text color",
+      "default": "#8a96a3"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show Newsletter card",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_badges",
+      "label": "Show Trust Badges",
       "default": true
     }
   ],
   "presets": [
     {
-      "name": "TruSea Advanced Footer"
+      "name": "TruSea Premium Footer"
     }
   ]
 }

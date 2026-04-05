@@ -1,0 +1,205 @@
+/* =====================================================
+   TruSea Homepage — Shared CSS Foundation
+   tokens · keyframes · utilities
+   ===================================================== */
+
+/* --- Design Tokens --- */
+:root {
+  --ts-navy:        #0E2541;
+  --ts-navy-dark:   #081829;
+  --ts-mint:        #3CBFA0;
+  --ts-mint-light:  #5DD4B8;
+  --ts-mint-pale:   #E8F9F5;
+  --ts-white:       #FFFFFF;
+  --ts-off-white:   #F5F9F7;
+  --ts-gray:        #6B7280;
+  --ts-gray-light:  #E5E7EB;
+  --ts-text:        #1A2B3C;
+
+  --ts-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ts-radius-sm:   8px;
+  --ts-radius-md:   16px;
+  --ts-radius-lg:   24px;
+  --ts-radius-full: 9999px;
+
+  --ts-shadow-sm:   0 2px 8px rgba(14,37,65,.08);
+  --ts-shadow-md:   0 8px 32px rgba(14,37,65,.14);
+  --ts-shadow-lg:   0 20px 60px rgba(14,37,65,.2);
+
+  --ts-transition:  all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Google Font --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* --- Reset helpers for custom sections --- */
+.ts-section * { box-sizing: border-box; }
+.ts-section img { max-width: 100%; display: block; }
+.ts-section a { text-decoration: none; }
+.ts-section ul { list-style: none; padding: 0; margin: 0; }
+
+/* --- Container --- */
+.ts-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* --- Buttons --- */
+.ts-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 28px;
+  border-radius: var(--ts-radius-full);
+  font-family: var(--ts-font);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: var(--ts-transition);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.ts-btn-primary {
+  background: var(--ts-mint);
+  color: var(--ts-white);
+}
+.ts-btn-primary:hover {
+  background: var(--ts-mint-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(60,191,160,.4);
+  color: var(--ts-white);
+}
+.ts-btn-outline {
+  background: transparent;
+  color: var(--ts-navy);
+  border: 2px solid var(--ts-navy);
+}
+.ts-btn-outline:hover {
+  background: var(--ts-navy);
+  color: var(--ts-white);
+}
+.ts-btn-white {
+  background: var(--ts-white);
+  color: var(--ts-navy);
+}
+.ts-btn-white:hover {
+  background: var(--ts-mint-pale);
+  color: var(--ts-navy);
+  transform: translateY(-2px);
+}
+
+/* =====================
+   ANIMATION KEYFRAMES
+   ===================== */
+
+@keyframes ts-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-12px) rotate(3deg); }
+  66%       { transform: translateY(-6px) rotate(-2deg); }
+}
+@keyframes ts-float-alt {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-18px) rotate(-4deg); }
+}
+@keyframes ts-rotate-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes ts-scale-pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.08); }
+}
+@keyframes ts-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes ts-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes ts-slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes ts-slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes ts-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* --- Scroll-reveal utility (applied by JS) --- */
+.ts-reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.ts-reveal.ts-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+.ts-reveal-left {
+  opacity: 0;
+  transform: translateX(-36px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.ts-reveal-left.ts-revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+.ts-reveal-right {
+  opacity: 0;
+  transform: translateX(36px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.ts-reveal-right.ts-revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Staggered delays */
+.ts-delay-1 { transition-delay: 0.1s !important; }
+.ts-delay-2 { transition-delay: 0.2s !important; }
+.ts-delay-3 { transition-delay: 0.3s !important; }
+.ts-delay-4 { transition-delay: 0.4s !important; }
+.ts-delay-5 { transition-delay: 0.5s !important; }
+.ts-delay-6 { transition-delay: 0.6s !important; }
+
+/* --- Section tag badge --- */
+.ts-tag {
+  display: inline-block;
+  background: var(--ts-mint-pale);
+  color: var(--ts-mint);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: var(--ts-radius-full);
+  margin-bottom: 12px;
+}
+
+/* --- Shared IntersectionObserver script (inline in each section) --- */

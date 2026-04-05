@@ -1,0 +1,241 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.show_section != false %}
+<section class="ts-app-promo ts-section" id="ts-app-promo"
+  style="
+    --ts-ap-bg: {{ section.settings.bg_color | default: '#0E2541' }};
+    --ts-ap-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
+    --ts-ap-text: {{ section.settings.text_color | default: '#FFFFFF' }};
+  "
+>
+  <div class="ts-container">
+    <div class="ts-ap-card ts-reveal">
+      
+      <!-- Phone Mockup Side -->
+      <div class="ts-ap-phone-wrap ts-reveal-left">
+        {% if section.settings.app_image != blank %}
+          <img src="{{ section.settings.app_image | image_url: width: 600 }}" alt="Aqua Fresh App" class="ts-ap-phone-img" loading="lazy">
+        {% else %}
+          <div class="ts-ap-phone-placeholder">
+            <div class="ts-ap-phone-frame">
+              <div class="ts-ap-phone-screen">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="rgba(60,191,160,0.3)" stroke-width="1.5">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+        
+        <!-- Decorative fish floating around phone -->
+        <div class="ts-ap-deco-fish ts-ap-deco-fish--1" aria-hidden="true">
+          <svg width="24" height="16" viewBox="0 0 24 16" fill="var(--ts-ap-accent)" opacity="0.4"><path d="M1 8C1 8 7 1 12 3.5C17 6 21 8 21 8C21 8 17 10.5 12 12.5C7 14.5 1 8 1 8Z"/><path d="M21 8L24 5L23 8L24 11Z"/></svg>
+        </div>
+      </div>
+
+      <!-- Content Side -->
+      <div class="ts-ap-content ts-reveal-right">
+        <div class="ts-tag ts-ap-tag">{{ section.settings.tag_text | default: 'Fastest Delivery' }}</div>
+        <h2 class="ts-ap-title">
+          {{ section.settings.title_part1 | default: 'Download our' }} <span style="color:var(--ts-ap-accent)">{{ section.settings.title_accent | default: 'Aqua Fresh App' }}</span>
+        </h2>
+        <p class="ts-ap-desc">
+          {{ section.settings.description | default: 'Order the freshest catch in seconds. Real-time tracking, exclusive app-only deals, and priority delivery at your fingertips.' }}
+        </p>
+
+        <!-- App Store Buttons -->
+        <div class="ts-ap-btns">
+          {% if section.settings.play_store_url != blank %}
+            <a href="{{ section.settings.play_store_url }}" class="ts-ap-btn" target="_blank" rel="noopener">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" loading="lazy" width="135" height="40">
+            </a>
+          {% endif %}
+          {% if section.settings.app_store_url != blank %}
+            <a href="{{ section.settings.app_store_url }}" class="ts-ap-btn" target="_blank" rel="noopener">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="Download on the App Store" loading="lazy" width="120" height="40">
+            </a>
+          {% endif %}
+        </div>
+
+        <!-- Social Proof / Ratings -->
+        <div class="ts-ap-ratings">
+          <div class="ts-ap-rating">
+            <div class="ts-ap-rating-val">{{ section.settings.rating1_val | default: '4.8' }} ★</div>
+            <div class="ts-ap-rating-label">{{ section.settings.rating1_label | default: 'Play Store' }}</div>
+          </div>
+          <div class="ts-ap-rating-sep"></div>
+          <div class="ts-ap-rating">
+            <div class="ts-ap-rating-val">{{ section.settings.rating2_val | default: '4.7' }} ★</div>
+            <div class="ts-ap-rating-label">{{ section.settings.rating2_label | default: 'App Store' }}</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+.ts-app-promo {
+  padding: 60px 0;
+  font-family: var(--ts-font);
+  overflow: hidden;
+}
+
+.ts-ap-card {
+  position: relative;
+  background: var(--ts-ap-bg, var(--ts-navy));
+  border-radius: 40px; /* Pill-like shape on desktop */
+  padding: 60px 80px;
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 60px;
+  align-items: center;
+  color: var(--ts-ap-text, white);
+  box-shadow: 0 30px 60px rgba(0,0,0,.15);
+}
+
+/* Phone side */
+.ts-ap-phone-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.ts-ap-phone-img {
+  max-width: 280px;
+  height: auto;
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
+  transform: rotate(-5deg);
+}
+
+.ts-ap-phone-placeholder {
+  width: 240px;
+  height: 480px;
+  background: #1a3a5c;
+  border-radius: 36px;
+  border: 8px solid #081a2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-5deg);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.ts-ap-deco-fish {
+  position: absolute;
+  top: 10%; right: -20px;
+  animation: ts-float 6s ease-in-out infinite;
+}
+
+/* Content side */
+.ts-ap-tag { border-color: rgba(255,255,255,0.2) !important; color: white !important; margin-bottom: 24px; }
+.ts-ap-title {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin: 0 0 20px;
+  letter-spacing: -.02em;
+}
+.ts-ap-desc {
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255,255,255,.7);
+  margin-bottom: 32px;
+  max-width: 480px;
+}
+
+.ts-ap-btns {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.ts-ap-btn {
+  display: block;
+  transition: transform .2s ease;
+}
+.ts-ap-btn:hover { transform: translateY(-3px); }
+.ts-ap-btn img { height: 40px; width: auto; border-radius: 6px; }
+
+/* Ratings */
+.ts-ap-ratings {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  padding: 16px 24px;
+  width: fit-content;
+}
+.ts-ap-rating-val { font-size: 18px; font-weight: 800; color: var(--ts-ap-accent); }
+.ts-ap-rating-label { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 2px; }
+.ts-ap-rating-sep { width: 1px; height: 30px; background: rgba(255,255,255,.1); }
+
+/* Responsive */
+@media (max-width: 960px) {
+  .ts-ap-card {
+    grid-template-columns: 1fr;
+    padding: 60px 40px;
+    text-align: center;
+    border-radius: 30px;
+  }
+  .ts-ap-phone-wrap { order: 2; margin-top: 40px; }
+  .ts-ap-desc { margin-left: auto; margin-right: auto; }
+  .ts-ap-btns { justify-content: center; }
+  .ts-ap-ratings { margin: 0 auto; }
+}
+
+@media (max-width: 560px) {
+  .ts-ap-card { padding: 48px 24px; border-radius: 24px; }
+  .ts-ap-phone-img, .ts-ap-phone-placeholder { max-width: 200px; height: auto; }
+}
+</style>
+
+<script>
+(function() {
+  const apEls = document.querySelectorAll('#ts-app-promo .ts-reveal, #ts-app-promo .ts-reveal-left, #ts-app-promo .ts-reveal-right');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('ts-revealed'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.15 });
+  apEls.forEach(el => observer.observe(el));
+})();
+</script>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "App Promotion Block",
+  "settings": [
+    { "type": "header", "content": "⚙️ Section Visibility" },
+    { "type": "checkbox", "id": "show_section", "label": "Show section", "default": true },
+    { "type": "header", "content": "🎨 Colors" },
+    { "type": "color", "id": "bg_color", "label": "Card background", "default": "#0e2541" },
+    { "type": "color", "id": "accent_color", "label": "Accent color (mint)", "default": "#3cbfa0" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#ffffff" },
+    { "type": "header", "content": "📝 Text Content" },
+    { "type": "text", "id": "tag_text", "label": "Tag Label", "default": "Fastest Delivery" },
+    { "type": "text", "id": "title_part1", "label": "Title Part 1", "default": "Download our" },
+    { "type": "text", "id": "title_accent", "label": "Title Accent", "default": "Aqua Fresh App" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Order the freshest catch in seconds. Real-time tracking, exclusive app-only deals, and priority delivery at your fingertips." },
+    { "type": "header", "content": "📱 App Links" },
+    { "type": "url", "id": "play_store_url", "label": "Google Play Store URL", "default": "/" },
+    { "type": "url", "id": "app_store_url", "label": "Apple App Store URL", "default": "/" },
+    { "type": "header", "content": "⭐ Ratings" },
+    { "type": "text", "id": "rating1_val", "label": "Rating 1 Value", "default": "4.8" },
+    { "type": "text", "id": "rating1_label", "label": "Rating 1 Label", "default": "Play Store" },
+    { "type": "text", "id": "rating2_val", "label": "Rating 2 Value", "default": "4.7" },
+    { "type": "text", "id": "rating2_label", "label": "Rating 2 Label", "default": "App Store" },
+    { "type": "header", "content": "📸 Images" },
+    { "type": "image_picker", "id": "app_image", "label": "App Mockup Image" }
+  ],
+  "presets": [
+    {
+      "name": "App Promotion Block"
+    }
+  ]
+}
+{% endschema %}

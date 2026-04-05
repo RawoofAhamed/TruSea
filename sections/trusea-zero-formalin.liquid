@@ -1,0 +1,472 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.show_section != false %}
+<section class="ts-zero-formal ts-section" id="ts-zero-formal"
+  style="
+    --ts-zf-bg-left: {{ section.settings.bg_color_left | default: '#060f1c' }};
+    --ts-zf-bg-right: {{ section.settings.bg_color_right | default: '#111111' }};
+    --ts-zf-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
+    --ts-zf-headline: {{ section.settings.headline_color | default: '#FFFFFF' }};
+    --ts-zf-body: {{ section.settings.body_color | default: 'rgba(255,255,255,.5)' }};
+  "
+>
+  <!-- Left dark panel -->
+  <div class="ts-zf-left ts-reveal-left">
+    <div class="ts-zf-left-inner">
+
+      <!-- Decorative elements -->
+      <div class="ts-zf-deco" aria-hidden="true">
+        <div class="ts-zf-deco-circle ts-zf-deco-circle--1"></div>
+        <div class="ts-zf-deco-circle ts-zf-deco-circle--2"></div>
+        <div class="ts-zf-deco-dots"></div>
+      </div>
+
+      <div class="ts-zf-content">
+        <div class="ts-zf-eyebrow">
+          <span class="ts-zf-dot"></span>
+          {{ section.settings.eyebrow | default: 'Lab Tested & Certified' }}
+        </div>
+
+        <h2 class="ts-zf-headline">
+          {{ section.settings.headline_line1 | default: 'Zero Formalin.' }}<br>
+          <span class="ts-zf-accent">{{ section.settings.headline_line2 | default: '100% Safe Fish.' }}</span><br>
+          {{ section.settings.headline_line3 | default: 'Every batch tested twice.' }}
+        </h2>
+
+        <p class="ts-zf-body">{{ section.settings.body_text | default: 'No Chemicals. Only Wild. Tested Sure. Faste Seiter. So Fresh, & Wiggles.' }}</p>
+
+        <div class="ts-zf-badges">
+          {% if section.settings.badge_1_text != blank %}
+          <div class="ts-zf-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            {{ section.settings.badge_1_text }}
+          </div>
+          {% endif %}
+          {% if section.settings.badge_2_text != blank %}
+          <div class="ts-zf-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            {{ section.settings.badge_2_text }}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Right image panel -->
+  <div class="ts-zf-right ts-reveal-right">
+    <!-- Badge top-right -->
+    <div class="ts-zf-cert-badge">
+      {% if section.settings.badge_image != blank %}
+        <img src="{{ section.settings.badge_image | image_url: width: 160 }}" alt="Formalin Free Guaranteed" loading="lazy">
+      {% else %}
+        <div class="ts-zf-cert-default">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="18" stroke="white" stroke-width="2"/>
+            <path d="M12 20l5 5 11-10" stroke="#3CBFA0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>{{ section.settings.cert_text | default: 'Formalin-Free Guaranteed.' }}</span>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if section.settings.main_image != blank %}
+      <img
+        src="{{ section.settings.main_image | image_url: width: 700 }}"
+        alt="Zero Formalin Fresh Fish"
+        class="ts-zf-main-img"
+        loading="lazy"
+        width="600"
+        height="500"
+      >
+    {% else %}
+      <!-- Placeholder illustration: fish on plate with dark bg -->
+      <div class="ts-zf-placeholder-img">
+        <svg width="200" height="140" viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="100" cy="80" rx="80" ry="40" fill="rgba(60,191,160,0.08)" stroke="rgba(60,191,160,0.2)" stroke-width="1"/>
+          <path d="M30 80C30 80 60 50 100 60C135 68 165 80 165 80C165 80 140 100 100 105C60 110 30 80 30 80Z" fill="rgba(60,191,160,0.25)"/>
+          <ellipse cx="90" cy="72" rx="5" ry="4" fill="rgba(60,191,160,0.6)"/>
+          <path d="M165 80L182 68L178 80L182 92Z" fill="rgba(60,191,160,0.25)"/>
+          <circle cx="100" cy="80" r="55" stroke="rgba(255,255,255,0.05)" stroke-width="1" stroke-dasharray="6 6"/>
+        </svg>
+        <p style="color:rgba(255,255,255,.3);font-size:13px;margin-top:12px;">Upload seafood platter image</p>
+      </div>
+    {% endif %}
+
+    <!-- Floating delivery truck badge -->
+    {% if section.settings.show_delivery_badge != false %}
+    <div class="ts-zf-delivery-badge ts-reveal ts-delay-3">
+      <div class="ts-zf-truck-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3CBFA0" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </div>
+      <div>
+        <div class="ts-zf-truck-title">{{ section.settings.delivery_title | default: 'Same-Day Delivery' }}</div>
+        <div class="ts-zf-truck-subtitle">{{ section.settings.delivery_subtitle | default: 'From catch to your kitchen' }}</div>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+{% endif %}
+
+<style>
+.ts-zero-formal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 420px;
+  font-family: var(--ts-font);
+  overflow: hidden;
+}
+
+/* Left dark panel */
+.ts-zf-left {
+  background: var(--ts-zf-bg-left, var(--ts-navy-dark));
+  position: relative;
+  overflow: hidden;
+}
+.ts-zf-left-inner {
+  padding: 60px 52px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Decorative */
+.ts-zf-deco { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.ts-zf-deco-circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.04);
+}
+.ts-zf-deco-circle--1 {
+  width: 300px; height: 300px;
+  top: -80px; right: -80px;
+  background: radial-gradient(circle, rgba(60,191,160,.06) 0%, transparent 70%);
+  animation: ts-rotate-slow 30s linear infinite;
+}
+.ts-zf-deco-circle--2 {
+  width: 180px; height: 180px;
+  bottom: -40px; left: 20px;
+  animation: ts-rotate-slow 20s linear infinite reverse;
+}
+.ts-zf-deco-dots {
+  position: absolute;
+  bottom: 20%; right: 8%;
+  width: 60px; height: 60px;
+  background-image: radial-gradient(circle, rgba(60,191,160,.3) 1.5px, transparent 1.5px);
+  background-size: 12px 12px;
+}
+
+/* Content */
+.ts-zf-content { position: relative; z-index: 2; }
+.ts-zf-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ts-zf-accent, var(--ts-mint));
+  margin-bottom: 20px;
+}
+.ts-zf-dot {
+  width: 8px; height: 8px;
+  background: var(--ts-zf-accent, var(--ts-mint));
+  border-radius: 50%;
+  animation: ts-scale-pulse 2s ease-in-out infinite;
+}
+.ts-zf-headline {
+  font-size: clamp(26px, 3.5vw, 42px);
+  font-weight: 900;
+  line-height: 1.15;
+  color: var(--ts-zf-headline, var(--ts-white));
+  margin: 0 0 20px;
+  letter-spacing: -.02em;
+}
+.ts-zf-accent { color: var(--ts-zf-accent, var(--ts-mint)); }
+.ts-zf-body {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ts-zf-body, rgba(255,255,255,.5));
+  margin-bottom: 28px;
+  max-width: 340px;
+}
+.ts-zf-badges { display: flex; flex-direction: column; gap: 10px; }
+.ts-zf-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,.75);
+}
+.ts-zf-badge svg { color: var(--ts-mint); flex-shrink: 0; }
+
+/* Right image panel */
+.ts-zf-right {
+  background: var(--ts-zf-bg-right, #111);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ts-zf-main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .85;
+  transition: transform .6s ease;
+}
+.ts-zf-right:hover .ts-zf-main-img { transform: scale(1.04); }
+.ts-zf-placeholder-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 40px;
+}
+
+/* Cert badge */
+.ts-zf-cert-badge {
+  position: absolute;
+  top: 24px; right: 24px;
+  z-index: 10;
+  animation: ts-float 5s ease-in-out infinite;
+}
+.ts-zf-cert-default {
+  background: rgba(14,37,65,.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(60,191,160,.3);
+  border-radius: var(--ts-radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  min-width: 130px;
+}
+.ts-zf-cert-badge img {
+  width: 130px;
+  height: auto;
+  border-radius: var(--ts-radius-sm);
+  box-shadow: var(--ts-shadow-md);
+}
+
+/* Delivery badge */
+.ts-zf-delivery-badge {
+  position: absolute;
+  bottom: 24px; left: 24px;
+  background: rgba(14,37,65,.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(60,191,160,.25);
+  border-radius: var(--ts-radius-md);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 10;
+}
+.ts-zf-truck-icon {
+  width: 44px; height: 44px;
+  background: rgba(60,191,160,.15);
+  border-radius: var(--ts-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ts-zf-truck-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ts-white);
+}
+.ts-zf-truck-subtitle { font-size: 11px; color: rgba(255,255,255,.5); margin-top: 2px; }
+
+/* Responsive */
+@media (max-width: 860px) {
+  .ts-zero-formal { grid-template-columns: 1fr; }
+  .ts-zf-left-inner { padding: 48px 32px; }
+  .ts-zf-right { min-height: 300px; }
+}
+@media (max-width: 560px) {
+  .ts-zf-left-inner { padding: 40px 24px; }
+}
+</style>
+
+<script>
+(function() {
+  const zfEls = document.querySelectorAll('#ts-zero-formal .ts-reveal-left, #ts-zero-formal .ts-reveal-right, #ts-zero-formal .ts-reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('ts-revealed'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.15 });
+  zfEls.forEach(el => observer.observe(el));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Zero Formalin Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "⚙️ Section Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "🎨 Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_left",
+      "label": "Left panel background",
+      "default": "#060f1c"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_right",
+      "label": "Right panel background (filler)",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color (mint)",
+      "default": "#3cbfa0"
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Headline text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body text color",
+      "default": "#8a96a3"
+    },
+    {
+      "type": "header",
+      "content": "📝 Text Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Label",
+      "default": "Lab Tested & Certified"
+    },
+    {
+      "type": "text",
+      "id": "headline_line1",
+      "label": "Headline Line 1",
+      "default": "Zero Formalin."
+    },
+    {
+      "type": "text",
+      "id": "headline_line2",
+      "label": "Headline Line 2 (Accent)",
+      "default": "100% Safe Fish."
+    },
+    {
+      "type": "text",
+      "id": "headline_line3",
+      "label": "Headline Line 3",
+      "default": "Every batch tested twice."
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "Body Text",
+      "default": "No Chemicals. No Formalin. Tested at shore and at our facility — every single batch without exception."
+    },
+    {
+      "type": "header",
+      "content": "✅ Feature Badges"
+    },
+    {
+      "type": "text",
+      "id": "badge_1_text",
+      "label": "Badge 1 Text",
+      "default": "Formalin-Free Since Day 1"
+    },
+    {
+      "type": "text",
+      "id": "badge_2_text",
+      "label": "Badge 2 Text",
+      "default": "Double Batch Testing"
+    },
+    {
+      "type": "header",
+      "content": "🚚 Delivery Badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_delivery_badge",
+      "label": "Show delivery badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "delivery_title",
+      "label": "Delivery Title",
+      "default": "Same-Day Delivery"
+    },
+    {
+      "type": "text",
+      "id": "delivery_subtitle",
+      "label": "Delivery Subtitle",
+      "default": "From catch to your kitchen"
+    },
+    {
+      "type": "header",
+      "content": "🖼️ Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Right Panel Image (seafood platter)"
+    },
+    {
+      "type": "header",
+      "content": "📜 Certification"
+    },
+    {
+      "type": "text",
+      "id": "cert_text",
+      "label": "Cert Text (fallback)",
+      "default": "Formalin-Free Guaranteed."
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_image",
+      "label": "Certification Badge Image (overrides fallback)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Zero Formalin Banner"
+    }
+  ]
+}
+{% endschema %}

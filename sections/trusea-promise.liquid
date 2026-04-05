@@ -1,0 +1,370 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.show_section != false %}
+<section class="ts-promise ts-section" id="ts-promise"
+  style="
+    --ts-promise-bg: {{ section.settings.bg_color | default: '#F5F9F7' }};
+    --ts-promise-heading: {{ section.settings.heading_color | default: '#0E2541' }};
+    --ts-promise-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
+    --ts-promise-text: {{ section.settings.text_color | default: '#5a7a8a' }};
+  "
+>
+  <div class="ts-container">
+    <!-- Header -->
+    <div class="ts-promise-header ts-reveal">
+      <div class="ts-tag">{{ section.settings.eyebrow | default: 'Our Commitment' }}</div>
+      <h2 class="ts-promise-title">
+        {{ section.settings.heading_prefix | default: 'The' }} <span style="color:var(--ts-promise-accent)">{{ section.settings.heading_accent | default: 'TruSea' }}</span> {{ section.settings.heading_suffix | default: 'Promise' }}
+      </h2>
+      <p class="ts-promise-sub">{{ section.settings.subtitle | default: 'From the sea to your plate — every step is designed around quality, hygiene, and trust.' }}</p>
+    </div>
+
+    <!-- USP Cards -->
+    <div class="ts-promise-cards">
+      {% assign usp_i = 0 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'usp' %}
+          {% assign usp_i = usp_i | plus: 1 %}
+          <div class="ts-promise-card ts-reveal ts-delay-{{ usp_i }}" {{ block.shopify_attributes }}>
+            <div class="ts-promise-img-wrap">
+              {% if block.settings.image != blank %}
+                <img
+                  src="{{ block.settings.image | image_url: width: 240 }}"
+                  alt="{{ block.settings.title }}"
+                  loading="lazy"
+                  width="180"
+                  height="180"
+                >
+              {% else %}
+                <div class="ts-promise-icon-placeholder">
+                  {% case block.settings.icon %}
+                    {% when 'cold' %}
+                      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/><line x1="2" y1="12" x2="22" y2="12"/><polyline points="20 10 22 12 20 14"/><polyline points="4 10 2 12 4 14"/></svg>
+                    {% when 'hygiene' %}
+                      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                    {% when 'packing' %}
+                      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                    {% else %}
+                      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  {% endcase %}
+                </div>
+              {% endif %}
+            </div>
+            <h3 class="ts-promise-card-title">{{ block.settings.title | default: 'Quality Promise' }}</h3>
+            <p class="ts-promise-card-desc">{{ block.settings.description | default: 'Every step of our process is monitored for maximum quality and freshness.' }}</p>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Decorative background -->
+  <div class="ts-promise-bg-deco" aria-hidden="true">
+    <div class="ts-promise-bg-circle ts-promise-bg-circle--1"></div>
+    <div class="ts-promise-bg-circle ts-promise-bg-circle--2"></div>
+    <div class="ts-promise-bg-wave"></div>
+  </div>
+</section>
+{% endif %}
+
+<style>
+.ts-promise {
+  position: relative;
+  background: var(--ts-promise-bg, var(--ts-off-white));
+  padding: 80px 0 90px;
+  font-family: var(--ts-font);
+  overflow: hidden;
+}
+
+/* Header */
+.ts-promise-header {
+  text-align: center;
+  margin-bottom: 52px;
+}
+.ts-promise-title {
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--ts-promise-heading, var(--ts-navy));
+  margin: 12px 0 14px;
+  letter-spacing: -.02em;
+}
+.ts-promise-sub {
+  font-size: 15px;
+  color: var(--ts-promise-text, var(--ts-gray));
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Cards grid */
+.ts-promise-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+  position: relative;
+  z-index: 2;
+}
+.ts-promise-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: var(--ts-white);
+  border-radius: var(--ts-radius-lg);
+  padding: 36px 24px 32px;
+  box-shadow: var(--ts-shadow-sm);
+  border: 1px solid rgba(60,191,160,.08);
+  transition: var(--ts-transition);
+}
+.ts-promise-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--ts-shadow-md);
+  border-color: rgba(60,191,160,.2);
+}
+
+/* Image wrapper */
+.ts-promise-img-wrap {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--ts-navy) 0%, #1a3a5c 100%);
+  margin-bottom: 22px;
+  flex-shrink: 0;
+  border: 4px solid var(--ts-mint-pale);
+  transition: var(--ts-transition);
+}
+.ts-promise-card:hover .ts-promise-img-wrap {
+  border-color: var(--ts-mint);
+  box-shadow: 0 0 0 4px rgba(60,191,160,.15);
+}
+.ts-promise-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ts-promise-icon-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Text */
+.ts-promise-card-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--ts-promise-heading, var(--ts-navy));
+  margin: 0 0 10px;
+}
+.ts-promise-card-desc {
+  font-size: 13px;
+  color: var(--ts-promise-text, var(--ts-gray));
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Background deco */
+.ts-promise-bg-deco { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.ts-promise-bg-circle {
+  position: absolute;
+  border-radius: 50%;
+}
+.ts-promise-bg-circle--1 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(60,191,160,.07) 0%, transparent 70%);
+  top: -100px; right: -80px;
+  animation: ts-float 12s ease-in-out infinite;
+}
+.ts-promise-bg-circle--2 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(14,37,65,.04) 0%, transparent 70%);
+  bottom: -80px; left: -60px;
+  animation: ts-float-alt 14s ease-in-out infinite 2s;
+}
+.ts-promise-bg-wave {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(60,191,160,.3), transparent);
+}
+
+/* Responsive */
+@media (max-width: 760px) {
+  .ts-promise-cards { grid-template-columns: repeat(2, 1fr); }
+  .ts-promise-img-wrap { width: 120px; height: 120px; }
+}
+@media (max-width: 480px) {
+  .ts-promise-cards { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; }
+}
+</style>
+
+<script>
+(function() {
+  const promiseEls = document.querySelectorAll('#ts-promise .ts-reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('ts-revealed'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+  promiseEls.forEach(el => observer.observe(el));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "TruSea Promise",
+  "settings": [
+    {
+      "type": "header",
+      "content": "⚙️ Section Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "🎨 Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#F5F9F7"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#0e2541"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#3cbfa0"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#5a7a8a"
+    },
+    {
+      "type": "header",
+      "content": "📝 Text Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tag",
+      "default": "Our Commitment"
+    },
+    {
+      "type": "text",
+      "id": "heading_prefix",
+      "label": "Heading Prefix",
+      "default": "The"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Heading Accent",
+      "default": "TruSea"
+    },
+    {
+      "type": "text",
+      "id": "heading_suffix",
+      "label": "Heading Suffix",
+      "default": "Promise"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "From the sea to your plate — every step is designed around quality, hygiene, and trust."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "usp",
+      "name": "USP Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "USP Image (circular)"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Fallback Icon (if no image)",
+          "options": [
+            { "value": "cold", "label": "Cold Chain" },
+            { "value": "hygiene", "label": "Hygiene / Shield" },
+            { "value": "packing", "label": "Packing / Box" },
+            { "value": "human", "label": "Minimal Contact" }
+          ],
+          "default": "cold"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "USP Title",
+          "default": "Cold-Chain Freshness"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "USP Description",
+          "default": "From shore to warehouse, always cold-chain handled."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TruSea Promise",
+      "blocks": [
+        {
+          "type": "usp",
+          "settings": {
+            "icon": "cold",
+            "title": "Cold-Chain Freshness",
+            "description": "From shore to warehouse, always stored and transported cold. No breaks in the chain."
+          }
+        },
+        {
+          "type": "usp",
+          "settings": {
+            "icon": "hygiene",
+            "title": "Quality & Hygiene Checked",
+            "description": "Formalin-free. Full food-grade facility, audit-proof cleaning and despatch standards."
+          }
+        },
+        {
+          "type": "usp",
+          "settings": {
+            "icon": "packing",
+            "title": "Premium Packing Protection",
+            "description": "Insulated, leak-proof packs and geo-tracked delivery vehicles."
+          }
+        },
+        {
+          "type": "usp",
+          "settings": {
+            "icon": "human",
+            "title": "Minimal Human Contact",
+            "description": "Processed using equipment to eliminate direct hand contact contamination possibilities."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
