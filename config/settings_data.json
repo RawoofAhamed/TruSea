@@ -90,9 +90,9 @@
     "media_shadow_horizontal_offset": 0,
     "media_shadow_vertical_offset": 4,
     "media_shadow_blur": 5,
-    "popup_border_thickness": 2,
+    "popup_border_thickness": 1,
     "popup_border_opacity": 100,
-    "popup_corner_radius": 0,
+    "popup_corner_radius": 8,
     "popup_shadow_opacity": 5,
     "popup_shadow_horizontal_offset": 0,
     "popup_shadow_vertical_offset": 4,
@@ -286,6 +286,7 @@
           "show_delivery_badge": true,
           "delivery_title": "Same-Day Delivery",
           "delivery_subtitle": "From catch to your kitchen",
+          "main_image": "shopify://shop_images/Samson_fish_holding.png",
           "cert_text": "Formalin-Free Guaranteed."
         }
       },
