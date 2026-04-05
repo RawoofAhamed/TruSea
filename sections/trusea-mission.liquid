@@ -1,0 +1,49 @@
+<section class="ts-mission">
+  <div class="page-width">
+    <h2 class="ts-title">{{ section.settings.title }}</h2>
+
+    <div class="ts-content rte">
+      {{ section.settings.content }}
+    </div>
+  </div>
+
+<style>
+.ts-mission{
+  padding:44px 0;
+  background:#071a2a;
+  color:#fff;
+}
+
+.ts-mission .ts-title{
+  color:#f2d583;
+}
+
+.ts-mission .ts-content{
+  color:rgba(255,255,255,.9);
+}
+</style>
+
+</section>
+
+{% schema %}
+{
+  "name":"TruSea – Mission",
+  "settings":[
+    {
+      "type":"text",
+      "id":"title",
+      "label":"Heading",
+      "default":"Family-First Health"
+    },
+    {
+      "type":"richtext",
+      "id":"content",
+      "label":"Content",
+      "default":"<p>Your family deserves safe seafood.</p>"
+    }
+  ],
+  "presets":[
+    { "name":"TruSea – Mission" }
+  ]
+}
+{% endschema %}

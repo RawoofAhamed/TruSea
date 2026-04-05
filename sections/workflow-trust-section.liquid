@@ -1,0 +1,145 @@
+{% comment %}
+  Trusea Fish – Workflow / Trust Builder Section
+  - 3 vertical images
+  - Header below each image
+  - Rounded corners
+  - Non-clickable (visual storytelling)
+{% endcomment %}
+
+<section class="trusea-workflow">
+  <div class="page-width">
+    {% if section.settings.title != blank %}
+      <h2 class="trusea-workflow-title">
+        {{ section.settings.title }}
+      </h2>
+    {% endif %}
+
+    <div class="trusea-workflow-grid">
+      {% for block in section.blocks %}
+        <div class="trusea-workflow-item" {{ block.shopify_attributes }}>
+          {% if block.settings.image != blank %}
+            <img
+              src="{{ block.settings.image | image_url: width: 900 }}"
+              alt="{{ block.settings.heading | escape }}"
+              loading="lazy"
+            >
+          {% endif %}
+
+          {% if block.settings.heading != blank %}
+            <h3 class="trusea-workflow-heading">
+              {{ block.settings.heading }}
+            </h3>
+          {% endif %}
+
+          {% if block.settings.text != blank %}
+            <p class="trusea-workflow-text">
+              {{ block.settings.text }}
+            </p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+.trusea-workflow {
+  padding: 20px 0;
+}
+
+.trusea-workflow-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.trusea-workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.trusea-workflow-item {
+  text-align: center;
+}
+
+.trusea-workflow-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 20px; /* curve corners */
+  display: block;
+  margin-bottom: 16px;
+}
+
+.trusea-workflow-heading {
+  font-size: 18px;
+  margin: 8px 0 6px;
+}
+
+.trusea-workflow-text {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .trusea-workflow {
+    padding: 40px 0;
+  }
+
+  .trusea-workflow-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Workflow / Trust Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Our Freshness Process"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Workflow Step",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Fresh Catch"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Caught daily from trusted fishermen"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Workflow / Trust Builder",
+      "blocks": [
+        { "type": "step" },
+        { "type": "step" },
+        { "type": "step" }
+      ]
+    }
+  ]
+}
+{% endschema %}

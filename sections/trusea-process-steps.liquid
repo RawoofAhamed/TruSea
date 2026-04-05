@@ -1,0 +1,85 @@
+<section class="ts-steps">
+  <div class="page-width">
+
+    <h2 class="ts-title">{{ section.settings.heading }}</h2>
+
+    <div class="ts-grid">
+      {% for block in section.blocks %}
+      <div class="ts-step" {{ block.shopify_attributes }}>
+        <h3>{{ block.settings.title }}</h3>
+        <div class="rte">{{ block.settings.text }}</div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+<style>
+.ts-steps{
+  padding:44px 0;
+}
+
+.ts-grid{
+  display:grid;
+  grid-template-columns: repeat(4,1fr);
+  gap:14px;
+}
+
+.ts-step{
+  background:#fff;
+  border-radius:12px;
+  padding:16px;
+  border:1px solid rgba(15,35,55,.14);
+  box-shadow:0 12px 22px rgba(0,30,60,.08);
+}
+
+.ts-step h3{
+  margin:0 0 6px;
+  font-size:16px;
+  font-weight:800;
+}
+
+@media(max-width:900px){
+  .ts-grid{ grid-template-columns:repeat(2,1fr); }
+}
+@media(max-width:560px){
+  .ts-grid{ grid-template-columns:1fr; }
+}
+</style>
+
+</section>
+
+{% schema %}
+{
+  "name": "TruSea – Process",
+  "settings": [
+    {
+      "type":"text",
+      "id":"heading",
+      "label":"Heading",
+      "default":"Process You Can Trust"
+    }
+  ],
+  "blocks":[
+    {
+      "type":"step",
+      "name":"Step",
+      "settings":[
+        {"type":"text","id":"title","label":"Title","default":"Cleaning"},
+        {"type":"richtext","id":"text","label":"Text","default":"<p>RO water cleaning</p>"}
+      ]
+    }
+  ],
+  "presets":[
+    {
+      "name":"TruSea – Process",
+      "blocks":[
+        {"type":"step","settings":{"title":"Sourcing","text":"<p>Small boats, hours fresh</p>"}},
+        {"type":"step","settings":{"title":"Hygiene","text":"<p>AC facility + RO water</p>"}},
+        {"type":"step","settings":{"title":"Testing","text":"<p>Twice formalin checks</p>"}},
+        {"type":"step","settings":{"title":"Delivery","text":"<p>Cold chain to home</p>"}}
+      ]
+    }
+  ]
+}
+{% endschema %}

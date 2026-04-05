@@ -1,0 +1,345 @@
+<section id="selfish-pricing" class="sc-price">
+  <div class="sc-price__wrap page-width">
+    <h2 class="sc-price__title">{{ section.settings.heading }}</h2>
+
+    <div class="sc-price__grid">
+      <!-- LEFT CARD -->
+      <div class="sc-card sc-card--lite">
+        <h2 class="sc-card__price">
+          {{ section.settings.month_price }}
+          <span class="sc-card__unit">/ {{ section.settings.month_unit }}</span>
+        </h2>
+      </div>
+
+      <!-- RIGHT CARD -->
+      <div class="sc-card sc-card--gold">
+        <!-- GOLD CORNER LINES -->
+        <span class="sc-corner sc-corner--tl"></span>
+        <span class="sc-corner sc-corner--tr"></span>
+        <span class="sc-corner sc-corner--bl"></span>
+        <span class="sc-corner sc-corner--br"></span>
+
+        <!-- SEAL BADGE (scalloped) -->
+        <div class="sc-seal" aria-hidden="true">
+          <div class="sc-seal__inner">
+            {{ section.settings.badge_text | newline_to_br }}
+          </div>
+        </div>
+
+        <h2 class="sc-card__price">
+          {{ section.settings.year_price }}
+          <span class="sc-card__unit">/ {{ section.settings.year_unit }}</span>
+        </h2>
+
+        <!-- RIBBON -->
+        <div class="sc-ribbon" role="note">
+          <h3 class="sc-ribbon__text">{{ section.settings.ribbon_text }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .sc-price{ padding: 46px 0 38px; background: #eef6ff; }
+    .sc-price__wrap{ max-width: 1200px; margin: 0 auto; }
+    .sc-price__title{
+      text-align:center;
+      font-size: 32px;
+      margin: 0 0 18px;
+      font-weight: 800;
+      color: #0b1f33;
+      text-shadow: 0 1px 0 rgba(255,255,255,.7);
+    }
+
+    .sc-price__grid{
+      display:flex;
+      gap: 26px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .sc-card{
+      position: relative;
+      border-radius: 12px;
+      min-width: 320px;
+    }
+
+    /* LEFT LITE */
+    .sc-card--lite{
+      padding: 22px 26px;
+      background: #f6fbff;
+      border: 2px solid rgba(25,45,65,0.18);
+      box-shadow: 0 14px 28px rgba(0, 30, 60, 0.12);
+    }
+
+    /* RIGHT GOLD */
+    .sc-card--gold{
+      padding: 26px 26px 64px;
+      min-width: 460px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #fff7da 0%, #f3dca2 55%, #efd189 100%);
+      border: 3px solid #d2ad56;
+      box-shadow:
+        0 18px 40px rgba(0,30,60,0.18),
+        0 0 28px rgba(210,173,86,0.35);
+      overflow: visible;
+    }
+
+    /* Premium inner glow */
+    .sc-card--gold::before{
+      content:"";
+      position:absolute;
+      inset: 6px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.45);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+      pointer-events:none;
+    }
+
+    /* Shine sweep (big card) */
+    .sc-card--gold::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius: 14px;
+      background: linear-gradient(110deg,
+        transparent 0%,
+        rgba(255,255,255,0.0) 35%,
+        rgba(255,255,255,0.40) 50%,
+        rgba(255,255,255,0.0) 65%,
+        transparent 100%);
+      transform: translateX(-120%);
+      animation: scShine 4.8s ease-in-out infinite;
+      pointer-events:none;
+      opacity: .65;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes scShine{
+      0%{ transform: translateX(-120%); }
+      55%{ transform: translateX(120%); }
+      100%{ transform: translateX(120%); }
+    }
+
+    /* PRICE TYPOGRAPHY */
+    .sc-card__price{
+      margin: 0;
+      font-size: 36px;
+      font-weight: 900;
+      color: #0b1f33;
+      text-align:center;
+      letter-spacing: .2px;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.55);
+    }
+    .sc-card__unit{
+      font-size: 14px;
+      font-weight: 800;
+      opacity: .9;
+      margin-left: 8px;
+    }
+
+    /* Corner gold line accents */
+    .sc-corner{
+      position:absolute;
+      width: 26px;
+      height: 26px;
+      border: 2px solid rgba(210,173,86,0.95);
+      filter: drop-shadow(0 0 10px rgba(210,173,86,0.35));
+      pointer-events:none;
+    }
+    .sc-corner--tl{ top: 10px; left: 10px; border-right:0; border-bottom:0; border-top-left-radius: 10px; }
+    .sc-corner--tr{ top: 10px; right: 10px; border-left:0; border-bottom:0; border-top-right-radius: 10px; }
+    .sc-corner--bl{ bottom: 36px; left: 10px; border-right:0; border-top:0; border-bottom-left-radius: 10px; }
+    .sc-corner--br{ bottom: 36px; right: 10px; border-left:0; border-top:0; border-bottom-right-radius: 10px; }
+
+    /* SEAL BADGE (scalloped edge + shine) */
+    .sc-seal{
+      position:absolute;
+      top: -18px;
+      right: -18px;
+      width: 102px;
+      height: 102px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 25%, #fff9d2 0%, #f2d583 38%, #cfa64a 100%);
+      border: 2px solid rgba(150,110,35,0.35);
+      box-shadow: 0 16px 30px rgba(0,0,0,0.18);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      isolation: isolate;
+    }
+
+    /* scalloped illusion */
+    .sc-seal::before{
+      content:"";
+      position:absolute;
+      inset:-12px;
+      background:
+        radial-gradient(circle, rgba(0,0,0,0.0) 58%, rgba(0,0,0,0.0) 59%, rgba(0,0,0,0.0) 60%),
+        radial-gradient(circle, rgba(255,255,255,0.0) 54%, rgba(255,255,255,0.0) 55%, rgba(255,255,255,0.0) 56%);
+      box-shadow:
+        0 0 0 10px rgba(0,0,0,0.0);
+      /* dotted scallop edge via repeating radial */
+      background-image: radial-gradient(circle, rgba(255,255,255,0.0) 58%, rgba(0,0,0,0.0) 59%),
+                        radial-gradient(circle, rgba(255,255,255,0.0) 58%, rgba(0,0,0,0.0) 59%),
+                        radial-gradient(circle, rgba(255,255,255,0.0) 58%, rgba(0,0,0,0.0) 59%);
+    }
+
+    /* More reliable scallop: overlay ring */
+    .sc-seal::after{
+      content:"";
+      position:absolute;
+      inset:-8px;
+      background: radial-gradient(circle, transparent 63%, rgba(205,164,74,0.20) 64% 70%, transparent 71%);
+      opacity:.8;
+      transform: rotate(8deg);
+      pointer-events:none;
+    }
+
+    /* Shine sweep badge */
+    .sc-seal .sc-seal__inner::after{
+      content:"";
+      position:absolute;
+      inset:-10px;
+      background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.55) 50%, transparent 65%);
+      transform: translateX(-140%);
+      animation: scBadgeShine 5.2s ease-in-out infinite;
+      pointer-events:none;
+      opacity:.6;
+      mix-blend-mode: screen;
+    }
+    @keyframes scBadgeShine{
+      0%{ transform: translateX(-140%); }
+      55%{ transform: translateX(140%); }
+      100%{ transform: translateX(140%); }
+    }
+
+    .sc-seal__inner{
+      position:relative;
+      z-index:2;
+      width: 78px;
+      text-align:center;
+      font-size: 10px;
+      font-weight: 900;
+      color:#0b1f33;
+      line-height: 1.15;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.35);
+    }
+
+    /* RIBBON with tails + shine */
+    .sc-ribbon{
+      position:absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -18px;
+      background: linear-gradient(180deg, #f6de97 0%, #d4af63 100%);
+      border: 2px solid rgba(150,110,35,0.35);
+      border-radius: 10px;
+      padding: 12px 20px;
+      min-width: 360px;
+      text-align:center;
+      box-shadow:
+        0 16px 28px rgba(0,0,0,0.16),
+        inset 0 1px 0 rgba(255,255,255,0.55);
+      overflow:hidden;
+      isolation:isolate;
+    }
+
+    /* Ribbon tails */
+    .sc-ribbon::before,
+    .sc-ribbon::after{
+      content:"";
+      position:absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 26px;
+      background: linear-gradient(180deg, #f2d583 0%, #cfa64a 100%);
+      border: 2px solid rgba(150,110,35,0.25);
+      z-index: -1;
+    }
+    .sc-ribbon::before{
+      left: -12px;
+      border-right: 0;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+      clip-path: polygon(0 0, 100% 0, 75% 50%, 100% 100%, 0 100%);
+    }
+    .sc-ribbon::after{
+      right: -12px;
+      border-left: 0;
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+      clip-path: polygon(100% 0, 0 0, 25% 50%, 0 100%, 100% 100%);
+    }
+
+    /* Ribbon shine */
+    .sc-ribbon::marker{ content:""; }
+    .sc-ribbon .sc-ribbon__text::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.45) 50%, transparent 65%);
+      transform: translateX(-140%);
+      animation: scRibbonShine 4.6s ease-in-out infinite;
+      pointer-events:none;
+      opacity:.55;
+      mix-blend-mode: screen;
+    }
+    @keyframes scRibbonShine{
+      0%{ transform: translateX(-140%); }
+      55%{ transform: translateX(140%); }
+      100%{ transform: translateX(140%); }
+    }
+
+    .sc-ribbon__text{
+      position:relative;
+      margin: 0;
+      font-size: 13px;  /* H3 format */
+      font-weight: 900; /* premium */
+      color: #0b1f33;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.35);
+      line-height: 1.25;
+    }
+
+    @media (max-width: 900px){
+      .sc-card{ min-width: 280px; }
+      .sc-card--gold{ min-width: 330px; }
+      .sc-ribbon{ min-width: 280px; }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "SelFish Pricing",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Pricing Section" },
+
+    { "type": "text", "id": "month_price", "label": "Month Price", "default": "₹249" },
+    { "type": "text", "id": "month_unit", "label": "Month Unit", "default": "month" },
+
+    { "type": "text", "id": "year_price", "label": "Year Price", "default": "₹1999" },
+    { "type": "text", "id": "year_unit", "label": "Year Unit", "default": "year" },
+
+    {
+      "type": "textarea",
+      "id": "badge_text",
+      "label": "Badge Text (includes 167 note)",
+      "default": "Just 167rs\nper month\npaid annually"
+    },
+
+    {
+      "type": "text",
+      "id": "ribbon_text",
+      "label": "Ribbon Text (H3)",
+      "default": "100% of joining fee credited as SelFish Credits for the first 100 members"
+    }
+  ],
+  "presets": [
+    { "name": "SelFish Pricing" }
+  ]
+}
+{% endschema %}

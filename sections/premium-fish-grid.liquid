@@ -1,0 +1,106 @@
+{% schema %}
+{
+  "name": "Premium Fish Grid",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "fish_item",
+      "name": "Fish Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "fish_image",
+          "label": "Fish Image"
+        },
+        {
+          "type": "text",
+          "id": "fish_name",
+          "label": "Fish Name",
+          "default": "Fish Name"
+        },
+        {
+          "type": "url",
+          "id": "fish_link",
+          "label": "Link (PDF or Collection)"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 30,
+  "presets": [
+    {
+      "name": "Premium Fish Grid"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+.premium-grid-wrapper {
+  padding: 30px 15px;
+}
+
+.premium-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 25px;
+  text-align: center;
+}
+
+/* clickable item */
+.premium-item {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* image container */
+.premium-img-box {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+/* image */
+.premium-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+/* hover zoom */
+.premium-item:hover img {
+  transform: scale(1.12);
+}
+
+/* name */
+.premium-item p {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #111;
+  letter-spacing: 0.3px;
+}
+</style>
+
+<div class="premium-grid-wrapper">
+  <div class="premium-grid">
+    {% for block in section.blocks %}
+      <a href="{{ block.settings.fish_link }}" class="premium-item">
+        
+        <div class="premium-img-box">
+          {% if block.settings.fish_image != blank %}
+            <img 
+              src="{{ block.settings.fish_image | image_url: width: 300 }}" 
+              alt="{{ block.settings.fish_name }}">
+          {% endif %}
+        </div>
+
+        <p>{{ block.settings.fish_name }}</p>
+
+      </a>
+    {% endfor %}
+  </div>
+</div>

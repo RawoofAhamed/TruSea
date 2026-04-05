@@ -1,0 +1,261 @@
+<div class="selfish-compare page-width">
+  <h2 class="compare-title">{{ section.settings.heading }}</h2>
+
+  <div class="compare-table">
+    <table>
+      <thead>
+        <tr>
+          <th class="left-head"></th>
+          <th>{{ section.settings.club_title }}</th>
+          <th>{{ section.settings.normal_title }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for block in section.blocks %}
+          <tr {{ block.shopify_attributes }}>
+            <td class="feature">{{ block.settings.feature }}</td>
+
+        <td>
+  {% if block.settings.club_value == 'yes' %}
+    <span class="sc-pill sc-pill--gold"><span class="sc-tick"></span></span>
+  {% elsif block.settings.club_value == 'no' %}
+    <span class="sc-pill sc-pill--grey"><span class="sc-x">×</span></span>
+  {% else %}
+    <span class="sc-pill sc-pill--gold">{{ block.settings.club_value }}</span>
+  {% endif %}
+</td>
+
+<td>
+  {% if block.settings.normal_value == 'yes' %}
+    <span class="sc-pill sc-pill--gold"><span class="sc-tick"></span></span>
+  {% elsif block.settings.normal_value == 'no' %}
+    <span class="sc-pill sc-pill--grey"><span class="sc-x">×</span></span>
+  {% else %}
+    <span class="sc-pill sc-pill--gold">{{ block.settings.normal_value }}</span>
+  {% endif %}
+</td>
+
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{%- comment -%}
+  Inline "pill" renderer (no separate snippet needed).
+{%- endcomment -%}
+{% capture _pill_renderer %}
+{% endcapture %}
+
+<style>
+/* ===== WRAP ===== */
+.selfish-compare {
+  margin: 40px auto;
+}
+
+.compare-title {
+  text-align: center;
+  margin: 0 0 18px;
+}
+
+/* ===== TABLE BASE ===== */
+.compare-table {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #d9e2ef;
+  background: #f6fbff;
+}
+
+.compare-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.compare-table th,
+.compare-table td {
+  padding: 16px 18px;
+  text-align: center;
+  border-bottom: 1px solid #d9e2ef;
+  background: transparent;
+}
+
+.compare-table thead th {
+  background: #f0f7ff;
+  font-weight: 700;
+}
+
+.compare-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.compare-table td.feature {
+  text-align: left;
+  font-weight: 500;
+  color: #0d2b44;
+  background: rgba(255,255,255,0.55);
+}
+
+/* ===== PILL (ONLY the icon/text is gold) ===== */
+.sc-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* Gold for YES / 10% / custom */
+.sc-pill--gold {
+  background: linear-gradient(180deg, #f6de97 0%, #d4af63 100%);
+  color: #081421;
+  box-shadow:
+    0 10px 22px rgba(212,175,99,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.45);
+  border: 1px solid rgba(150,110,35,0.25);
+}
+
+/* Grey for NO */
+.sc-pill--grey {
+  background: rgba(15,35,55,0.06);
+  color: rgba(15,35,55,0.55);
+  border: 1px solid rgba(15,35,55,0.12);
+}
+
+/* Make tick look premium (no emoji) */
+.sc-tick {
+  width: 14px;
+  height: 8px;
+  border-left: 3px solid currentColor;
+  border-bottom: 3px solid currentColor;
+  transform: rotate(-45deg);
+  margin-top: -2px;
+}
+
+/* Cross */
+.sc-x {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Hover slight shine */
+.compare-table tbody tr:hover .sc-pill--gold {
+  box-shadow:
+    0 14px 28px rgba(212,175,99,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.55);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .compare-table th,
+  .compare-table td {
+    padding: 14px 12px;
+  }
+  .compare-table td.feature {
+    font-size: 14px;
+  }
+}
+</style>
+
+{%- comment -%}
+  Liquid helper: render pill based on value
+{%- endcomment -%}
+{% liquid
+  # noop - just to keep editor happy
+%}
+
+{%- capture __PILL__ -%}{%- endcapture -%}
+
+{% for block in section.blocks %}{% endfor %}
+
+{% schema %}
+{
+  "name": "SelFish Comparison",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Comparison Table"
+    },
+    {
+      "type": "text",
+      "id": "club_title",
+      "label": "Club Column Title",
+      "default": "SelFish Club Member"
+    },
+    {
+      "type": "text",
+      "id": "normal_title",
+      "label": "Normal Column Title",
+      "default": "Regular Customer"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Feature Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature",
+          "label": "Feature Text",
+          "default": "Early Access to Fresh Catch"
+        },
+        {
+          "type": "select",
+          "id": "club_value",
+          "label": "Club Value",
+          "options": [
+            { "value": "yes", "label": "Yes (Gold Tick)" },
+            { "value": "no", "label": "No (Grey X)" },
+            { "value": "10%", "label": "10% (Gold)" },
+            { "value": "None", "label": "None (Text)" }
+          ],
+          "default": "yes"
+        },
+        {
+          "type": "select",
+          "id": "normal_value",
+          "label": "Normal Value",
+          "options": [
+            { "value": "yes", "label": "Yes (Gold Tick)" },
+            { "value": "no", "label": "No (Grey X)" },
+            { "value": "10%", "label": "10% (Gold)" },
+            { "value": "None", "label": "None (Text)" }
+          ],
+          "default": "no"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SelFish Comparison",
+      "blocks": [
+        { "type": "row" },
+        { "type": "row" },
+        { "type": "row" },
+        { "type": "row" },
+        { "type": "row" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% comment %}
+INLINE renderer without snippet:
+We can't truly "render" a function in Liquid, so we output it inline below by repeating logic.
+{% endcomment %}
+
+{% style %}{% endstyle %}
+
+{% comment %} -- nothing below -- {% endcomment %}

@@ -1,0 +1,550 @@
+/* ============================================================
+   Fresh Ocean Harvest — Homepage Stylesheet
+   File: assets/ocean-homepage.css
+   ============================================================ */
+
+/* ---- Google Fonts Import ---- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap');
+
+/* ---- CSS Variables ---- */
+:root {
+  --ocean-deep:    #0d3d6e;
+  --ocean-mid:     #1a6ea8;
+  --ocean-light:   #d8eeff;
+  --ocean-pale:    #f0f8ff;
+  --coral:         #e05f3d;
+  --sand:          #f5f0e8;
+  --white:         #ffffff;
+  --text-dark:     #1a2433;
+  --text-mid:      #4a5568;
+  --green-seaweed: #2d7a4f;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Lato', Arial, sans-serif;
+}
+
+/* ---- Base Reset ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-body); color: var(--text-dark); background: var(--white); overflow-x: hidden; }
+img  { max-width: 100%; display: block; }
+a    { text-decoration: none; color: inherit; }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---- Buttons ---- */
+.btn-primary {
+  display: inline-block;
+  background: var(--ocean-deep);
+  color: var(--white);
+  padding: 14px 32px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.2s;
+}
+.btn-primary:hover { background: var(--ocean-mid); transform: translateY(-2px); }
+
+.btn-secondary {
+  display: inline-block;
+  background: var(--ocean-mid);
+  color: var(--white);
+  padding: 10px 22px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+.btn-secondary:hover { background: var(--ocean-deep); }
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+.hero-section {
+  background: linear-gradient(135deg, rgba(10, 77, 104, 1), rgba(10, 81, 157, 1) 50%, rgba(5, 191, 219, 1) 100%);
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 60px 40px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 35px;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(255,255,255,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-content {
+  max-width: 420px;
+  z-index: 2;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 5vw, 68px);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.05;
+  letter-spacing: -1px;
+  margin-bottom: 18px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.25);
+}
+
+.hero-subtitle {
+  color: rgba(255,255,255,0.88);
+  font-size: 15px;
+  line-height: 1.65;
+  margin-bottom: 36px;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+}
+
+.hero-image {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  width: 48%;
+  max-width: 450px;
+}
+
+.hero-image > img {
+  width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 60px rgba(0,0,0,0.35));
+  animation: floatUp 6s ease-in-out infinite;
+}
+
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+.hero-decorative {
+  position: absolute;
+  opacity: 0.35;
+  pointer-events: none;
+}
+.hero-lobster-left { top: -20px; left: -60px; width: 140px; }
+.hero-fish-right   { bottom: 0; right: -40px; width: 120px; }
+
+/* ============================================================
+   WAVE DIVIDERS
+   ============================================================ */
+.wave-divider {
+  width: 100%;
+  line-height: 0;
+  overflow: hidden;
+  background: var(--ocean-pale);
+
+  position: absolute;
+    bottom: 0;
+    height: 80px;
+    left: 0px;
+}
+.wave-divider.top    {
+   background: transparent;
+    margin-top: -2px; 
+  }
+.wave-divider.middle { background: var(--white); margin-top: -2px; }
+.wave-divider.blue-bg { background: var(--white); margin-top: -2px; }
+.wave-divider svg { width: 100%; height: 80px; }
+
+/* ============================================================
+   WEEKLY DEALS SECTION
+   ============================================================ */
+.weekly-deals-section {
+  background: var(--white);
+  padding: 60px 0 50px;
+}
+
+.weekly-deals-section .container {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 28px;
+}
+
+.deals-grid {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.deal-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: var(--ocean-pale);
+  border: 1px solid #d8eeff;
+  border-radius: 6px;
+  padding: 14px;
+  width: 100px;
+  font-size: 11px;
+  color: var(--text-mid);
+  text-align: center;
+  transition: box-shadow 0.2s;
+}
+.deal-card:hover { box-shadow: 0 4px 18px rgba(13,61,110,0.12); }
+.deal-card img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; }
+
+.oysters-feature {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+.oysters-img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 8px 30px rgba(13,61,110,0.18);
+  flex-shrink: 0;
+}
+
+.oysters-info h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--text-dark);
+}
+.oysters-info p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-mid);
+}
+
+/* ============================================================
+   FEATURED PRODUCTS
+   ============================================================ */
+.featured-products-section {
+  background: var(--ocean-pale);
+  padding: 70px 0;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.product-card {
+  background: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(13,61,110,0.08);
+  transition: transform 0.25s, box-shadow 0.25s;
+  position: relative;
+}
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 40px rgba(13,61,110,0.16);
+}
+
+.product-image-wrap {
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  background: var(--ocean-pale);
+}
+.product-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+.product-card:hover .product-image-wrap img { transform: scale(1.05); }
+
+.seaweed-decoration {
+  position: absolute;
+  bottom: 90px;
+  left: 12px;
+  opacity: 0.6;
+}
+
+.product-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  padding: 16px 16px 4px;
+  color: var(--text-dark);
+}
+
+.product-desc {
+  font-size: 12px;
+  color: var(--text-mid);
+  padding: 0 16px 8px;
+}
+
+.product-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px 16px;
+}
+
+.product-label {
+  font-size: 11px;
+  color: var(--text-mid);
+}
+
+.product-price {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ocean-deep);
+  flex: 1;
+}
+
+/* ============================================================
+   RECIPE BANNER
+   ============================================================ */
+.recipe-banner-section {
+  background: linear-gradient(120deg, #d8eeff 0%, #eaf5ff 100%);
+  padding: 60px 0;
+}
+
+.recipe-inner {
+  display: grid;
+  grid-template-columns: 220px 1fr 100px;
+  gap: 40px;
+  align-items: center;
+}
+
+.recipe-image img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 10px 40px rgba(13,61,110,0.2);
+}
+
+.recipe-content h2 {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 900;
+  color: var(--text-dark);
+  line-height: 1.15;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.recipe-content p {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.7;
+  max-width: 400px;
+}
+
+.recipe-icon {
+  display: flex;
+  justify-content: center;
+  opacity: 0.55;
+}
+
+/* ============================================================
+   CONDIMENTS SECTION
+   ============================================================ */
+.condiments-section {
+  background: var(--white);
+  padding: 60px 0;
+  border-top: 1px solid var(--ocean-light);
+}
+
+.condiments-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.condiment-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.condiment-item:last-child { margin-bottom: 0; }
+.condiment-item img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--ocean-light);
+}
+.condiment-item strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+.condiment-item p {
+  font-size: 12px;
+  color: var(--text-mid);
+  line-height: 1.5;
+}
+
+.condiments-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: var(--ocean-mid);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.condiments-cta h2 {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--text-dark);
+  margin-bottom: 22px;
+}
+
+.condiments-bottles img {
+  max-height: 260px;
+  width: auto;
+  margin: 0 auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 30px rgba(0,0,0,0.15));
+}
+
+/* ============================================================
+   OCEAN FRESH SECTION
+   ============================================================ */
+.ocean-fresh-section {
+  background: var(--ocean-deep);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 320px;
+  overflow: hidden;
+  position: relative;
+}
+
+.ocean-fresh-image {
+  overflow: hidden;
+}
+.ocean-fresh-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.75;
+}
+
+.ocean-fresh-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 60px 60px 48px;
+}
+
+.sparkle-icon {
+  font-size: 28px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 12px;
+}
+
+.ocean-fresh-content h2 {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 36px);
+  font-weight: 900;
+  color: var(--white);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  line-height: 1.1;
+}
+
+.ocean-fresh-content p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.7;
+  max-width: 380px;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+  background: var(--ocean-deep);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 20px 80px;
+}
+
+.footer-inner {
+  display: flex;
+  gap: 40px;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-inner a {
+  color: rgba(255,255,255,0.65);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+}
+.footer-inner a:hover { color: var(--white); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .hero-section          { padding: 48px 40px 72px; }
+  .products-grid         { grid-template-columns: repeat(2, 1fr); }
+  .condiments-inner      { grid-template-columns: 1fr 1fr; }
+  .condiments-bottles    { display: none; }
+}
+
+@media (max-width: 768px) {
+  .hero-section          { flex-direction: column; padding: 48px 24px 56px; text-align: center; }
+  .hero-image            { width: 100%; max-width: 380px; margin-top: 32px; }
+  .weekly-deals-section .container { grid-template-columns: 1fr; gap: 36px; }
+  .oysters-feature       { flex-direction: column; text-align: center; }
+  .products-grid         { grid-template-columns: 1fr; }
+  .recipe-inner          { grid-template-columns: 1fr; text-align: center; }
+  .recipe-image          { display: flex; justify-content: center; }
+  .recipe-icon           { display: none; }
+  .condiments-inner      { grid-template-columns: 1fr; }
+  .ocean-fresh-section   { grid-template-columns: 1fr; }
+  .ocean-fresh-image     { height: 240px; }
+  .ocean-fresh-content   { padding: 40px 24px; }
+  .site-footer           { padding: 20px 24px; }
+  .footer-inner          { justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  .hero-title { font-size: 38px; }
+  .products-grid { gap: 18px; }
+}

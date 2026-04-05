@@ -1,0 +1,125 @@
+{% comment %}
+  TruSea – Image + Rich Text Content Section
+  Left Image | Right Content
+  Shopify richtext safe
+{% endcomment %}
+
+<section class="trusea-image-text">
+  <div class="page-width">
+    <div class="trusea-image-text-wrapper">
+
+      {% if section.settings.image != blank %}
+        <div class="trusea-image-side">
+          <img
+            src="{{ section.settings.image | image_url: width: 1200 }}"
+            alt="{{ section.settings.heading | escape }}"
+            loading="lazy"
+          >
+        </div>
+      {% endif %}
+
+      <div class="trusea-text-side">
+        {% if section.settings.heading != blank %}
+          <h2 class="trusea-text-heading">
+            {{ section.settings.heading }}
+          </h2>
+        {% endif %}
+
+        {% if section.settings.description != blank %}
+          <div class="trusea-text-description rte">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+.trusea-image-text {
+  padding: 20px 0;
+}
+
+.trusea-image-text-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.trusea-image-side img {
+  width: 85%;
+  height: auto;
+  border-radius: 22px;
+  display: block;
+}
+
+.trusea-text-heading {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+/* Richtext safe styling */
+.trusea-text-description p {
+  margin-bottom: 14px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #555;
+}
+
+.trusea-text-description strong {
+  font-weight: 600;
+}
+
+.trusea-text-description h3 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .trusea-image-text {
+    padding: 40px 0;
+  }
+
+  .trusea-image-text-wrapper {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .trusea-text-heading {
+    font-size: 26px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Image + Content Slide",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Left Side Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "The TruSea Promise"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Content",
+      "default": "<p><strong>Cold-Chain Freshness</strong><br>From shore to warehouse, freshness is locked.</p><p><strong>Quality & Hygiene Checked</strong><br>100% formalin-free seafood, safety ensured.</p><p><strong>Premium Packing Protection</strong><br>Leak-proof, food-grade packaging.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image + Content Slide"
+    }
+  ]
+}
+{% endschema %}

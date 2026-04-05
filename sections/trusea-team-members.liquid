@@ -1,0 +1,159 @@
+<section class="trusea-team">
+  <div class="page-width">
+    {% if section.settings.heading != blank %}
+      <h2 class="trusea-team-title">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.subtext != blank %}
+      <div class="trusea-team-sub rte">{{ section.settings.subtext }}</div>
+    {% endif %}
+
+    <div class="trusea-team-grid">
+      {% for block in section.blocks %}
+        <div class="trusea-member" {{ block.shopify_attributes }}>
+          <div class="trusea-member-img">
+            {% if block.settings.photo != blank %}
+              {{ block.settings.photo | image_url: width: 800 | image_tag: loading: 'lazy', alt: block.settings.name }}
+            {% else %}
+              <div class="trusea-member-placeholder">Add photo</div>
+            {% endif %}
+          </div>
+
+          <div class="trusea-member-body">
+            <h3 class="trusea-member-name">{{ block.settings.name }}</h3>
+            <p class="trusea-member-role">{{ block.settings.role }}</p>
+            <div class="trusea-member-bio rte">{{ block.settings.bio }}</div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <style>
+    .trusea-team{
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      background: {{ section.settings.bg_color }};
+    }
+    .trusea-team-title{
+      text-align:center;
+      margin: 0 0 8px;
+      font-weight: 800;
+    }
+    .trusea-team-sub{
+      text-align:center;
+      max-width: 900px;
+      margin: 0 auto 18px;
+      color: rgba(13,43,68,0.85);
+    }
+
+    .trusea-team-grid{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .trusea-member{
+      border-radius: 14px;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(15,35,55,0.14);
+      box-shadow: 0 12px 22px rgba(0,30,60,0.10);
+      overflow:hidden;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .trusea-member:hover{
+      transform: translateY(-2px);
+      border-color: rgba(210,173,86,0.35);
+      box-shadow: 0 16px 30px rgba(0,30,60,0.12), 0 0 18px rgba(210,173,86,0.10);
+    }
+
+    .trusea-member-img{
+      aspect-ratio: 1 / 1;
+      background: #eaf3ff;
+      overflow:hidden;
+    }
+    .trusea-member-img img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+    }
+    .trusea-member-placeholder{
+      width:100%;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color: rgba(13,43,68,0.6);
+      font-weight: 700;
+    }
+
+    .trusea-member-body{
+      padding: 14px 14px 16px;
+      text-align: center;
+    }
+    .trusea-member-name{
+      margin: 0;
+      font-size: 16px;
+      font-weight: 800;
+      color: #0b1f33;
+    }
+    .trusea-member-role{
+      margin: 6px 0 10px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: rgba(13,43,68,0.65);
+    }
+    .trusea-member-bio{
+      font-size: 13px;
+      line-height: 1.6;
+      color: rgba(13,43,68,0.85);
+    }
+    .trusea-member-bio p{ margin: 0 0 10px; }
+
+    @media (max-width: 990px){
+      .trusea-team-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px){
+      .trusea-team-grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "TruSea About - Team",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Our Team" },
+    { "type": "richtext", "id": "subtext", "label": "Subtext", "default": "<p>The people behind TruSea.</p>" },
+    { "type": "color", "id": "bg_color", "label": "Background color", "default": "#eef6ff" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 80, "step": 4, "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 80, "step": 4, "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "member",
+      "name": "Team member",
+      "settings": [
+        { "type": "image_picker", "id": "photo", "label": "Photo" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Name" },
+        { "type": "text", "id": "role", "label": "Role", "default": "CEO" },
+        { "type": "richtext", "id": "bio", "label": "Bio", "default": "<p>Short bio (2–3 lines).</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TruSea About - Team",
+      "blocks": [
+        { "type": "member", "settings": { "role": "CEO" } },
+        { "type": "member", "settings": { "role": "President" } },
+        { "type": "member", "settings": { "role": "Operations" } },
+        { "type": "member", "settings": { "role": "Quality & Safety" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

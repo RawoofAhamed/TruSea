@@ -1,0 +1,91 @@
+<section
+  class="selfish-hero"
+  style="background-image:url('{{ section.settings.bg_image | image_url: width: 2000 }}');"
+>
+  <div class="selfish-hero-content">
+    <div class="selfish-title">
+      {{ section.settings.title }}
+    </div>
+
+    <div class="selfish-tagline">
+      {{ section.settings.tagline }}
+    </div>
+
+    <div class="selfish-btn-group">
+      <a href="#selfish-pricing" class="selfish-btn">
+        {{ section.settings.plan_text }}
+      </a>
+      <a href="#selfish-faqs" class="selfish-btn">
+        {{ section.settings.faq_text }}
+      </a>
+      <a href="{{ section.settings.whatsapp_link }}" target="_blank" class="selfish-btn">
+        {{ section.settings.whatsapp_text }}
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SelFish Club Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Banner Background Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "SelFish Club"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Once you taste our fish, your tongue wants more"
+    },
+    {
+      "type": "text",
+      "id": "plan_text",
+      "label": "Membership Button Text",
+      "default": "Membership Plans"
+    },
+    {
+      "type": "text",
+      "id": "plan_anchor",
+      "label": "Membership Section ID",
+      "default": "plans"
+    },
+    {
+      "type": "text",
+      "id": "faq_text",
+      "label": "FAQ Button Text",
+      "default": "FAQs"
+    },
+    {
+      "type": "text",
+      "id": "faq_anchor",
+      "label": "FAQ Section ID",
+      "default": "faq"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_text",
+      "label": "WhatsApp Button Text",
+      "default": "Join on WhatsApp"
+    },
+    {
+      "type": "url",
+      "id": "whatsapp_link",
+      "label": "WhatsApp Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SelFish Club – Premium Banner"
+    }
+  ]
+}
+{% endschema %}

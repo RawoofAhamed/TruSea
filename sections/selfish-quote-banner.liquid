@@ -1,0 +1,91 @@
+<section class="sc-quote">
+  <div class="sc-quote__wrap page-width">
+    <div class="sc-quote__box">
+      <p class="sc-quote__text">{{ section.settings.quote }}</p>
+
+      {% if section.settings.subtext != blank %}
+        <p class="sc-quote__sub">{{ section.settings.subtext }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <style>
+    .sc-quote{
+      padding: 40px 0;
+      background: transparent;
+    }
+
+    .sc-quote__wrap{
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .sc-quote__box{
+      border-radius: 12px;
+      padding: 32px 24px;
+
+      /* Same theme as main SelFish banner */
+      background: linear-gradient(135deg, #071a2a 0%, #0a2236 50%, #071a2a 100%);
+
+      border: 1px solid rgba(255,255,255,0.12);
+
+      box-shadow:
+        0 16px 32px rgba(0,0,0,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .sc-quote__text{
+      margin: 0;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 800;
+
+      /* Gold color like SelFish title */
+      color: #f2d583;
+
+      text-shadow:
+        0 0 10px rgba(212,175,99,0.25),
+        0 1px 0 rgba(0,0,0,0.30);
+
+      line-height: 1.35;
+    }
+
+    .sc-quote__sub{
+      margin: 8px 0 0;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: .6px;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 768px){
+      .sc-quote__box{ padding: 26px 16px; }
+      .sc-quote__text{ font-size: 18px; }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "SelFish Quote Banner",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote Text",
+      "default": "Not everyone deserves the best catch.\\nSelFish Club members do."
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Small Subtext (optional)",
+      "default": "TRUFISH"
+    }
+  ],
+  "presets": [
+    { "name": "SelFish Quote Banner" }
+  ]
+}
+{% endschema %}

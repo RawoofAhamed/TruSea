@@ -1,0 +1,440 @@
+<section class="trusea-why-love">
+  <div class="page-width trusea-why-love-inner">
+
+    <!-- Left Image (unchanged) -->
+    <div class="trusea-why-image">
+      {% if section.settings.main_image != blank %}
+        <img 
+          src="{{ section.settings.main_image | image_url: width: 800 }}" 
+          alt="Why TruSea Fish"
+          loading="lazy"
+        >
+      {% endif %}
+    </div>
+
+    <!-- Right Content -->
+    <div class="trusea-why-content">
+
+      <div class="trusea-why-eyebrow">
+        <span class="trusea-why-eyebrow-line"></span>
+        {% comment %} <span class="trusea-why-eyebrow-text">Why Choose Us</span> {% endcomment %}
+      </div>
+
+      <h2 class="trusea-why-heading">
+        {{ section.settings.heading }}
+      </h2>
+
+      <div class="trusea-why-features">
+
+        <div class="trusea-why-feature">
+          <div class="trusea-why-icon-wrap">🧪</div>
+          <div class="trusea-why-feature-text">
+            <h4>100% Formalin Free</h4>
+            <p>No shortcuts. Every batch is checked so your seafood stays clean, safe, and worry-free.</p>
+          </div>
+        </div>
+
+        <div class="trusea-why-feature">
+          <div class="trusea-why-icon-wrap">🌊</div>
+          <div class="trusea-why-feature-text">
+            <h4>Ocean-Fresh Taste</h4>
+            <p>Time-stamped catch, cleaned fresh, delivered cold — your curry tastes like the coast.</p>
+          </div>
+        </div>
+
+        <div class="trusea-why-feature">
+          <div class="trusea-why-icon-wrap">❄️</div>
+          <div class="trusea-why-feature-text">
+            <h4>Cold-Chain Crafted</h4>
+            <p>From shore to doorstep — insulated packing + ice keeps it fresh always.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* ── TOKENS ─────────────────────────────────────────── */
+  .trusea-why-love {
+    --navy:      #0B2033;
+    --teal:      #2A9D8F;
+    --teal-light:#3ABFB0;
+    --teal-pale: #E8F6F5;
+    --cream:     #FAF7F2;
+    --white:     #FFFFFF;
+    --text-mid:  #4A6070;
+    --text-light:#8DA0AD;
+    --border:    rgba(11,32,51,0.08);
+
+    /* Inherit theme fonts — set by Shopify via Settings > Typography */
+    --f-heading: var(--font-heading-family, var(--font-stack-heading, inherit));
+    --f-body:    var(--font-body-family, var(--font-stack-body, inherit));
+    padding: 80px 0;
+  }
+
+  /* ── LAYOUT ──────────────────────────────────────────── */
+  .trusea-why-love-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 72px;
+    align-items: center;
+  }
+
+  /* ── IMAGE (structure untouched) ─────────────────────── */
+  .trusea-why-image img {
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    border-radius: 20px;
+    box-shadow: 0 40px 60px rgba(11,32,51,0.12);
+  }
+
+  /* ── EYEBROW ─────────────────────────────────────────── */
+  .trusea-why-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: tsWhyUp 0.55s 0.1s ease forwards;
+  }
+  .trusea-why-eyebrow-line {
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: var(--teal);
+    flex-shrink: 0;
+  }
+  .trusea-why-eyebrow-text {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+
+  /* ── HEADING ─────────────────────────────────────────── */
+  .trusea-why-heading {
+    font-family: var(--f-heading);
+    font-size: clamp(2.6rem, 4vw, 4rem);
+    font-weight: 600;
+    line-height: 1.05;
+    color: var(--navy);
+    margin-bottom: 48px;
+    letter-spacing: -0.01em;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: tsWhyUp 0.6s 0.18s ease forwards;
+  }
+
+  /* ── FEATURES LIST ───────────────────────────────────── */
+  .trusea-why-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .trusea-why-feature {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 26px 20px;
+    border-bottom: 2px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-left: 0.5px solid var(--border);
+    border-radius: 16px;
+    position: relative;
+    cursor: default;
+    opacity: 0;
+    transform: translateX(-14px);
+    transition: background 0.25s;
+    margin-bottom: 4px;
+    margin-right: 4px;
+  }
+  .trusea-why-feature:first-child {
+    border-top: 1px solid var(--border);
+  }
+  .trusea-why-feature:hover {
+    background: var(--white);
+    box-shadow: 0 4px 24px rgba(11,32,51,0.07);
+    border-color: transparent;
+  }
+  .trusea-why-feature.tswy-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Teal accent bar on hover */
+  .trusea-why-feature::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px; bottom: 12px;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--teal), var(--teal-light));
+    border-radius: 2px;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s ease;
+  }
+  .trusea-why-feature:hover::before {
+    transform: scaleY(1);
+  }
+
+  /* Icon chip */
+  .trusea-why-icon-wrap {
+    width: 78px;
+    height: 78px;
+    flex-shrink: 0;
+    background: var(--teal-pale);
+    border: 1.5px solid rgba(42,157,143,0.25);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    transition: background 0.3s, transform 0.3s, border-color 0.3s;
+  }
+  .trusea-why-feature:hover .trusea-why-icon-wrap {
+    background: var(--teal);
+    border-color: var(--teal);
+    transform: scale(1.1) rotate(-5deg);
+  }
+
+  /* Text */
+  .trusea-why-feature-text h4 {
+    font-family: var(--f-heading);
+    font-size: 2.00rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin: 0 0 6px 0;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    transition: color 0.2s;
+  }
+  .trusea-why-feature:hover .trusea-why-feature-text h4 {
+    color: var(--teal);
+  }
+  .trusea-why-feature-text p {
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: var(--text-mid);
+    font-weight: 400;
+    max-width: 380px;
+  }
+
+  /* ── ANIMATION ───────────────────────────────────────── */
+  @keyframes tsWhyUp {
+    to { opacity: 1; transform: translate(0); }
+  }
+
+  /* ── MOBILE ──────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .trusea-why-love {
+      padding: 56px 0;
+    }
+    .trusea-why-love-inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      text-align: center;
+    }
+    .trusea-why-image img {
+      margin: 0 auto;
+    }
+    .trusea-why-eyebrow {
+      justify-content: center;
+    }
+    .trusea-why-heading {
+      font-size: clamp(2.2rem, 7vw, 3rem);
+    }
+    .trusea-why-feature {
+      text-align: left;
+      padding: 22px 16px;
+    }
+    .trusea-why-feature::before {
+      display: none;
+    }
+    .trusea-why-feature-text h4 {
+      font-size: 1.25rem;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  var features = document.querySelectorAll('.trusea-why-feature');
+  if (!features.length) return;
+
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var el = entry.target;
+        var i = Array.prototype.indexOf.call(features, el);
+        el.style.transition =
+          'opacity 0.5s ' + (0.12 + i * 0.12) + 's ease, ' +
+          'transform 0.5s ' + (0.12 + i * 0.12) + 's ease';
+        el.classList.add('tswy-visible');
+        obs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  features.forEach(function(f) { obs.observe(f); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Why You'll Love TruSea",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Left side image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why you'll love TruSea Fish"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why You'll Love TruSea"
+    }
+  ]
+}
+{% endschema %}
+
+
+{% comment %} <section class="trusea-why-love">
+  <div class="page-width trusea-why-love-inner">
+
+    <!-- Left Image -->
+    <div class="trusea-why-image">
+      {% if section.settings.main_image != blank %}
+        <img 
+          src="{{ section.settings.main_image | image_url: width: 800 }}" 
+          alt="Why TruSea Fish"
+          loading="lazy"
+        >
+      {% endif %}
+    </div>
+
+    <!-- Right Content -->
+    <div class="trusea-why-content">
+      <h2 class="trusea-why-heading">
+        {{ section.settings.heading }}
+      </h2>
+
+      <div class="trusea-why-box">
+        <h4>100% Formalin Free</h4>
+        <p>No shortcuts. Every batch is checked so your seafood stays clean, safe, and worry-free.</p>
+      </div>
+
+      <div class="trusea-why-box">
+        <h4>Ocean-Fresh Taste</h4>
+        <p>Time-stamped catch, cleaned fresh, delivered cold — your curry tastes like the coast.</p>
+      </div>
+
+      <div class="trusea-why-box">
+        <h4>Cold-Chain Crafted</h4>
+        <p>From shore to doorstep — insulated packing + ice keeps it fresh always.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+.trusea-why-love {
+  padding: 30px 0;
+}
+
+.trusea-why-love-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 50px;
+  align-items: center;
+}
+
+.trusea-why-image img {
+  width: 100%;
+  max-width: 420px;
+  display: block;
+}
+
+.trusea-why-heading {
+  font-size: 32px;
+  margin-bottom: 28px;
+  color: #0b2b3c;
+}
+
+.trusea-why-box {
+  background: #e3e3e1;
+  border: 2px solid #0b2b3c;
+  border-radius: 18px;
+  padding: 20px 20px;
+  margin-bottom: 18px;
+}
+
+.trusea-why-box h4 {
+  margin: 0 0 6px 0;
+  font-size: 18px;
+  color: #0b2b3c;
+}
+
+.trusea-why-box p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #0b2b3c;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .trusea-why-love-inner {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
+  }
+
+  .trusea-why-image img {
+    margin: 0 auto;
+  }
+
+  .trusea-why-box {
+    text-align: left;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Why You’ll Love TruSea",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Left side image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why you’ll love TruSea Fish"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why You’ll Love TruSea"
+    }
+  ]
+}
+{% endschema %} {% endcomment %}

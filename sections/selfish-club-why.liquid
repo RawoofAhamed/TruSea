@@ -1,0 +1,210 @@
+{% schema %}
+{
+  "name": "Why SelFish Club",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "Why SelFish Club"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Benefit Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Card title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description (Enter supported)",
+          "default": "Line one\nLine two\nLine three"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_exclusive",
+          "label": "Show Exclusive Tag",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_timer",
+          "label": "Show Timer Icon",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Why SelFish Club",
+      "blocks": [
+        { "type": "card" },
+        { "type": "card" },
+        { "type": "card" },
+        { "type": "card" },
+        { "type": "card" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<section class="selfish-section">
+  <div class="selfish-container">
+    <h2 class="selfish-heading">{{ section.settings.section_heading }}</h2>
+
+    <div class="selfish-grid">
+      {% for block in section.blocks %}
+        <div class="selfish-card" {{ block.shopify_attributes }}>
+          
+          <div class="card-image">
+            {% if block.settings.image %}
+              <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title }}">
+            {% endif %}
+
+            {% if block.settings.show_exclusive %}
+              <span class="exclusive-badge">Exclusive</span>
+            {% endif %}
+
+            {% if block.settings.show_timer %}
+              <span class="timer-badge">⏱</span>
+            {% endif %}
+          </div>
+
+          <h3 class="card-title">{{ block.settings.title }}</h3>
+
+          <p class="card-desc">
+            {{ block.settings.description | newline_to_br }}
+          </p>
+
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+/* SECTION */
+.selfish-section {
+  padding: 40px 0 20px;
+}
+
+.selfish-container {
+  max-width: 1400px;
+  margin: auto;
+  padding: 0 24px;
+}
+
+.selfish-heading {
+  text-align: center;
+  font-size: 34px;
+  margin-bottom: 32px;
+}
+
+/* GRID */
+.selfish-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 22px;
+}
+
+/* CARD */
+.selfish-card {
+  background: linear-gradient(180deg, #f6fbff 0%, #eef6ff 100%);
+  border: 1.5px solid #e8c97a;
+  border-radius: 20px;
+  padding: 22px 18px 20px;
+  text-align: center;
+  box-shadow: 0 10px 28px rgba(0, 30, 60, 0.12);
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* GOLD GLOW HOVER */
+.selfish-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top, rgba(232,201,122,0.35), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.selfish-card:hover::before {
+  opacity: 1;
+}
+
+.selfish-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 18px 40px rgba(0, 30, 60, 0.25),
+    0 0 28px rgba(232,201,122,0.6);
+}
+
+/* IMAGE */
+.card-image {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* 🔥 no cutting */
+  display: block;
+}
+
+/* BADGES */
+.exclusive-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(135deg, #f7d774, #caa64a);
+  color: #000;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  box-shadow: 0 0 12px rgba(232,201,122,0.8);
+}
+
+.timer-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 16px;
+  background: #fff;
+  border-radius: 50%;
+  padding: 4px 6px;
+}
+
+/* TEXT */
+.card-title {
+  font-size: 18px;
+  margin: 8px 0 8px;
+  text-align: center;
+}
+
+.card-desc {
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0;
+  text-align: center;
+}
+</style>

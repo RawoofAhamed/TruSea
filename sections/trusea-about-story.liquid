@@ -1,0 +1,58 @@
+<section class="ts-about">
+  <div class="page-width">
+
+    <h2 class="ts-title">{{ section.settings.title }}</h2>
+
+    <div class="ts-content rte">
+      {{ section.settings.content }}
+    </div>
+
+  </div>
+
+<style>
+.ts-about{
+  padding: 44px 0;
+  background: #eef6ff;
+}
+
+.ts-title{
+  text-align:center;
+  font-weight:800;
+  margin:0 0 14px;
+  color:#0b1f33;
+}
+
+.ts-content{
+  max-width:960px;
+  margin:0 auto;
+  font-size:16px;
+  line-height:1.75;
+  color:rgba(13,43,68,.9);
+}
+.ts-content p{ margin:0 0 14px; }
+</style>
+
+</section>
+
+{% schema %}
+{
+  "name": "TruSea – Story Block",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "The TruSea Promise"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>Write your story here...</p>"
+    }
+  ],
+  "presets": [
+    { "name": "TruSea – Story Block" }
+  ]
+}
+{% endschema %}

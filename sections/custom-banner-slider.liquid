@@ -1,0 +1,291 @@
+{% if section.blocks.size > 0 %}
+<section class="trusea-banner-slider">
+  <div class="slider-viewport">
+
+    <div class="slider-track">
+      {% for block in section.blocks %}
+        {% assign desktop_link = block.settings.link | default: '#' %}
+        {% assign mobile_link = block.settings.mobile_link | default: desktop_link %}
+
+        <a href="{{ mobile_link }}" class="slide" {{ block.shopify_attributes }}>
+          
+          <picture>
+            {% if block.settings.mobile_image != blank %}
+              <source 
+                media="(max-width: 768px)" 
+                srcset="{{ block.settings.mobile_image | image_url: width: 1200 }}">
+            {% endif %}
+
+            {% if block.settings.image != blank %}
+              <img
+                src="{{ block.settings.image | image_url: width: 2000 }}"
+                alt="{{ block.settings.image.alt | escape }}"
+                loading="lazy"
+              >
+            {% endif %}
+          </picture>
+
+        </a>
+      {% endfor %}
+    </div>
+
+    <button class="nav prev" aria-label="Previous slide">‹</button>
+    <button class="nav next" aria-label="Next slide">›</button>
+
+    <div class="slider-dots">
+      {% for block in section.blocks %}
+        <span class="dot {% if forloop.first %}active{% endif %}"></span>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+{% endif %}
+
+<style>
+
+.trusea-banner-slider{
+width:100%;
+overflow:hidden;
+}
+
+.slider-viewport{
+position:relative;
+width:100%;
+overflow:hidden;
+}
+
+.slider-track{
+display:flex;
+transition:transform .6s ease;
+will-change:transform;
+}
+
+.slide{
+min-width:100%;
+display:block;
+}
+
+.slide img{
+width:100%;
+height:auto;
+display:block;
+}
+
+/* arrows */
+
+.nav{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+background:rgba(0,0,0,.35);
+color:#fff;
+border:none;
+width:44px;
+height:44px;
+font-size:28px;
+cursor:pointer;
+z-index:5;
+}
+
+.nav.prev{
+left:10px;
+}
+
+.nav.next{
+right:10px;
+}
+
+.nav:hover{
+background:rgba(0,0,0,.6);
+}
+
+/* dots */
+
+.slider-dots{
+position:absolute;
+bottom:15px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+gap:8px;
+}
+
+.dot{
+width:10px;
+height:10px;
+border-radius:50%;
+background:rgba(255,255,255,.5);
+cursor:pointer;
+}
+
+.dot.active{
+background:#fff;
+}
+
+/* mobile */
+
+@media(max-width:768px){
+
+.nav{
+width:34px;
+height:34px;
+font-size:22px;
+}
+
+.slider-dots{
+bottom:10px;
+}
+
+}
+
+</style>
+
+<script>
+
+(function(){
+
+const slider=document.querySelector('.trusea-banner-slider');
+if(!slider) return;
+
+const track=slider.querySelector('.slider-track');
+const slides=slider.querySelectorAll('.slide');
+const next=slider.querySelector('.nav.next');
+const prev=slider.querySelector('.nav.prev');
+const dots=slider.querySelectorAll('.dot');
+
+let index=0;
+const total=slides.length;
+const intervalTime={{ section.settings.autoplay_speed | default: 4000 }};
+let auto;
+
+function update(){
+
+track.style.transform=`translateX(-${index*100}%)`;
+
+dots.forEach(d=>d.classList.remove('active'));
+dots[index].classList.add('active');
+
+}
+
+function nextSlide(){
+index=(index+1)%total;
+update();
+}
+
+function prevSlide(){
+index=(index-1+total)%total;
+update();
+}
+
+next.addEventListener('click',()=>{
+nextSlide();
+reset();
+});
+
+prev.addEventListener('click',()=>{
+prevSlide();
+reset();
+});
+
+dots.forEach((dot,i)=>{
+dot.addEventListener('click',()=>{
+index=i;
+update();
+reset();
+});
+});
+
+function start(){
+auto=setInterval(nextSlide,intervalTime);
+}
+
+function reset(){
+clearInterval(auto);
+start();
+}
+
+start();
+
+/* swipe mobile */
+
+let startX=0;
+
+track.addEventListener('touchstart',(e)=>{
+startX=e.touches[0].clientX;
+});
+
+track.addEventListener('touchend',(e)=>{
+
+let endX=e.changedTouches[0].clientX;
+
+if(startX-endX>50){
+nextSlide();
+}
+
+if(endX-startX>50){
+prevSlide();
+}
+
+});
+
+})();
+
+</script>
+
+{% schema %}
+{
+"name": "TruSea Banner Slider",
+"settings": [
+{
+"type": "range",
+"id": "autoplay_speed",
+"label": "Auto slide timing (ms)",
+"min": 2000,
+"max": 8000,
+"step": 500,
+"default": 4000
+}
+],
+"blocks": [
+{
+"type": "slide",
+"name": "Slide",
+"settings": [
+
+{
+"type": "image_picker",
+"id": "image",
+"label": "Desktop Banner Image"
+},
+
+{
+"type": "url",
+"id": "link",
+"label": "Desktop Banner Link"
+},
+
+{
+"type": "image_picker",
+"id": "mobile_image",
+"label": "Mobile Banner Image"
+},
+
+{
+"type": "url",
+"id": "mobile_link",
+"label": "Mobile Banner Link"
+}
+
+]
+}
+],
+"max_blocks": 6,
+"presets": [
+{
+"name": "TruSea Banner Slider",
+"category": "Image"
+}
+]
+}
+{% endschema %}

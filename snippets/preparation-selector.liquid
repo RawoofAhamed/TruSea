@@ -1,0 +1,211 @@
+{% comment %}
+  ============================================================
+  FILE: snippets/preparation-selector.liquid
+  
+  USAGE: Include this in your product template like:
+    {% render 'preparation-selector', product: product %}
+  
+  HOW IT WORKS:
+  - Reads product tags to know which category the product is
+  - Shows the relevant pill tabs for that product only
+  - Writes selection into the cart "note" field as a cutter instruction
+  - Uses Shopify's native cart note (no app needed)
+  ============================================================
+{% endcomment %}
+
+{% assign product_tags = product.tags | join: ',' | downcase %}
+
+{% assign is_lobster = false %}
+{% assign is_fish    = false %}
+{% assign is_clam    = false %}
+{% assign is_prawn   = false %}
+{% assign is_crab    = false %}
+{% assign is_squid   = false %}
+
+{% if product_tags contains 'lobster' %}{% assign is_lobster = true %}{% endif %}
+{% if product_tags contains 'fish'    %}{% assign is_fish    = true %}{% endif %}
+{% if product_tags contains 'clam'    %}{% assign is_clam    = true %}{% endif %}
+{% if product_tags contains 'prawn'   %}{% assign is_prawn   = true %}{% endif %}
+{% if product_tags contains 'crab'    %}{% assign is_crab    = true %}{% endif %}
+{% if product_tags contains 'squid'   %}{% assign is_squid   = true %}{% endif %}
+
+{% if is_lobster or is_fish or is_clam or is_prawn or is_crab or is_squid %}
+
+<div class="prep-selector" id="prep-selector-{{ product.id }}">
+  <p class="prep-selector__heading">Preparation Preference</p>
+
+  {% if is_lobster %}
+  <div class="prep-selector__group">
+    <span class="prep-selector__label">🦞 Preparation Type</span>
+    <div class="prep-pills" data-group="Lobster Prep">
+      <button type="button" class="prep-pill" data-value="Live Whole">Live Whole</button>
+      <button type="button" class="prep-pill" data-value="Cleaned &amp; Cut">Cleaned &amp; Cut</button>
+      <button type="button" class="prep-pill" data-value="Butterfly">Butterfly</button>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if is_fish %}
+  <div class="prep-selector__group">
+    <span class="prep-selector__label">🐟 Cut Type</span>
+    <div class="prep-pills" data-group="Fish Cut">
+      <button type="button" class="prep-pill" data-value="Curry Cut">Curry Cut</button>
+      <button type="button" class="prep-pill" data-value="Fry Cut">Fry Cut</button>
+      <button type="button" class="prep-pill" data-value="Steak">Steak</button>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if is_clam %}
+  <div class="prep-selector__group">
+    <span class="prep-selector__label">🐚 Clam Preparation</span>
+    <div class="prep-pills" data-group="Clam Prep">
+      <button type="button" class="prep-pill" data-value="Washed">Washed</button>
+      <button type="button" class="prep-pill" data-value="Cleaned (Sand Removed)">Cleaned (Sand Removed)</button>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if is_squid %}
+  <div class="prep-selector__group">
+    <span class="prep-selector__label">🦑 Squid Preparation</span>
+    <div class="prep-pills" data-group="Squid Prep">
+      <button type="button" class="prep-pill" data-value="Whole">Whole</button>
+      <button type="button" class="prep-pill" data-value="Cleaned">Cleaned</button>
+      <button type="button" class="prep-pill" data-value="Rings">Rings</button>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if is_crab %}
+  <div class="prep-selector__group">
+    <span class="prep-selector__label">🦀 Crab Preparation</span>
+    <div class="prep-pills" data-group="Crab Prep">
+      <button type="button" class="prep-pill" data-value="Whole">Whole</button>
+      <button type="button" class="prep-pill" data-value="Cleaned &amp; Cut">Cleaned &amp; Cut</button>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if is_prawn %}
+  <div class="prep-selector__group">
+    <span class="prep-selector__label">🦐 Prawn Preparation</span>
+    <div class="prep-pills" data-group="Prawn Prep">
+      <button type="button" class="prep-pill" data-value="Shell-on Deveined">Shell-on Deveined</button>
+      <button type="button" class="prep-pill" data-value="Peeled &amp; Deveined">Peeled &amp; Deveined</button>
+      <button type="button" class="prep-pill" data-value="Butterfly Cut">Butterfly Cut</button>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Hidden field that stores the combined note string -->
+  <input
+    type="hidden"
+    name="note"
+    id="prep-note-{{ product.id }}"
+    value=""
+  >
+</div>
+
+<style>
+  .prep-selector {
+    margin: 20px 0;
+    padding: 18px 20px;
+    border: 1px solid #e0ece2;
+    border-radius: 12px;
+    background: #f7fdf8;
+  }
+
+  .prep-selector__heading {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: #4a7a54;
+    font-weight: 600;
+    margin: 0 0 16px;
+  }
+
+  .prep-selector__group {
+    margin-bottom: 20px;
+  }
+
+  .prep-selector__group:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .prep-selector__label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #3d5e44;
+    margin-bottom: 10px;
+  }
+
+  .prep-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .prep-pill {
+    padding: 10px 22px;
+    border-radius: 50px;
+    border: 1.5px solid #c8deca;
+    background: #fff;
+    color: #4a6e52;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    line-height: 1;
+  }
+
+  .prep-pill:hover {
+    border-color: #3a8a50;
+    color: #2d6e3e;
+    background: #eef8f0;
+  }
+
+  .prep-pill.is-active {
+    background: #2d7a44;
+    border-color: #2d7a44;
+    color: #fff;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(45,122,68,0.25);
+  }
+</style>
+
+<script>
+(function() {
+  var selectorEl  = document.getElementById('prep-selector-{{ product.id }}');
+  var noteInput   = document.getElementById('prep-note-{{ product.id }}');
+  var selections  = {};
+
+  selectorEl.querySelectorAll('.prep-pills').forEach(function(group) {
+    group.querySelectorAll('.prep-pill').forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        // Deselect siblings
+        group.querySelectorAll('.prep-pill').forEach(function(p) {
+          p.classList.remove('is-active');
+          p.setAttribute('aria-pressed', 'false');
+        });
+        // Select this pill
+        pill.classList.add('is-active');
+        pill.setAttribute('aria-pressed', 'true');
+
+        // Store selection keyed by group name
+        selections[group.dataset.group] = pill.dataset.value;
+
+        // Build cutter note string and write to hidden input
+        var parts = [];
+        Object.keys(selections).forEach(function(k) {
+          parts.push(k + ': ' + selections[k]);
+        });
+        noteInput.value = parts.join(' | ');
+      });
+    });
+  });
+})();
+</script>
+
+{% endif %}

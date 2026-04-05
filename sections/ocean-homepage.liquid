@@ -1,0 +1,384 @@
+{% comment %}
+  Fresh Ocean Harvest — Homepage Section
+  File: sections/ocean-homepage.liquid
+{% endcomment %}
+
+<!-- ===================== HERO SECTION ===================== -->
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">FRESH OCEAN<br>HARVEST</h1>
+    <p class="hero-subtitle">Experience the finest seafood, directly from<br>the boat to your table.</p>
+    <a href="/collections/all" class="btn-primary">SHOP FRESH CATCH</a>
+  </div>
+  <div class="hero-image">
+    {% if section.settings.hero_image != blank %}
+      <img src="{{ section.settings.hero_image | img_url: 'master' }}" alt="Fresh Seafood Platter" />
+    {% else %}
+      {{ 'product-1' | placeholder_svg_tag: 'hero-placeholder' }}
+    {% endif %}
+  </div>
+  <!-- ===================== WAVE DIVIDER ===================== -->
+<div class="wave-divider top">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,40 C180,80 360,0 540,40 C720,80 900,0 1080,40 C1260,80 1380,20 1440,40 L1440,80 L0,80 Z" fill="#ffffff"/>
+  </svg>
+</div>
+</section>
+
+
+
+<!-- ===================== WEEKLY DEALS SECTION ===================== -->
+<section class="weekly-deals-section">
+  <div class="container">
+    <div class="deals-left">
+      <h2 class="section-title">Weekly Deals</h2>
+      <div class="deals-grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'deal_item' %}
+            <div class="deal-card" {{ block.shopify_attributes }}>
+              {% if block.settings.deal_image != blank %}
+                <img src="{{ block.settings.deal_image | img_url: '100x100' }}" alt="{{ block.settings.deal_name }}" />
+              {% endif %}
+              <p>{{ block.settings.deal_name }}</p>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="deals-right">
+      <div class="oysters-feature">
+        {% if section.settings.oysters_image != blank %}
+          <img src="{{ section.settings.oysters_image | img_url: '400x400' }}" alt="Fresh Oysters" class="oysters-img" />
+        {% endif %}
+        <div class="oysters-info">
+          <h3>Oysters</h3>
+          <p>{{ section.settings.oysters_description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WAVE DIVIDER ===================== -->
+{% comment %} <div class="wave-divider middle">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,40 C180,0 360,80 540,40 C720,0 900,80 1080,40 C1260,0 1380,60 1440,40 L1440,0 L0,0 Z" fill="#ffffff"/>
+  </svg>
+</div> {% endcomment %}
+
+<!-- ===================== FEATURED PRODUCTS SECTION ===================== -->
+<section class="featured-products-section">
+  <div class="container">
+    <div class="products-grid">
+      {% assign featured_collection = collections[section.settings.featured_collection] %}
+      {% if featured_collection != blank %}
+        {% for product in featured_collection.products limit: 3 %}
+          <div class="product-card">
+            <div class="product-image-wrap">
+              <img src="{{ product.featured_image | img_url: '400x400', crop: 'center' }}" alt="{{ product.title }}" />
+            </div>
+            <div class="seaweed-decoration">
+              <svg width="30" height="60" viewBox="0 0 30 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 60 Q5 45 15 30 Q25 15 15 0" stroke="#2d7a4f" stroke-width="2.5" fill="none"/>
+                <path d="M15 45 Q2 38 8 28" stroke="#2d7a4f" stroke-width="2" fill="none"/>
+                <path d="M15 30 Q28 22 22 12" stroke="#2d7a4f" stroke-width="2" fill="none"/>
+              </svg>
+            </div>
+            <h3 class="product-title">{{ product.title }}</h3>
+            <p class="product-desc">{{ product.description | strip_html | truncate: 50 }}</p>
+            <div class="product-footer">
+              <span class="product-label">Price</span>
+              <span class="product-price">{{ product.price | money }}</span>
+              <a href="{{ product.url }}" class="btn-secondary">Buy Now</a>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        {% for block in section.blocks %}
+          {% if block.type == 'product_card' %}
+            <div class="product-card" {{ block.shopify_attributes }}>
+              <div class="product-image-wrap">
+                {% if block.settings.product_image != blank %}
+                  <img src="{{ block.settings.product_image | img_url: '400x400' }}" alt="{{ block.settings.product_title }}" />
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag }}
+                {% endif %}
+              </div>
+              <div class="seaweed-decoration">
+                <svg width="30" height="60" viewBox="0 0 30 60" fill="none">
+                  <path d="M15 60 Q5 45 15 30 Q25 15 15 0" stroke="#2d7a4f" stroke-width="2.5" fill="none"/>
+                  <path d="M15 45 Q2 38 8 28" stroke="#2d7a4f" stroke-width="2" fill="none"/>
+                  <path d="M15 30 Q28 22 22 12" stroke="#2d7a4f" stroke-width="2" fill="none"/>
+                </svg>
+              </div>
+              <h3 class="product-title">{{ block.settings.product_title }}</h3>
+              <p class="product-desc">{{ block.settings.product_desc }}</p>
+              <div class="product-footer">
+                <span class="product-label">Price</span>
+                <span class="product-price">{{ block.settings.product_price }}</span>
+                <a href="{{ block.settings.product_url }}" class="btn-secondary">Buy Now</a>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WAVE DIVIDER ===================== -->
+{% comment %} <div class="wave-divider blue-bg">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,40 C180,80 360,0 540,40 C720,80 900,0 1080,40 C1260,80 1380,20 1440,40 L1440,0 L0,0 Z" fill="#d8eeff"/>
+  </svg>
+</div> {% endcomment %}
+
+<!-- ===================== RECIPE BANNER ===================== -->
+<section class="recipe-banner-section">
+  <div class="container recipe-inner">
+    <div class="recipe-image">
+      {% if section.settings.recipe_image != blank %}
+        <img src="{{ section.settings.recipe_image | img_url: 'master' }}" alt="Clam Chowder" />
+      {% endif %}
+    </div>
+    <div class="recipe-content">
+      <h2>THE ULTIMATE CLAM<br>CHOWDER RECIPE</h2>
+      <p>{{ section.settings.recipe_description }}</p>
+      {% if section.settings.recipe_url != blank %}
+        <a href="{{ section.settings.recipe_url }}" class="btn-primary" style="margin-top:20px;">View Recipe</a>
+      {% endif %}
+    </div>
+    <div class="recipe-icon">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="40" r="38" stroke="#1a5c8a" stroke-width="2"/>
+        <path d="M20 50 Q30 30 40 45 Q50 30 60 50" stroke="#1a5c8a" stroke-width="2.5" fill="none"/>
+        <path d="M25 55 Q40 35 55 55" stroke="#1a5c8a" stroke-width="2" fill="none"/>
+        <circle cx="40" cy="28" r="5" stroke="#1a5c8a" stroke-width="2" fill="none"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONDIMENTS SECTION ===================== -->
+<section class="condiments-section">
+  <div class="container condiments-inner">
+    <div class="condiments-products">
+      {% for block in section.blocks %}
+        {% if block.type == 'condiment_product' %}
+          <div class="condiment-item" {{ block.shopify_attributes }}>
+            {% if block.settings.item_image != blank %}
+              <img src="{{ block.settings.item_image | img_url: '80x80' }}" alt="{{ block.settings.item_name }}" />
+            {% endif %}
+            <div>
+              <strong>{{ block.settings.item_name }}</strong>
+              <p>{{ block.settings.item_desc }}</p>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="condiments-cta">
+      <span class="condiments-label">GOURMET</span>
+      <h2>SEAFOOD<br>CONDIMENTS</h2>
+      <a href="{{ section.settings.condiments_url | default: '/collections/condiments' }}" class="btn-primary">Shop Condiments</a>
+    </div>
+
+    <div class="condiments-bottles">
+      {% if section.settings.condiments_bottles_image != blank %}
+        <img src="{{ section.settings.condiments_bottles_image | img_url: 'master' }}" alt="Seafood Condiment Bottles" />
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- ===================== OCEAN FRESH SELECTIONS ===================== -->
+<section class="ocean-fresh-section">
+  <div class="ocean-fresh-image">
+    {% if section.settings.scallops_image != blank %}
+      <img src="{{ section.settings.scallops_image | img_url: 'master' }}" alt="Ocean Fresh Scallops" />
+    {% endif %}
+  </div>
+  <div class="ocean-fresh-content">
+    <div class="sparkle-icon">✦</div>
+    <h2>OCEAN FRESH SELECTIONS</h2>
+    <p>Experience the finest seafood, directly from the boat to your table.<br>Discover the best of the ocean.</p>
+  </div>
+</section>
+
+<!-- ===================== FOOTER NAV ===================== -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <a href="/pages/faqs">FAQs</a>
+    <a href="/pages/contact">Contact</a>
+    <a href="/policies/shipping-policy">Shipping</a>
+    <a href="/blogs/news">Blog</a>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Ocean Homepage",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Section"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Seafood Platter Image"
+    },
+    {
+      "type": "header",
+      "content": "Weekly Deals"
+    },
+    {
+      "type": "image_picker",
+      "id": "oysters_image",
+      "label": "Oysters Feature Image"
+    },
+    {
+      "type": "textarea",
+      "id": "oysters_description",
+      "label": "Oysters Description",
+      "default": "Discover the finest selection of fresh oysters, harvested from pristine waters and delivered straight to your door."
+    },
+    {
+      "type": "header",
+      "content": "Featured Products"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Featured Products Collection"
+    },
+    {
+      "type": "header",
+      "content": "Recipe Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "recipe_image",
+      "label": "Clam Chowder Image"
+    },
+    {
+      "type": "textarea",
+      "id": "recipe_description",
+      "label": "Recipe Description",
+      "default": "Experience the finest seafood, directly from the boat to your table. Discover the best seasonal catch."
+    },
+    {
+      "type": "url",
+      "id": "recipe_url",
+      "label": "Recipe Page URL"
+    },
+    {
+      "type": "header",
+      "content": "Condiments Section"
+    },
+    {
+      "type": "image_picker",
+      "id": "condiments_bottles_image",
+      "label": "Condiment Bottles Image"
+    },
+    {
+      "type": "url",
+      "id": "condiments_url",
+      "label": "Condiments Collection URL"
+    },
+    {
+      "type": "header",
+      "content": "Ocean Fresh Selections"
+    },
+    {
+      "type": "image_picker",
+      "id": "scallops_image",
+      "label": "Scallops / Ocean Fresh Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "deal_item",
+      "name": "Weekly Deal Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "deal_image",
+          "label": "Deal Item Image"
+        },
+        {
+          "type": "text",
+          "id": "deal_name",
+          "label": "Deal Item Name",
+          "default": "Fresh Catch"
+        }
+      ]
+    },
+    {
+      "type": "product_card",
+      "name": "Product Card (Manual)",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product Image"
+        },
+        {
+          "type": "text",
+          "id": "product_title",
+          "label": "Product Title",
+          "default": "Fresh Seafood"
+        },
+        {
+          "type": "text",
+          "id": "product_desc",
+          "label": "Short Description",
+          "default": "Premium quality seafood"
+        },
+        {
+          "type": "text",
+          "id": "product_price",
+          "label": "Price (e.g. $4.99)",
+          "default": "$4.99"
+        },
+        {
+          "type": "url",
+          "id": "product_url",
+          "label": "Product URL"
+        }
+      ]
+    },
+    {
+      "type": "condiment_product",
+      "name": "Condiment Product",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "item_image",
+          "label": "Item Image"
+        },
+        {
+          "type": "text",
+          "id": "item_name",
+          "label": "Item Name",
+          "default": "Caviar tin"
+        },
+        {
+          "type": "text",
+          "id": "item_desc",
+          "label": "Item Description",
+          "default": "Gourmet selection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ocean Homepage",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,140 @@
+<section class="fm-header">
+
+  <!-- TOP STRIP -->
+  <div class="fm-top">
+    <div class="fm-left">
+      {{ section.settings.top_left }}
+    </div>
+    <div class="fm-right">
+      {{ section.settings.top_right }}
+    </div>
+  </div>
+
+  <!-- MAIN HEADER -->
+  <div class="fm-main">
+    <div class="fm-logo">
+      {% if section.settings.logo %}
+        <img src="{{ section.settings.logo | image_url }}" alt="logo">
+      {% else %}
+        <strong>{{ shop.name }}</strong>
+      {% endif %}
+    </div>
+
+    <div class="fm-location">
+      <span>{{ section.settings.store_name }}</span>
+      <small>{{ section.settings.store_address }}</small>
+    </div>
+
+    <!-- SEARCH BAR -->
+    <form action="/search" method="get" class="fm-search">
+      <input type="search" name="q" placeholder="{{ section.settings.search_placeholder }}">
+      <button type="submit">Search</button>
+    </form>
+
+    <div class="fm-icons">
+      <a href="/account">Sign in</a>
+      <a href="/cart">Cart ({{ cart.item_count }})</a>
+      <span class="menu">☰</span>
+    </div>
+  </div>
+
+  <!-- CATEGORY STRIP -->
+  <div class="fm-categories">
+    {% for block in section.blocks %}
+      {% if block.type == 'category' %}
+      <a href="{{ block.settings.link }}" class="fm-cat">
+        <img src="{{ block.settings.image | image_url }}" alt="">
+        <span>{{ block.settings.title }}</span>
+      </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+</section>
+
+<style>
+.fm-header{font-family:system-ui}
+.fm-top{
+  display:flex;justify-content:space-between;
+  padding:6px 5vw;font-size:14px;background:#fff
+}
+.fm-main{
+  display:grid;
+  grid-template-columns:auto auto 1fr auto;
+  align-items:center;
+  gap:20px;
+  padding:14px 5vw;
+  background:#00a86b;
+  color:#fff
+}
+.fm-logo img{height:40px}
+.fm-location small{display:block;font-size:12px;opacity:.9}
+.fm-search{
+  display:flex;
+  width:100%;
+  max-width:520px;
+}
+.fm-search input{
+  flex:1;
+  padding:10px 14px;
+  border:none;
+  border-radius:4px 0 0 4px;
+}
+.fm-search button{
+  padding:10px 18px;
+  border:none;
+  background:#0b3;
+  color:#fff;
+  border-radius:0 4px 4px 0;
+}
+.fm-icons a,.fm-icons span{
+  margin-left:14px;
+  color:#fff;
+  text-decoration:none;
+}
+.fm-categories{
+  display:flex;
+  gap:18px;
+  padding:16px 5vw;
+  background:#f7f7f7;
+  overflow-x:auto;
+}
+.fm-cat{
+  min-width:110px;
+  text-align:center;
+  background:#fff;
+  padding:10px;
+  border-radius:8px;
+  text-decoration:none;
+  color:#222;
+}
+.fm-cat img{height:36px;margin-bottom:6px}
+</style>
+
+{% schema %}
+{
+  "name":"Freshma Custom Header",
+  "settings":[
+    { "type":"image_picker","id":"logo","label":"Logo" },
+    { "type":"text","id":"top_left","label":"Top left text","default":"Download App | Support | Offers | Store Locator" },
+    { "type":"text","id":"top_right","label":"Top right text","default":"📞 9047011110 | 🚚 120 Minutes Delivery" },
+    { "type":"text","id":"store_name","label":"Store name","default":"VADAPALANI STORE" },
+    { "type":"text","id":"store_address","label":"Store address","default":"No.22, TNHB Shopping Complex" },
+    { "type":"text","id":"search_placeholder","label":"Search placeholder","default":"Search for fish, meat, seafood…" }
+  ],
+  "blocks":[
+    {
+      "type":"category",
+      "name":"Category",
+      "settings":[
+        { "type":"image_picker","id":"image","label":"Category image" },
+        { "type":"text","id":"title","label":"Title" },
+        { "type":"url","id":"link","label":"Link" }
+      ]
+    }
+  ],
+  "presets":[
+    { "name":"Freshma Header (Custom)" }
+  ]
+}
+{% endschema %}

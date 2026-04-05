@@ -1,0 +1,264 @@
+{% comment %}
+  TruSea Advanced Footer
+  - Logo
+  - Brand info
+  - Quick links
+  - Contact details
+  - Social icons
+  - Newsletter
+  - Payment icons
+{% endcomment %}
+
+<footer class="trusea-footer">
+  <div class="page-width">
+
+    <div class="trusea-footer-grid">
+
+      <!-- BRAND -->
+      <div class="trusea-footer-brand">
+        {% if section.settings.logo != blank %}
+          <img
+            src="{{ section.settings.logo | image_url: width: 220 }}"
+            alt="{{ shop.name }}"
+            class="trusea-footer-logo"
+          >
+        {% endif %}
+
+        <p class="trusea-footer-text">
+          {{ section.settings.brand_text }}
+        </p>
+
+        <!-- SOCIAL ICONS -->
+        <div class="trusea-social">
+          {% if settings.social_facebook_link != blank %}
+            <a href="{{ settings.social_facebook_link }}">Facebook</a>
+          {% endif %}
+          {% if settings.social_instagram_link != blank %}
+            <a href="{{ settings.social_instagram_link }}">Instagram</a>
+          {% endif %}
+          {% if settings.social_twitter_link != blank %}
+            <a href="{{ settings.social_twitter_link }}">Twitter</a>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- QUICK LINKS -->
+      <div class="trusea-footer-links">
+        <h4>{{ section.settings.links_title }}</h4>
+        <ul>
+          {% for link in section.settings.menu.links %}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="trusea-footer-contact">
+        <h4>Contact</h4>
+        <p>{{ section.settings.address }}</p>
+        <p>📞 {{ section.settings.phone }}</p>
+        <p>✉️ {{ section.settings.email }}</p>
+      </div>
+
+      <!-- NEWSLETTER -->
+      <div class="trusea-footer-newsletter">
+        <h4>{{ section.settings.newsletter_title }}</h4>
+        <p>{{ section.settings.newsletter_text }}</p>
+
+        {% form 'customer', class: 'trusea-newsletter-form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <input
+            type="email"
+            name="contact[email]"
+            placeholder="Your email address"
+            required
+          >
+          <button type="submit">Subscribe</button>
+        {% endform %}
+      </div>
+
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="trusea-footer-bottom">
+      <p>© {{ "now" | date: "%Y" }} {{ shop.name }}. All rights reserved.</p>
+
+      <!-- PAYMENT ICONS -->
+      {% if section.settings.show_payment_icons %}
+        <div class="trusea-payments">
+          {{ shop.enabled_payment_types | payment_type_svg_tag }}
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</footer>
+
+<style>
+.trusea-footer {
+  background: #0E2541;
+  color: #fff;
+  padding: 50px 0 20px;
+}
+
+.trusea-footer-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
+  gap: 36px;
+}
+
+.trusea-footer-logo {
+  max-width: 160px;
+  margin-bottom: 12px;
+}
+
+.trusea-footer-text {
+  font-size: 14px;
+  color: #cfd8df;
+  line-height: 1.6;
+}
+
+.trusea-footer h4 {
+  margin-bottom: 12px;
+}
+
+.trusea-footer a {
+  color: #cfd8df;
+  text-decoration: none;
+}
+
+.trusea-footer a:hover {
+  color: #ffffff;
+}
+
+.trusea-footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.trusea-footer-links li {
+  margin-bottom: 8px;
+}
+
+.trusea-social a {
+  display: inline-block;
+  margin-right: 12px;
+  font-size: 14px;
+}
+
+.trusea-footer-newsletter input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: none;
+}
+
+.trusea-footer-newsletter button {
+  width: 100%;
+  padding: 10px;
+  background: #1fa3c9;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.trusea-footer-bottom {
+  margin-top: 30px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.trusea-payments svg {
+  height: 28px;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .trusea-footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trusea-footer-bottom {
+    text-align: center;
+    justify-content: center;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "TruSea Advanced Footer",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Footer Logo"
+    },
+    {
+      "type": "textarea",
+      "id": "brand_text",
+      "label": "Brand Description",
+      "default": "Fresh, hygienic and formalin-free seafood delivered straight from the sea."
+    },
+    {
+      "type": "text",
+      "id": "links_title",
+      "label": "Links Heading",
+      "default": "Quick Links"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Select Menu"
+    },
+    {
+      "type": "textarea",
+      "id": "address",
+      "label": "Address",
+      "default": "Chennai, Tamil Nadu"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone Number",
+      "default": "+91 90000 00000"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email",
+      "default": "support@truseafish.com"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Newsletter Heading",
+      "default": "Get Fresh Updates"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_text",
+      "label": "Newsletter Text",
+      "default": "Fresh catch alerts, offers & recipes."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "TruSea Advanced Footer"
+    }
+  ]
+}
+{% endschema %}
