@@ -216,6 +216,43 @@
       },
       "trusea-category-grid": {
         "type": "trusea-category-grid",
+        "blocks": {
+          "category_mVLTHH": {
+            "type": "category",
+            "settings": {
+              "collection": "limited-catch",
+              "image": "shopify://shop_images/silver_belly_karapodi_LS.png",
+              "name": "Limited Catch",
+              "subtitle": "Grab It Before It’s Gone",
+              "link": ""
+            }
+          },
+          "category_JaNxhf": {
+            "type": "category",
+            "settings": {
+              "collection": "daily-cooking",
+              "image": "shopify://shop_images/tuna_choora_cut_shapes.png",
+              "name": "Daily Cooking",
+              "subtitle": "So Fresh, It Wiggles",
+              "link": ""
+            }
+          },
+          "category_GKDEtk": {
+            "type": "category",
+            "settings": {
+              "collection": "bestsellers",
+              "image": "shopify://shop_images/black_spot_snapper_manja_sankara_LS_a7a4a747-0881-4705-bb30-de37d405b257.png",
+              "name": "Best Sellers",
+              "subtitle": "Best of the Best, Curated for You",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "category_mVLTHH",
+          "category_JaNxhf",
+          "category_GKDEtk"
+        ],
         "settings": {
           "show_section": true,
           "bg_color": "#ffffff",
@@ -224,7 +261,7 @@
           "eyebrow": "Fresh Every Morning",
           "heading_line1": "Our",
           "heading_accent": "Best Selling",
-          "heading_line2": "Products",
+          "heading_line2": "Categories",
           "subtext": "Zero formalin. Just 100% pure, safe fish for your family. Every batch tested twice.",
           "cta_text": "Shop All Categories",
           "cta_url": ""
