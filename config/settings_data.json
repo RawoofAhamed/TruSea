@@ -202,6 +202,46 @@
       },
       "trusea-selfish-promo": {
         "type": "trusea-selfish-promo",
+        "blocks": {
+          "plan_LxUt7U": {
+            "type": "plan",
+            "settings": {
+              "icon": "Lite Monthly",
+              "name": "",
+              "price": "249",
+              "description": "Perfect for individuals who love fresh seafood.",
+              "features": "5:45 AM Early Access\n|Unlimited Free Delivery|10% SelFish Credits",
+              "featured": false,
+              "cta_text": "Get Elite",
+              "cta_url": ""
+            }
+          },
+          "plan_NrABEi": {
+            "type": "plan",
+            "settings": {
+              "icon": "Pro Annual",
+              "name": "Advanced",
+              "price": "1999",
+              "description": "Just 167rs per month paid annually",
+              "features": "All Lite Features|\nPriority Delivery Slots|\n100% Joining Fee Credited*",
+              "featured": true,
+              "cta_text": "Join Pro Club",
+              "cta_url": ""
+            }
+          },
+          "perk_nkYXaF": {
+            "type": "perk",
+            "settings": {
+              "icon": "",
+              "label": "Priority Early Access"
+            }
+          }
+        },
+        "block_order": [
+          "plan_LxUt7U",
+          "plan_NrABEi",
+          "perk_nkYXaF"
+        ],
         "settings": {
           "show_section": true,
           "bg_color": "#0e2541",
@@ -292,6 +332,20 @@
       },
       "trusea-promise": {
         "type": "trusea-promise",
+        "blocks": {
+          "usp_gLnUpw": {
+            "type": "usp",
+            "settings": {
+              "image": "shopify://shop_images/delivery.png",
+              "icon": "cold",
+              "title": "Cold-Chain Freshness",
+              "description": "From shore to warehouse, always cold-chain handled."
+            }
+          }
+        },
+        "block_order": [
+          "usp_gLnUpw"
+        ],
         "settings": {
           "show_section": true,
           "bg_color": "#f5f9f7",
