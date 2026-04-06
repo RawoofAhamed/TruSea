@@ -1,0 +1,275 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.show_section != false %}
+<section class="ts-selfish-features ts-section" id="ts-selfish-features"
+  style="
+    --ts-sf-bg: {{ section.settings.bg_color | default: '#F5F9F7' }};
+    --ts-sf-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
+    --ts-sf-card-bg: {{ section.settings.card_bg | default: '#FFFFFF' }};
+  "
+>
+  <div class="ts-container">
+    <div class="ts-section-header ts-reveal-up">
+      <div class="ts-tag">{{ section.settings.eyebrow | default: 'EXCLUSIVE PERKS' }}</div>
+      <h2 class="ts-section-title">{{ section.settings.section_heading | default: 'Why SelFish Club?' }}</h2>
+    </div>
+
+    <div class="ts-sf-grid">
+      {% for block in section.blocks %}
+        <div class="ts-sf-card ts-reveal-up ts-delay-{{ forloop.index }}" {{ block.shopify_attributes }}>
+          <div class="ts-sf-icon-wrap">
+            {% if block.settings.image != blank %}
+              <img src="{{ block.settings.image | image_url: width: 120 }}" alt="{{ block.settings.title }}" loading="lazy">
+            {% else %}
+              <div class="ts-sf-placeholder">
+                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+            {% endif %}
+            
+            {% if block.settings.show_exclusive %}
+              <span class="ts-sf-badge ts-sf-badge--exclusive">Exclusive</span>
+            {% endif %}
+            {% if block.settings.show_timer %}
+              <span class="ts-sf-badge ts-sf-badge--priority">Priority</span>
+            {% endif %}
+          </div>
+
+          <div class="ts-sf-content">
+            <h3 class="ts-sf-title">{{ block.settings.title }}</h3>
+            <p class="ts-sf-desc">{{ block.settings.description | newline_to_br }}</p>
+          </div>
+          
+          <!-- Decorative accent -->
+          <div class="ts-sf-accent-line"></div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<style>
+.ts-selfish-features {
+  background: var(--ts-sf-bg);
+  padding: 100px 0;
+  font-family: var(--ts-font);
+}
+
+.ts-sf-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 50px;
+}
+
+.ts-sf-card {
+  background: var(--ts-sf-card-bg);
+  border-radius: 24px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(14,37,65,0.04);
+  transition: all .4s cubic-bezier(.165,.84,.44,1);
+  border: 1px solid rgba(14,37,65,0.05);
+}
+
+/* Bento-ish sizing */
+.ts-sf-card:nth-child(1),
+.ts-sf-card:nth-child(2) {
+  grid-column: span 1;
+}
+.ts-sf-card:nth-child(3) {
+  grid-column: span 1;
+}
+/* For 5 cards, 3-2 layout is good */
+@media (min-width: 1024px) {
+  .ts-sf-card:nth-child(4),
+  .ts-sf-card:nth-child(5) {
+    grid-column: span 1.5; /* This doesn't work in standard CSS, we use calc or specific grid names */
+  }
+}
+
+/* Simple 3-column / 2-column fallback for now */
+.ts-sf-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.ts-sf-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(14,37,65,0.1);
+  border-color: var(--ts-sf-accent);
+}
+
+.ts-sf-icon-wrap {
+  width: 64px;
+  height: 64px;
+  position: relative;
+}
+.ts-sf-icon-wrap img { width: 100%; height: 100%; object-fit: contain; }
+.ts-sf-placeholder {
+  width: 64px; height: 64px;
+  background: var(--ts-mint-pale);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ts-sf-accent);
+}
+
+.ts-sf-badge {
+  position: absolute;
+  top: -8px;
+  right: -32px;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transform: scale(0.9);
+}
+.ts-sf-badge--exclusive { background: #FEF3C7; color: #92400E; }
+.ts-sf-badge--priority { background: #DCFCE7; color: #166534; }
+
+.ts-sf-content {}
+.ts-sf-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ts-navy);
+  margin-bottom: 12px;
+}
+.ts-sf-desc {
+  font-size: 15px;
+  color: var(--ts-gray);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.ts-sf-accent-line {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 3px;
+  background: var(--ts-sf-accent);
+  transition: width 0.4s ease;
+}
+.ts-sf-card:hover .ts-sf-accent-line { width: 100%; }
+
+@media (max-width: 1024px) {
+  .ts-sf-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .ts-sf-grid { grid-template-columns: 1fr; gap: 24px; }
+  .ts-sf-card { padding: 32px; }
+}
+</style>
+
+<script>
+(function() {
+  const revealEls = document.querySelectorAll('#ts-selfish-features .ts-reveal-up');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('ts-revealed');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => observer.observe(el));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "SelFish Features",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#F5F9F7"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#3CBFA0"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tag",
+      "default": "EXCLUSIVE PERKS"
+    },
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "Why SelFish Club?"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Benefit Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card Icon/Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Premium Access"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Enjoy exclusive early access to the day's freshest catch at 5:45 AM daily."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_exclusive",
+          "label": "Show Exclusive Tag",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_timer",
+          "label": "Show Priority Tag",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SelFish Features (Bento Grid)",
+      "blocks": [
+        { "type": "card", "settings": { "title": "Early Access", "show_timer": true } },
+        { "type": "card", "settings": { "title": "Unlimited Delivery" } },
+        { "type": "card", "settings": { "title": "Rare Varieties", "show_exclusive": true } },
+        { "type": "card", "settings": { "title": "Selfish Credits" } },
+        { "type": "card", "settings": { "title": "Auto-Saved Preferences" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

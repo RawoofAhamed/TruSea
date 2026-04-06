@@ -1,0 +1,148 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.show_section != false %}
+<section class="ts-selfish-quote ts-section" id="ts-selfish-quote"
+  style="
+    --ts-sq-bg: {{ section.settings.bg_color | default: '#0E2541' }};
+    --ts-sq-text: {{ section.settings.text_color | default: '#FFFFFF' }};
+    --ts-sq-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
+  "
+>
+  <div class="ts-container">
+    <div class="ts-sq-inner ts-reveal-up">
+      <div class="ts-sq-icon" aria-hidden="true">
+        <svg width="60" height="60" viewBox="0 0 24 24" fill="var(--ts-sq-accent)" opacity="0.4"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H16.017C14.9124 8 14.017 7.10457 14.017 6V3L14.017 3C14.017 1.89543 14.9124 1 16.017 1H19.017C21.2261 1 23.017 2.79086 23.017 5V15C23.017 18.3137 20.3307 21 17.017 21H14.017ZM1.017 21L1.017 18C1.017 16.8954 1.91243 16 3.017 16H6.017C6.56928 16 7.017 15.5523 7.017 15V9C7.017 8.44772 6.56928 8 6.017 8H3.017C1.91243 8 1.017 7.10457 1.017 6V3L1.017 3C1.017 1.89543 1.91243 1 3.017 1H6.017C8.22614 1 10.017 2.79086 10.017 5V15C10.017 18.3137 7.33071 21 4.017 21H1.017Z"/></svg>
+      </div>
+      
+      <blockquote class="ts-sq-quote">
+        "{{ section.settings.quote | default: 'The best catch, the best care, the best experience.' }}"
+      </blockquote>
+      
+      {% if section.settings.subtext != blank %}
+        <cite class="ts-sq-author">— {{ section.settings.subtext }}</cite>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<style>
+.ts-selfish-quote {
+  background: var(--ts-sq-bg);
+  padding: 120px 0;
+  text-align: center;
+  font-family: var(--ts-font);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Background blob */
+.ts-selfish-quote::before {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(60,191,160,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.ts-sq-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.ts-sq-icon {
+  margin-bottom: 40px;
+}
+
+.ts-sq-quote {
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 800;
+  color: var(--ts-sq-text);
+  line-height: 1.2;
+  margin: 0 0 32px;
+  letter-spacing: -0.02em;
+  font-style: italic;
+}
+
+.ts-sq-author {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ts-sq-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-style: normal;
+}
+
+@media (max-width: 600px) {
+  .ts-sq-quote { font-size: 24px; }
+  .ts-selfish-quote { padding: 80px 0; }
+}
+</style>
+
+<script>
+(function() {
+  const revealEls = document.querySelectorAll('#ts-selfish-quote .ts-reveal-up');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('ts-revealed');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => observer.observe(el));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "SelFish Quote",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#0E2541"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#3CBFA0"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote Text",
+      "default": "The best catch, the best care, the best experience."
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Author / Subtext",
+      "default": "TruSea Fish"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SelFish Quote (Premium Typography)"
+    }
+  ]
+}
+{% endschema %}

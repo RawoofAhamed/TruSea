@@ -1,0 +1,257 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.show_section != false %}
+<section class="ts-selfish-compare ts-section" id="ts-selfish-compare"
+  style="
+    --ts-sc-bg: {{ section.settings.bg_color | default: '#FFFFFF' }};
+    --ts-sc-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
+  "
+>
+  <div class="ts-container">
+    <div class="ts-section-header ts-reveal-up">
+      <div class="ts-tag">{{ section.settings.eyebrow | default: 'THE DIFFERENCE' }}</div>
+      <h2 class="ts-section-title">{{ section.settings.heading | default: 'SelFish Club vs Regular' }}</h2>
+    </div>
+
+    <div class="ts-sc-table-wrap ts-reveal-up">
+      <table class="ts-sc-table">
+        <thead>
+          <tr>
+            <th class="ts-sc-th-feature">Feature</th>
+            <th class="ts-sc-th-club">{{ section.settings.club_title | default: 'SelFish Member' }}</th>
+            <th class="ts-sc-th-normal">{{ section.settings.normal_title | default: 'Regular Customer' }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for block in section.blocks %}
+            <tr {{ block.shopify_attributes }}>
+              <td class="ts-sc-td-feature">
+                <span class="ts-sc-feature-text">{{ block.settings.feature }}</span>
+              </td>
+              
+              <td class="ts-sc-td-club">
+                {% if block.settings.club_value == 'yes' %}
+                  <div class="ts-sc-pill ts-sc-pill--yes">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Yes</span>
+                  </div>
+                {% elsif block.settings.club_value == 'no' %}
+                  <div class="ts-sc-pill ts-sc-pill--no">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    <span>No</span>
+                  </div>
+                {% else %}
+                  <div class="ts-sc-pill ts-sc-pill--custom">{{ block.settings.club_value }}</div>
+                {% endif %}
+              </td>
+
+              <td class="ts-sc-td-normal">
+                {% if block.settings.normal_value == 'yes' %}
+                  <div class="ts-sc-pill ts-sc-pill--yes-alt">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                {% elsif block.settings.normal_value == 'no' %}
+                  <div class="ts-sc-pill ts-sc-pill--no-alt">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </div>
+                {% else %}
+                  <div class="ts-sc-pill ts-sc-pill--custom-alt">{{ block.settings.normal_value }}</div>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<style>
+.ts-selfish-compare {
+  background: var(--ts-sc-bg);
+  padding: 100px 0;
+  font-family: var(--ts-font);
+}
+
+.ts-sc-table-wrap {
+  margin-top: 50px;
+  background: #fff;
+  border-radius: 32px;
+  padding: 12px;
+  box-shadow: 0 20px 80px rgba(14,37,65,0.06);
+  overflow-x: auto;
+  border: 1px solid rgba(14,37,65,0.05);
+}
+
+.ts-sc-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.ts-sc-table th {
+  padding: 24px 20px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ts-navy);
+  background: #F8FAFC;
+}
+.ts-sc-th-feature { text-align: left !important; border-radius: 20px 0 0 20px; width: 40%; }
+.ts-sc-th-normal { border-radius: 0 20px 20px 0; }
+.ts-sc-th-club { background: var(--ts-mint-pale) !important; color: var(--ts-sc-accent) !important; }
+
+.ts-sc-table td {
+  padding: 24px 20px;
+  border-bottom: 1px solid rgba(14,37,65,0.04);
+  text-align: center;
+}
+.ts-sc-table tr:last-child td { border-bottom: none; }
+
+.ts-sc-td-feature { text-align: left !important; }
+.ts-sc-feature-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ts-navy);
+}
+
+/* Pills */
+.ts-sc-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.ts-sc-pill--yes { background: var(--ts-mint-pale); color: var(--ts-sc-accent); }
+.ts-sc-pill--no { background: #fee2e2; color: #ef4444; }
+.ts-sc-pill--custom { background: var(--ts-navy); color: #fff; }
+
+.ts-sc-pill--yes-alt, .ts-sc-pill--no-alt, .ts-sc-pill--custom-alt {
+  background: transparent;
+  color: var(--ts-gray);
+  opacity: 0.5;
+}
+
+.ts-sc-table tr:hover { background: #F8FAFC; }
+
+@media (max-width: 640px) {
+  .ts-sc-table th, .ts-sc-table td { padding: 16px 12px; }
+  .ts-sc-feature-text { font-size: 14px; }
+}
+</style>
+
+<script>
+(function() {
+  const revealEls = document.querySelectorAll('#ts-selfish-compare .ts-reveal-up');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('ts-revealed');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => observer.observe(el));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "SelFish Comparison",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#3CBFA0"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tag",
+      "default": "THE DIFFERENCE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "SelFish Club vs Regular"
+    },
+    {
+      "type": "text",
+      "id": "club_title",
+      "label": "Club Column Title",
+      "default": "SelFish Member"
+    },
+    {
+      "type": "text",
+      "id": "normal_title",
+      "label": "Normal Column Title",
+      "default": "Regular Customer"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Feature Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature",
+          "label": "Feature Text",
+          "default": "Early Access to Fresh Catch"
+        },
+        {
+          "type": "select",
+          "id": "club_value",
+          "label": "Club Value",
+          "options": [
+            { "value": "yes", "label": "Yes" },
+            { "value": "no", "label": "No" },
+            { "value": "10%", "label": "10%" }
+          ],
+          "default": "yes"
+        },
+        {
+          "type": "select",
+          "id": "normal_value",
+          "label": "Normal Value",
+          "options": [
+            { "value": "yes", "label": "Yes" },
+            { "value": "no", "label": "No" },
+            { "value": "None", "label": "None" }
+          ],
+          "default": "no"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SelFish Comparison (Glass Table)",
+      "blocks": [
+        { "type": "row", "settings": { "feature": "Early Access to Catch", "club_value": "yes", "normal_value": "no" } },
+        { "type": "row", "settings": { "feature": "Priority Delivery Slots", "club_value": "yes", "normal_value": "no" } },
+        { "type": "row", "settings": { "feature": "SelFish Credits", "club_value": "10%", "normal_value": "no" } },
+        { "type": "row", "settings": { "feature": "No Min. Order Fee", "club_value": "yes", "normal_value": "no" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

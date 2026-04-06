@@ -1,0 +1,195 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.show_section != false %}
+<section class="ts-selfish-experiences ts-section" id="ts-selfish-experiences"
+  style="
+    --ts-ex-bg: {{ section.settings.bg_color | default: '#FFFFFF' }};
+    --ts-ex-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
+  "
+>
+  <div class="ts-container">
+    <div class="ts-section-header ts-reveal-up">
+      <div class="ts-tag">{{ section.settings.eyebrow | default: 'MEMBER PERKS' }}</div>
+      <h2 class="ts-section-title">{{ section.settings.section_heading | default: 'Member-Only Experiences' }}</h2>
+    </div>
+
+    <div class="ts-ex-grid">
+      {% for block in section.blocks %}
+        <div class="ts-ex-card ts-reveal-up ts-delay-{{ forloop.index }}" {{ block.shopify_attributes }}>
+          <div class="ts-ex-img-wrap">
+            {% if block.settings.image != blank %}
+              <img src="{{ block.settings.image | image_url: width: 1000 }}" alt="{{ block.settings.title }}" loading="lazy" class="ts-ex-img">
+            {% else %}
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'ts-ex-placeholder' }}
+            {% endif %}
+            
+            <div class="ts-ex-overlay">
+              <h3 class="ts-ex-title">{{ block.settings.title }}</h3>
+              <div class="ts-ex-line"></div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<style>
+.ts-selfish-experiences {
+  background: var(--ts-ex-bg);
+  padding: 100px 0;
+  font-family: var(--ts-font);
+}
+
+.ts-ex-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  margin-top: 50px;
+}
+
+.ts-ex-card {
+  position: relative;
+  border-radius: 32px;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  box-shadow: 0 20px 60px rgba(14,37,65,0.08);
+  background: var(--ts-off-white);
+}
+
+.ts-ex-img-wrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.ts-ex-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .8s cubic-bezier(.165,.84,.44,1);
+}
+.ts-ex-card:hover .ts-ex-img {
+  transform: scale(1.08);
+}
+
+.ts-ex-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(14,37,65,0.8) 0%, rgba(14,37,65,0.4) 50%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 40px;
+  transition: background .4s ease;
+}
+.ts-ex-card:hover .ts-ex-overlay {
+  background: linear-gradient(to top, rgba(14,37,65,0.9) 0%, rgba(14,37,65,0.5) 50%, transparent 100%);
+}
+
+.ts-ex-title {
+  color: #fff;
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.ts-ex-line {
+  width: 40px;
+  height: 4px;
+  background: var(--ts-ex-accent);
+  margin-top: 16px;
+  border-radius: 2px;
+  transition: width .4s ease;
+}
+.ts-ex-card:hover .ts-ex-line { width: 80px; }
+
+@media (max-width: 768px) {
+  .ts-ex-grid { grid-template-columns: 1fr; }
+  .ts-ex-card { aspect-ratio: 4 / 3; }
+  .ts-ex-overlay { padding: 30px; }
+}
+</style>
+
+<script>
+(function() {
+  const revealEls = document.querySelectorAll('#ts-selfish-experiences .ts-reveal-up');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('ts-revealed');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => observer.observe(el));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Member Experiences",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#3CBFA0"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tag",
+      "default": "MEMBER PERKS"
+    },
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "Member-Only Experiences"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "experience",
+      "name": "Experience Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Experience Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Overlay Title",
+          "default": "Deep Sea Ride"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Member Experiences (Premium Gallery)",
+      "blocks": [
+        { "type": "experience", "settings": { "title": "Deep Sea Ride" } },
+        { "type": "experience", "settings": { "title": "Free Flavours" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

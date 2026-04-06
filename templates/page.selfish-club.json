@@ -1,1 +1,252 @@
-{"sections":{"main":{"type":"main-page","disabled":true,"settings":{"padding_top":28,"padding_bottom":28}},"selfish_club_banner_AhHM9M":{"type":"selfish-club-banner","custom_css":[],"name":"SelFish Club – Premium Banner","settings":{"bg_image":"shopify:\/\/shop_images\/Selfish_club_banner_ee9d61d2-d8ca-487e-917d-9b8479b28359.png","title":"SelFish Club","tagline":"Once you taste our fish, your tongue wants more","plan_text":"Membership Plans","plan_anchor":"SelFish Pricing","faq_text":"FAQs","faq_anchor":"selfish-faq","whatsapp_text":"Join on WhatsApp","whatsapp_link":""}},"selfish_club_why_9k49J3":{"type":"selfish-club-why","blocks":{"card_HdqFbC":{"type":"card","settings":{"image":"shopify:\/\/shop_images\/Fresh_catch.png","title":"First Choice of the Day's Catch","description":"Fish lands at 5:30AM.\nMembers order at 5:45AM.\nPublic order at 7:00AM.","show_exclusive":false,"show_timer":false}},"card_qeYWWw":{"type":"card","settings":{"image":"shopify:\/\/shop_images\/delivery.png","title":"Unlimited Priority Delivery","description":"No delivery fees.\nNo minimum order.\nPriority delivery slots.","show_exclusive":false,"show_timer":false}},"card_HUJnGh":{"type":"card","settings":{"image":"shopify:\/\/shop_images\/Exclusive.png","title":"Exclusive & Rare Fish Access","description":"Members-only orders.\nPre-orders before public listing.","show_exclusive":true,"show_timer":false}},"card_yMPkDL":{"type":"card","settings":{"image":"shopify:\/\/shop_images\/credits.png","title":"Selfish Credits","description":"10% value credited on every order. Special member pricing.","show_exclusive":false,"show_timer":false}},"card_Gi4hW9":{"type":"card","settings":{"image":"shopify:\/\/shop_images\/preference.png","title":"Preference Auto-Saved","description":"Cut styles & boneless options. Pack weight & TruSea Flavours.","show_exclusive":false,"show_timer":false}}},"block_order":["card_HdqFbC","card_qeYWWw","card_HUJnGh","card_yMPkDL","card_Gi4hW9"],"name":"Selfish Club – Why Cards","settings":{"section_heading":"Why SelFish Club"}},"selfish_member_experiences_jFQHgW":{"type":"selfish-member-experiences","blocks":{"experience_FmC3iY":{"type":"experience","settings":{"image":"shopify:\/\/shop_images\/yatch.png","title":"Selfish Deep Sea Ride"}},"experience_jkYxMF":{"type":"experience","settings":{"image":"shopify:\/\/shop_images\/flavours.png","title":"Free TruSea Flavours with Every Order"}}},"block_order":["experience_FmC3iY","experience_jkYxMF"],"name":"Member Only Experiences","settings":{"section_heading":"Member-Only Experiences"}},"selfish_comparison_RTiWMR":{"type":"selfish-comparison","blocks":{"row_WzVjzn":{"type":"row","settings":{"feature":"Early Access to Fresh Catch","club_value":"yes","normal_value":"no"}},"row_gNY46b":{"type":"row","settings":{"feature":"Priority Delivery Slots","club_value":"yes","normal_value":"no"}},"row_Y8xkXT":{"type":"row","settings":{"feature":"Exclusive & Rare Fish Deals","club_value":"yes","normal_value":"no"}},"row_R6tkx8":{"type":"row","settings":{"feature":"Selfish Credit on Every Order","club_value":"10%","normal_value":"no"}},"row_KAHfQh":{"type":"row","settings":{"feature":"No Minimum Order & Free Delivery","club_value":"yes","normal_value":"no"}}},"block_order":["row_WzVjzn","row_gNY46b","row_Y8xkXT","row_R6tkx8","row_KAHfQh"],"name":"SelFish Comparison","settings":{"heading":"Comparison Table","club_title":"SelFish Club Member","normal_title":"Regular Customer"}},"selfish_pricing_da3DPj":{"type":"selfish-pricing","name":"Membership plan","settings":{"heading":"Membership Plan","month_price":"₹249","month_unit":"month","year_price":"₹1999","year_unit":"year","badge_text":"Just 167rs\nper month\npaid annually","ribbon_text":"100% of joining fee credited as SelFish Credits for the first 100 members"}},"selfish_faqs_8PJGTq":{"type":"selfish-faqs","blocks":{"faq_TwkhYd":{"type":"faq","settings":{"question":"How do I get first access to the day’s catch?","answer":"Members can order from 5:45 AM, right after the catch lands at 5:30 AM. Public orders open only at 7:00 AM, so you always get the freshest and best selection first."}},"faq_jjRTxk":{"type":"faq","settings":{"question":"What benefits do I get with free delivery?","answer":"SelFish members enjoy unlimited free delivery with no minimum order value and access to priority delivery slots, even during peak demand."}},"faq_Ej6tmR":{"type":"faq","settings":{"question":"How do SelFish Credits work?","answer":"You earn 10% SelFish Credits on every order. These credits can be redeemed on future purchases with no restrictions or expiry."}},"faq_RWxxFH":{"type":"faq","settings":{"question":"Can I access rare or seasonal fish?","answer":"Yes. Limited and seasonal varieties are first shown to members before they are listed for regular customers."}},"faq_6maVFb":{"type":"faq","settings":{"question":"Can I customize my orders?","answer":"Your preferred cut style, boneless options, pack weight, and TruSea flavours are auto-saved for faster and personalized reordering."}}},"block_order":["faq_TwkhYd","faq_jjRTxk","faq_Ej6tmR","faq_RWxxFH","faq_6maVFb"],"name":"SelFish FAQs","settings":{"heading":"FAQs","first_open":true}},"selfish_quote_banner_pfFHaD":{"type":"selfish-quote-banner","name":"SelFish Quote Banner","settings":{"quote":"The best catch, the best care, the best experience.","subtext":"TruSea Fish"}}},"order":["main","selfish_club_banner_AhHM9M","selfish_club_why_9k49J3","selfish_member_experiences_jFQHgW","selfish_comparison_RTiWMR","selfish_pricing_da3DPj","selfish_faqs_8PJGTq","selfish_quote_banner_pfFHaD"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "selfish_hero": {
+      "type": "trusea-selfish-hero",
+      "settings": {
+        "bg_image": "shopify:\/\/shop_images\/Selfish_club_banner_ee9d61d2-d8ca-487e-917d-9b8479b28359.png",
+        "title": "SelFish Club",
+        "tagline": "Once you taste our fish, your tongue wants more",
+        "plan_text": "Membership Plans",
+        "plan_anchor": "selfish-pricing",
+        "faq_text": "FAQs",
+        "faq_anchor": "selfish-faqs"
+      }
+    },
+    "selfish_features": {
+      "type": "trusea-selfish-features",
+      "blocks": {
+        "card_HdqFbC": {
+          "type": "card",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Fresh_catch.png",
+            "title": "First Choice of the Day's Catch",
+            "description": "Fish lands at 5:30AM.\nMembers order at 5:45AM.\nPublic order at 7:00AM.",
+            "show_exclusive": false,
+            "show_timer": true
+          }
+        },
+        "card_qeYWWw": {
+          "type": "card",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/delivery.png",
+            "title": "Unlimited Priority Delivery",
+            "description": "No delivery fees.\nNo minimum order.\nPriority delivery slots.",
+            "show_exclusive": false,
+            "show_timer": true
+          }
+        },
+        "card_HUJnGh": {
+          "type": "card",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Exclusive.png",
+            "title": "Exclusive & Rare Fish Access",
+            "description": "Members-only orders.\nPre-orders before public listing.",
+            "show_exclusive": true,
+            "show_timer": false
+          }
+        },
+        "card_yMPkDL": {
+          "type": "card",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/credits.png",
+            "title": "Selfish Credits",
+            "description": "10% value credited on every order. Special member pricing.",
+            "show_exclusive": false,
+            "show_timer": false
+          }
+        },
+        "card_Gi4hW9": {
+          "type": "card",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/preference.png",
+            "title": "Preference Auto-Saved",
+            "description": "Cut styles & boneless options. Pack weight & TruSea Flavours.",
+            "show_exclusive": false,
+            "show_timer": false
+          }
+        }
+      },
+      "block_order": [
+        "card_HdqFbC",
+        "card_qeYWWw",
+        "card_HUJnGh",
+        "card_yMPkDL",
+        "card_Gi4hW9"
+      ],
+      "settings": {
+        "section_heading": "Why SelFish Club?"
+      }
+    },
+    "selfish_comparison": {
+      "type": "trusea-selfish-comparison",
+      "blocks": {
+        "row_WzVjzn": {
+          "type": "row",
+          "settings": {
+            "feature": "Early Access to Fresh Catch",
+            "club_value": "yes",
+            "normal_value": "no"
+          }
+        },
+        "row_gNY46b": {
+          "type": "row",
+          "settings": {
+            "feature": "Priority Delivery Slots",
+            "club_value": "yes",
+            "normal_value": "no"
+          }
+        },
+        "row_Y8xkXT": {
+          "type": "row",
+          "settings": {
+            "feature": "Exclusive & Rare Fish Deals",
+            "club_value": "yes",
+            "normal_value": "no"
+          }
+        },
+        "row_R6tkx8": {
+          "type": "row",
+          "settings": {
+            "feature": "Selfish Credit on Every Order",
+            "club_value": "10%",
+            "normal_value": "no"
+          }
+        },
+        "row_KAHfQh": {
+          "type": "row",
+          "settings": {
+            "feature": "No Minimum Order & Free Delivery",
+            "club_value": "yes",
+            "normal_value": "no"
+          }
+        }
+      },
+      "block_order": [
+        "row_WzVjzn",
+        "row_gNY46b",
+        "row_Y8xkXT",
+        "row_R6tkx8",
+        "row_KAHfQh"
+      ],
+      "settings": {
+        "heading": "Comparison Table",
+        "club_title": "SelFish Member",
+        "normal_title": "Regular"
+      }
+    },
+    "selfish_plans": {
+      "type": "trusea-selfish-pricing-plans",
+      "settings": {
+        "heading": "Membership Plan",
+        "month_price": "₹249",
+        "month_unit": "month",
+        "year_price": "₹1999",
+        "year_unit": "year",
+        "badge_text": "Just 167rs\nper month\npaid annually",
+        "ribbon_text": "100% of joining fee credited as SelFish Credits for the first 100 members"
+      }
+    },
+    "selfish_experiences": {
+      "type": "trusea-selfish-experiences",
+      "blocks": {
+        "experience_FmC3iY": {
+          "type": "experience",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/yatch.png",
+            "title": "Deep Sea Ride"
+          }
+        },
+        "experience_jkYxMF": {
+          "type": "experience",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/flavours.png",
+            "title": "Free Flavours"
+          }
+        }
+      },
+      "block_order": [
+        "experience_FmC3iY",
+        "experience_jkYxMF"
+      ],
+      "settings": {
+        "section_heading": "Member-Only Experiences"
+      }
+    },
+    "selfish_faqs": {
+      "type": "trusea-selfish-faqs",
+      "blocks": {
+        "faq_TwkhYd": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I get first access to the day’s catch?",
+            "answer": "Members can order from 5:45 AM, right after the catch lands at 5:30 AM. Public orders open only at 7:00 AM, so you always get the freshest and best selection first."
+          }
+        },
+        "faq_jjRTxk": {
+          "type": "faq",
+          "settings": {
+            "question": "What benefits do I get with free delivery?",
+            "answer": "SelFish members enjoy unlimited free delivery with no minimum order value and access to priority delivery slots, even during peak demand."
+          }
+        },
+        "faq_Ej6tmR": {
+          "type": "faq",
+          "settings": {
+            "question": "How do SelFish Credits work?",
+            "answer": "You earn 10% SelFish Credits on every order. These credits can be redeemed on future purchases with no restrictions or expiry."
+          }
+        },
+        "faq_RWxxFH": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I access rare or seasonal fish?",
+            "answer": "Yes. Limited and seasonal varieties are first shown to members before they are listed for regular customers."
+          }
+        },
+        "faq_6maVFb": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I customize my orders?",
+            "answer": "Your preferred cut style, boneless options, pack weight, and TruSea flavours are auto-saved for faster and personalized reordering."
+          }
+        }
+      },
+      "block_order": [
+        "faq_TwkhYd",
+        "faq_jjRTxk",
+        "faq_Ej6tmR",
+        "faq_RWxxFH",
+        "faq_6maVFb"
+      ],
+      "settings": {
+        "heading": "FAQs",
+        "first_open": true
+      }
+    },
+    "selfish_quote": {
+      "type": "trusea-selfish-quote",
+      "settings": {
+        "quote": "The best catch, the best care, the best experience.",
+        "subtext": "TruSea Fish"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "selfish_hero",
+    "selfish_features",
+    "selfish_comparison",
+    "selfish_plans",
+    "selfish_experiences",
+    "selfish_faqs",
+    "selfish_quote"
+  ]
+}

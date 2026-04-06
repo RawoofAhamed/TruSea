@@ -1,0 +1,289 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.show_section != false %}
+<section class="ts-selfish-hero ts-section" id="ts-selfish-hero"
+  style="
+    --ts-sh-bg: {{ section.settings.bg_color | default: '#0E2541' }};
+    --ts-sh-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
+    --ts-sh-text: {{ section.settings.text_color | default: '#FFFFFF' }};
+    {% if section.settings.bg_image != blank %}background-image: url('{{ section.settings.bg_image | image_url: width: 2000 }}');{% endif %}
+  "
+>
+  <!-- Overlay for readability -->
+  <div class="ts-sh-overlay" aria-hidden="true"></div>
+
+  <!-- Parallax decorative elements -->
+  {% if section.settings.show_decorations != false %}
+  <div class="ts-sh-deco" aria-hidden="true">
+    <div class="ts-deco ts-deco--fish1" data-parallax="0.15">
+      <svg width="80" height="48" viewBox="0 0 70 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 21C5 21 20 4 40 10C55 14 65 21 65 21C65 21 55 30 40 32C20 35 5 21 5 21Z" fill="var(--ts-sh-accent)" opacity="0.3"/>
+        <path d="M65 21C65 21 72 15 70 21C72 27 65 21 65 21Z" fill="var(--ts-sh-accent)" opacity="0.3"/>
+      </svg>
+    </div>
+    <div class="ts-deco ts-deco--sparkle1" data-parallax="0.1">
+      <svg width="40" height="40" viewBox="0 0 32 32" fill="none">
+        <path d="M16 2L17.5 12.5L28 14L17.5 15.5L16 26L14.5 15.5L4 14L14.5 12.5Z" fill="var(--ts-sh-accent)" opacity="0.8"/>
+      </svg>
+    </div>
+    <div class="ts-deco ts-deco--circle1" data-parallax="0.08" aria-hidden="true"></div>
+  </div>
+  {% endif %}
+
+  <div class="ts-container">
+    <div class="ts-sh-inner ts-reveal-up">
+      <div class="ts-tag" style="background: rgba(60,191,160,0.15); color: var(--ts-sh-accent); backdrop-filter: blur(4px);">
+        {{ section.settings.eyebrow | default: 'MEMBER EXCLUSIVE' }}
+      </div>
+
+      <h1 class="ts-sh-heading">
+        {{ section.settings.title | default: 'SelFish Club' }}
+      </h1>
+
+      <p class="ts-sh-sub">
+        {{ section.settings.tagline | default: 'Once you taste our fish, your tongue wants more.' }}
+      </p>
+
+      <div class="ts-sh-ctas">
+        <a href="#{{ section.settings.plan_anchor | default: 'selfish-pricing' }}" class="ts-btn ts-btn-primary">
+          {{ section.settings.plan_text | default: 'Membership Plans' }}
+        </a>
+        <a href="#{{ section.settings.faq_anchor | default: 'selfish-faq' }}" class="ts-btn ts-btn-outline" style="border-color: rgba(255,255,255,0.2); color: #fff;">
+          {{ section.settings.faq_text | default: 'FAQs' }}
+        </a>
+        {% if section.settings.whatsapp_link != blank %}
+        <a href="{{ section.settings.whatsapp_link }}" target="_blank" class="ts-sh-whatsapp">
+          <span class="ts-sh-wa-icon">
+             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.445 0 .081 5.363.079 11.97c0 2.112.551 4.174 1.597 5.987L0 24l6.15-1.613a11.83 11.83 0 005.895 1.579h.005c6.604 0 11.967-5.364 11.97-11.97a11.815 11.815 0 00-3.415-8.475z"/></svg>
+          </span>
+          <span>{{ section.settings.whatsapp_text | default: 'Join WhatsApp' }}</span>
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<style>
+.ts-selfish-hero {
+  position: relative;
+  min-height: 85vh;
+  background-color: var(--ts-sh-bg);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 100px 0;
+  font-family: var(--ts-font);
+  color: var(--ts-sh-text);
+  text-align: center;
+}
+
+.ts-sh-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(14,37,65,0.9), rgba(14,37,65,0.7), rgba(14,37,65,0.85));
+  z-index: 1;
+}
+
+.ts-sh-inner {
+  position: relative;
+  z-index: 5;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.ts-sh-heading {
+  font-size: clamp(42px, 8vw, 84px);
+  font-weight: 950;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin: 24px 0 20px;
+  background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ts-sh-sub {
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.5;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 48px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ts-sh-ctas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.ts-sh-whatsapp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  transition: var(--ts-transition);
+}
+.ts-sh-whatsapp:hover { color: var(--ts-sh-accent); }
+.ts-sh-wa-icon {
+  width: 40px; height: 40px;
+  background: rgba(37, 211, 102, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #25D366;
+  border: 1px solid rgba(37, 211, 102, 0.3);
+}
+
+/* Decorations */
+.ts-sh-deco { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.ts-sh-deco .ts-deco--fish1 { top: 15%; right: 10%; animation: ts-float 8s ease-in-out infinite; }
+.ts-sh-deco .ts-deco--sparkle1 { top: 10%; left: 15%; animation: ts-scale-pulse 4s ease-in-out infinite; }
+.ts-sh-deco .ts-deco--circle1 {
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255,255,255,0.1);
+  top: -100px; left: -50px;
+  animation: ts-rotate-slow 30s linear infinite;
+}
+
+@media (max-width: 600px) {
+  .ts-sh-ctas { flex-direction: column; width: 100%; }
+  .ts-sh-ctas .ts-btn { width: 100%; justify-content: center; }
+  .ts-sh-inner { padding: 0 10px; }
+  .ts-selfish-hero { min-height: 70vh; padding: 120px 0 80px; }
+}
+</style>
+
+<script>
+(function() {
+  const shReveal = document.querySelector('#ts-selfish-hero .ts-reveal-up');
+  if (shReveal) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('ts-revealed');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    observer.observe(shReveal);
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "SelFish Hero",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Hero Background Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_decorations",
+      "label": "Show floating decorations",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Overlay Fallback Color",
+      "default": "#0E2541"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#3CBFA0"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tag",
+      "default": "MEMBER EXCLUSIVE"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main Title",
+      "default": "SelFish Club"
+    },
+    {
+      "type": "textarea",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Once you taste our fish, your tongue wants more."
+    },
+    {
+      "type": "header",
+      "content": "🔘 Buttons"
+    },
+    {
+      "type": "text",
+      "id": "plan_text",
+      "label": "Plans Button Text",
+      "default": "Membership Plans"
+    },
+    {
+      "type": "text",
+      "id": "plan_anchor",
+      "label": "Plans Anchor ID",
+      "default": "selfish-pricing"
+    },
+    {
+      "type": "text",
+      "id": "faq_text",
+      "label": "FAQ Button Text",
+      "default": "FAQs"
+    },
+    {
+      "type": "text",
+      "id": "faq_anchor",
+      "label": "FAQ Anchor ID",
+      "default": "selfish-faq"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_text",
+      "label": "WhatsApp Button Text",
+      "default": "Join on WhatsApp"
+    },
+    {
+      "type": "url",
+      "id": "whatsapp_link",
+      "label": "WhatsApp Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SelFish Hero (Premium)"
+    }
+  ]
+}
+{% endschema %}
