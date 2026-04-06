@@ -333,6 +333,24 @@
       "trusea-promise": {
         "type": "trusea-promise",
         "blocks": {
+          "usp_eHpihU": {
+            "type": "usp",
+            "settings": {
+              "image": "shopify://shop_images/credits.png",
+              "icon": "cold",
+              "title": "Cold-Chain Freshness",
+              "description": "From shore to warehouse, always cold-chain handled."
+            }
+          },
+          "usp_FPNja6": {
+            "type": "usp",
+            "settings": {
+              "image": "shopify://shop_images/Exclusive.png",
+              "icon": "cold",
+              "title": "Cold-Chain Freshness",
+              "description": "From shore to warehouse, always cold-chain handled."
+            }
+          },
           "usp_gLnUpw": {
             "type": "usp",
             "settings": {
@@ -344,6 +362,8 @@
           }
         },
         "block_order": [
+          "usp_eHpihU",
+          "usp_FPNja6",
           "usp_gLnUpw"
         ],
         "settings": {
