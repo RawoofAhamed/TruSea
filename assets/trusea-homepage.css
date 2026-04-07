@@ -5,38 +5,58 @@
 
 /* --- Design Tokens --- */
 :root {
-  --ts-navy:        #0E2541;
-  --ts-navy-dark:   #081829;
-  --ts-mint:        #3CBFA0;
-  --ts-mint-light:  #5DD4B8;
-  --ts-mint-pale:   #E8F9F5;
-  --ts-white:       #FFFFFF;
-  --ts-off-white:   #F5F9F7;
-  --ts-gray:        #6B7280;
-  --ts-gray-light:  #E5E7EB;
-  --ts-text:        #1A2B3C;
+  --ts-navy: #0E2541;
+  --ts-navy-dark: #081829;
+  --ts-mint: #3CBFA0;
+  --ts-mint-light: #5DD4B8;
+  --ts-mint-pale: #E8F9F5;
+  --ts-white: #FFFFFF;
+  --ts-off-white: #F5F9F7;
+  --ts-gray: #6B7280;
+  --ts-gray-light: #E5E7EB;
+  --ts-text: #1A2B3C;
 
   --ts-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --ts-radius-sm:   8px;
-  --ts-radius-md:   16px;
-  --ts-radius-lg:   24px;
+  --ts-radius-sm: 8px;
+  --ts-radius-md: 16px;
+  --ts-radius-lg: 24px;
   --ts-radius-full: 9999px;
 
-  --ts-shadow-sm:   0 2px 8px rgba(14,37,65,.08);
-  --ts-shadow-md:   0 8px 32px rgba(14,37,65,.14);
-  --ts-shadow-lg:   0 20px 60px rgba(14,37,65,.2);
+  --ts-shadow-sm: 0 2px 8px rgba(14, 37, 65, .08);
+  --ts-shadow-md: 0 8px 32px rgba(14, 37, 65, .14);
+  --ts-shadow-lg: 0 20px 60px rgba(14, 37, 65, .2);
 
-  --ts-transition:  all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --ts-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* --- Google Font --- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 /* --- Reset helpers for custom sections --- */
-.ts-section * { box-sizing: border-box; }
-.ts-section img { max-width: 100%; display: block; }
-.ts-section a { text-decoration: none; }
-.ts-section ul { list-style: none; padding: 0; margin: 0; }
+.ts-section * {
+  box-sizing: border-box;
+}
+
+.ts-section img {
+  max-width: 100%;
+  display: block;
+}
+
+.ts-section a {
+  text-decoration: none;
+}
+
+.ts-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
 /* --- Container --- */
 .ts-container {
@@ -62,29 +82,35 @@
   text-decoration: none;
   white-space: nowrap;
 }
+
 .ts-btn-primary {
   background: var(--ts-mint);
   color: var(--ts-white);
 }
+
 .ts-btn-primary:hover {
   background: var(--ts-mint-light);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(60,191,160,.4);
+  box-shadow: 0 8px 24px rgba(60, 191, 160, .4);
   color: var(--ts-white);
 }
+
 .ts-btn-outline {
   background: transparent;
   color: var(--ts-navy);
   border: 2px solid var(--ts-navy);
 }
+
 .ts-btn-outline:hover {
   background: var(--ts-navy);
   color: var(--ts-white);
 }
+
 .ts-btn-white {
   background: var(--ts-white);
   color: var(--ts-navy);
 }
+
 .ts-btn-white:hover {
   background: var(--ts-mint-pale);
   color: var(--ts-navy);
@@ -96,59 +122,148 @@
    ===================== */
 
 @keyframes ts-float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  33%       { transform: translateY(-12px) rotate(3deg); }
-  66%       { transform: translateY(-6px) rotate(-2deg); }
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  33% {
+    transform: translateY(-12px) rotate(3deg);
+  }
+
+  66% {
+    transform: translateY(-6px) rotate(-2deg);
+  }
 }
+
 @keyframes ts-float-alt {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50%       { transform: translateY(-18px) rotate(-4deg); }
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-18px) rotate(-4deg);
+  }
 }
+
 @keyframes ts-rotate-slow {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
+
 @keyframes ts-scale-pulse {
-  0%, 100% { transform: scale(1); }
-  50%       { transform: scale(1.08); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
 }
+
 @keyframes ts-fade-up {
   from {
     opacity: 0;
     transform: translateY(40px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
 @keyframes ts-fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
 @keyframes ts-slide-in-left {
   from {
     opacity: 0;
     transform: translateX(-40px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
   }
 }
+
 @keyframes ts-slide-in-right {
   from {
     opacity: 0;
     transform: translateX(40px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
   }
 }
-@keyframes ts-shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
+
+@keyframes ts-pop-in {
+  from {
+    opacity: 0;
+    transform: translateX(-100px) rotate(-20deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) rotate(0);
+  }
+}
+
+@keyframes ts-pop-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100px) rotate(20deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) rotate(0);
+  }
+}
+
+/* --- Decorative Assets Base --- */
+.ts-deco-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
+  /* Crucial for popping effect */
+}
+
+.ts-deco {
+  position: absolute;
+  pointer-events: none;
+}
+
+.ts-deco img {
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s ease;
+}
+
+.ts-deco img:hover {
+  transform: scale(1.1) rotate(5deg);
+  pointer-events: auto;
 }
 
 /* --- Scroll-reveal utility (applied by JS) --- */
@@ -157,36 +272,58 @@
   transform: translateY(36px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
+
 .ts-reveal.ts-revealed {
   opacity: 1;
   transform: translateY(0);
 }
+
 .ts-reveal-left {
   opacity: 0;
   transform: translateX(-36px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
+
 .ts-reveal-left.ts-revealed {
   opacity: 1;
   transform: translateX(0);
 }
+
 .ts-reveal-right {
   opacity: 0;
   transform: translateX(36px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
+
 .ts-reveal-right.ts-revealed {
   opacity: 1;
   transform: translateX(0);
 }
 
 /* Staggered delays */
-.ts-delay-1 { transition-delay: 0.1s !important; }
-.ts-delay-2 { transition-delay: 0.2s !important; }
-.ts-delay-3 { transition-delay: 0.3s !important; }
-.ts-delay-4 { transition-delay: 0.4s !important; }
-.ts-delay-5 { transition-delay: 0.5s !important; }
-.ts-delay-6 { transition-delay: 0.6s !important; }
+.ts-delay-1 {
+  transition-delay: 0.1s !important;
+}
+
+.ts-delay-2 {
+  transition-delay: 0.2s !important;
+}
+
+.ts-delay-3 {
+  transition-delay: 0.3s !important;
+}
+
+.ts-delay-4 {
+  transition-delay: 0.4s !important;
+}
+
+.ts-delay-5 {
+  transition-delay: 0.5s !important;
+}
+
+.ts-delay-6 {
+  transition-delay: 0.6s !important;
+}
 
 /* --- Section tag badge --- */
 .ts-tag {

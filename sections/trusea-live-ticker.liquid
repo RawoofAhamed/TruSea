@@ -1,0 +1,67 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.show_section != false %}
+<div class="ts-live-ticker ts-section" id="ts-live-ticker">
+  <div class="ts-ticker-track">
+    {% for i in (1..10) %}
+      <div class="ts-ticker-item">
+        <span class="ts-ticker-dot"></span>
+        <span class="ts-ticker-text">New Order from Chennai - 2kg Seer Fish</span>
+      </div>
+      <div class="ts-ticker-item">
+        <span class="ts-ticker-star">★ ★ ★ ★ ★</span>
+        <span class="ts-ticker-text">"Amazing quality! Best fish in town." - Rahul S.</span>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<style>
+.ts-live-ticker {
+  background: var(--ts-navy);
+  color: white;
+  padding: 12px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.ts-ticker-track {
+  display: inline-flex;
+  animation: ts-ticker 40s linear infinite;
+}
+.ts-ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-right: 50px;
+}
+.ts-ticker-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--ts-mint);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--ts-mint);
+}
+.ts-ticker-star {
+  color: #FFB800;
+  font-size: 11px;
+}
+@keyframes ts-ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Live Order Ticker",
+  "settings": [
+    { "type": "checkbox", "id": "show_section", "label": "Show section", "default": true }
+  ],
+  "presets": [{ "name": "Live Order Ticker" }]
+}
+{% endschema %}
