@@ -1,0 +1,248 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.show_section != false %}
+<section class="ts-fishermen ts-section" id="ts-fishermen"
+  style="--ts-fish-bg: {{ section.settings.bg_color | default: '#FDF8F4' }};"
+>
+  <div class="ts-container">
+    <div class="ts-fish-header ts-reveal">
+       <span class="ts-tag" style="background:#E5D3C2; color:#785840;">The Hands That Feed Us</span>
+       <h2 class="ts-fish-heading">{{ section.settings.heading | default: 'Direct From Our Trusted Fishermen' }}</h2>
+       <p class="ts-fish-sub">No middle-men. No auctions. We work directly with traditional fishing communities to bring you the freshest catch.</p>
+    </div>
+
+    <div class="ts-fish-grid">
+      {% for block in section.blocks %}
+        {% if block.type == 'fisherman' %}
+          <div class="ts-fish-card ts-reveal ts-delay-{{ forloop.index }}" {{ block.shopify_attributes }}>
+            <div class="ts-fish-img-wrap">
+              {% if block.settings.image != blank %}
+                <img src="{{ block.settings.image | image_url: width: 500 }}" alt="{{ block.settings.name }}" loading="lazy">
+              {% else %}
+                <div class="ts-fish-placeholder">
+                  {{ 'image' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+              <div class="ts-fish-quote-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21L14.017 18C14.017 16.8954 13.1216 16 12.017 16H10.017C8.91244 16 8.017 16.8954 8.017 18V21M14.017 21H18.017C19.1216 21 20.017 20.1046 20.017 19V5C20.017 3.89543 19.1216 3 18.017 3H5.017C3.91243 3 3.017 3.89543 3.017 5V19C3.017 20.1046 3.91243 21 5.017 21H8.017M14.017 21V18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="var(--ts-mint)" opacity="0.1" style="position:absolute;"><path d="M14.017 21L14.017 18C14.017 16.8954 13.1216 16 12.017 16H10.017C8.91244 16 8.017 16.8954 8.017 18V21M14.017 21H18.017C19.1216 21 20.017 20.1046 20.017 19V5C20.017 3.89543 19.1216 3 18.017 3H5.017C3.91243 3 3.017 3.89543 3.017 5V19C3.017 20.1046 3.91243 21 5.017 21H8.017M14.017 21V18" fill="currentColor"/></svg>
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="rgba(60,191,160,0.2)"><path d="M11.192 15.757c0-.88-.23-1.618-.69-2.217-.326-.412-.768-.683-1.327-.812-.55-.128-1.07-.13-1.564-.002.354-2.316 2.47-3.576 4.935-3.576l.012-2.144C7.03 7.006 4.608 9.204 4.09 13.43c-.067.556-.09 1.074-.067 1.554.043 1.157.43 2.06 1.162 2.707.733.647 1.63.97 2.693.97 1.05 0 1.89-.323 2.52-.97.63-.646.945-1.446.945-2.4l.039-.534zm10.372 0c0-.88-.23-1.618-.69-2.217-.326-.412-.768-.683-1.327-.812-.55-.128-1.07-.13-1.564-.002.354-2.316 2.47-3.576 4.935-3.576l.012-2.144C17.402 7.006 14.98 9.204 14.462 13.43c-.067.556-.09 1.074-.067 1.554.043 1.157.43 2.06 1.162 2.707.733.647 1.63.97 2.693.97 1.05 0 1.89-.323 2.52-.97.63-.646.945-1.446.945-2.4l.039-.534z"/></svg>
+              </div>
+            </div>
+            <div class="ts-fish-content">
+              <p class="ts-fish-quote">"{{ block.settings.quote }}"</p>
+              <div class="ts-fish-info">
+                <h3 class="ts-fish-name">{{ block.settings.name }}</h3>
+                <span class="ts-fish-location">Source: {{ block.settings.location }}</span>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="ts-fish-footer ts-reveal">
+       <p class="ts-fish-ethics">We help over 150 local fishermen get fair prices while providing you with seafood that never sees a middle-man. No overnight storage, just the daily catch.</p>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<style>
+.ts-fishermen {
+  background: var(--ts-fish-bg);
+  padding: 100px 0;
+  overflow: hidden;
+}
+.ts-fish-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.ts-fish-heading {
+  font-size: clamp(30px, 4vw, 42px);
+  font-weight: 900;
+  color: var(--ts-navy);
+  margin: 16px 0;
+  letter-spacing: -0.02em;
+}
+.ts-fish-sub {
+  color: var(--ts-gray);
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.ts-fish-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.ts-fish-card {
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 15px 45px rgba(120,88,64,0.08);
+  border: 1px solid rgba(120,88,64,0.05);
+  transition: transform 0.3s ease;
+}
+.ts-fish-card:hover {
+  transform: translateY(-10px);
+}
+.ts-fish-img-wrap {
+  position: relative;
+  padding-bottom: 120%;
+  background: #f0f0f0;
+}
+.ts-fish-img-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(0.2) contrast(1.1);
+}
+.ts-fish-quote-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 70px;
+  height: 70px;
+  background: white;
+  border-top-left-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ts-mint);
+}
+.ts-fish-content {
+  padding: 28px;
+}
+.ts-fish-quote {
+  font-family: serif;
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ts-navy);
+  margin: 0 0 24px;
+  position: relative;
+}
+.ts-fish-info {
+  display: flex;
+  flex-direction: column;
+}
+.ts-fish-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ts-navy);
+  margin: 0 0 4px;
+}
+.ts-fish-location {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ts-mint);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ts-fish-footer {
+  margin-top: 60px;
+  text-align: center;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.ts-fish-ethics {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ts-gray);
+  font-style: italic;
+}
+
+@media (max-width: 1000px) {
+  .ts-fish-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .ts-fish-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<script>
+(function() {
+  const fishRevealEls = document.querySelectorAll('#ts-fishermen .ts-reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('ts-revealed');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  fishRevealEls.forEach(el => observer.observe(el));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Meet Our Fishermen",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FDF8F4"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Direct From Our Trusted Fishermen"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "fisherman",
+      "name": "Fisherman Profile",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Fisherman Photo"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name & Experience",
+          "default": "Muthu - 22 years at sea"
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location",
+          "default": "Nagapattinam"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "We only bring what we would feed our own children."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meet Our Fishermen",
+      "blocks": [
+        { "type": "fisherman", "settings": { "name": "Muthu - 22 years at sea", "location": "Nagapattinam", "quote": "We only bring what we would feed our own children." } },
+        { "type": "fisherman", "settings": { "name": "Karthik - 15 years at sea", "location": "Tuticorin", "quote": "The ocean gives us everything, we must treat it with respect." } },
+        { "type": "fisherman", "settings": { "name": "Selvam - 30 years at sea", "location": "Ennore", "quote": "Freshness is not a choice, it is a promise we keep every morning." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

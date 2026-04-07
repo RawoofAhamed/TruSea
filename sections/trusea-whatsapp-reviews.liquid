@@ -1,0 +1,489 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.show_section != false %}
+<section class="ts-wa-reviews ts-section" id="ts-wa-reviews"
+  style="
+    --ts-wa-bg: {{ section.settings.bg_color | default: '#F5F9F7' }};
+    --ts-wa-accent: #25D366;
+  "
+>
+  <div class="ts-container">
+    <div class="ts-wa-header ts-reveal">
+      <h2 class="ts-wa-heading">
+        {{ section.settings.heading | default: 'WHAT OUR CUSTOMERS ARE SAYING (VIA WHATSAPP)' }}
+        <span class="ts-wa-title-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#0E2541"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.412 2.503 1.112 3.487l-.751 2.742 2.809-.736c.943.515 2.021.808 3.167.809 3.181 0 5.767-2.586 5.768-5.766 0-3.181-2.587-5.767-5.768-5.767-.001 0-.001 0 0 0zm3.428 8.169c-.147.414-.733.754-1.011.808-.242.046-.554.081-1.393-.266-.84-.347-1.381-1.196-1.423-1.252-.042-.056-.743-.986-.743-1.874 0-.888.461-1.321.628-1.503.167-.182.366-.227.487-.227h.346c.112 0 .261-.042.408.315.147.357.502 1.228.546 1.318.045.09.075.195.015.315s-.09.195-.181.299c-.09.105-.19.232-.271.315-.09.09-.184.188-.079.368.105.18.467.77.999 1.242.686.611 1.265.801 1.445.891.18.09.285.075.39-.045s.451-.525.571-.705c.12-.18.24-.15.405-.09.165.06 1.051.495 1.231.585s.3.135.345.225.147.611-.001 1.025zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.168L2 22l4.958-1.301C8.416 21.579 10.141 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.724 0-3.335-.486-4.704-1.324l-.337-.205-2.455.644.655-2.392-.225-.358C4.093 15.22 3.5 13.681 3.5 12c0-4.687 3.813-8.5 8.5-8.5s8.5 3.813 8.5 8.5-3.813 8.5-8.5 8.5z"/></svg>
+        </span>
+      </h2>
+    </div>
+
+    <!-- Carousel Container -->
+    <div class="ts-wa-carousel-wrapper">
+      <button class="ts-wa-nav ts-wa-prev" id="wa-prev" aria-label="Previous">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+
+      <div class="ts-wa-carousel" id="ts-wa-carousel">
+        <div class="ts-wa-track" id="ts-wa-track">
+          {% for block in section.blocks %}
+            {% if block.type == 'review' %}
+              <div class="ts-wa-slide" {{ block.shopify_attributes }}>
+                <div class="ts-wa-card">
+                  <!-- Header: Profile & Stats -->
+                  <div class="ts-wa-card-header">
+                    <div class="ts-wa-profile">
+                      <div class="ts-wa-avatar">
+                        {% if block.settings.image != blank %}
+                          <img src="{{ block.settings.image | image_url: width: 100 }}" alt="{{ block.settings.name }}" loading="lazy">
+                        {% else %}
+                          <div class="ts-wa-avatar-placeholder">{{ block.settings.name | slice: 0 }}</div>
+                        {% endif %}
+                        <div class="ts-wa-verified">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        </div>
+                      </div>
+                      <div class="ts-wa-meta">
+                        <div class="ts-wa-reviewer">
+                          <span class="ts-wa-name">{{ block.settings.name }}</span>
+                          <span class="ts-wa-sep">|</span>
+                          <span class="ts-wa-date">{{ block.settings.date | default: '2 Days Ago' }}</span>
+                        </div>
+                        <div class="ts-wa-stars">
+                          {% for i in (1..5) %}
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFB800"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Content: Review Text -->
+                  <div class="ts-wa-card-body">
+                    <h3 class="ts-wa-review-title">{{ block.settings.title | default: 'AMAZING EXPERIENCE!' }}</h3>
+                    <div class="ts-wa-stars-inline">
+                       {% for i in (1..5) %}
+                         <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFB800"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                       {% endfor %}
+                    </div>
+                    <p class="ts-wa-review-text">{{ block.settings.text }}</p>
+                    {% if block.settings.hashtag != blank %}
+                      <span class="ts-wa-hashtag">#{{ block.settings.hashtag }}</span>
+                    {% endif %}
+                  </div>
+
+                  <!-- Footer: WhatsApp Branded -->
+                  <div class="ts-wa-card-footer">
+                    <div class="ts-wa-via">
+                       <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.412 2.503 1.112 3.487l-.751 2.742 2.809-.736c.943.515 2.021.808 3.167.809 3.181 0 5.767-2.586 5.768-5.766 0-3.181-2.587-5.767-5.768-5.767-.001 0-.001 0 0 0zm3.428 8.169c-.147.414-.733.754-1.011.808-.242.046-.554.081-1.393-.266-.84-.347-1.381-1.196-1.423-1.252-.042-.056-.743-.986-.743-1.874 0-.888.461-1.321.628-1.503.167-.182.366-.227.487-.227h.346c.112 0 .261-.042.408.315.147.357.502 1.228.546 1.318.045.09.075.195.015.315s-.09.195-.181.299c-.09.105-.19.232-.271.315-.09.09-.184.188-.079.368.105.18.467.77.999 1.242.686.611 1.265.801 1.445.891.18.09.285.075.39-.045s.451-.525.571-.705c.12-.18.24-.15.405-.09.165.06 1.051.495 1.231.585s.3.135.345.225.147.611-.001 1.025zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.168L2 22l4.958-1.301C8.416 21.579 10.141 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.724 0-3.335-.486-4.704-1.324l-.337-.205-2.455.644.655-2.392-.225-.358C4.093 15.22 3.5 13.681 3.5 12c0-4.687 3.813-8.5 8.5-8.5s8.5 3.813 8.5 8.5-3.813 8.5-8.5 8.5z"/></svg>
+                       <span>via WhatsApp</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <button class="ts-wa-nav ts-wa-next" id="wa-next" aria-label="Next">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    <!-- Dots -->
+    <div class="ts-wa-dots" id="wa-dots"></div>
+  </div>
+</section>
+{% endif %}
+
+<style>
+.ts-wa-reviews {
+  background: var(--ts-wa-bg);
+  padding: 100px 0;
+  overflow: hidden;
+}
+.ts-wa-heading {
+  text-align: center;
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 900;
+  color: var(--ts-navy);
+  margin-bottom: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  letter-spacing: 0.02em;
+}
+.ts-wa-title-icon { display: flex; }
+
+/* Carousel */
+.ts-wa-carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 40px;
+}
+.ts-wa-carousel {
+  flex: 1;
+  overflow: hidden;
+  padding: 40px 0;
+}
+.ts-wa-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ts-wa-slide {
+  flex: 0 0 33.333%;
+  padding: 0 15px;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  opacity: 0.5;
+  transform: scale(0.9);
+}
+.ts-wa-slide.active {
+  opacity: 1;
+  transform: scale(1.05);
+  z-index: 2;
+}
+
+/* Card Design */
+.ts-wa-card {
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 20px 50px rgba(14,37,65,0.08);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(14,37,65,0.03);
+}
+.ts-wa-card-header {
+  margin-bottom: 24px;
+}
+.ts-wa-profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.ts-wa-avatar {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: visible;
+  flex-shrink: 0;
+}
+.ts-wa-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.ts-wa-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--ts-mint-pale);
+  color: var(--ts-mint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 20px;
+  border-radius: 50%;
+}
+.ts-wa-verified {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  background: #25D366;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+}
+.ts-wa-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ts-wa-reviewer {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1A2B3D;
+}
+.ts-wa-sep { color: #E5E7EB; margin: 0 4px; }
+.ts-wa-date { color: #9CA3AF; font-weight: 500; font-size: 14px; }
+.ts-wa-stars { display: flex; gap: 2px; }
+
+.ts-wa-card-body {
+  flex: 1;
+}
+.ts-wa-review-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0E2541;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+}
+.ts-wa-stars-inline { display: flex; gap: 4px; margin-bottom: 12px; }
+.ts-wa-review-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #4B5563;
+  margin-bottom: 12px;
+}
+.ts-wa-hashtag {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0E2541;
+}
+
+.ts-wa-card-footer {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+.ts-wa-via {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #9CA3AF;
+}
+
+/* Nav Buttons */
+.ts-wa-nav {
+  background: white;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  color: var(--ts-navy);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+.ts-wa-nav:hover {
+  background: var(--ts-navy);
+  color: white;
+}
+.ts-wa-nav:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Dots */
+.ts-wa-dots {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 40px;
+}
+.ts-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #E5E7EB;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.ts-dot.active {
+  background: var(--ts-navy);
+  transform: scale(1.4);
+}
+
+@media (max-width: 1024px) {
+  .ts-wa-slide { flex: 0 0 50%; }
+}
+@media (max-width: 640px) {
+  .ts-wa-slide { flex: 0 0 100%; }
+  .ts-wa-carousel-wrapper { padding: 0 10px; }
+  .ts-wa-slide { transform: scale(1); opacity: 1; }
+  .ts-wa-nav { display: none; }
+}
+</style>
+
+<script>
+(function() {
+  const carousel = document.getElementById('ts-wa-carousel');
+  const track = document.getElementById('ts-wa-track');
+  const slides = Array.from(track.children);
+  const nextBtn = document.getElementById('wa-next');
+  const prevBtn = document.getElementById('wa-prev');
+  const dotsContainer = document.getElementById('wa-dots');
+  
+  let currentIndex = 0;
+  const slideCount = slides.length;
+
+  // Create dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = `ts-dot ${i === 0 ? 'active' : ''}`;
+    dot.addEventListener('click', () => goToSlide(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = Array.from(dotsContainer.children);
+
+  function updateCarousel() {
+    const slideWidth = slides[0].offsetWidth;
+    const offset = -(currentIndex * slideWidth);
+    track.style.transform = `translateX(${offset}px)`;
+
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === currentIndex);
+    });
+
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentIndex);
+    });
+
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.disabled = currentIndex === slideCount - 1;
+  }
+
+  function goToSlide(index) {
+    currentIndex = index;
+    updateCarousel();
+  }
+
+  nextBtn.addEventListener('click', () => {
+    if (currentIndex < slideCount - 1) {
+      goToSlide(currentIndex + 1);
+    }
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      goToSlide(currentIndex - 1);
+    }
+  });
+
+  // Touch support
+  let startX = 0;
+  let isDragging = false;
+
+  carousel.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+  });
+
+  carousel.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    const currentX = e.touches[0].clientX;
+    const diff = startX - currentX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0 && currentIndex < slideCount - 1) goToSlide(currentIndex + 1);
+      else if (diff < 0 && currentIndex > 0) goToSlide(currentIndex - 1);
+      isDragging = false;
+    }
+  });
+
+  carousel.addEventListener('touchend', () => isDragging = false);
+
+  // Resize handler
+  window.addEventListener('resize', updateCarousel);
+  
+  // Initial setup
+  setTimeout(updateCarousel, 100);
+
+  // Global Reveal
+  const waRevealEls = document.querySelectorAll('#ts-wa-reviews .ts-reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('ts-revealed');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  waRevealEls.forEach(el => observer.observe(el));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "WhatsApp Reviews",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#F5F9F7"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WHAT OUR CUSTOMERS ARE SAYING (VIA WHATSAPP)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "WhatsApp Review",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Reviewer Photo"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Reviewer Name",
+          "default": "Sarah L."
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Date",
+          "default": "2 Days Ago"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Review Title",
+          "default": "AMAZING EXPERIENCE!"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review Text",
+          "default": "Absolutely love my new dress! The material is high quality and it fits perfectly. Customer service on WhatsApp was super helpful and responsive. Highly recommend! #HappyCustomer"
+        },
+        {
+          "type": "text",
+          "id": "hashtag",
+          "label": "Hashtag",
+          "default": "HappyCustomer"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "WhatsApp Reviews",
+      "blocks": [
+        { "type": "review", "settings": { "name": "Sarah L.", "title": "AMAZING EXPERIENCE!", "text": "Absolutely love my fish delivery! The quality was fresh and better than local markets. Highly recommended!" } },
+        { "type": "review", "settings": { "name": "David R.", "title": "PERFECT CUT!", "text": "The way they cut the fish is so professional. Zero hassle, just straight to the pan. Five stars!" } },
+        { "type": "review", "settings": { "name": "Maria K.", "title": "FAST SHIPPING!", "text": "Arrived within 3 hours of order. The cold-chain packing was impressive. Still chilled!" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
