@@ -1,6 +1,5 @@
 {{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
 
-{% if section.settings.show_section != false %}
 <section class="ts-hero ts-section" id="ts-hero"
   style="
     --ts-hero-bg: {{ section.settings.bg_color | default: '#F5F9F7' }};
@@ -14,474 +13,186 @@
   <div class="ts-hero-blob ts-hero-blob--2" aria-hidden="true"></div>
 
   <!-- Parallax decorative elements -->
-  {% if section.settings.show_decorations != false %}
   <div class="ts-hero-deco" aria-hidden="true">
+    <!-- Left Side: 4 assets -->
     <div class="ts-deco ts-deco--fish1" data-parallax="0.15">
-      <svg width="70" height="42" viewBox="0 0 70 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M5 21C5 21 20 4 40 10C55 14 65 21 65 21C65 21 55 30 40 32C20 35 5 21 5 21Z" fill="#3CBFA0" opacity="0.25"/>
-        <path d="M65 21C65 21 72 15 70 21C72 27 65 21 65 21Z" fill="#3CBFA0" opacity="0.25"/>
-        <circle cx="35" cy="18" r="3" fill="#3CBFA0" opacity="0.4"/>
-      </svg>
+      <img src="{{ 'Fish.png' | asset_url }}" alt="Fish" width="120" height="auto" loading="lazy">
     </div>
-    <div class="ts-deco ts-deco--fish2" data-parallax="0.2">
-      <svg width="50" height="30" viewBox="0 0 50 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 15C4 15 16 3 28 8C39 12 46 15 46 15C46 15 39 22 28 23C16 25 4 15 4 15Z" fill="#0E2541" opacity="0.18"/>
-        <path d="M46 15L52 10L50 15L52 20Z" fill="#0E2541" opacity="0.18"/>
-      </svg>
+    <div class="ts-deco ts-deco--fish-small" data-parallax="0.2">
+      <img src="{{ 'Fish (1).png' | asset_url }}" alt="Fish" width="80" height="auto" loading="lazy">
     </div>
-    <div class="ts-deco ts-deco--sparkle1" data-parallax="0.1">
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-        <path d="M16 2L17.5 12.5L28 14L17.5 15.5L16 26L14.5 15.5L4 14L14.5 12.5Z" fill="#3CBFA0" opacity="0.7"/>
-      </svg>
+    <div class="ts-deco ts-deco--lobster" data-parallax="0.12">
+      <img src="{{ 'lobster.png' | asset_url }}" alt="Lobster" width="100" height="auto" loading="lazy">
     </div>
-    <div class="ts-deco ts-deco--sparkle2" data-parallax="0.25">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-        <path d="M10 1L11 8.5L18.5 9.5L11 10.5L10 18L9 10.5L1.5 9.5L9 8.5Z" fill="#0E2541" opacity="0.3"/>
-      </svg>
+    <div class="ts-deco ts-deco--prawn-left" data-parallax="0.1">
+      <img src="{{ 'prawn.png' | asset_url }}" alt="Prawn" width="70" height="auto" loading="lazy">
     </div>
-    <div class="ts-deco ts-deco--circle1" data-parallax="0.08" aria-hidden="true"></div>
-    <div class="ts-deco ts-deco--circle2" data-parallax="0.12" aria-hidden="true"></div>
-    <div class="ts-deco ts-deco--dots" aria-hidden="true"></div>
+
+    <!-- Right Side: 5 assets -->
+    <div class="ts-deco ts-deco--fish-big" data-parallax="0.18">
+      <img src="{{ 'Fish (2).png' | asset_url }}" alt="Big Fish" width="160" height="auto" loading="lazy">
+    </div>
+    <div class="ts-deco ts-deco--crab" data-parallax="0.22">
+      <img src="{{ 'crab.png' | asset_url }}" alt="Crab" width="110" height="auto" loading="lazy">
+    </div>
+    <div class="ts-deco ts-deco--prawn" data-parallax="0.1">
+      <img src="{{ 'prawn.png' | asset_url }}" alt="Prawn" width="90" height="auto" loading="lazy">
+    </div>
+    <div class="ts-deco ts-deco--fish-right-small" data-parallax="0.15">
+      <img src="{{ 'Fish (1).png' | asset_url }}" alt="Fish" width="70" height="auto" loading="lazy">
+    </div>
+    <div class="ts-deco ts-deco--lobster-right" data-parallax="0.2">
+      <img src="{{ 'lobster.png' | asset_url }}" alt="Lobster" width="90" height="auto" loading="lazy">
+    </div>
+
+    <!-- Sparkles -->
+    <div class="ts-deco ts-deco--sparkle1" data-parallax="0.1" style="top: 8%; right: 35%;">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 2L17.5 12.5L28 14L17.5 15.5L16 26L14.5 15.5L4 14L14.5 12.5Z" fill="#3CBFA0" opacity="0.7"/></svg>
+    </div>
+    <div class="ts-deco ts-deco--sparkle2" data-parallax="0.25" style="bottom: 20%; left: 35%;">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 1L11 8.5L18.5 9.5L11 10.5L10 18L9 10.5L1.5 9.5L9 8.5Z" fill="#0E2541" opacity="0.3"/></svg>
+    </div>
   </div>
-  {% endif %}
 
-  <div class="ts-container">
+  <div class="ts-container" style="position: relative; z-index: 10;">
     <div class="ts-hero-grid">
-
-      <!-- Left: text -->
-      <div class="ts-hero-content ts-reveal-left">
+      <!-- Left side: Text & Countdown -->
+      <div class="ts-hero-content">
         {% if section.settings.eyebrow != blank %}
-          <div class="ts-tag">{{ section.settings.eyebrow }}</div>
+          <div class="ts-tag" style="display:inline-block; background:#E8F9F5; color:#3CBFA0; padding:6px 14px; border-radius:20px; font-weight:700; font-size:12px; margin-bottom:16px;">{{ section.settings.eyebrow }}</div>
         {% endif %}
 
-        <h1 class="ts-hero-heading">
+        <h1 class="ts-hero-heading" style="color:{{ section.settings.heading_color | default: '#0E2541' }}; font-size: clamp(34px, 5vw, 58px); font-weight:900; line-height:1.1; margin-bottom:24px;">
           {{ section.settings.heading_line1 | default: 'Premium' }}<br>
-          <span class="ts-hero-accent">{{ section.settings.heading_line2 | default: 'Fresh Fish' }}</span>
+          <span style="color:#3CBFA0;">{{ section.settings.heading_line2 | default: 'Fresh Fish' }}</span>
           {{ section.settings.heading_line3 | default: ', Perfectly Cut.' }}
         </h1>
 
-        <p class="ts-hero-sub">
+        <p class="ts-hero-sub" style="color:{{ section.settings.body_color | default: '#6B7280' }}; font-size:16px; line-height:1.6; max-width:440px; margin-bottom:32px;">
           {{ section.settings.subtext | default: 'Fresh fish, hygienically prepared and perfectly cut, ready for your kitchen and family meals.' }}
         </p>
 
-        <div class="ts-hero-ctas">
-          <a href="{{ section.settings.cta_url | default: '/collections/all' }}" class="ts-btn ts-btn-primary">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <!-- Countdown Timer -->
+        {% if section.settings.show_countdown != false %}
+        <div class="ts-hero-countdown" id="ts-hero-countdown" data-cutoff="{{ section.settings.cutoff_time | default: '11:00' }}" style="margin-bottom:32px;">
+          <div style="background:rgba(14,37,65,0.03); border:1px solid rgba(14,37,65,0.08); padding:12px 20px; border-radius:12px; display:inline-flex; align-items:center; gap:12px;">
+            <span style="font-size:14px; color:#6B7280; font-weight:700;">ORDER IN</span>
+            <span style="font-family:monospace; font-size:22px; color:#0E2541; font-weight:700;" id="ts-hr">00</span>:<span style="font-family:monospace; font-size:22px; color:#0E2541; font-weight:700;" id="ts-min">00</span>:<span style="font-family:monospace; font-size:22px; color:#0E2541; font-weight:700;" id="ts-sec">00</span>
+            <span style="font-size:14px; color:#3CBFA0; font-weight:700;">For Same Day Delivery</span>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="ts-hero-ctas" style="display:flex; align-items:center; gap:20px; flex-wrap:wrap; margin-bottom:32px;">
+          <a href="{{ section.settings.cta_url | default: '/collections/all' }}" class="ts-btn ts-btn-primary" style="background:#3CBFA0; color:white; padding:14px 32px; border-radius:30px; font-weight:600; text-decoration:none;">
             {{ section.settings.cta_text | default: 'Shop Fresh' }}
           </a>
 
-          {% if section.settings.video_url != blank and section.settings.show_video_btn != false %}
-            <button class="ts-hero-video-btn" id="ts-video-trigger" aria-label="Watch how to order">
-              <span class="ts-play-icon">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </span>
-              <span>{{ section.settings.video_text | default: 'Now to order' }}</span>
+          {% if section.settings.video_url != blank %}
+            <button id="ts-video-trigger" style="display:flex; align-items:center; gap:12px; background:none; border:none; cursor:pointer; font-weight:600; color:#0E2541;">
+              <span style="width:44px; height:44px; border-radius:50%; background:#0E2541; display:flex; align-items:center; justify-content:center; color:white;">▶</span>
+              <span>Watch how to order</span>
             </button>
           {% endif %}
         </div>
-
-        <!-- Trust badges -->
-        {% if section.settings.show_badges != false %}
-        <div class="ts-hero-badges">
-          {% if section.settings.show_badge_1 != false %}
-          <div class="ts-hero-badge">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-            {{ section.settings.badge_1 | default: 'Zero Formalin' }}
-          </div>
-          {% endif %}
-          {% if section.settings.show_badge_2 != false %}
-          <div class="ts-hero-badge">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-            {{ section.settings.badge_2 | default: 'Same Day Delivery' }}
-          </div>
-          {% endif %}
-          {% if section.settings.show_badge_3 != false %}
-          <div class="ts-hero-badge">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-            {{ section.settings.badge_3 | default: 'Hygienically Cut' }}
-          </div>
-          {% endif %}
-        </div>
-        {% endif %}
       </div>
 
-      <!-- Right: product image -->
-      <div class="ts-hero-image-wrap ts-reveal-right">
-        <div class="ts-hero-img-container">
+      <!-- Right side: Image -->
+      <div class="ts-hero-image-wrap">
+        <div style="position:relative; width:100%; max-width:520px;">
           {% if section.settings.hero_image != blank %}
-            <img
-              src="{{ section.settings.hero_image | image_url: width: 700 }}"
-              alt="{{ section.settings.heading_line1 }} {{ section.settings.heading_line2 }}"
-              class="ts-hero-img"
-              loading="eager"
-              width="560"
-              height="560"
-            >
+            <img src="{{ section.settings.hero_image | image_url: width: 700 }}" alt="Hero" style="width:100%; height:auto; position:relative; z-index:2; filter:drop-shadow(0 20px 40px rgba(0,0,0,0.15));" loading="eager">
           {% else %}
-            <div class="ts-hero-img-placeholder">
-              {{ 'product-2' | placeholder_svg_tag: 'ts-hero-placeholder-svg' }}
+            <div style="background:#E5E7EB; border-radius:24px; height:480px; display:flex; align-items:center; justify-content:center;">
+              {{ 'product-2' | placeholder_svg_tag: 'placeholder-svg' }}
             </div>
           {% endif %}
-          <!-- Floating accent ring -->
-          <div class="ts-hero-ring" aria-hidden="true"></div>
-          <div class="ts-hero-fish-badge" aria-hidden="true">
-            <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-              <circle cx="40" cy="40" r="38" fill="rgba(60,191,160,0.12)" stroke="#3CBFA0" stroke-width="1.5" stroke-dasharray="4 4"/>
-              <path d="M20 40C20 40 30 26 40 30C50 34 56 40 56 40C56 40 50 48 40 50C30 52 20 40 20 40Z" fill="#3CBFA0" opacity="0.6"/>
-              <path d="M56 40L64 34L62 40L64 46Z" fill="#3CBFA0" opacity="0.6"/>
-            </svg>
-          </div>
+          <div style="position:absolute; width:85%; height:85%; border-radius:50%; background:radial-gradient(circle, rgba(60,191,160,0.12), rgba(60,191,160,0.04)); top:50%; left:50%; transform:translate(-50%,-50%); z-index:1;"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Video modal -->
-  {% if section.settings.video_url != blank %}
-    <div class="ts-video-modal" id="ts-video-modal" aria-hidden="true">
-      <div class="ts-video-modal-inner">
-        <button class="ts-video-close" id="ts-video-close" aria-label="Close video">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-        <div class="ts-video-frame">
-          <iframe id="ts-video-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
-        </div>
+  <!-- Video Modal -->
+  <div class="ts-video-modal" id="ts-video-modal" style="position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:3000; display:none; align-items:center; justify-content:center; padding:24px;">
+    <div style="position:relative; width:100%; max-width:860px; background:#000; border-radius:12px; overflow:hidden;">
+      <button id="ts-video-close" style="position:absolute; top:12px; right:12px; z-index:10; background:rgba(0,0,0,0.6); color:white; border:none; width:44px; height:44px; border-radius:50%; cursor:pointer;">✕</button>
+      <div style="position:relative; padding-bottom:56.25%; height:0;">
+        <iframe id="ts-video-iframe" src="" style="position:absolute; inset:0; width:100%; height:100%;" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
     </div>
-  {% endif %}
+  </div>
 </section>
-{% endif %}
 
 <style>
-.ts-hero {
-  position: relative;
-  background: var(--ts-hero-bg, var(--ts-off-white));
-  overflow: hidden;
-  padding: 72px 0 80px;
-  font-family: var(--ts-font);
-}
+.ts-hero { position: relative; background: var(--ts-hero-bg, #F5F9F7); padding: 72px 0 80px; overflow: hidden; }
+.ts-hero-blob { position: absolute; border-radius: 50%; pointer-events: none; }
+.ts-hero-blob--1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(60,191,160,.1) 0%, transparent 70%); top: -200px; right: -100px; }
+.ts-hero-blob--2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(14,37,65,.06) 0%, transparent 70%); bottom: -100px; left: -100px; }
 
-/* Background blobs */
-.ts-hero-blob {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-}
-.ts-hero-blob--1 {
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(60,191,160,.1) 0%, transparent 70%);
-  top: -200px; right: -100px;
-  animation: ts-float 8s ease-in-out infinite;
-}
-.ts-hero-blob--2 {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(14,37,65,.06) 0%, transparent 70%);
-  bottom: -100px; left: -100px;
-  animation: ts-float-alt 10s ease-in-out infinite;
-}
+.ts-hero-deco { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.ts-deco { position: absolute; pointer-events: none; }
+.ts-deco img { filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1)); }
 
-/* Decorative elements */
-.ts-hero-deco { position: absolute; inset: 0; pointer-events: none; }
-.ts-deco { position: absolute; }
+.ts-deco--fish1 { top: 10%; left: -80px; animation: ts-pop-in 1.2s ease-out, ts-float 6s ease-in-out infinite 1.2s; }
+.ts-deco--fish-small { top: 70%; left: -60px; animation: ts-pop-in 1.5s ease-out, ts-float-alt 8s ease-in-out infinite 1.5s; }
+.ts-deco--lobster { top: 40%; left: -100px; animation: ts-pop-in 1s ease-out, ts-float 10s ease-in-out infinite 1s; }
+.ts-deco--prawn-left { top: 25%; left: -50px; animation: ts-pop-in 1.3s ease-out, ts-float-alt 7s ease-in-out infinite 1.3s; }
 
-.ts-deco--fish1 {
-  top: 12%; left: 5%;
-  animation: ts-float 6s ease-in-out infinite;
-}
-.ts-deco--fish2 {
-  top: 60%; left: 2%;
-  animation: ts-float-alt 8s ease-in-out infinite 1s;
-}
-.ts-deco--sparkle1 {
-  top: 8%; right: 42%;
-  animation: ts-rotate-slow 12s linear infinite, ts-scale-pulse 4s ease-in-out infinite;
-}
-.ts-deco--sparkle2 {
-  bottom: 20%; left: 42%;
-  animation: ts-rotate-slow 18s linear infinite reverse;
-}
-.ts-deco--circle1 {
-  width: 180px; height: 180px;
-  border-radius: 50%;
-  border: 2px dashed rgba(60,191,160,.2);
-  top: -40px; left: 30%;
-  animation: ts-rotate-slow 20s linear infinite;
-}
-.ts-deco--circle2 {
-  width: 120px; height: 120px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(14,37,65,.08);
-  bottom: 10%; right: 10%;
-  animation: ts-float 9s ease-in-out infinite 2s;
-}
-.ts-deco--dots {
-  top: 30%; right: 5%;
-  width: 80px; height: 80px;
-  background-image: radial-gradient(circle, rgba(60,191,160,.25) 1.5px, transparent 1.5px);
-  background-size: 16px 16px;
-  animation: ts-float-alt 7s ease-in-out infinite 0.5s;
-}
+.ts-deco--fish-big { top: 8%; right: -120px; animation: ts-pop-in-right 1.4s ease-out, ts-float-alt 7s ease-in-out infinite 1.4s; }
+.ts-deco--crab { bottom: 12%; right: -70px; animation: ts-pop-in-right 1.8s ease-out, ts-float 9s ease-in-out infinite 1.8s; }
+.ts-deco--prawn { top: 50%; right: -80px; animation: ts-pop-in-right 1.3s ease-out, ts-float-alt 11s ease-in-out infinite 1.3s; }
+.ts-deco--fish-right-small { top: 30%; right: -60px; animation: ts-pop-in-right 1.6s ease-out, ts-float 8s ease-in-out infinite 1.6s; }
+.ts-deco--lobster-right { bottom: 35%; right: -90px; animation: ts-pop-in-right 1.2s ease-out, ts-float-alt 10s ease-in-out infinite 1.2s; }
 
-/* Grid */
-.ts-hero-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 60px;
-  position: relative;
-  z-index: 2;
-}
+.ts-hero-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 60px; }
 
-/* Content */
-.ts-hero-content {}
-.ts-hero-heading {
-  font-size: clamp(34px, 5vw, 58px);
-  font-weight: 900;
-  line-height: 1.08;
-  color: var(--ts-hero-heading, var(--ts-navy));
-  margin: 16px 0 20px;
-  letter-spacing: -.02em;
-}
-.ts-hero-accent {
-  color: var(--ts-hero-accent, var(--ts-mint));
-  position: relative;
-}
-.ts-hero-sub {
-  font-size: 16px;
-  line-height: 1.7;
-  color: var(--ts-hero-body, var(--ts-gray));
-  max-width: 400px;
-  margin-bottom: 32px;
-}
-.ts-hero-ctas {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 32px;
-}
+@keyframes ts-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+@keyframes ts-float-alt { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+@keyframes ts-pop-in { from { opacity:0; transform: translateX(-50px); } to { opacity:1; transform: translateX(0); } }
+@keyframes ts-pop-in-right { from { opacity:0; transform: translateX(50px); } to { opacity:1; transform: translateX(0); } }
 
-/* Video button */
-.ts-hero-video-btn {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: var(--ts-font);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--ts-navy);
-  transition: var(--ts-transition);
-}
-.ts-hero-video-btn:hover { color: var(--ts-mint); }
-.ts-play-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--ts-navy);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--ts-white);
-  flex-shrink: 0;
-  transition: var(--ts-transition);
-  box-shadow: 0 4px 16px rgba(14,37,65,.2);
-}
-.ts-hero-video-btn:hover .ts-play-icon {
-  background: var(--ts-mint);
-  transform: scale(1.1);
-  box-shadow: 0 6px 20px rgba(60,191,160,.4);
-}
-
-/* Trust badges */
-.ts-hero-badges {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-.ts-hero-badge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ts-gray);
-}
-.ts-hero-badge svg { color: var(--ts-mint); flex-shrink: 0; }
-
-/* Image */
-.ts-hero-image-wrap { display: flex; justify-content: center; }
-.ts-hero-img-container {
-  position: relative;
-  width: 100%;
-  max-width: 520px;
-}
-.ts-hero-img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  position: relative;
-  z-index: 2;
-  filter: drop-shadow(0 20px 40px rgba(14,37,65,.15));
-  animation: ts-float 7s ease-in-out infinite;
-}
-.ts-hero-img-placeholder {
-  background: var(--ts-gray-light);
-  border-radius: var(--ts-radius-lg);
-  height: 480px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.ts-hero-placeholder-svg { width: 120px; height: 120px; opacity: .4; }
-.ts-hero-ring {
-  position: absolute;
-  width: 85%;
-  height: 85%;
-  border-radius: 50%;
-  background: radial-gradient(circle at 60% 40%, rgba(60,191,160,.12), rgba(60,191,160,.04));
-  top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  z-index: 1;
-  animation: ts-scale-pulse 5s ease-in-out infinite;
-}
-.ts-hero-fish-badge {
-  position: absolute;
-  bottom: 8%;
-  left: -5%;
-  animation: ts-float-alt 6s ease-in-out infinite 1s;
-  z-index: 3;
-}
-
-/* Video Modal */
-.ts-video-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.85);
-  z-index: 3000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  opacity: 0;
-  visibility: hidden;
-  transition: var(--ts-transition);
-}
-.ts-video-modal.open { opacity: 1; visibility: visible; }
-.ts-video-modal-inner {
-  position: relative;
-  width: 100%;
-  max-width: 860px;
-  background: #000;
-  border-radius: var(--ts-radius-md);
-  overflow: hidden;
-}
-.ts-video-close {
-  position: absolute;
-  top: 12px; right: 12px;
-  z-index: 10;
-  background: rgba(0,0,0,.6);
-  border: none;
-  color: white;
-  border-radius: 50%;
-  width: 44px; height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: var(--ts-transition);
-}
-.ts-video-close:hover { background: rgba(60,191,160,.7); }
-.ts-video-frame {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-}
-.ts-video-frame iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* Responsive */
 @media (max-width: 900px) {
-  .ts-hero-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-    text-align: center;
-  }
-  .ts-hero-sub { max-width: 100%; }
-  .ts-hero-ctas, .ts-hero-badges { justify-content: center; }
-  .ts-hero-image-wrap { order: -1; }
-  .ts-hero-img-container { max-width: 360px; }
-  .ts-deco--fish1, .ts-deco--fish2 { display: none; }
-}
-@media (max-width: 560px) {
-  .ts-hero { padding: 48px 0 56px; }
-  .ts-hero-ctas { flex-direction: column; align-items: center; }
+  .ts-hero-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+  .ts-hero-ctas { justify-content: center; }
+  .ts-hero-deco { z-index: -1; }
+  .ts-deco { transform: scale(0.6); }
 }
 </style>
 
 <script>
 (function() {
-  // Parallax effect on decorative elements
-  const parallaxEls = document.querySelectorAll('#ts-hero [data-parallax]');
-  if (parallaxEls.length && window.matchMedia('(min-width: 900px)').matches) {
-    window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
-      parallaxEls.forEach(el => {
-        const speed = parseFloat(el.dataset.parallax || 0.1);
-        el.style.transform = `translateY(${scrollY * speed}px)`;
-      });
-    }, { passive: true });
-  }
-
-  // Video modal
-  const videoTrigger = document.getElementById('ts-video-trigger');
-  const videoModal   = document.getElementById('ts-video-modal');
-  const videoClose   = document.getElementById('ts-video-close');
-  const videoIframe  = document.getElementById('ts-video-iframe');
-  const videoSrc     = {{ section.settings.video_url | default: '' | json }};
-
-  function getEmbedUrl(url) {
-    if (!url) return '';
-    const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([A-Za-z0-9_-]+)/);
-    if (ytMatch) return 'https://www.youtube.com/embed/' + ytMatch[1] + '?autoplay=1';
-    const vMatch = url.match(/vimeo\.com\/(\d+)/);
-    if (vMatch) return 'https://player.vimeo.com/video/' + vMatch[1] + '?autoplay=1';
-    return url;
-  }
-
-  if (videoTrigger && videoModal && videoSrc) {
-    videoTrigger.addEventListener('click', () => {
-      videoIframe.src = getEmbedUrl(videoSrc);
-      videoModal.classList.add('open');
-      videoModal.setAttribute('aria-hidden', 'false');
-    });
-    const closeVideo = () => {
-      videoModal.classList.remove('open');
-      videoModal.setAttribute('aria-hidden', 'true');
-      setTimeout(() => { videoIframe.src = ''; }, 400);
-    };
-    videoClose.addEventListener('click', closeVideo);
-    videoModal.addEventListener('click', e => { if (e.target === videoModal) closeVideo(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideo(); });
-  }
-
-  // Scroll-reveal init
-  const revealEls = document.querySelectorAll('#ts-hero .ts-reveal-left, #ts-hero .ts-reveal-right');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('ts-revealed');
-        observer.unobserve(entry.target);
+  const cd = document.getElementById('ts-hero-countdown');
+  if (cd) {
+    const cut = cd.dataset.cutoff || '11:00';
+    const [h, m] = cut.split(':').map(Number);
+    setInterval(() => {
+      const now = new Date();
+      const cutoff = new Date(); cutoff.setHours(h, m, 0, 0);
+      const diff = cutoff - now;
+      if (diff <= 0) {
+        document.getElementById('ts-hr').innerText = '24';
+        document.getElementById('ts-min').innerText = '00';
+        document.getElementById('ts-sec').innerText = '00';
+        return;
       }
-    });
-  }, { threshold: 0.15 });
-  revealEls.forEach(el => observer.observe(el));
+      document.getElementById('ts-hr').innerText = String(Math.floor(diff/3600000)).padStart(2,'0');
+      document.getElementById('ts-min').innerText = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+      document.getElementById('ts-sec').innerText = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+    }, 1000);
+  }
+  const trig = document.getElementById('ts-video-trigger');
+  const mod = document.getElementById('ts-video-modal');
+  const cls = document.getElementById('ts-video-close');
+  const ifr = document.getElementById('ts-video-iframe');
+  if (trig && mod) {
+    trig.onclick = () => {
+      const url = {{ section.settings.video_url | default: '' | json }};
+      ifr.src = url.includes('youtube.com') ? url.replace('watch?v=', 'embed/') + '?autoplay=1' : url;
+      mod.style.display = 'flex';
+    };
+    cls.onclick = () => { mod.style.display = 'none'; ifr.src = ''; };
+  }
 })();
 </script>
 
@@ -489,180 +200,21 @@
 {
   "name": "TruSea Hero",
   "settings": [
-    {
-      "type": "header",
-      "content": "⚙️ Section Visibility"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_section",
-      "label": "Show section",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_decorations",
-      "label": "Show decorative elements (fish, sparkles)",
-      "default": true
-    },
-    {
-      "type": "header",
-      "content": "🎨 Colors"
-    },
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Background color",
-      "default": "#F5F9F7"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading color",
-      "default": "#0E2541"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent / highlight color",
-      "default": "#3CBFA0"
-    },
-    {
-      "type": "color",
-      "id": "body_color",
-      "label": "Body text color",
-      "default": "#5a7a8a"
-    },
-    {
-      "type": "header",
-      "content": "📝 Text Content"
-    },
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow Label",
-      "default": "100% Formalin Free"
-    },
-    {
-      "type": "text",
-      "id": "heading_line1",
-      "label": "Heading Line 1",
-      "default": "Premium"
-    },
-    {
-      "type": "text",
-      "id": "heading_line2",
-      "label": "Heading Line 2 (Accent Color)",
-      "default": "Fresh Fish"
-    },
-    {
-      "type": "text",
-      "id": "heading_line3",
-      "label": "Heading Line 3",
-      "default": ", Perfectly Cut."
-    },
-    {
-      "type": "textarea",
-      "id": "subtext",
-      "label": "Subtitle / Subtext",
-      "default": "Fresh fish, hygienically prepared and perfectly cut, ready for your kitchen and family meals."
-    },
-    {
-      "type": "header",
-      "content": "🔘 Primary CTA Button"
-    },
-    {
-      "type": "text",
-      "id": "cta_text",
-      "label": "Button Text",
-      "default": "Shop Fresh"
-    },
-    {
-      "type": "url",
-      "id": "cta_url",
-      "label": "Button URL"
-    },
-    {
-      "type": "header",
-      "content": "▶️ Video Button"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_video_btn",
-      "label": "Show video button",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "video_text",
-      "label": "Video Button Text",
-      "default": "Now to order"
-    },
-    {
-      "type": "url",
-      "id": "video_url",
-      "label": "Video URL (YouTube / Vimeo)"
-    },
-    {
-      "type": "header",
-      "content": "✅ Trust Badges"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_badges",
-      "label": "Show trust badges",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_badge_1",
-      "label": "Show badge 1",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "badge_1",
-      "label": "Badge 1 Text",
-      "default": "Zero Formalin"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_badge_2",
-      "label": "Show badge 2",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "badge_2",
-      "label": "Badge 2 Text",
-      "default": "Same Day Delivery"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_badge_3",
-      "label": "Show badge 3",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "badge_3",
-      "label": "Badge 3 Text",
-      "default": "Hygienically Cut"
-    },
-    {
-      "type": "header",
-      "content": "🖼️ Hero Image"
-    },
-    {
-      "type": "image_picker",
-      "id": "hero_image",
-      "label": "Hero Product Image"
-    }
+    { "type": "color", "id": "bg_color", "label": "BG", "default": "#F5F9F7" },
+    { "type": "color", "id": "heading_color", "label": "Heading", "default": "#0E2541" },
+    { "type": "color", "id": "body_color", "label": "Body", "default": "#6B7280" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "100% Formalin Free" },
+    { "type": "text", "id": "heading_line1", "label": "L1", "default": "Premium" },
+    { "type": "text", "id": "heading_line2", "label": "L2", "default": "Fresh Fish" },
+    { "type": "text", "id": "heading_line3", "label": "L3", "default": ", Perfectly Cut." },
+    { "type": "textarea", "id": "subtext", "label": "Sub", "default": "Fresh fish, hygienically prepared and perfectly cut." },
+    { "type": "text", "id": "cta_text", "label": "CTA", "default": "Shop Fresh" },
+    { "type": "url", "id": "cta_url", "label": "URL" },
+    { "type": "url", "id": "video_url", "label": "Vid URL" },
+    { "type": "checkbox", "id": "show_countdown", "label": "Timer", "default": true },
+    { "type": "text", "id": "cutoff_time", "label": "Cutoff", "default": "11:00" },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero Image" }
   ],
-  "presets": [
-    {
-      "name": "TruSea Hero"
-    }
-  ]
+  "presets": [{ "name": "TruSea Hero" }]
 }
 {% endschema %}

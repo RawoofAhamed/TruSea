@@ -4,6 +4,16 @@
 <section class="ts-recipes ts-section" id="ts-recipes" 
   style="--ts-rec-bg: {{ section.settings.bg_color | default: '#F5F9F7' }};"
 >
+  <!-- Decorative Assets -->
+  <div class="ts-deco-container" aria-hidden="true">
+    <div class="ts-deco ts-deco--fish-rec" data-parallax="0.1">
+      <img src="{{ 'Fish (2).png' | asset_url }}" alt="Fish" width="110" height="auto" loading="lazy">
+    </div>
+    <div class="ts-deco ts-deco--crab-rec" data-parallax="0.15">
+      <img src="{{ 'crab.png' | asset_url }}" alt="Crab" width="90" height="auto" loading="lazy">
+    </div>
+  </div>
+
   <div class="ts-container">
     <div class="ts-rec-header ts-reveal">
       <div class="ts-rec-header-titles">
@@ -69,6 +79,16 @@
 .ts-recipes {
   background: var(--ts-rec-bg);
   padding: 100px 0;
+  overflow: visible !important;
+}
+
+/* Decorative Styling */
+.ts-deco--fish-rec { top: 5%; right: -60px; animation: ts-pop-in-right 1.3s ease-out, ts-float 8s ease-in-out infinite 1.3s; }
+.ts-deco--crab-rec { bottom: 10%; left: -50px; animation: ts-pop-in 1.4s ease-out, ts-float-alt 10s ease-in-out infinite 1.4s; }
+
+@media (max-width: 900px) {
+  .ts-deco--fish-rec { right: -30px; transform: scale(0.6); }
+  .ts-deco--crab-rec { left: -30px; transform: scale(0.6); }
 }
 .ts-rec-header {
   display: flex;

@@ -4,6 +4,16 @@
 <section class="ts-fishermen ts-section" id="ts-fishermen"
   style="--ts-fish-bg: {{ section.settings.bg_color | default: '#FDF8F4' }};"
 >
+  <!-- Decorative Assets -->
+  <div class="ts-deco-container" aria-hidden="true">
+    <div class="ts-deco ts-deco--fish-f" data-parallax="0.1">
+      <img src="{{ 'Fish.png' | asset_url }}" alt="Fish" width="140" height="auto" loading="lazy">
+    </div>
+    <div class="ts-deco ts-deco--crab-f" data-parallax="0.15">
+      <img src="{{ 'crab.png' | asset_url }}" alt="Crab" width="100" height="auto" loading="lazy">
+    </div>
+  </div>
+
   <div class="ts-container">
     <div class="ts-fish-header ts-reveal">
        <span class="ts-tag" style="background:#E5D3C2; color:#785840;">The Hands That Feed Us</span>
@@ -52,7 +62,16 @@
 .ts-fishermen {
   background: var(--ts-fish-bg);
   padding: 100px 0;
-  overflow: hidden;
+  overflow: visible !important;
+}
+
+/* Decorative Styling */
+.ts-deco--fish-f { top: 10%; left: -70px; animation: ts-pop-in 1.2s ease-out, ts-float 9s ease-in-out infinite 1.2s; }
+.ts-deco--crab-f { top: 20%; right: -60px; animation: ts-pop-in-right 1.4s ease-out, ts-float-alt 8s ease-in-out infinite 1.4s; }
+
+@media (max-width: 900px) {
+  .ts-deco--fish-f { left: -40px; transform: scale(0.6); }
+  .ts-deco--crab-f { right: -30px; transform: scale(0.6); }
 }
 .ts-fish-header {
   text-align: center;

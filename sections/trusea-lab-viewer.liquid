@@ -1,0 +1,106 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.show_section != false %}
+<section class="ts-lab-viewer ts-section" id="ts-lab-viewer"
+  style="--ts-lab-bg: {{ section.settings.bg_color | default: '#F8FAFC' }};"
+>
+  <!-- Decorative Assets -->
+  <div class="ts-deco-container" aria-hidden="true">
+    <div class="ts-deco ts-deco--crab-lab" data-parallax="0.15">
+      <img src="{{ 'crab.png' | asset_url }}" alt="Crab" width="90" height="auto" loading="lazy">
+    </div>
+    <div class="ts-deco ts-deco--lobster-lab" data-parallax="0.1">
+      <img src="{{ 'lobster.png' | asset_url }}" alt="Lobster" width="120" height="auto" loading="lazy">
+    </div>
+  </div>
+
+  <div class="ts-container">
+    <div class="ts-lab-grid">
+      <div class="ts-lab-content ts-reveal-left">
+        <div class="ts-tag">Certified Quality</div>
+        <h2 class="ts-lab-heading">{{ section.settings.heading | default: '100% Formalin-Free & Safety Tested' }}</h2>
+        <p class="ts-lab-text">Every batch we source undergoes rigorous quality checks. We publish our lab test certificates transparently for your peace of mind.</p>
+        <div class="ts-lab-badges">
+          <div class="ts-lab-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3CBFA0" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span>NABL Accredited Lab</span>
+          </div>
+          <div class="ts-lab-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3CBFA0" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span>Zero Preservatives</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="ts-lab-visual ts-reveal-right">
+        <div class="ts-lab-card">
+          <div class="ts-lab-card-header">Lab Report #8247</div>
+          <div class="ts-lab-card-body">
+             <div class="ts-lab-row"><span>Status:</span> <span class="ts-status-pass">PASSED</span></div>
+             <div class="ts-lab-row"><span>Formalin:</span> <span>Not Detected</span></div>
+             <div class="ts-lab-row"><span>Ammonia:</span> <span>Not Detected</span></div>
+             <div class="ts-lab-row"><span>Freshness Score:</span> <span>98/100</span></div>
+          </div>
+          <div class="ts-lab-card-footer">Verified on {{ "now" | date: "%d %b %Y" }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<style>
+.ts-lab-viewer { padding: 100px 0; background: var(--ts-lab-bg); overflow: visible !important; position: relative; }
+.ts-lab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.ts-lab-heading { font-size: clamp(28px, 4vw, 40px); font-weight: 900; color: var(--ts-navy); margin: 16px 0 24px; }
+.ts-lab-text { color: var(--ts-gray); font-size: 16px; line-height: 1.7; margin-bottom: 32px; }
+.ts-lab-badges { display: flex; flex-direction: column; gap: 16px; }
+.ts-lab-badge { display: flex; align-items: center; gap: 12px; font-weight: 600; color: var(--ts-navy); }
+.ts-lab-card { 
+  background: white; border-radius: 20px; padding: 32px; 
+  box-shadow: 0 30px 60px rgba(14,37,65,0.1); border: 1px solid rgba(14,37,65,0.05);
+  max-width: 380px; margin: 0 auto;
+}
+.ts-lab-card-header { font-size: 14px; font-weight: 700; color: var(--ts-gray); margin-bottom: 24px; border-bottom: 1px solid #f0f0f0; padding-bottom: 12px; }
+.ts-lab-row { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 15px; font-weight: 600; }
+.ts-status-pass { color: var(--ts-mint); }
+.ts-lab-card-footer { margin-top: 24px; font-size: 12px; color: var(--ts-gray); text-align: center; font-style: italic; }
+
+/* Decorative */
+.ts-deco--crab-lab { top: 20%; left: -50px; animation: ts-pop-in 1.3s ease-out, ts-float-alt 9s ease-in-out infinite 1.3s; }
+.ts-deco--lobster-lab { bottom: 15%; right: -60px; animation: ts-pop-in-right 1.5s ease-out, ts-float 11s ease-in-out infinite 1.5s; }
+
+@media (max-width: 900px) {
+  .ts-lab-grid { grid-template-columns: 1fr; gap: 48px; text-align: center; }
+  .ts-lab-badges { align-items: center; }
+  .ts-deco--crab-lab { left: -30px; transform: scale(0.6); }
+  .ts-deco--lobster-lab { right: -30px; transform: scale(0.6); }
+}
+</style>
+
+<script>
+(function() {
+  const labRevealEls = document.querySelectorAll('#ts-lab-viewer .ts-reveal-left, #ts-lab-viewer .ts-reveal-right');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('ts-revealed');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  labRevealEls.forEach(el => observer.observe(el));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Lab Test Viewer",
+  "settings": [
+    { "type": "checkbox", "id": "show_section", "label": "Show section", "default": true },
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#F8FAFC" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "100% Formalin-Free & Safety Tested" }
+  ],
+  "presets": [{ "name": "Lab Test Viewer" }]
+}
+{% endschema %}

@@ -7,6 +7,16 @@
     --ts-wa-accent: #25D366;
   "
 >
+  <!-- Decorative Assets -->
+  <div class="ts-deco-container" aria-hidden="true">
+    <div class="ts-deco ts-deco--fish-wa" data-parallax="0.15">
+      <img src="{{ 'Fish (1).png' | asset_url }}" alt="Fish" width="100" height="auto" loading="lazy">
+    </div>
+    <div class="ts-deco ts-deco--prawn-wa" data-parallax="0.1">
+      <img src="{{ 'prawn.png' | asset_url }}" alt="Prawn" width="80" height="auto" loading="lazy">
+    </div>
+  </div>
+
   <div class="ts-container">
     <div class="ts-wa-header ts-reveal">
       <h2 class="ts-wa-heading">
@@ -100,7 +110,16 @@
 .ts-wa-reviews {
   background: var(--ts-wa-bg);
   padding: 100px 0;
-  overflow: hidden;
+  overflow: visible !important; /* Allow pop out */
+}
+
+/* Decorative Styling */
+.ts-deco--fish-wa { top: 10%; left: -50px; animation: ts-pop-in 1.2s ease-out, ts-float 7s ease-in-out infinite 1.2s; }
+.ts-deco--prawn-wa { bottom: 15%; right: -40px; animation: ts-pop-in-right 1.4s ease-out, ts-float-alt 9s ease-in-out infinite 1.4s; }
+
+@media (max-width: 900px) {
+  .ts-deco--fish-wa { left: -30px; transform: scale(0.6); }
+  .ts-deco--prawn-wa { right: -30px; transform: scale(0.6); }
 }
 .ts-wa-heading {
   text-align: center;

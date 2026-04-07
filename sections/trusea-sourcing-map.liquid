@@ -4,6 +4,16 @@
 <section class="ts-map-section ts-section" id="ts-map-section"
   style="--ts-map-bg: {{ section.settings.bg_color | default: '#F8FAFC' }};"
 >
+  <!-- Decorative Assets -->
+  <div class="ts-deco-container" aria-hidden="true">
+    <div class="ts-deco ts-deco--lobster-map" data-parallax="0.12">
+      <img src="{{ 'lobster.png' | asset_url }}" alt="Lobster" width="130" height="auto" loading="lazy">
+    </div>
+    <div class="ts-deco ts-deco--fish-map" data-parallax="0.18">
+      <img src="{{ 'Fish (1).png' | asset_url }}" alt="Fish" width="90" height="auto" loading="lazy">
+    </div>
+  </div>
+
   <div class="ts-container">
     <div class="ts-map-header ts-reveal">
       <h2 class="ts-map-heading">{{ section.settings.heading | default: 'Where Your Seafood Comes From' }}</h2>
@@ -97,7 +107,16 @@
 .ts-map-section {
   background: var(--ts-map-bg);
   padding: 100px 0;
-  overflow: hidden;
+  overflow: visible !important;
+}
+
+/* Decorative Styling */
+.ts-deco--lobster-map { bottom: 10%; left: -60px; animation: ts-pop-in 1.5s ease-out, ts-float 10s ease-in-out infinite 1.5s; }
+.ts-deco--fish-map { top: 15%; right: -50px; animation: ts-pop-in-right 1.3s ease-out, ts-float-alt 7s ease-in-out infinite 1.3s; }
+
+@media (max-width: 900px) {
+  .ts-deco--lobster-map { left: -30px; transform: scale(0.6); }
+  .ts-deco--fish-map { right: -30px; transform: scale(0.6); }
 }
 .ts-map-header {
   text-align: center;

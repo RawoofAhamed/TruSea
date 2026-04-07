@@ -7,6 +7,19 @@
     --ts-video-text: {{ section.settings.text_color | default: '#FFFFFF' }};
   "
 >
+  <!-- Decorative Assets -->
+  <div class="ts-deco-container" aria-hidden="true">
+    <div class="ts-deco ts-deco--crab-v" data-parallax="0.15">
+      <img src="{{ 'crab.png' | asset_url }}" alt="Crab" width="90" height="auto" loading="lazy">
+    </div>
+    <div class="ts-deco ts-deco--prawn-v" data-parallax="0.1">
+      <img src="{{ 'prawn.png' | asset_url }}" alt="Prawn" width="70" height="auto" loading="lazy">
+    </div>
+    <div class="ts-deco ts-deco--fish-v" data-parallax="0.2">
+      <img src="{{ 'Fish (1).png' | asset_url }}" alt="Fish" width="130" height="auto" loading="lazy">
+    </div>
+  </div>
+
   <div class="ts-container">
     <div class="ts-video-header ts-reveal">
       <div class="ts-tag ts-tag-white">{{ section.settings.eyebrow | default: 'Our Process' }}</div>
@@ -141,6 +154,18 @@
   transform: scale(1.15);
   background: var(--ts-mint);
   color: white;
+}
+
+/* Decorative Styling */
+.ts-video-showcase { overflow: visible !important; }
+.ts-deco--crab-v { top: 15%; left: -50px; animation: ts-pop-in 1.2s ease-out, ts-float 8s ease-in-out infinite 1.2s; }
+.ts-deco--prawn-v { bottom: 20%; left: -30px; animation: ts-pop-in 1.4s ease-out, ts-float-alt 10s ease-in-out infinite 1.4s; }
+.ts-deco--fish-v { top: 10%; right: -70px; animation: ts-pop-in-right 1.3s ease-out, ts-float 7s ease-in-out infinite 1.3s; }
+
+@media (max-width: 900px) {
+  .ts-deco--crab-v { left: -30px; transform: scale(0.6); }
+  .ts-deco--prawn-v { left: -20px; transform: scale(0.6); }
+  .ts-deco--fish-v { right: -40px; transform: scale(0.6); }
 }
 </style>
 
