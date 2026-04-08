@@ -88,7 +88,7 @@
             {{ section.settings.cta_text | default: 'Shop Fresh' }}
           </a>
 
-          {% if section.settings.video_url != blank %}
+          {% if section.settings.video_url != blank or section.settings.video_library != blank %}
             <button id="ts-video-trigger" style="display:flex; align-items:center; gap:12px; background:none; border:none; cursor:pointer; font-weight:600; color:#0E2541;">
               <span style="width:44px; height:44px; border-radius:50%; background:#0E2541; display:flex; align-items:center; justify-content:center; color:white;">▶</span>
               <span>Watch how to order</span>
@@ -101,7 +101,7 @@
       <div class="ts-hero-image-wrap">
         <div style="position:relative; width:100%; max-width:520px;">
           {% if section.settings.hero_image != blank %}
-            <img src="{{ section.settings.hero_image | image_url: width: 700 }}" alt="Hero" style="width:100%; height:auto; position:relative; z-index:2; filter:drop-shadow(0 20px 40px rgba(0,0,0,0.15));" loading="eager">
+            <img src="{{ section.settings.hero_image | image_url: width: 700 }}" alt="Hero" style="width:100%; height:auto; position:relative; z-index:2; filter:drop-shadow(0 20px 40px rgba(0,0,0,0.15)); animation: ts-float 6s ease-in-out infinite;" loading="eager">
           {% else %}
             <div style="background:#E5E7EB; border-radius:24px; height:480px; display:flex; align-items:center; justify-content:center;">
               {{ 'product-2' | placeholder_svg_tag: 'placeholder-svg' }}
@@ -117,8 +117,15 @@
   <div class="ts-video-modal" id="ts-video-modal" style="position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:3000; display:none; align-items:center; justify-content:center; padding:24px;">
     <div style="position:relative; width:100%; max-width:860px; background:#000; border-radius:12px; overflow:hidden;">
       <button id="ts-video-close" style="position:absolute; top:12px; right:12px; z-index:10; background:rgba(0,0,0,0.6); color:white; border:none; width:44px; height:44px; border-radius:50%; cursor:pointer;">✕</button>
-      <div style="position:relative; padding-bottom:56.25%; height:0;">
-        <iframe id="ts-video-iframe" src="" style="position:absolute; inset:0; width:100%; height:100%;" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <div style="position:relative; padding-bottom:56.25%; height:0; background:#000;">
+        <iframe id="ts-video-iframe" src="" style="position:absolute; inset:0; width:100%; height:100%; display:none;" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <video id="ts-video-library" controls style="position:absolute; inset:0; width:100%; height:100%; display:none;">
+          {% if section.settings.video_library != blank %}
+            {% for source in section.settings.video_library.sources %}
+              <source src="{{ source.url }}" type="{{ source.mime_type }}">
+            {% endfor %}
+          {% endif %}
+        </video>
       </div>
     </div>
   </div>
@@ -185,13 +192,30 @@
   const mod = document.getElementById('ts-video-modal');
   const cls = document.getElementById('ts-video-close');
   const ifr = document.getElementById('ts-video-iframe');
+  const vlib = document.getElementById('ts-video-library');
+
   if (trig && mod) {
     trig.onclick = () => {
-      const url = {{ section.settings.video_url | default: '' | json }};
-      ifr.src = url.includes('youtube.com') ? url.replace('watch?v=', 'embed/') + '?autoplay=1' : url;
+      const libUrl = {{ section.settings.video_library | json }};
+      const extUrl = {{ section.settings.video_url | default: '' | json }};
+      
+      if (vlib && vlib.querySelector('source')) {
+        ifr.style.display = 'none';
+        vlib.style.display = 'block';
+        vlib.play();
+      } else if (extUrl) {
+        vlib.style.display = 'none';
+        ifr.style.display = 'block';
+        ifr.src = extUrl.includes('youtube.com') ? extUrl.replace('watch?v=', 'embed/') + '?autoplay=1' : extUrl;
+      }
       mod.style.display = 'flex';
     };
-    cls.onclick = () => { mod.style.display = 'none'; ifr.src = ''; };
+    cls.onclick = () => { 
+      mod.style.display = 'none'; 
+      ifr.src = ''; 
+      if (vlib) { vlib.pause(); vlib.currentTime = 0; }
+    };
+    mod.onclick = (e) => { if (e.target === mod) cls.click(); };
   }
 })();
 </script>
@@ -210,7 +234,8 @@
     { "type": "textarea", "id": "subtext", "label": "Sub", "default": "Fresh fish, hygienically prepared and perfectly cut." },
     { "type": "text", "id": "cta_text", "label": "CTA", "default": "Shop Fresh" },
     { "type": "url", "id": "cta_url", "label": "URL" },
-    { "type": "url", "id": "video_url", "label": "Vid URL" },
+    { "type": "url", "id": "video_url", "label": "YouTube/Vimeo URL" },
+    { "type": "video", "id": "video_library", "label": "Video from Library" },
     { "type": "checkbox", "id": "show_countdown", "label": "Timer", "default": true },
     { "type": "text", "id": "cutoff_time", "label": "Cutoff", "default": "11:00" },
     { "type": "image_picker", "id": "hero_image", "label": "Hero Image" }
