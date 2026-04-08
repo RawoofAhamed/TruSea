@@ -28,6 +28,17 @@
   font-weight: 600;
   letter-spacing: 0.03em;
   text-transform: uppercase;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+.ts-live-ticker::before,
+.ts-live-ticker::after {
+  content: none !important;
+  display: none !important;
 }
 .ts-ticker-track {
   display: inline-flex;

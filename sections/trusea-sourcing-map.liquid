@@ -1,103 +1,49 @@
 {{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
 
-{% if section.settings.show_section != false %}
+{% if section.settings.show_section %}
 <section class="ts-map-section ts-section" id="ts-map-section"
   style="--ts-map-bg: {{ section.settings.bg_color | default: '#F8FAFC' }};"
 >
   <!-- Decorative Assets -->
-  <div class="ts-deco-container" aria-hidden="true">
-    <div class="ts-deco ts-deco--lobster-map" data-parallax="0.12">
-      <img src="{{ 'lobster.png' | asset_url }}" alt="Lobster" width="130" height="auto" loading="lazy">
-    </div>
-    <div class="ts-deco ts-deco--fish-map" data-parallax="0.18">
-      <img src="{{ 'Fish (1).png' | asset_url }}" alt="Fish" width="90" height="auto" loading="lazy">
-    </div>
-  </div>
-
-  <div class="ts-container">
-    <div class="ts-map-header ts-reveal">
+  <div class="ts-container" style="position: relative; z-index: 2;">
+    <div class="ts-map-header">
       <h2 class="ts-map-heading">{{ section.settings.heading | default: 'Where Your Seafood Comes From' }}</h2>
-      <p class="ts-map-sub">We source directly from 5 major hubs along the Tamil Nadu coastline, ensuring the shortest 'sea-to-plate' time.</p>
+      <p class="ts-map-sub">{{ section.settings.subtext | default: 'We source directly from 15+ major hubs along the coast, ensuring the shortest sea-to-plate time.' }}</p>
     </div>
 
-    <div class="ts-map-container ts-reveal">
+    <div class="ts-map-outer">
       <div class="ts-map-wrapper">
-        <!-- Stylized Coastline SVG -->
-        <svg class="ts-map-svg" viewBox="0 0 500 800" fill="none" preserveAspectRatio="xMidYMid meet">
-          <!-- Main Coastline Path (Stylized TN Coast) -->
-          <path d="M100 50 Q150 100 130 200 T180 350 T220 500 T210 650 T180 750" stroke="#0E2541" stroke-width="4" stroke-linecap="round" opacity="0.1" />
-          <path d="M105 52 Q155 102 135 202 T185 352 T225 502 T215 652 T185 752" stroke="#3CBFA0" stroke-width="2" stroke-linecap="round" stroke-dasharray="8 8" />
-          
-          <!-- Hubs (Pins) -->
-          <!-- Ennore (Chennai) -->
-          <g class="ts-map-pin" data-hub="ennore" style="--pin-x: 135px; --pin-y: 180px;">
-            <circle class="ts-pin-pulse" cx="135" cy="180" r="10" fill="#3CBFA0" opacity="0.3"></circle>
-            <circle class="ts-pin-dot" cx="135" cy="180" r="5" fill="#3CBFA0"></circle>
-          </g>
-          <!-- Pulicat -->
-          <g class="ts-map-pin" data-hub="pulicat" style="--pin-x: 125px; --pin-y: 120px;">
-            <circle class="ts-pin-pulse" cx="125" cy="120" r="10" fill="#3CBFA0" opacity="0.3"></circle>
-            <circle class="ts-pin-dot" cx="125" cy="120" r="5" fill="#3CBFA0"></circle>
-          </g>
-          <!-- Nagapattinam -->
-          <g class="ts-map-pin" data-hub="naga" style="--pin-x: 195px; --pin-y: 400px;">
-            <circle class="ts-pin-pulse" cx="195" cy="400" r="10" fill="#3CBFA0" opacity="0.3"></circle>
-            <circle class="ts-pin-dot" cx="195" cy="400" r="5" fill="#3CBFA0"></circle>
-          </g>
-          <!-- Rameswaram -->
-          <g class="ts-map-pin" data-hub="ram" style="--pin-x: 215px; --pin-y: 550px;">
-            <circle class="ts-pin-pulse" cx="215" cy="550" r="10" fill="#3CBFA0" opacity="0.3"></circle>
-            <circle class="ts-pin-dot" cx="215" cy="550" r="5" fill="#3CBFA0"></circle>
-          </g>
-          <!-- Tuticorin -->
-          <g class="ts-map-pin" data-hub="tuti" style="--pin-x: 190px; --pin-y: 680px;">
-            <circle class="ts-pin-pulse" cx="190" cy="680" r="10" fill="#3CBFA0" opacity="0.3"></circle>
-            <circle class="ts-pin-dot" cx="190" cy="680" r="5" fill="#3CBFA0"></circle>
-          </g>
-
-          <!-- Label overlays (invisible by default, shown by CSS/JS) -->
-        </svg>
-
-        <!-- Tooltip / Legend -->
-        <div class="ts-map-popups">
-          <div class="ts-map-popup" id="popup-ennore">
-            <h4>Ennore, Chennai</h4>
-            <p>Famous for: Prawns & Snappers</p>
-            <span>Distance: 12 km</span>
-          </div>
-          <div class="ts-map-popup" id="popup-pulicat">
-            <h4>Pulicat</h4>
-            <p>Famous for: Blue Mud Crab</p>
-            <span>Distance: 54 km</span>
-          </div>
-          <div class="ts-map-popup" id="popup-naga">
-            <h4>Nagapattinam</h4>
-            <p>Famous for: Vanjaram (Seer Fish)</p>
-            <span>Distance: 290 km</span>
-          </div>
-          <div class="ts-map-popup" id="popup-ram">
-            <h4>Rameswaram</h4>
-            <p>Famous for: Calamari & Squid</p>
-            <span>Distance: 560 km</span>
-          </div>
-          <div class="ts-map-popup" id="popup-tuti">
-            <h4>Tuticorin</h4>
-            <p>Famous for: Lobster & Tuna</p>
-            <span>Distance: 600 km</span>
-          </div>
+        <div class="ts-map-scan-layer"></div>
+        <!-- Main Map Image -->
+        <img src="{{ 'map.png' | asset_url }}" alt="TruSea Sourcing Map" class="ts-map-image">
+        
+        <!-- Precision Overlapping Decors -->
+        <div class="ts-map-deco ts-map-deco--crab" data-parallax="0.15">
+          <img src="{{ 'crab.png' | asset_url }}" alt="Crab" width="90">
+        </div>
+        <div class="ts-map-deco ts-map-deco--fish" data-parallax="0.1">
+          <img src="{{ 'Fish (1).png' | asset_url }}" alt="Fish" width="100">
+        </div>
+        <div class="ts-map-deco ts-map-deco--lobster" data-parallax="0.12">
+          <img src="{{ 'lobster.png' | asset_url }}" alt="Lobster" width="110">
+        </div>
+        <div class="ts-map-deco ts-map-deco--prawn" data-parallax="0.2">
+          <img src="{{ 'prawn.png' | asset_url }}" alt="Prawn" width="60">
+        </div>
+        <div class="ts-map-deco ts-map-deco--fish-r" data-parallax="0.15">
+          <img src="{{ 'Fish (2).png' | asset_url }}" alt="Fish" width="150">
         </div>
       </div>
-      
       <div class="ts-map-legend">
         <div class="ts-legend-item">
           <span class="ts-dot-live"></span>
           <span>Live Sourcing Hub</span>
         </div>
         <div class="ts-legend-item">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3CBFA0" stroke-width="2"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"/><path d="M2 12H22"/><path d="M12 2C14.5013 4.73835 15.9228 8.29203 15.9228 12C15.9228 15.708 14.5013 19.2617 12 22C9.49872 19.2617 8.07725 15.708 8.07725 12C8.07725 8.29203 9.49872 4.73835 12 2Z"/></svg>
           <span>Eco-friendly catch methods</span>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </section>
@@ -107,17 +53,10 @@
 .ts-map-section {
   background: var(--ts-map-bg);
   padding: 100px 0;
+  position: relative;
   overflow: visible !important;
 }
 
-/* Decorative Styling */
-.ts-deco--lobster-map { bottom: 10%; left: -60px; animation: ts-pop-in 1.5s ease-out, ts-float 10s ease-in-out infinite 1.5s; }
-.ts-deco--fish-map { top: 15%; right: -50px; animation: ts-pop-in-right 1.3s ease-out, ts-float-alt 7s ease-in-out infinite 1.3s; }
-
-@media (max-width: 900px) {
-  .ts-deco--lobster-map { left: -30px; transform: scale(0.6); }
-  .ts-deco--fish-map { right: -30px; transform: scale(0.6); }
-}
 .ts-map-header {
   text-align: center;
   margin-bottom: 60px;
@@ -134,105 +73,184 @@
   margin: 0 auto;
 }
 
-.ts-map-container {
+.ts-map-outer {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
 }
+
 .ts-map-wrapper {
   position: relative;
   width: 100%;
-  max-width: 600px;
-  height: 600px;
+  max-width: 1200px;
   background: white;
+  min-height: 400px;
   border-radius: 40px;
   box-shadow: 0 40px 100px rgba(14,37,65,0.08);
   border: 1px solid rgba(14,37,65,0.03);
-  padding: 40px;
+  overflow: visible; /* Allow decors to overlap */
+  line-height: 0;
 }
-.ts-map-svg {
+
+.ts-map-scan-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 40px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.ts-map-scan-layer::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
   width: 100%;
   height: 100%;
+  background: linear-gradient(to bottom, transparent, rgba(60, 191, 160, 0.1), transparent);
+  animation: ts-map-scan 8s linear infinite;
 }
 
-/* Pins */
-.ts-map-pin {
-  cursor: pointer;
-  pointer-events: auto;
-}
-.ts-pin-pulse {
-  animation: ts-pin-ripple 2s infinite;
-  transform-origin: center;
-}
-@keyframes ts-pin-ripple {
-  0% { r: 5; opacity: 0.6; }
-  100% { r: 25; opacity: 0; }
-}
-.ts-pin-dot {
-  transition: r 0.3s ease, fill 0.3s ease;
-}
-.ts-map-pin:hover .ts-pin-dot {
-  r: 8;
-  fill: var(--ts-navy);
+@keyframes ts-map-scan {
+  0% { top: -100%; }
+  100% { top: 100%; }
 }
 
-/* Popups */
-.ts-map-popups {
+.ts-map-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  z-index: 1;
+  border-radius: 40px;
+}
+
+/* Overlapping Decors */
+.ts-map-deco {
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+  transition: transform 0.3s ease;
+}
+.ts-map-deco img {
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+  animation: ts-float 6s ease-in-out infinite;
+}
+
+.ts-map-deco--crab { top: 12%; left: 0; transform: translate(-50%, -50%); }
+.ts-map-deco--fish { bottom: 18%; left: 0; transform: translate(-50%, 50%); }
+.ts-map-deco--lobster { top: 8%; right: -20px; transform: translate(50%, -50%); }
+.ts-map-deco--prawn { bottom: 12%; right: -10px; transform: translate(50%, 50%); }
+.ts-map-deco--fish-r { top: 50%; right: 0; transform: translate(50%, -50%); }
+
+@media (max-width: 900px) {
+  .ts-map-deco img { width: 60px; height: auto; }
+}
+
+/* Hub Pins */
+.ts-map-hubs {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
+.ts-map-pin {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 10;
+}
+
+.ts-pin-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background: var(--ts-mint);
+  border-radius: 50%;
+  z-index: 2;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px var(--ts-mint);
+}
+
+.ts-map-pin:hover .ts-pin-dot {
+  transform: translate(-50%, -50%) scale(2);
+  background: var(--ts-white);
+  box-shadow: 0 0 20px var(--ts-mint), 0 0 40px var(--ts-mint);
+}
+
+.ts-pin-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background: rgba(60, 191, 160, 0.4);
+  border-radius: 50%;
+  animation: ts-pin-ripple 2s infinite;
+  pointer-events: none;
+}
+
+@keyframes ts-pin-ripple {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+}
+
+.ts-map-pin:hover .ts-pin-dot {
+  transform: translate(-50%, -50%) scale(1.5);
+  background: var(--ts-navy);
+}
+
+/* Popups */
 .ts-map-popup {
   position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
   background: var(--ts-navy);
   color: white;
-  padding: 16px 20px;
-  border-radius: 16px;
-  width: 220px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  width: 180px;
   opacity: 0;
-  transform: translateY(10px);
+  visibility: hidden;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-  z-index: 10;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  text-align: left;
+  line-height: normal;
 }
 .ts-map-popup::after {
   content: '';
   position: absolute;
   bottom: -6px;
-  left: 20px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
   width: 12px;
   height: 12px;
   background: var(--ts-navy);
-  transform: rotate(45deg);
-}
-.ts-map-popup.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-.ts-map-popup h4 {
-  margin: 0 0 6px;
-  font-size: 16px;
-  color: var(--ts-mint);
-}
-.ts-map-popup p {
-  margin: 0 0 4px;
-  font-size: 13px;
-  opacity: 0.8;
-}
-.ts-map-popup span {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--ts-mint);
 }
 
-/* Coordinates for popups */
-#popup-ennore { top: 120px; left: 160px; }
-#popup-pulicat { top: 60px; left: 150px; }
-#popup-naga { top: 340px; left: 220px; }
-#popup-ram { top: 490px; left: 240px; }
-#popup-tuti { top: 620px; left: 215px; }
+.ts-map-pin:hover .ts-map-popup {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.ts-map-pin.active .ts-map-popup {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.ts-map-popup h4 { margin: 0 0 4px; font-size: 14px; color: var(--ts-mint); }
+.ts-map-popup p { margin: 0 0 4px; font-size: 12px; opacity: 0.8; }
+.ts-map-popup span { font-size: 10px; font-weight: 700; color: var(--ts-mint); text-transform: uppercase; }
 
 .ts-map-legend {
   display: flex;
@@ -247,57 +265,33 @@
   font-weight: 600;
   color: var(--ts-navy);
 }
+.ts-deco--crab-map { top: 20%; left: -30px; animation: ts-pop-in 1.5s ease-out, ts-float 8s ease-in-out infinite 1.5s; }
+.ts-deco--fish-map-l { bottom: 15%; left: -40px; animation: ts-pop-in 1.8s ease-out, ts-float-alt 7s ease-in-out infinite 1.8s; }
+.ts-deco--lobster-map-r { top: 15%; right: -50px; animation: ts-pop-in-right 1.3s ease-out, ts-float-alt 9s ease-in-out infinite 1.3s; }
+.ts-deco--prawn-map-r { bottom: 25%; right: -30px; animation: ts-pop-in-right 1.6s ease-out, ts-float 10s ease-in-out infinite 1.6s; }
 
-@media (max-width: 700px) {
-  .ts-map-wrapper {
-    height: 500px;
-    padding: 20px;
-  }
+@media (max-width: 900px) {
+  .ts-deco--crab-map, .ts-deco--fish-map-l, .ts-deco--lobster-map-r, .ts-deco--prawn-map-r { transform: scale(0.6); }
+  .ts-deco--crab-map { left: -10px; }
+  .ts-deco--lobster-map-r { right: -10px; }
+}
+.ts-dot-live {
+  width: 10px;
+  height: 10px;
+  background: var(--ts-navy);
+  border-radius: 50%;
+  animation: ts-fade-in 1s infinite alternate;
+}
+
+@media (max-width: 768px) {
+  .ts-map-wrapper { border-radius: 20px; }
+  .ts-map-legend { flex-direction: column; gap: 16px; align-items: center; }
 }
 </style>
 
 <script>
 (function() {
-  const pins = document.querySelectorAll('.ts-map-pin');
-  const popups = document.querySelectorAll('.ts-map-popup');
-
-  pins.forEach(pin => {
-    pin.addEventListener('mouseenter', () => {
-      const hub = pin.dataset.hub;
-      const popup = document.getElementById(`popup-${hub}`);
-      if (popup) popup.classList.add('active');
-    });
-
-    pin.addEventListener('mouseleave', () => {
-      popups.forEach(p => p.classList.remove('active'));
-    });
-
-    // Mobile click
-    pin.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const hub = pin.dataset.hub;
-      const popup = document.getElementById(`popup-${hub}`);
-      const wasActive = popup.classList.contains('active');
-      popups.forEach(p => p.classList.remove('active'));
-      if (!wasActive) popup.classList.add('active');
-    });
-  });
-
-  document.addEventListener('click', () => {
-    popups.forEach(p => p.classList.remove('active'));
-  });
-
-  // Reveal
-  const mapRevealEls = document.querySelectorAll('#ts-map-section .ts-reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('ts-revealed');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  mapRevealEls.forEach(el => observer.observe(el));
+  // Reveal animation logic handled by global observer if needed
 })();
 </script>
 
@@ -305,24 +299,10 @@
 {
   "name": "Sourcing Map",
   "settings": [
-    {
-      "type": "checkbox",
-      "id": "show_section",
-      "label": "Show section",
-      "default": true
-    },
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Background Color",
-      "default": "#F8FAFC"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Where Your Seafood Comes From"
-    }
+    { "type": "checkbox", "id": "show_section", "label": "Show", "default": true },
+    { "type": "color", "id": "bg_color", "label": "BG", "default": "#F8FAFC" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Where Your Seafood Comes From" },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "We source directly from 15+ major hubs along the coast." }
   ],
   "presets": [
     {
