@@ -16,20 +16,27 @@
     </div>
 
     <div class="ts-video-container ts-reveal ts-delay-1">
-      <div class="ts-video-wrap">
-        {% if section.settings.video_url != blank %}
-          {% if section.settings.video_url.type == 'youtube' %}
-            <iframe src="https://www.youtube.com/embed/{{ section.settings.video_url.id }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-          {% elsif section.settings.video_url.type == 'vimeo' %}
-            <iframe src="https://player.vimeo.com/video/{{ section.settings.video_url.id }}" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-          {% else %}
-            <video controls preload="metadata" poster="{{ section.settings.placeholder_image | image_url: width: 1200 }}">
-              <source src="{{ section.settings.video_url }}" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-          {% endif %}
-        {% else %}
-          <div class="ts-video-placeholder">
+      <div class="ts-video-wrap" id="ts-video-wrap-{{ section.id }}">
+        {% if section.settings.video_library != blank or section.settings.video_url != blank %}
+          <!-- Main Video Area (Hidden until trigger click) -->
+          <div class="ts-video-main" id="ts-video-main-{{ section.id }}" style="display:none; position:absolute; inset:0; z-index:10;">
+            {% if section.settings.video_library != blank %}
+              <video id="ts-video-lib-{{ section.id }}" controls style="width:100%; height:100%; object-fit:cover;">
+                {% for source in section.settings.video_library.sources %}
+                  <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                {% endfor %}
+              </video>
+            {% elsif section.settings.video_url != blank %}
+              {% if section.settings.video_url.type == 'youtube' %}
+                <iframe id="ts-video-iframe-{{ section.id }}" data-src="https://www.youtube.com/embed/{{ section.settings.video_url.id }}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width:100%; height:100%;"></iframe>
+              {% elsif section.settings.video_url.type == 'vimeo' %}
+                <iframe id="ts-video-iframe-{{ section.id }}" data-src="https://player.vimeo.com/video/{{ section.settings.video_url.id }}?autoplay=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="width:100%; height:100%;"></iframe>
+              {% endif %}
+            {% endif %}
+          </div>
+
+          <!-- Video Placeholder/Trigger -->
+          <div class="ts-video-placeholder" id="ts-video-trigger-{{ section.id }}" style="z-index:20;">
             {% if section.settings.placeholder_image != blank %}
               <img src="{{ section.settings.placeholder_image | image_url: width: 1200 }}" alt="Video Placeholder" loading="lazy">
             {% else %}
@@ -37,10 +44,19 @@
                 {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
               </div>
             {% endif %}
+            
             <div class="ts-video-play-overlay">
               <div class="ts-play-btn-lg">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <svg width="44" height="44" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
               </div>
+            </div>
+          </div>
+        {% else %}
+          <div class="ts-video-placeholder">
+            <div class="ts-video-no-img">
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
             </div>
           </div>
         {% endif %}
@@ -121,26 +137,31 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(14,37,65,0.2);
+  background: rgba(0,0,0,0.25);
   transition: background 0.3s ease;
+  z-index: 100;
+  pointer-events: none;
 }
 .ts-video-placeholder:hover .ts-video-play-overlay {
   background: rgba(14,37,65,0.4);
 }
 .ts-play-btn-lg {
-  width: 90px;
-  height: 90px;
+  width: 96px;
+  height: 96px;
   background: white;
-  color: var(--ts-navy);
+  color: #0E2541;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+.ts-play-btn-lg svg {
+  margin-left: 4px; /* Optical centering */
 }
 .ts-video-placeholder:hover .ts-play-btn-lg {
-  transform: scale(1.15);
+  transform: scale(1.1);
   background: var(--ts-mint);
   color: white;
 }
@@ -170,6 +191,27 @@
     });
   }, { threshold: 0.1 });
   videoRevealEls.forEach(el => observer.observe(el));
+
+  // Video Trigger Logic
+  const trigger = document.getElementById('ts-video-trigger-{{ section.id }}');
+  if (trigger) {
+    trigger.onclick = () => {
+      const vmain = document.getElementById('ts-video-main-{{ section.id }}');
+      const vlib = document.getElementById('ts-video-lib-{{ section.id }}');
+      const vifr = document.getElementById('ts-video-iframe-{{ section.id }}');
+      
+      if (vmain) {
+        trigger.style.display = 'none';
+        vmain.style.display = 'block';
+        
+        if (vlib) {
+          vlib.play();
+        } else if (vifr) {
+          vifr.src = vifr.dataset.src;
+        }
+      }
+    };
+  }
 })();
 </script>
 
@@ -210,8 +252,13 @@
     {
       "type": "video_url",
       "id": "video_url",
-      "label": "Video URL",
+      "label": "External Video URL",
       "accept": ["youtube", "vimeo"]
+    },
+    {
+      "type": "video",
+      "id": "video_library",
+      "label": "Shopify Video Library"
     },
     {
       "type": "image_picker",
