@@ -4,15 +4,7 @@
 <section class="ts-how-it-works ts-section" id="ts-how-it-works"
   style="--ts-hiw-bg: {{ section.settings.bg_color | default: '#FFFFFF' }};"
 >
-  <!-- Decorative Assets -->
-  <div class="ts-deco-container" aria-hidden="true">
-    <div class="ts-deco ts-deco--fish-hiw" data-parallax="0.12">
-      <img src="{{ 'Fish (1).png' | asset_url }}" alt="Fish" width="100" height="auto" loading="lazy">
-    </div>
-    <div class="ts-deco ts-deco--prawn-hiw" data-parallax="0.08">
-      <img src="{{ 'prawn.png' | asset_url }}" alt="Prawn" width="70" height="auto" loading="lazy">
-    </div>
-  </div>
+
 
   <div class="ts-container">
     <div class="ts-hiw-header ts-reveal">
@@ -58,13 +50,9 @@
 .ts-hiw-step p { color: var(--ts-gray); font-size: 15px; line-height: 1.6; }
 
 /* Decorative */
-.ts-deco--fish-hiw { top: 10%; left: -50px; animation: ts-pop-in 1.2s ease-out, ts-float 8s ease-in-out infinite 1.2s; }
-.ts-deco--prawn-hiw { bottom: 20%; right: -40px; animation: ts-pop-in-right 1.4s ease-out, ts-float-alt 10s ease-in-out infinite 1.4s; }
 
 @media (max-width: 900px) {
   .ts-hiw-grid { grid-template-columns: 1fr; gap: 48px; }
-  .ts-deco--fish-hiw { left: -30px; transform: scale(0.6); }
-  .ts-deco--prawn-hiw { right: -30px; transform: scale(0.6); }
 }
 </style>
 
