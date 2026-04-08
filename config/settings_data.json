@@ -155,11 +155,8 @@
       "trusea-hero": {
         "type": "trusea-hero",
         "settings": {
-          "show_section": true,
-          "show_decorations": true,
           "bg_color": "#f5f9f7",
           "heading_color": "#0e2541",
-          "accent_color": "#3cbfa0",
           "body_color": "#5a7a8a",
           "eyebrow": "100% Formalin Free",
           "heading_line1": "Premium",
@@ -168,16 +165,9 @@
           "subtext": "Fresh fish, hygienically prepared and perfectly cut, ready for your kitchen and family meals.",
           "cta_text": "Shop Fresh",
           "cta_url": "",
-          "show_video_btn": true,
-          "video_text": "Now to order",
           "video_url": "",
-          "show_badges": true,
-          "show_badge_1": true,
-          "badge_1": "Zero Formalin",
-          "show_badge_2": true,
-          "badge_2": "Same Day Delivery",
-          "show_badge_3": true,
-          "badge_3": "Hygienically Cut",
+          "show_countdown": true,
+          "cutoff_time": "11:00",
           "hero_image": "shopify://shop_images/pnglobster.png"
         }
       },
@@ -407,6 +397,87 @@
           "card3_title": "Become our privileged SelFish Club member.",
           "card3_desc": "Join for exclusive perks and member-only discounts.",
           "card3_url": ""
+        }
+      },
+      "trusea-live-ticker": {
+        "type": "trusea-live-ticker",
+        "settings": {
+          "show_section": true
+        }
+      },
+      "trusea-delivery-video": {
+        "type": "trusea-delivery-video",
+        "settings": {
+          "show_section": true,
+          "bg_color": "#0e2541",
+          "text_color": "#ffffff",
+          "eyebrow": "Our Process",
+          "heading": "From the Sea to Your Plate — Watch How It Works",
+          "video_url": "",
+          "placeholder_image": "shopify://shop_images/Main_Banner.png"
+        }
+      },
+      "trusea-featured-products": {
+        "type": "trusea-featured-products",
+        "settings": {
+          "show_section": true,
+          "bg_color": "#fafafa",
+          "eyebrow": "Truly Fresh",
+          "heading": "Featured Products",
+          "subtext": "Expertly sourced and cut to your perfection.",
+          "collection": "",
+          "limit": 3
+        }
+      },
+      "trusea-recipes": {
+        "type": "trusea-recipes",
+        "settings": {
+          "show_section": true,
+          "bg_color": "#f5f9f7",
+          "eyebrow": "TruSea Kitchen",
+          "heading_en": "What Are You Cooking Today?",
+          "heading_ta": "இன்று நீங்கள் என்ன சமைக்கிறீர்கள்?",
+          "all_recipes_url": ""
+        }
+      },
+      "trusea-whatsapp-reviews": {
+        "type": "trusea-whatsapp-reviews",
+        "settings": {
+          "show_section": true,
+          "bg_color": "#f5f9f7",
+          "heading": "WHAT OUR CUSTOMERS ARE SAYING (VIA WHATSAPP)"
+        }
+      },
+      "trusea-lab-viewer": {
+        "type": "trusea-lab-viewer",
+        "settings": {
+          "show_section": true,
+          "bg_color": "#f8fafc",
+          "heading": "100% Formalin-Free & Safety Tested"
+        }
+      },
+      "trusea-sourcing-map": {
+        "type": "trusea-sourcing-map",
+        "settings": {
+          "show_section": true,
+          "bg_color": "#f8fafc",
+          "heading": "Where Your Seafood Comes From"
+        }
+      },
+      "trusea-how-it-works": {
+        "type": "trusea-how-it-works",
+        "settings": {
+          "show_section": true,
+          "bg_color": "#ffffff",
+          "heading": "Fresh Seafood in 3 Easy Steps"
+        }
+      },
+      "trusea-fishermen": {
+        "type": "trusea-fishermen",
+        "settings": {
+          "show_section": true,
+          "bg_color": "#fdf8f4",
+          "heading": "Direct From Our Trusted Fishermen"
         }
       }
     },
