@@ -501,7 +501,7 @@
       },
       "9569641368542784305": {
         "type": "shopify://apps/reward-rally/blocks/star_rating/7a5b3c5a-2c07-4679-abe0-3d120b89d95a",
-        "disabled": false,
+        "disabled": true,
         "settings": {
           "heading": "Reward Rally"
         }

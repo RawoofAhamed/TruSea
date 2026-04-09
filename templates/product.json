@@ -106,10 +106,6 @@
             "show_gift_card_recipient": true
           }
         },
-        "reward_rally_monthly_loyalty_pdp_9zDVCm": {
-          "type": "shopify://apps/reward-rally/blocks/monthly_loyalty_pdp/7a5b3c5a-2c07-4679-abe0-3d120b89d95a",
-          "settings": {}
-        },
         "custom_liquid_xxaPYe": {
           "type": "custom_liquid",
           "name": "Whatsapp Buy",
@@ -123,21 +119,6 @@
           "disabled": true,
           "settings": {
             "custom_liquid": "{% assign member_tag = 'selfish_club' %}\n\n{% if product.available %}\n  <div class=\"ts-club-card\" role=\"note\">\n    {% if customer and customer.tags contains member_tag %}\n      <!-- MEMBER VIEW -->\n      <div class=\"ts-club-top\">\n        <div class=\"ts-club-badge\">SelFish Club</div>\n        <div class=\"ts-club-save\">Member active</div>\n      </div>\n\n      <div class=\"ts-club-title\">You’re eligible for priority access ✨</div>\n      <div class=\"ts-club-sub\">\n        You’ll see member pricing and get earlier access to today’s catch when available.\n      </div>\n\n      <div class=\"ts-club-actions\">\n        <a class=\"ts-club-btn ts-club-btn--gold\" href=\"/account\">Go to your account</a>\n        <a class=\"ts-club-btn ts-club-btn--ghost\" href=\"/pages/selfish-club#selfish-faqs\">Member FAQs</a>\n      </div>\n\n    {% else %}\n      <!-- NON-MEMBER VIEW -->\n      <div class=\"ts-club-top\">\n        <div class=\"ts-club-badge\">SelFish Club</div>\n        <div class=\"ts-club-save\">+10% credits</div>\n      </div>\n\n      <div class=\"ts-club-title\">Get first access + priority delivery</div>\n      <div class=\"ts-club-sub\">\n        Members order earlier, get rare fish first, and earn credits on every order.\n      </div>\n\n      <div class=\"ts-club-actions\">\n        <a class=\"ts-club-btn ts-club-btn--gold\" href=\"/pages/selfish-club\">View membership</a>\n        <a class=\"ts-club-btn ts-club-btn--ghost\" href=\"/pages/selfish-club#selfish-pricing\">Pricing</a>\n      </div>\n    {% endif %}\n  </div>\n\n  <style>\n    .ts-club-card{\n      margin-top: 12px;\n      border-radius: 14px;\n      width:460px;\n      padding: 14px 14px 12px;\n      border: 1px solid rgba(210,173,86,.35);\n      background: linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,247,218,.68));\n      box-shadow: 0 12px 26px rgba(0,30,60,.08);\n    }\n\n    .ts-club-top{\n      display:flex;\n      align-items:center;\n      justify-content:space-between;\n      gap:10px;\n      margin-bottom: 8px;\n    }\n\n    .ts-club-badge{\n      font-size: 12px;\n      font-weight: 900;\n      padding: 6px 10px;\n      border-radius: 999px;\n      color:#0b1f33;\n      background: linear-gradient(180deg, #f6de97 0%, #d4af63 100%);\n      border: 1px solid rgba(150,110,35,.25);\n      box-shadow: 0 10px 18px rgba(212,175,99,.22);\n      position: relative;\n      overflow:hidden;\n    }\n    .ts-club-badge::after{\n      content:\"\";\n      position:absolute;\n      inset:-20px;\n      background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.55) 50%, transparent 65%);\n      transform: translateX(-140%);\n      animation: tsClubShine 4.6s ease-in-out infinite;\n      opacity:.6;\n      pointer-events:none;\n      mix-blend-mode: screen;\n    }\n    @keyframes tsClubShine{\n      0%{ transform: translateX(-140%); }\n      55%{ transform: translateX(140%); }\n      100%{ transform: translateX(140%); }\n    }\n\n    .ts-club-save{\n      font-size: 12px;\n      font-weight: 900;\n      color: rgba(11,31,51,.9);\n      padding: 6px 10px;\n      border-radius: 999px;\n      border: 1px solid rgba(11,31,51,.14);\n      background: rgba(240,247,255,.72);\n    }\n\n    .ts-club-title{\n      font-weight: 900;\n      font-size: 14px;\n      color:#0b1f33;\n      margin: 0 0 4px;\n    }\n\n    .ts-club-sub{\n      font-size: 12.5px;\n      line-height: 1.45;\n      color: rgba(13,43,68,.82);\n      margin: 0 0 10px;\n    }\n\n    .ts-club-actions{\n      display:flex;\n      gap:10px;\n    }\n\n    .ts-club-btn{\n      flex:1;\n      text-align:center;\n      padding: 10px 12px;\n      border-radius: 12px;\n      text-decoration:none;\n      font-weight: 900;\n      font-size: 12.5px;\n      transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease;\n      display:flex;\n      align-items:center;\n      justify-content:center;\n      min-height: 44px;\n      box-sizing:border-box;\n    }\n\n    .ts-club-btn--gold{\n      color:#0b1f33;\n      background: linear-gradient(180deg, #f6de97 0%, #d4af63 100%);\n      border: 1px solid rgba(150,110,35,.28);\n      box-shadow: 0 14px 26px rgba(212,175,99,.22);\n      position: relative;\n      overflow:hidden;\n    }\n    .ts-club-btn--gold::after{\n      content:\"\";\n      position:absolute;\n      inset:-20px;\n      background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.50) 50%, transparent 65%);\n      transform: translateX(-140%);\n      animation: tsClubBtnShine 5.0s ease-in-out infinite;\n      opacity:.55;\n      pointer-events:none;\n      mix-blend-mode: screen;\n    }\n    @keyframes tsClubBtnShine{\n      0%{ transform: translateX(-140%); }\n      55%{ transform: translateX(140%); }\n      100%{ transform: translateX(140%); }\n    }\n\n    .ts-club-btn--ghost{\n      color:#0b1f33;\n      background: rgba(255,255,255,.78);\n      border: 1px solid rgba(11,31,51,.16);\n      box-shadow: 0 12px 22px rgba(0,30,60,.06);\n    }\n\n    .ts-club-btn:hover{ transform: translateY(-1px); }\n  </style>\n{% endif %}"
-          }
-        },
-        "reward_rally_user_balance_display_AGM4KA": {
-          "type": "shopify://apps/reward-rally/blocks/user_balance_display/7a5b3c5a-2c07-4679-abe0-3d120b89d95a",
-          "settings": {
-            "show_box": true,
-            "gradient_start_color": "#00C950",
-            "gradient_end_color": "#009966",
-            "gradient_direction": "90deg",
-            "box_text_color": "#ffffff",
-            "button_text_color": "#00b96b",
-            "login_message": "Your rewards are waiting! Log-in now to unlock coins and grab instant discounts.",
-            "zero_balance_message": "Start shopping to earn coins and unlock exciting discounts!",
-            "rr_login_text": "Login",
-            "rr_redeem_text": "Redeem Now"
           }
         },
         "description": {
@@ -167,10 +148,8 @@
         "delivery_slots_cGmfHm",
         "sw_back_in_stock_product_restore_email_9QNGKm",
         "buy_buttons",
-        "reward_rally_monthly_loyalty_pdp_9zDVCm",
         "custom_liquid_xxaPYe",
         "custom_liquid_UGxdcF",
-        "reward_rally_user_balance_display_AGM4KA",
         "description",
         "share"
       ],
