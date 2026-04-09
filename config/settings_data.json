@@ -421,11 +421,10 @@
         "type": "trusea-featured-products",
         "settings": {
           "show_section": true,
-          "bg_color": "#fafafa",
           "eyebrow": "Truly Fresh",
           "heading": "Featured Products",
           "subtext": "Expertly sourced and cut to your perfection.",
-          "collection": "",
+          "collection": "bestsellers",
           "limit": 3
         }
       },
