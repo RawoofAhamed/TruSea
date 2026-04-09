@@ -11,7 +11,10 @@
   assign net = product.metafields.custom.net_weight | default: "480-520g"
   assign serves = product.metafields.custom.serves | default: "3-4"
   assign cut = product.metafields.custom.cut | default: "1 inch"
-  assign pre_book = product.tags | contains: 'Pre-Book'
+  assign pre_book = false
+  if product.tags contains 'Pre-Book'
+    assign pre_book = true
+  endif
 -%}
 
 <div class="ts-product-card ts-reveal" data-product-id="{{ product.id }}">
