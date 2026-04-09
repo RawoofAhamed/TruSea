@@ -424,8 +424,14 @@
           "eyebrow": "Truly Fresh",
           "heading": "Featured Products",
           "subtext": "Expertly sourced and cut to your perfection.",
-          "collection": "bestsellers",
-          "limit": 3
+          "addon_1_product": "croaker-fish-panna",
+          "addon_1_label": "addon",
+          "addon_2_product": "barracuda-seela-large",
+          "addon_2_label": "",
+          "collection": "all-seafoods",
+          "limit": 6,
+          "padding_top": 80,
+          "padding_bottom": 80
         }
       },
       "trusea-recipes": {
