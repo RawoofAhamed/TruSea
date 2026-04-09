@@ -1,0 +1,389 @@
+/* TruSea Featured Products Styling */
+
+.ts-featured-products {
+  background: var(--ts-off-white);
+  padding: 80px 0;
+  overflow: hidden;
+}
+
+.ts-section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.ts-section-heading {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 800;
+  color: var(--ts-navy);
+  margin: 12px 0 16px;
+  letter-spacing: -0.02em;
+}
+
+.ts-section-sub {
+  color: var(--ts-gray);
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.ts-product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 32px;
+}
+
+/* Product Card */
+.ts-product-card {
+  background: var(--ts-white);
+  border-radius: var(--ts-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--ts-shadow-md);
+  transition: var(--ts-transition);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid rgba(14, 37, 65, 0.05);
+}
+
+.ts-product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--ts-shadow-lg);
+}
+
+.ts-card-image-wrap {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+
+.ts-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.ts-product-card:hover .ts-card-img {
+  transform: scale(1.05);
+}
+
+.ts-card-badge {
+  position: absolute;
+  top: 16px;
+  padding: 6px 14px;
+  border-radius: var(--ts-radius-full);
+  font-size: 13px;
+  font-weight: 700;
+  z-index: 2;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.ts-badge--info {
+  left: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ts-navy);
+  border: 1px solid var(--ts-navy);
+}
+
+.ts-badge--stock {
+  right: 16px;
+  background: rgba(60, 191, 160, 0.15);
+  color: var(--ts-mint);
+  border: 1px solid var(--ts-mint);
+}
+
+.ts-card-body {
+  padding: 24px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ts-card-header {
+  margin-bottom: 20px;
+}
+
+.ts-card-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0 0 4px 0;
+  color: var(--ts-navy);
+  letter-spacing: -0.01em;
+}
+
+.ts-card-subtitle {
+  color: var(--ts-mint);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Stats */
+.ts-card-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  padding: 20px 0;
+  border-top: 1px solid var(--ts-gray-light);
+  border-bottom: 1px solid var(--ts-gray-light);
+  margin-bottom: 20px;
+}
+
+.ts-stat-item {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ts-navy);
+}
+
+.ts-stat-label {
+  color: var(--ts-gray);
+  font-weight: 400;
+  margin-right: 4px;
+}
+
+/* Variants (Select Weight) */
+.ts-card-variants {
+  margin-bottom: 24px;
+}
+
+.ts-variant-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ts-gray);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ts-variant-pills {
+  display: flex;
+  gap: 8px;
+}
+
+.ts-variant-pill {
+  flex: 1;
+  background: var(--ts-off-white);
+  border: 1px solid var(--ts-gray-light);
+  color: var(--ts-navy);
+  padding: 12px 8px;
+  border-radius: var(--ts-radius-md);
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--ts-transition);
+  font-size: 14px;
+}
+
+.ts-variant-pill:hover:not(.active) {
+  border-color: var(--ts-mint);
+  background: var(--ts-mint-pale);
+}
+
+.ts-variant-pill.active {
+  background: var(--ts-mint);
+  border-color: var(--ts-mint);
+  color: var(--ts-white);
+}
+
+/* Price & Footer */
+.ts-card-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ts-card-price-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.ts-card-price {
+  font-size: 28px;
+  font-weight: 900;
+  color: #D97706; /* Amber-700 */
+}
+
+.ts-card-price-info {
+  font-size: 11px;
+  color: var(--ts-gray);
+}
+
+.ts-card-add-btn {
+  width: auto;
+  min-width: 100px;
+  justify-content: center;
+}
+
+/* MODAL STYLES */
+.ts-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.ts-modal.active {
+  display: flex;
+}
+
+.ts-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(14, 37, 65, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.ts-modal-content {
+  position: relative;
+  background: var(--ts-white);
+  width: 100%;
+  max-width: 500px;
+  border-radius: var(--ts-radius-lg);
+  box-shadow: var(--ts-shadow-lg);
+  overflow: hidden;
+  animation: ts-modal-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  background: var(--ts-navy);
+  color: var(--ts-white);
+}
+
+@keyframes ts-modal-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ts-modal-header {
+  padding: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.ts-modal-title {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.ts-modal-close {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: var(--ts-white);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--ts-transition);
+}
+
+.ts-modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.ts-modal-body {
+  padding: 24px;
+}
+
+/* Addons in Modal */
+.ts-modal-addons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.ts-addon-item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--ts-radius-md);
+  cursor: pointer;
+  transition: var(--ts-transition);
+}
+
+.ts-addon-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ts-addon-item.active {
+  border-color: var(--ts-mint);
+  background: rgba(60, 191, 160, 0.1);
+}
+
+.ts-addon-check {
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: var(--ts-transition);
+}
+
+.ts-addon-item.active .ts-addon-check {
+  background: var(--ts-mint);
+  border-color: var(--ts-mint);
+}
+
+.ts-addon-check svg {
+  width: 14px;
+  height: 14px;
+  color: white;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: var(--ts-transition);
+}
+
+.ts-addon-item.active .ts-addon-check svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.ts-addon-text {
+  flex-grow: 1;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.ts-addon-price {
+  font-weight: 800;
+  color: var(--ts-mint);
+  margin-left: 12px;
+}
+
+.ts-modal-footer {
+  padding: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ts-modal-confirm-btn {
+  width: 100%;
+  justify-content: center;
+  font-size: 16px;
+  padding: 16px;
+}
+
+@media (max-width: 768px) {
+  .ts-product-grid {
+    grid-template-columns: 1fr;
+    padding: 0 16px;
+  }
+}
