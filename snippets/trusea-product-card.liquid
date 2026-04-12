@@ -1,6 +1,6 @@
 {% comment %}
-  TruSea Product Card Snippet
-  Usage: {% render 'trusea-product-card', product: product %}
+  TruSea Premium Product Card Snippet
+  Usage: {% render 'trusea-product-card', product: product, lazy_load: true %}
 {% endcomment %}
 
 {%- liquid
@@ -11,24 +11,36 @@
   assign net = product.metafields.custom.net_weight | default: "480-520g"
   assign serves = product.metafields.custom.serves | default: "3-4"
   assign cut = product.metafields.custom.cut | default: "1 inch"
+  
   assign pre_book = false
   if product.tags contains 'Pre-Book'
     assign pre_book = true
   endif
+
+  comment
+    Head and Tail add-on (standard for fish)
+  endcomment
+  assign head_tail_addon = all_products['vanjaram-big-slice-cut']
 -%}
 
-<div class="ts-product-card ts-reveal" data-product-id="{{ product.id }}">
+<ts-product-card class="ts-product-card ts-reveal" data-product-id="{{ product.id }}">
   <div class="ts-card-image-wrap">
-    {% if product.featured_media %}
-      <img 
-        src="{{ product.featured_media | image_url: width: 800 }}" 
-        alt="{{ product.title }}" 
-        class="ts-card-img"
-        loading="lazy"
-      >
-    {% else %}
-      {{ 'product-1' | placeholder_svg_tag: 'ts-card-img placeholder-svg' }}
-    {% endif %}
+    <div class="ts-carousel-container">
+      {% if product.media.size > 0 %}
+        {% for media in product.media limit: 5 %}
+          <img 
+            src="{{ media | image_url: width: 800 }}" 
+            alt="{{ product.title }} - Image {{ forloop.index }}" 
+            class="ts-carousel-img {% if forloop.first %}active{% endif %}"
+            loading="{% if lazy_load %}lazy{% else %}eager{% endif %}"
+            width="400"
+            height="250"
+          >
+        {% endfor %}
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'ts-carousel-img active placeholder-svg' }}
+      {% endif %}
+    </div>
     
     <div class="ts-card-badge ts-badge--info">Protein: {{ protein }}</div>
     
@@ -43,7 +55,9 @@
 
   <div class="ts-card-body">
     <div class="ts-card-header">
-      <h3 class="ts-card-title">{{ product.title }}</h3>
+      <h3 class="ts-card-title">
+        <a href="{{ product.url }}">{{ product.title }}</a>
+      </h3>
       {% if product.metafields.custom.subtitle %}
         <span class="ts-card-subtitle">{{ product.metafields.custom.subtitle }}</span>
       {% else %}
@@ -52,72 +66,60 @@
     </div>
 
     <div class="ts-card-stats">
-      <div class="ts-stat-item"><span class="ts-stat-label">Pieces / Slices:</span> {{ pieces }}</div>
+      <div class="ts-stat-item"><span class="ts-stat-label">Slices:</span> {{ pieces }}</div>
       <div class="ts-stat-item"><span class="ts-stat-label">Gross:</span> {{ gross }}</div>
       <div class="ts-stat-item"><span class="ts-stat-label">Net:</span> {{ net }}</div>
       <div class="ts-stat-item"><span class="ts-stat-label">Serves:</span> {{ serves }}</div>
       <div class="ts-stat-item"><span class="ts-stat-label">Cut:</span> {{ cut }}</div>
     </div>
 
-    {% unless product.has_only_default_variant %}
-      <div class="ts-card-variants">
-        <span class="ts-variant-label">SELECT WEIGHT</span>
-        <div class="ts-variant-pills">
-          {% for variant in product.variants %}
-            <button 
-              type="button" 
-              class="ts-variant-pill {% if variant == current_variant %}active{% endif %}"
-              data-variant-id="{{ variant.id }}"
-              data-price="{{ variant.price }}"
-            >
-              {{ variant.title }}
-            </button>
-          {% endfor %}
-        </div>
-      </div>
-    {% endunless %}
-
-    <div class="ts-card-footer">
-      <div class="ts-card-price-wrap">
-        <div class="ts-card-price" id="price-{{ product.id }}">
-          {{ current_variant.price | money_without_trailing_zeros }}
-        </div>
-        <div class="ts-card-price-info">(Incl. GST & FREE delivery)</div>
-      </div>
+    <form method="post" action="/cart/add" class="ts-card-form" enctype="multipart/form-data">
+      <input type="hidden" name="id" value="{{ current_variant.id }}">
       
-      <button 
-        type="button" 
-        class="ts-btn ts-btn-primary ts-card-add-btn"
-        {% unless product.available %}disabled{% endunless %}
-      >
-        {% if product.available %}Add{% else %}Sold Out{% endif %}
-      </button>
-    </div>
-  </div>
-</div>
+      {% unless product.has_only_default_variant %}
+        <div class="ts-card-variants">
+          <span class="ts-variant-label">SELECT WEIGHT</span>
+          <div class="ts-variant-pills">
+            {% for variant in product.variants %}
+              <button 
+                type="button" 
+                class="ts-variant-pill {% if variant == current_variant %}active{% endif %}"
+                data-variant-id="{{ variant.id }}"
+                data-price="{{ variant.price | money_without_trailing_zeros }}"
+              >
+                {{ variant.title }}
+              </button>
+            {% endfor %}
+          </div>
+        </div>
+      {% endunless %}
 
-<script>
-  // Quick Inline variant price switcher for the card
-  (function() {
-    const card = document.querySelector('.ts-product-card[data-product-id="{{ product.id }}"]');
-    if (!card) return;
-    
-    const pills = card.querySelectorAll('.ts-variant-pill');
-    const priceEl = card.querySelector('#price-{{ product.id }}');
-    
-    pills.forEach(pill => {
-      pill.addEventListener('click', () => {
-        pills.forEach(p => p.classList.remove('active'));
-        pill.classList.add('active');
+      {% if head_tail_addon != blank and product.tags contains 'Fish' %}
+        <div class="ts-card-addons">
+          <label class="ts-addon-item">
+            <input type="checkbox" class="ts-addon-check" data-variant-id="{{ head_tail_addon.variants.first.id }}">
+            <span class="ts-addon-text">Add Head and Tail (Curry Cut)</span>
+            <span class="ts-addon-price">+ {{ head_tail_addon.price | money_without_trailing_zeros }}</span>
+          </label>
+        </div>
+      {% endif %}
+
+      <div class="ts-card-footer">
+        <div class="ts-card-price-row">
+          <span class="ts-card-price">
+            <span class="ts-card-price-value">{{ current_variant.price | money_without_trailing_zeros }}</span>
+            <span class="ts-card-price-info">(Incl. GST & FREE delivery)</span>
+          </span>
+        </div>
         
-        // Update price display
-        const price = parseInt(pill.dataset.price);
-        priceEl.textContent = new Intl.NumberFormat('en-IN', {
-          style: 'currency',
-          currency: 'INR',
-          maximumFractionDigits: 0
-        }).format(price / 100);
-      });
-    });
-  })();
-</script>
+        <button 
+          type="button" 
+          class="ts-btn ts-btn-primary ts-card-add-btn"
+          {% unless product.available %}disabled{% endunless %}
+        >
+          {% if product.available %}Add{% else %}Sold Out{% endif %}
+        </button>
+      </div>
+    </form>
+  </div>
+</ts-product-card>
