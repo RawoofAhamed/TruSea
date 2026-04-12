@@ -1,0 +1,122 @@
+{% comment %}
+  Renders a TruSea premium product card
+
+  Accepts:
+  - product: {Object} Product Liquid object
+  - lazy_load: {Boolean} Image should be lazy loaded. Default: true (optional)
+{% endcomment %}
+
+{% liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign subtitle = product.metafields.trusea.subtitle | default: ""
+  assign protein = product.metafields.trusea.protein | default: ""
+  assign pieces = product.metafields.trusea.pieces | default: ""
+  assign gross_weight = product.metafields.trusea.gross_weight | default: ""
+  assign net_weight = product.metafields.trusea.net_weight | default: ""
+  assign serves = product.metafields.trusea.serves | default: ""
+  assign cut_size = product.metafields.trusea.cut_size | default: ""
+  
+  assign addon_1 = product.metafields.trusea.addon_1.value
+  assign addon_2 = product.metafields.trusea.addon_2.value
+%}
+
+<ts-product-card class="ts-product-card" data-product-id="{{ product.id }}">
+  <div class="ts-card-image-wrap">
+    <a href="{{ product.url }}" class="ts-card-link-mask ts-carousel-container">
+      {% for media in product.media limit: 5 %}
+        <img
+          srcset="{%- if media.width >= 165 -%}{{ media | image_url: width: 165 }} 165w,{%- endif -%}
+            {%- if media.width >= 360 -%}{{ media | image_url: width: 360 }} 360w,{%- endif -%}
+            {%- if media.width >= 533 -%}{{ media | image_url: width: 533 }} 533w,{%- endif -%}
+            {%- if media.width >= 720 -%}{{ media | image_url: width: 720 }} 720w,{%- endif -%}
+            {{ media | image_url }} {{ media.width }}w"
+          src="{{ media | image_url: width: 533 }}"
+          alt="{{ media.alt | escape }}"
+          class="ts-card-img ts-carousel-img {% if forloop.first %}active{% endif %}"
+          {% if forloop.first %}{% unless lazy_load == false %}loading="lazy"{% endunless %}{% else %}loading="lazy"{% endif %}
+          width="{{ media.width }}"
+          height="{{ media.height }}"
+          data-index="{{ forloop.index0 }}"
+        >
+      {% endfor %}
+    </a>
+    {% if protein != blank %}
+      <div class="ts-card-badge ts-badge--info">Protein: {{ protein }}</div>
+    {% endif %}
+    <div class="ts-card-badge ts-badge--stock">
+      {% if product.available %}✓ In Stock{% else %}Out of Stock{% endif %}
+    </div>
+  </div>
+
+  <div class="ts-card-body">
+    <div class="ts-card-header">
+      <h3 class="ts-card-title">
+        <a href="{{ product.url }}">{{ product.title }}</a>
+      </h3>
+      {% if subtitle != blank %}
+        <span class="ts-card-subtitle">{{ subtitle }}</span>
+      {% endif %}
+    </div>
+
+    <div class="ts-card-stats">
+      {% if pieces != blank %}<div class="ts-stat-item"><span class="ts-stat-label">Pieces:</span> {{ pieces }}</div>{% endif %}
+      {% if gross_weight != blank %}<div class="ts-stat-item"><span class="ts-stat-label">Gross:</span> {{ gross_weight }}</div>{% endif %}
+      {% if net_weight != blank %}<div class="ts-stat-item"><span class="ts-stat-label">Net:</span> {{ net_weight }}</div>{% endif %}
+      {% if serves != blank %}<div class="ts-stat-item"><span class="ts-stat-label">Serves:</span> {{ serves }}</div>{% endif %}
+      {% if cut_size != blank %}<div class="ts-stat-item"><span class="ts-stat-label">Cut:</span> {{ cut_size }}</div>{% endif %}
+    </div>
+
+    {% if product.variants.size > 1 %}
+      <div class="ts-card-variants">
+        <span class="ts-variant-label">SELECT WEIGHT</span>
+        <div class="ts-variant-pills">
+          {% for variant in product.variants %}
+            <button 
+              type="button"
+              class="ts-variant-pill {% if forloop.first %}active{% endif %}" 
+              data-variant-id="{{ variant.id }}"
+              data-price="{{ variant.price | money }}"
+            >
+              {{ variant.title }}
+            </button>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="ts-card-price-row">
+      <div class="ts-card-price">
+        <span class="ts-card-price-value">{{ current_variant.price | money }}</span>
+        <span class="ts-card-price-info">(Incl. GST & Free Delivery)</span>
+      </div>
+    </div>
+
+    {% if addon_1 != blank or addon_2 != blank %}
+      <div class="ts-card-addons">
+        {% if addon_1 != blank %}
+          <label class="ts-addon-item">
+            <input type="checkbox" class="ts-addon-check" data-variant-id="{{ addon_1.first_available_variant.id }}">
+            <span class="ts-addon-text">{{ addon_1.title }}</span>
+            <span class="ts-addon-price">+ {{ addon_1.price | money }}</span>
+          </label>
+        {% endif %}
+        {% if addon_2 != blank %}
+          <label class="ts-addon-item">
+            <input type="checkbox" class="ts-addon-check" data-variant-id="{{ addon_2.first_available_variant.id }}">
+            <span class="ts-addon-text">{{ addon_2.title }}</span>
+            <span class="ts-addon-price">+ {{ addon_2.price | money }}</span>
+          </label>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="ts-card-footer">
+      <div class="ts-delivery-info">Delivery time: <span class="ts-delivery-value">At your convenience</span></div>
+      
+      <form method="post" action="/cart/add" class="ts-card-form">
+        <input type="hidden" name="id" value="{{ current_variant.id }}">
+        <button type="submit" class="ts-btn ts-btn-primary ts-card-add-btn">Add</button>
+      </form>
+    </div>
+  </div>
+</ts-product-card>
