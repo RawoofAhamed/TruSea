@@ -37,12 +37,13 @@ if (!customElements.get('ts-product-card')) {
 
     initObserver() {
       const options = {
-        threshold: 0.6 // Trigger when 60% of the card is visible
+        threshold: 0.2 // Trigger earlier for visibility
       };
 
       const callback = (entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
+            this.classList.add('ts-revealed');
             this.startCarousel();
           } else {
             this.stopCarousel();
