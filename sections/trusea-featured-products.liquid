@@ -1,29 +1,111 @@
 {{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
-{{ 'trusea-product-card.css' | asset_url | stylesheet_tag }}
-<script src="{{ 'trusea-product-card.js' | asset_url }}" defer="defer"></script>
+{{ 'trusea-featured-products.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'trusea-featured-products.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
 
 {% if section.settings.show_section != false %}
-<section class="ts-featured-products ts-section" id="ts-featured-products"
-  style="
-    --ts-prod-bg: {{ section.settings.bg_color | default: '#FAFAFA' }};
-  "
->
+<section class="ts-featured-products ts-section section-{{ section.id }}-padding" id="ts-featured-products-{{ section.id }}">
   <div class="ts-container">
     <div class="ts-section-header">
-      <div class="ts-tag">{{ section.settings.eyebrow | default: 'Truly Fresh' }}</div>
-      <h2 class="ts-section-heading">{{ section.settings.heading | default: 'Featured Products' }}</h2>
-      <p class="ts-section-sub">{{ section.settings.subtext | default: 'Expertly sourced and cut to your perfection.' }}</p>
+      {% if section.settings.eyebrow != blank %}
+        <div class="ts-tag ts-reveal">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+      <h2 class="ts-section-heading ts-reveal ts-delay-1">{{ section.settings.heading }}</h2>
+      {% if section.settings.subtext != blank %}
+        <p class="ts-section-sub ts-reveal ts-delay-2">{{ section.settings.subtext }}</p>
+      {% endif %}
     </div>
 
     <div class="ts-product-grid">
-      {% if section.settings.collection != blank %}
-        {% for product in section.settings.collection.products limit: section.settings.limit %}
-          {% render 'trusea-product-card', product: product %}
-        {% endfor %}
-      {% else %}
-        <!-- No collection selected message -->
-        <p style="text-align: center; width: 100%;">Please select a collection in the settings to display products.</p>
-      {% endif %}
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'product_block' -%}
+            {%- if block.settings.product != blank -%}
+              {% render 'trusea-product-card', product: block.settings.product %}
+            {%- else -%}
+              {% comment %} Placeholder in editor {% endcomment %}
+              <div class="ts-product-card ts-reveal">
+                <div class="ts-card-image-wrap">
+                  {{ 'product-1' | placeholder_svg_tag: 'ts-card-img placeholder-svg' }}
+                </div>
+                <div class="ts-card-body">
+                  <h3 class="ts-card-title">Example Fish Product</h3>
+                  <p class="ts-card-subtitle">Select a product in blocks</p>
+                </div>
+              </div>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+      
+      {%- if section.blocks.size == 0 -%}
+        {%- if section.settings.collection != blank -%}
+          {%- for product in section.settings.collection.products limit: section.settings.limit -%}
+            {% render 'trusea-product-card', product: product %}
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+
+  {% comment %} SELECTION MODAL {% endcomment %}
+  <div class="ts-modal" aria-hidden="true" role="dialog">
+    <div class="ts-modal-overlay"></div>
+    <div class="ts-modal-content">
+      <div class="ts-modal-header">
+        <div>
+          <h3 class="ts-modal-title">Product Name</h3>
+          <p style="margin: 4px 0 0; font-size: 13px; color: var(--ts-mint); font-weight: 700;">CHOOSE ADD-ONS</p>
+        </div>
+        <button type="button" class="ts-modal-close" aria-label="Close modal">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      
+      <div class="ts-modal-body">
+        <div class="ts-modal-addons">
+          {%- if section.settings.addon_1_product != blank -%}
+            {% assign addon_1 = section.settings.addon_1_product.selected_or_first_available_variant %}
+            <div class="ts-addon-item" data-variant-id="{{ addon_1.id }}" data-price="{{ addon_1.price }}">
+              <div class="ts-addon-check">
+                <svg viewBox="0 0 20 20" fill="none"><path d="M4 10L8 14L16 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <span class="ts-addon-text">{{ section.settings.addon_1_label | default: section.settings.addon_1_product.title }}</span>
+              <span class="ts-addon-price">+ {{ addon_1.price | money_without_trailing_zeros }}</span>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.addon_2_product != blank -%}
+            {% assign addon_2 = section.settings.addon_2_product.selected_or_first_available_variant %}
+            <div class="ts-addon-item" data-variant-id="{{ addon_2.id }}" data-price="{{ addon_2.price }}">
+              <div class="ts-addon-check">
+                <svg viewBox="0 0 20 20" fill="none"><path d="M4 10L8 14L16 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <span class="ts-addon-text">{{ section.settings.addon_2_label | default: section.settings.addon_2_product.title }}</span>
+              <span class="ts-addon-price">+ {{ addon_2.price | money_without_trailing_zeros }}</span>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="ts-modal-footer">
+        <button type="button" class="ts-btn ts-btn-primary ts-modal-confirm-btn">
+          Add to Cart
+        </button>
+      </div>
     </div>
   </div>
 </section>
@@ -49,10 +131,27 @@
 }
 </style>
 
+<script>
+  // Reveal animations for this specific section
+  (function() {
+    const section = document.querySelector('#ts-featured-products-{{ section.id }}');
+    if (!section) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('ts-revealed');
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    section.querySelectorAll('.ts-reveal').forEach(el => observer.observe(el));
+  })();
+</script>
 
 {% schema %}
 {
-  "name": "TruSea Product Grid",
+  "name": "TruSea Functional Grid",
   "settings": [
     {
       "type": "checkbox",
@@ -60,12 +159,37 @@
       "label": "Show section",
       "default": true
     },
-    {
-      "type": "color", "id": "bg_color", "label": "Background Color", "default": "#FAFAFA"
-    },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Truly Fresh" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Featured Products" },
     { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Expertly sourced and cut to your perfection." },
+    {
+      "type": "header",
+      "content": "Add-ons Configuration"
+    },
+    {
+      "type": "product",
+      "id": "addon_1_product",
+      "label": "Add-on 1 Product (e.g. Head & Tail)"
+    },
+    {
+      "type": "text",
+      "id": "addon_1_label",
+      "label": "Add-on 1 Label Override"
+    },
+    {
+      "type": "product",
+      "id": "addon_2_product",
+      "label": "Add-on 2 Product (e.g. Extra Pieces)"
+    },
+    {
+      "type": "text",
+      "id": "addon_2_label",
+      "label": "Add-on 2 Label Override"
+    },
+    {
+      "type": "header",
+      "content": "Fallback: Collection (if no blocks)"
+    },
     {
       "type": "collection",
       "id": "collection",
@@ -79,11 +203,53 @@
       "step": 1,
       "default": 3,
       "label": "Products to show"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_block",
+      "name": "Featured Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "TruSea Product Grid"
+      "name": "TruSea Functional Grid",
+      "blocks": [
+        { "type": "product_block" },
+        { "type": "product_block" },
+        { "type": "product_block" }
+      ]
     }
   ]
 }

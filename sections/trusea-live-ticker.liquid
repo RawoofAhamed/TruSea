@@ -1,78 +1,255 @@
 {{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
 
 {% if section.settings.show_section != false %}
-<div class="ts-live-ticker ts-section" id="ts-live-ticker">
-  <div class="ts-ticker-track">
-    {% for i in (1..10) %}
-      <div class="ts-ticker-item">
-        <span class="ts-ticker-dot"></span>
-        <span class="ts-ticker-text">New Order from Chennai - 2kg Seer Fish</span>
+<div class="ts-live-ticker-wrap ts-section" id="ts-live-ticker-{{ section.id }}"
+  style="
+    --ts-ticker-bg: {{ section.settings.bg_color | default: 'var(--ts-navy)' }};
+    --ts-ticker-text: {{ section.settings.text_color | default: '#FFFFFF' }};
+    --ts-ticker-accent: {{ section.settings.accent_color | default: 'var(--ts-mint)' }};
+    --ts-ticker-speed: {{ section.settings.speed | default: 40 }}s;
+  "
+>
+  <div class="ts-ticker-container">
+    <div class="ts-ticker-track">
+      {%- capture ticker_items -%}
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'order' -%}
+              <div class="ts-ticker-item" {{ block.shopify_attributes }}>
+                <span class="ts-ticker-dot"></span>
+                <span class="ts-ticker-text">
+                  {% if block.settings.location != blank %}New Order from {{ block.settings.location }}{% endif %}
+                  {% if block.settings.product_name != blank %} - {{ block.settings.product_name }}{% endif %}
+                </span>
+              </div>
+            {%- when 'review' -%}
+              <div class="ts-ticker-item" {{ block.shopify_attributes }}>
+                {%- if block.settings.rating > 0 -%}
+                  <span class="ts-ticker-stars">
+                    {%- for i in (1..block.settings.rating) -%}★{%- endfor -%}
+                  </span>
+                {%- endif -%}
+                <span class="ts-ticker-text">
+                  {% if block.settings.comment != blank %}"{{ block.settings.comment }}"{% endif %}
+                  {% if block.settings.author != blank %} - {{ block.settings.author }}{% endif %}
+                </span>
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+
+      {% comment %} Render items twice for seamless loop {% endcomment %}
+      <div class="ts-ticker-content">
+        {{ ticker_items }}
       </div>
-      <div class="ts-ticker-item">
-        <span class="ts-ticker-star">★ ★ ★ ★ ★</span>
-        <span class="ts-ticker-text">"Amazing quality! Best fish in town." - Rahul S.</span>
+      <div class="ts-ticker-content" aria-hidden="true">
+        {{ ticker_items }}
       </div>
-    {% endfor %}
+    </div>
   </div>
 </div>
 {% endif %}
 
 <style>
-.ts-live-ticker {
-  background: var(--ts-navy);
-  color: white;
-  padding: 12px 0;
+.ts-live-ticker-wrap {
+  background: var(--ts-ticker-bg);
+  color: var(--ts-ticker-text);
+  padding: {{ section.settings.padding_v | default: 14 }}px 0;
   overflow: hidden;
   white-space: nowrap;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
+  font-family: var(--ts-font);
+  width: 100%;
 }
-.ts-live-ticker::before,
-.ts-live-ticker::after {
-  content: none !important;
-  display: none !important;
+
+.ts-ticker-container {
+  display: flex;
+  overflow: hidden;
 }
+
 .ts-ticker-track {
-  display: inline-flex;
-  animation: ts-ticker 40s linear infinite;
+  display: flex;
+  animation: ts-ticker-animation var(--ts-ticker-speed) linear infinite;
 }
+
+/* Pause on hover if setting enabled */
+{% if section.settings.pause_on_hover %}
+.ts-ticker-track:hover {
+  animation-play-state: paused;
+}
+{% endif %}
+
+.ts-ticker-content {
+  display: flex;
+}
+
 .ts-ticker-item {
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-right: 50px;
+  gap: 12px;
+  padding: 0 40px;
+  font-size: {{ section.settings.font_size | default: 13 }}px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
 }
+
 .ts-ticker-dot {
   width: 8px;
   height: 8px;
-  background: var(--ts-mint);
+  background: var(--ts-ticker-accent);
   border-radius: 50%;
-  box-shadow: 0 0 10px var(--ts-mint);
+  box-shadow: 0 0 10px var(--ts-ticker-accent);
 }
-.ts-ticker-star {
+
+.ts-ticker-stars {
   color: #FFB800;
   font-size: 11px;
+  letter-spacing: 2px;
 }
-@keyframes ts-ticker {
+
+.ts-ticker-text {
+  /* opacity: 0.9; */
+}
+
+@keyframes ts-ticker-animation {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+  .ts-ticker-item {
+    padding: 0 25px;
+    font-size: 11px;
+  }
 }
 </style>
 
 {% schema %}
 {
-  "name": "Live Order Ticker",
+  "name": "TruSea Live Ticker",
   "settings": [
-    { "type": "checkbox", "id": "show_section", "label": "Show section", "default": true }
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Aesthetics"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#0E2541"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Dot)",
+      "default": "#3CBFA0"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "s",
+      "label": "Animation Speed (Lower is faster)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_v",
+      "min": 4,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical Padding",
+      "default": 14
+    }
   ],
-  "presets": [{ "name": "Live Order Ticker" }]
+  "blocks": [
+    {
+      "type": "order",
+      "name": "Order Notification",
+      "settings": [
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location (City)",
+          "default": "Chennai"
+        },
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Product / Info",
+          "default": "2kg Seer Fish"
+        }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Customer Review",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "comment",
+          "label": "Comment",
+          "default": "Amazing quality! Best fish in town."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Rahul S."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TruSea Live Ticker",
+      "blocks": [
+        { "type": "order", "settings": { "location": "Chennai", "product_name": "2kg Seer Fish" } },
+        { "type": "review", "settings": { "rating": 5, "comment": "Amazing quality!", "author": "Rahul S." } },
+        { "type": "order", "settings": { "location": "Bangalore", "product_name": "1kg Prawns" } }
+      ]
+    }
+  ]
 }
 {% endschema %}
