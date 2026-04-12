@@ -1,3 +1,7 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+{{ 'trusea-product-card.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'trusea-product-card.js' | asset_url }}" defer="defer"></script>
+
 {{ 'template-collection.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
@@ -165,18 +169,9 @@
                     style="--animation-order: {{ forloop.index }};"
                   {% endif %}
                 >
-                  {% render 'card-product',
-                    card_product: product,
-                    media_aspect_ratio: section.settings.image_ratio,
-                    image_shape: section.settings.image_shape,
-                    show_secondary_image: section.settings.show_secondary_image,
-                    show_vendor: section.settings.show_vendor,
-                    show_rating: section.settings.show_rating,
-                    lazy_load: lazy_load,
-                    skip_styles: skip_card_product_styles,
-                    quick_add: section.settings.quick_add,
-                    section_id: section.id,
-                    enable_card_carousel: false
+                  {% render 'trusea-product-card',
+                    product: product,
+                    lazy_load: lazy_load
                   %}
                 </li>
                 {%- assign skip_card_product_styles = true -%}

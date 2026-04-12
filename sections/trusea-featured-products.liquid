@@ -111,6 +111,26 @@
 </section>
 {% endif %}
 
+<style>
+.ts-featured-products {
+  background: var(--ts-prod-bg);
+  padding: 100px 0;
+}
+
+.ts-product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 32px;
+}
+
+@media (max-width: 768px) {
+  .ts-product-grid {
+    grid-template-columns: 1fr;
+    padding: 0 10px;
+  }
+}
+</style>
+
 <script>
   // Reveal animations for this specific section
   (function() {

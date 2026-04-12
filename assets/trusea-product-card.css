@@ -1,0 +1,268 @@
+/* --- TruSea Unified Product Card --- */
+
+.ts-product-card {
+  background: var(--ts-white);
+  border: 1px solid rgba(14, 37, 65, 0.08);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(14, 37, 65, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: var(--ts-navy);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ts-product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px rgba(14, 37, 65, 0.25);
+}
+
+/* Carousel Styles */
+.ts-carousel-container {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ts-carousel-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  z-index: 1;
+}
+
+.ts-carousel-img.active {
+  opacity: 1;
+  position: relative; /* First one maintains aspect ratio */
+  z-index: 2;
+}
+
+.ts-carousel-img:not(.active) {
+  position: absolute; /* Hide others behind */
+}
+
+.ts-card-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+.ts-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.ts-product-card:hover .ts-card-img {
+  transform: scale(1.05);
+}
+
+.ts-card-badge {
+  position: absolute;
+  top: 16px;
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 700;
+  z-index: 2;
+}
+.ts-badge--info {
+  left: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--ts-navy);
+  border: 1px solid var(--ts-navy);
+}
+.ts-badge--stock {
+  right: 16px;
+  background: rgba(60, 191, 160, 0.2);
+  color: var(--ts-mint);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--ts-mint);
+}
+
+/* Card Body */
+.ts-card-body {
+  padding: 24px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ts-card-header {
+  margin-bottom: 20px;
+}
+.ts-card-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.01em;
+}
+.ts-card-title a {
+  color: inherit;
+  text-decoration: none;
+}
+.ts-card-subtitle {
+  color: var(--ts-mint);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Stats Row */
+.ts-card-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(14, 37, 65, 0.08);
+  margin-bottom: 20px;
+}
+.ts-stat-item {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ts-navy);
+  font-weight: 700;
+}
+.ts-stat-label {
+  color: var(--ts-gray);
+  font-weight: 400;
+}
+
+/* Variants */
+.ts-card-variants {
+  margin-bottom: 24px;
+}
+.ts-variant-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ts-gray);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.ts-variant-pills {
+  display: flex;
+  gap: 12px;
+}
+.ts-variant-pill {
+  flex: 1;
+  background: #F3F4F6;
+  border: 1px solid #E5E7EB;
+  color: var(--ts-navy);
+  padding: 10px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--ts-transition);
+  text-align: center;
+}
+.ts-variant-pill:hover {
+  background: #E5E7EB;
+}
+.ts-variant-pill.active {
+  background: var(--ts-mint);
+  border-color: var(--ts-mint);
+  color: var(--ts-white);
+}
+
+/* Price */
+.ts-card-price-row {
+  margin-bottom: 20px;
+}
+.ts-card-price {
+  font-size: 28px;
+  font-weight: 900;
+  color: #D97706; /* Darker amber */
+}
+.ts-card-price-info {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ts-gray);
+  margin-left: 8px;
+}
+
+/* Addons */
+.ts-card-addons {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ts-addon-item {
+  display: flex;
+  align-items: center;
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  padding: 12px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: var(--ts-transition);
+}
+.ts-addon-item:hover {
+  background: #F3F4F6;
+}
+.ts-addon-item.active {
+  border-color: var(--ts-mint);
+  background: rgba(60, 191, 160, 0.05);
+}
+.ts-addon-check {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--ts-mint);
+  margin-right: 12px;
+}
+.ts-addon-text {
+  flex-grow: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ts-navy);
+}
+.ts-addon-price {
+  font-weight: 800;
+  color: var(--ts-mint);
+  font-size: 14px;
+}
+
+/* Footer & Add Btn */
+.ts-card-footer {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid #E5E7EB;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ts-delivery-info {
+  font-size: 13px;
+  color: var(--ts-gray);
+  line-height: 1.4;
+}
+.ts-delivery-value {
+  display: block;
+  font-weight: 700;
+  color: var(--ts-navy);
+}
+.ts-card-add-btn {
+  padding: 10px 24px;
+  min-width: 100px;
+  justify-content: center;
+}
+
+@media (max-width: 480px) {
+  .ts-card-body { padding: 16px; }
+  .ts-card-title { font-size: 20px; }
+  .ts-card-price { font-size: 24px; }
+  .ts-variant-pill { padding: 8px; font-size: 12px; }
+}
