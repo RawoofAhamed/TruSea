@@ -15,7 +15,10 @@
       <div class="ts-map-wrapper">
         <div class="ts-map-scan-layer"></div>
         <!-- Main Map Image -->
-        <img src="{{ 'map.png' | asset_url }}" alt="TruSea Sourcing Map" class="ts-map-image">
+        <picture>
+          <source srcset="{{ 'mapmobile.png' | asset_url }}" media="(max-width: 767px)">
+          <img src="{{ 'map.png' | asset_url }}" alt="TruSea Sourcing Map" class="ts-map-image">
+        </picture>
         
         <!-- Precision Overlapping Decors -->
         <div class="ts-map-deco ts-map-deco--crab" data-parallax="0.15">
@@ -284,7 +287,8 @@
 }
 
 @media (max-width: 768px) {
-  .ts-map-wrapper { border-radius: 20px; }
+  .ts-map-wrapper { border-radius: 20px; min-height: auto; }
+  .ts-map-scan-layer { border-radius: 20px; }
   .ts-map-legend { flex-direction: column; gap: 16px; align-items: center; }
 }
 </style>
