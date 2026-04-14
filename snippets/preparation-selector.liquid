@@ -31,147 +31,287 @@
 
 {% if is_lobster or is_fish or is_clam or is_prawn or is_crab or is_squid %}
 
-<div class="prep-selector" id="prep-selector-{{ product.id }}">
-  <p class="prep-selector__heading">Preparation Preference</p>
+<div class="ts-cut-selector" id="prep-selector-{{ product.id }}">
+  <h4 class="ts-cut-heading">CUT PREFERENCES</h4>
 
   {% if is_lobster %}
-  <div class="prep-selector__group">
-    <span class="prep-selector__label">🦞 Preparation Type</span>
-    <div class="prep-pills" data-group="Lobster Prep">
-      <button type="button" class="prep-pill" data-value="Live Whole">Live Whole</button>
-      <button type="button" class="prep-pill" data-value="Cleaned &amp; Cut">Cleaned &amp; Cut</button>
-      <button type="button" class="prep-pill" data-value="Butterfly">Butterfly</button>
+  <div class="ts-cut-group">
+    <div class="ts-cut-cards" data-group="Lobster Prep">
+      <button type="button" class="ts-cut-card" data-value="Live Whole">
+        <span class="ts-cut-card__top">
+          <span class="ts-cut-card__title">Live Whole</span>
+          <svg class="ts-cut-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9.5" fill="#fff" stroke="currentColor"/><path d="M6 10l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="ts-cut-card__desc">Delivered live and whole.</span>
+      </button>
+      <button type="button" class="ts-cut-card" data-value="Cleaned &amp; Cut">
+        <span class="ts-cut-card__top">
+          <span class="ts-cut-card__title">Cleaned &amp; Cut</span>
+          <svg class="ts-cut-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9.5" fill="#fff" stroke="currentColor"/><path d="M6 10l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="ts-cut-card__desc">Pre-cleaned and sectioned.</span>
+      </button>
+      <button type="button" class="ts-cut-card" data-value="Butterfly">
+        <span class="ts-cut-card__top">
+          <span class="ts-cut-card__title">Butterfly</span>
+          <svg class="ts-cut-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9.5" fill="#fff" stroke="currentColor"/><path d="M6 10l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="ts-cut-card__desc">Split down the back for grilling.</span>
+      </button>
     </div>
   </div>
   {% endif %}
 
   {% if is_fish %}
-  <div class="prep-selector__group">
-    <span class="prep-selector__label">🐟 Cut Type</span>
-    <div class="prep-pills" data-group="Fish Cut">
-      <button type="button" class="prep-pill" data-value="Curry Cut">Curry Cut</button>
-      <button type="button" class="prep-pill" data-value="Fry Cut">Fry Cut</button>
-      <button type="button" class="prep-pill" data-value="Steak">Steak</button>
+  <div class="ts-cut-group">
+    <div class="ts-cut-cards" data-group="Fish Cut">
+      <button type="button" class="ts-cut-card is-active" data-value="Steak Cut">
+        <span class="ts-cut-card__top">
+          <span class="ts-cut-card__title">Steak Cut</span>
+          <svg class="ts-cut-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#177ff2"/><path d="M6 10l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="ts-cut-card__desc">Thick transverse slices with bone-in</span>
+      </button>
+      <button type="button" class="ts-cut-card" data-value="Fry Cut">
+        <span class="ts-cut-card__top">
+          <span class="ts-cut-card__title">Fry Cut</span>
+          <svg class="ts-cut-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#e5e7eb"/><path d="M6 10l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="ts-cut-card__desc">Skin-on fillets, perfect for pan searing</span>
+      </button>
+      <button type="button" class="ts-cut-card" data-value="Curry Cut">
+        <span class="ts-cut-card__top">
+          <span class="ts-cut-card__title">Curry Cut</span>
+          <svg class="ts-cut-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#e5e7eb"/><path d="M6 10l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="ts-cut-card__desc">Medium bite-sized cubes for slow cooking</span>
+      </button>
     </div>
   </div>
   {% endif %}
 
   {% if is_clam %}
-  <div class="prep-selector__group">
-    <span class="prep-selector__label">🐚 Clam Preparation</span>
-    <div class="prep-pills" data-group="Clam Prep">
-      <button type="button" class="prep-pill" data-value="Washed">Washed</button>
-      <button type="button" class="prep-pill" data-value="Cleaned (Sand Removed)">Cleaned (Sand Removed)</button>
+  <div class="ts-cut-group">
+    <div class="ts-cut-cards" data-group="Clam Prep">
+      <button type="button" class="ts-cut-card is-active" data-value="Washed">
+        <span class="ts-cut-card__top">
+          <span class="ts-cut-card__title">Washed</span>
+          <svg class="ts-cut-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#177ff2"/><path d="M6 10l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <button type="button" class="ts-cut-card" data-value="Cleaned (Sand Removed)">
+        <span class="ts-cut-card__top">
+          <span class="ts-cut-card__title">Cleaned (Sand Removed)</span>
+          <svg class="ts-cut-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#e5e7eb"/><path d="M6 10l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
     </div>
   </div>
   {% endif %}
 
   {% if is_squid %}
-  <div class="prep-selector__group">
-    <span class="prep-selector__label">🦑 Squid Preparation</span>
-    <div class="prep-pills" data-group="Squid Prep">
-      <button type="button" class="prep-pill" data-value="Whole">Whole</button>
-      <button type="button" class="prep-pill" data-value="Cleaned">Cleaned</button>
-      <button type="button" class="prep-pill" data-value="Rings">Rings</button>
+  <div class="ts-cut-group">
+    <div class="ts-cut-cards" data-group="Squid Prep">
+      <button type="button" class="ts-cut-card is-active" data-value="Whole">
+        <span class="ts-cut-card__top">
+          <span class="ts-cut-card__title">Whole</span>
+          <svg class="ts-cut-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#177ff2"/><path d="M6 10l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <button type="button" class="ts-cut-card" data-value="Cleaned">
+        <span class="ts-cut-card__top">
+          <span class="ts-cut-card__title">Cleaned</span>
+          <svg class="ts-cut-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#e5e7eb"/><path d="M6 10l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <button type="button" class="ts-cut-card" data-value="Rings">
+        <span class="ts-cut-card__top">
+          <span class="ts-cut-card__title">Rings</span>
+          <svg class="ts-cut-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#e5e7eb"/><path d="M6 10l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
     </div>
   </div>
   {% endif %}
 
   {% if is_crab %}
-  <div class="prep-selector__group">
-    <span class="prep-selector__label">🦀 Crab Preparation</span>
-    <div class="prep-pills" data-group="Crab Prep">
-      <button type="button" class="prep-pill" data-value="Whole">Whole</button>
-      <button type="button" class="prep-pill" data-value="Cleaned &amp; Cut">Cleaned &amp; Cut</button>
+  <div class="ts-cut-group">
+    <div class="ts-cut-cards" data-group="Crab Prep">
+      <button type="button" class="ts-cut-card is-active" data-value="Whole">
+        <span class="ts-cut-card__top">
+          <span class="ts-cut-card__title">Whole</span>
+          <svg class="ts-cut-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#177ff2"/><path d="M6 10l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <button type="button" class="ts-cut-card" data-value="Cleaned &amp; Cut">
+        <span class="ts-cut-card__top">
+          <span class="ts-cut-card__title">Cleaned &amp; Cut</span>
+          <svg class="ts-cut-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#e5e7eb"/><path d="M6 10l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
     </div>
   </div>
   {% endif %}
 
   {% if is_prawn %}
-  <div class="prep-selector__group">
-    <span class="prep-selector__label">🦐 Prawn Preparation</span>
-    <div class="prep-pills" data-group="Prawn Prep">
-      <button type="button" class="prep-pill" data-value="Shell-on Deveined">Shell-on Deveined</button>
-      <button type="button" class="prep-pill" data-value="Peeled &amp; Deveined">Peeled &amp; Deveined</button>
-      <button type="button" class="prep-pill" data-value="Butterfly Cut">Butterfly Cut</button>
+  <div class="ts-cut-group">
+    <div class="ts-cut-cards" data-group="Prawn Prep">
+      <button type="button" class="ts-cut-card is-active" data-value="Shell-on Deveined">
+        <span class="ts-cut-card__top">
+          <span class="ts-cut-card__title">Shell-on Deveined</span>
+          <svg class="ts-cut-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#177ff2"/><path d="M6 10l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <button type="button" class="ts-cut-card" data-value="Peeled &amp; Deveined">
+        <span class="ts-cut-card__top">
+          <span class="ts-cut-card__title">Peeled &amp; Deveined</span>
+          <svg class="ts-cut-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#e5e7eb"/><path d="M6 10l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <button type="button" class="ts-cut-card" data-value="Butterfly Cut">
+        <span class="ts-cut-card__top">
+          <span class="ts-cut-card__title">Butterfly Cut</span>
+          <svg class="ts-cut-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#e5e7eb"/><path d="M6 10l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
     </div>
   </div>
   {% endif %}
+
+  <div class="ts-cut-group">
+    <h4 class="ts-cut-heading">ADD-ONS</h4>
+    <div class="ts-addons-grid">
+      <label class="ts-addon-checkbox">
+        <input type="checkbox" name="properties[Add-on Extra Slice]" value="Yes">
+        <span class="ts-addon-checkbox__box"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7l2.5 2.5L11 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="ts-addon-checkbox__label">Extra Slice</span>
+      </label>
+      <label class="ts-addon-checkbox">
+        <input type="checkbox" name="properties[Add-on Head Included]" value="Yes">
+        <span class="ts-addon-checkbox__box"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7l2.5 2.5L11 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="ts-addon-checkbox__label">Head included</span>
+      </label>
+      <label class="ts-addon-checkbox">
+        <input type="checkbox" name="properties[Add-on Tail Included]" value="Yes">
+        <span class="ts-addon-checkbox__box"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7l2.5 2.5L11 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="ts-addon-checkbox__label">Tail included</span>
+      </label>
+    </div>
+  </div>
 
   <!-- Hidden field that stores the combined note string -->
   <input
     type="hidden"
     name="note"
     id="prep-note-{{ product.id }}"
-    value=""
+    value="Steak Cut"
   >
 </div>
 
 <style>
-  .prep-selector {
-    margin: 20px 0;
-    padding: 18px 20px;
-    border: 1px solid #e0ece2;
-    border-radius: 12px;
-    background: #f7fdf8;
-  }
-
-  .prep-selector__heading {
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-    color: #4a7a54;
-    font-weight: 600;
-    margin: 0 0 16px;
-  }
-
-  .prep-selector__group {
-    margin-bottom: 20px;
-  }
-
-  .prep-selector__group:last-of-type {
-    margin-bottom: 0;
-  }
-
-  .prep-selector__label {
-    display: block;
-    font-size: 1rem;
-    font-weight: 500;
-    color: #3d5e44;
-    margin-bottom: 10px;
-  }
-
-  .prep-pills {
+  .ts-addons-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 16px;
+    margin-bottom: 24px;
   }
-
-  .prep-pill {
-    padding: 10px 22px;
-    border-radius: 50px;
-    border: 1.5px solid #c8deca;
-    background: #fff;
-    color: #4a6e52;
-    font-size: 1rem;
-    font-family: inherit;
+  .ts-addon-checkbox {
+    display: flex;
+    align-items: center;
     cursor: pointer;
-    transition: all 0.15s ease;
-    line-height: 1;
   }
-
-  .prep-pill:hover {
-    border-color: #3a8a50;
-    color: #2d6e3e;
-    background: #eef8f0;
+  .ts-addon-checkbox input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
   }
-
-  .prep-pill.is-active {
-    background: #2d7a44;
-    border-color: #2d7a44;
+  .ts-addon-checkbox__box {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #cbd5e1;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    transition: all 0.2s;
+    background: #fff;
     color: #fff;
+  }
+  .ts-addon-checkbox input:checked + .ts-addon-checkbox__box {
+    background: #177ff2;
+    border-color: #177ff2;
+    color: #fff;
+  }
+  .ts-addon-checkbox__label {
+    font-size: 13px;
+    color: #4b5563;
     font-weight: 500;
-    box-shadow: 0 2px 8px rgba(45,122,68,0.25);
+  }
+  .ts-cut-selector {
+    margin: 24px 0;
+  }
+  .ts-cut-heading {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #4b5563;
+    margin-bottom: 12px;
+    font-family: inherit;
+  }
+  .ts-cut-group {
+    margin-bottom: 16px;
+  }
+  .ts-cut-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .ts-cut-card {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 100%;
+    padding: 16px 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .ts-cut-card.is-active {
+    background: #eff6ff; /* light blue */
+    border-color: #177ff2;
+  }
+  .ts-cut-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .ts-cut-card__title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+  }
+  .ts-cut-card__desc {
+    display: block;
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 4px;
+    font-weight: 400;
+  }
+  .ts-cut-icon {
+    width: 20px;
+    height: 20px;
+  }
+  .ts-cut-card.is-active .ts-cut-icon circle {
+    fill: #177ff2;
+  }
+  .ts-cut-card:not(.is-active) .ts-cut-icon circle {
+    fill: #e5e7eb;
   }
 </style>
 
@@ -181,30 +321,36 @@
   var noteInput   = document.getElementById('prep-note-{{ product.id }}');
   var selections  = {};
 
-  selectorEl.querySelectorAll('.prep-pills').forEach(function(group) {
-    group.querySelectorAll('.prep-pill').forEach(function(pill) {
-      pill.addEventListener('click', function() {
-        // Deselect siblings
-        group.querySelectorAll('.prep-pill').forEach(function(p) {
+  selectorEl.querySelectorAll('.ts-cut-cards').forEach(function(group) {
+    var cards = group.querySelectorAll('.ts-cut-card');
+    
+    // Auto-select first if none is set
+    var activeCard = group.querySelector('.is-active') || cards[0];
+    if(activeCard) {
+      activeCard.classList.add('is-active');
+      selections[group.dataset.group] = activeCard.dataset.value;
+      updateNote();
+    }
+
+    cards.forEach(function(card) {
+      card.addEventListener('click', function() {
+        cards.forEach(function(p) {
           p.classList.remove('is-active');
-          p.setAttribute('aria-pressed', 'false');
         });
-        // Select this pill
-        pill.classList.add('is-active');
-        pill.setAttribute('aria-pressed', 'true');
-
-        // Store selection keyed by group name
-        selections[group.dataset.group] = pill.dataset.value;
-
-        // Build cutter note string and write to hidden input
-        var parts = [];
-        Object.keys(selections).forEach(function(k) {
-          parts.push(k + ': ' + selections[k]);
-        });
-        noteInput.value = parts.join(' | ');
+        card.classList.add('is-active');
+        selections[group.dataset.group] = card.dataset.value;
+        updateNote();
       });
     });
   });
+
+  function updateNote() {
+    var parts = [];
+    Object.keys(selections).forEach(function(k) {
+      parts.push(k + ': ' + selections[k]);
+    });
+    if(noteInput) noteInput.value = parts.join(' | ');
+  }
 })();
 </script>
 
