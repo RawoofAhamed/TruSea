@@ -904,6 +904,217 @@
       {{ product | structured_data }}
     </script>
   </div>
+
+  {% comment %} Redesign Static Features {% endcomment %}
+  <div class="ts-product-features page-width">
+    <div class="ts-feature">
+      <div class="ts-feature-icon" style="background:#ccfbf1; color:#0f766e;">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 21S4 17 4 10V5l8-3 8 3v5c0 7-8 11-8 11z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="ts-feature-title">100% Sustainable</div>
+      <div class="ts-feature-desc">Responsibly farmed and wild-caught using methods that protect our ocean's delicate ecosystems.</div>
+    </div>
+    <div class="ts-feature">
+      <div class="ts-feature-icon" style="background:#dbeafe; color:#1d4ed8;">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="ts-feature-title">Cold Chain Express</div>
+      <div class="ts-feature-desc">Our temperature-controlled packaging ensures your seafood stays at optimal freshness from our shore to your door.</div>
+    </div>
+    <div class="ts-feature">
+      <div class="ts-feature-icon" style="background:#f3e8ff; color:#7e22ce;">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="ts-feature-title">Chef's Choice</div>
+      <div class="ts-feature-desc">Selected by top Michelin-starred restaurants for its consistency, fat content, and superior flavor profile.</div>
+    </div>
+  </div>
+
+  <style>
+    /* PREMIUM PRODUCT PAGE REDESIGN overrides */
+    
+    /* Overall grid structure */
+    @media (min-width: 900px) {
+      .product--large:not(.product--no-media) .product__media-wrapper {
+        max-width: 55%;
+        width: calc(55% - 2rem);
+      }
+      .product--large:not(.product--no-media) .product__info-wrapper {
+        max-width: 45%;
+        width: calc(45% - 2rem);
+        padding-left: 2rem;
+      }
+    }
+
+    /* Media Wrapper Dark Background */
+    .product__media-wrapper {
+      background: #111827 !important; /* Dark Slate */
+      border-radius: 16px;
+      overflow: hidden;
+      padding: 1rem;
+    }
+    .product__media-wrapper .product-media-container {
+      border-radius: 12px;
+      overflow: hidden;
+      background: transparent !important;
+    }
+    .slider-mobile-gutter .product__media-item {
+      background: transparent;
+    }
+    /* Make thumbnails transparent or white */
+    .thumbnail-list__item {
+      background: #f1f5f9;
+      border-radius: 8px;
+    }
+    
+    /* Typography & Info container */
+    .product__info-container {
+      background: #fff;
+    }
+    .product__title h1 {
+      font-weight: 800;
+      font-size: 2.5rem;
+      color: #0f172a;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Price Styling */
+    .price {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .price-item--regular {
+      font-size: 2rem !important;
+      font-weight: 800 !important;
+      color: #177ff2 !important;
+    }
+
+    /* Description */
+    .product__description {
+      color: #64748b;
+      font-size: 15px;
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+
+    /* Variant Pills (Weights) */
+    fieldset.product-form__input {
+      margin-top: 2rem;
+    }
+    .form__label {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #4b5563;
+    }
+    .product-form__input input[type=radio] + label {
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      padding: 12px 24px;
+      font-weight: 600;
+      color: #334155;
+      background: #fff;
+      transition: all 0.2s;
+    }
+    .product-form__input input[type=radio]:checked + label {
+      background: #eff6ff; /* light blue */
+      border-color: #177ff2;
+      color: #177ff2;
+    }
+
+    /* Buy Buttons */
+    .product-form__buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 2rem;
+    }
+    .product-form__submit {
+      flex-grow: 1;
+      background: #177ff2 !important;
+      color: #fff !important;
+      border-radius: 8px !important;
+      font-weight: 700 !important;
+      font-size: 16px !important;
+      height: 56px !important;
+      box-shadow: 0 4px 14px rgba(23, 127, 242, 0.4) !important;
+      border: none !important;
+      transition: all 0.2s ease;
+    }
+    .product-form__submit:hover {
+      background: #1466c3 !important;
+      transform: translateY(-2px);
+    }
+    .product-form__submit::before, .product-form__submit::after {
+      display: none !important;
+    }
+
+    /* Heart Wishlist Button Mimic (Added via pseudo element to match design structurally for now) */
+    .product-form__buttons {
+      position: relative;
+    }
+    .ts-wishlist-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      cursor: pointer;
+      color: #64748b;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .ts-wishlist-btn:hover {
+      border-color: #cbd5e1;
+      color: #ef4444;
+    }
+
+    /* Bottom Features */
+    .ts-product-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid #e2e8f0;
+      width: 100%;
+    }
+    .ts-feature {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .ts-feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .ts-feature-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+    .ts-feature-title {
+      font-weight: 800;
+      font-size: 16px;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .ts-feature-desc {
+      font-size: 14px;
+      color: #64748b;
+      line-height: 1.6;
+    }
+  </style>
+
 </product-info>
 
 {% schema %}
