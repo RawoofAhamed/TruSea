@@ -1,0 +1,377 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+<div class="lc-coll-wrap">
+
+  {%- paginate collection.products by section.settings.products_per_page -%}
+
+  <!-- ── Collection Header ── -->
+  <div class="lc-coll-header">
+    <div class="lc-coll-header__inner">
+      <div class="lc-coll-header__titles">
+        <h1 class="lc-coll-title">{{ collection.title }}</h1>
+        {% if collection.description != blank %}
+          <p class="lc-coll-desc">{{ collection.description | strip_html | truncatewords: 20 }}</p>
+        {% endif %}
+      </div>
+      <div class="lc-coll-count">
+        <span>{{ collection.products_count }} products</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Sort + Filter Bar ── -->
+  <div class="lc-coll-toolbar">
+    <div class="lc-coll-toolbar__inner">
+
+      <!-- Filter tags as pills -->
+      <div class="lc-coll-filters" id="lc-filters">
+        <button class="lc-filter-pill active" data-tag="all" onclick="lcFilterAll(this)">All</button>
+        {%- for tag in collection.all_tags limit: 10 -%}
+          <button class="lc-filter-pill {% if current_tags contains tag %}active{% endif %}"
+                  data-tag="{{ tag | handleize }}"
+                  onclick="lcFilterTag(this, '{{ tag | escape }}')">
+            {{ tag }}
+          </button>
+        {%- endfor -%}
+      </div>
+
+      <!-- Sort -->
+      <div class="lc-coll-sort">
+        <label for="lc-sortby" class="lc-sort-label">Sort</label>
+        <div class="lc-sort-select-wrap">
+          {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+          <select id="lc-sortby" class="lc-sort-select"
+                  onchange="window.location = '{{ collection.url }}?sort_by=' + this.value">
+            {%- for option in collection.sort_options -%}
+              <option value="{{ option.value }}"
+                      {% if option.value == sort_by %}selected{% endif %}>
+                {{ option.name }}
+              </option>
+            {%- endfor -%}
+          </select>
+          <svg class="lc-sort-caret" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Product Grid ── -->
+  <div class="lc-coll-grid" id="lc-product-grid">
+    {%- for product in collection.products -%}
+      {% render 'licious-product-card', product: product, section: section %}
+    {%- else -%}
+      <div class="lc-coll-empty">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d8eeff" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <p>No products found in this collection.</p>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <!-- ── Pagination ── -->
+  {%- if paginate.pages > 1 -%}
+    <div class="lc-coll-pagination">
+      {%- if paginate.previous -%}
+        <a href="{{ paginate.previous.url }}" class="lc-page-btn">← Prev</a>
+      {%- endif -%}
+      {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}
+          <a href="{{ part.url }}" class="lc-page-btn">{{ part.title }}</a>
+        {%- else -%}
+          <span class="lc-page-btn lc-page-btn--active">{{ part.title }}</span>
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if paginate.next -%}
+        <a href="{{ paginate.next.url }}" class="lc-page-btn">Next →</a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- endpaginate -%}
+</div>
+
+<style>
+/* ── Collection Page Layout ── */
+.lc-coll-wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Header */
+.lc-coll-header {
+  margin-bottom: 24px;
+  padding: 40px 0 24px;
+  position: relative;
+  overflow: hidden;
+}
+.lc-coll-header::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(216, 238, 255, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  z-index: -1;
+}
+.lc-coll-header__inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+.lc-coll-title {
+  font-size: 26px;
+  font-weight: 900;
+  color: #0d3d6e;
+  margin: 0 0 4px;
+  line-height: 1.2;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+.lc-coll-desc {
+  font-size: 13px;
+  color: #4a5568;
+  margin: 0;
+  line-height: 1.5;
+}
+.lc-coll-count {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1a6ea8;
+  background: #f0f8ff;
+  border: 1px solid #d8eeff;
+  border-radius: 20px;
+  padding: 4px 14px;
+  white-space: nowrap;
+}
+
+/* Toolbar */
+.lc-coll-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #fff;
+  border-bottom: 1px solid #eef2f7;
+  margin-bottom: 24px;
+  padding: 10px 0;
+}
+.lc-coll-toolbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Filter pills */
+.lc-coll-filters {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex: 1;
+}
+.lc-coll-filters::-webkit-scrollbar { display: none; }
+.lc-filter-pill {
+  padding: 6px 16px;
+  border-radius: 50px;
+  border: 1.5px solid #d8eeff;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  color: #4a5568;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.lc-filter-pill:hover { border-color: #1a6ea8; color: #0d3d6e; }
+.lc-filter-pill.active {
+  background: #0d3d6e;
+  border-color: #0d3d6e;
+  color: #fff;
+}
+
+/* Sort */
+.lc-coll-sort { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.lc-sort-label { font-size: 11px; font-weight: 800; color: #0d3d6e; text-transform: uppercase; letter-spacing: 0.4px; }
+.lc-sort-select-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.lc-sort-select {
+  appearance: none;
+  border: 1.5px solid #d8eeff;
+  border-radius: 8px;
+  padding: 6px 32px 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0d3d6e;
+  background: #fff;
+  cursor: pointer;
+  outline: none;
+}
+.lc-sort-select:focus { border-color: #1a6ea8; }
+.lc-sort-caret {
+  position: absolute;
+  right: 10px;
+  width: 10px;
+  color: #1a6ea8;
+  pointer-events: none;
+}
+
+/* ── Product Grid ── */
+.lc-coll-grid {
+  display: grid;
+  grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
+  gap: 20px;
+}
+@media (max-width: 900px) { .lc-coll-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { .lc-coll-grid { grid-template-columns: repeat({{ section.settings.columns_mobile }}, 1fr); gap: 12px; } }
+
+
+
+/* Empty state */
+.lc-coll-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: #aaa;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Pagination */
+.lc-coll-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 40px;
+}
+.lc-page-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1.5px solid #d8eeff;
+  background: #fff;
+  color: #0d3d6e;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.lc-page-btn:hover { background: #0d3d6e; color: #fff; border-color: #0d3d6e; }
+.lc-page-btn--active {
+  background: #0d3d6e;
+  color: #fff;
+  border-color: #0d3d6e;
+}
+</style>
+
+<script>
+// Tag filter (client-side URL redirect)
+function lcFilterTag(btn, tag) {
+  document.querySelectorAll('.lc-filter-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  window.location = '{{ collection.url }}/' + tag;
+}
+function lcFilterAll(btn) {
+  document.querySelectorAll('.lc-filter-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  window.location = '{{ collection.url }}';
+}
+</script>
+
+{% schema %}
+{
+  "name": "Licious Collection Grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 24,
+      "label": "Products per page"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columns (Desktop)",
+      "options": [
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns (Mobile)",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "text",
+      "id": "badge_label",
+      "label": "Card Ribbon Badge",
+      "default": "Best Seller"
+    },
+    {
+      "type": "text",
+      "id": "image_ratio",
+      "label": "Image Ratio (e.g. 100%, 75%, 65%)",
+      "default": "75%"
+    },
+    {
+      "type": "range",
+      "id": "slider_interval",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3,
+      "label": "Carousel Interval (seconds)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_desc",
+      "label": "Show Description",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_weight",
+      "label": "Show Net Weight",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_discount",
+      "label": "Show Discount Badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_delivery",
+      "label": "Show Delivery Badge",
+      "default": true
+    }
+  ],
+  "presets": [
+    { "name": "Licious Collection Grid" }
+  ]
+}
+{% endschema %}

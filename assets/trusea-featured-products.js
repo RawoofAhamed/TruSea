@@ -39,6 +39,52 @@ class TruSeaFeaturedProducts {
 
     // Confirm (Add to Cart)
     this.confirmBtn?.addEventListener('click', () => this.addToCart());
+
+    // Initialize Hover Carousel
+    this.initHoverCarousels();
+  }
+
+  initHoverCarousels() {
+    const carousels = document.querySelectorAll('.ts-carousel-container');
+    carousels.forEach(carousel => {
+      let intervalTime = 1500;
+      let container = carousel.querySelector('.ts-carousel-track');
+       if (!container) return; // fail safe
+      let slides = carousel.querySelectorAll('.ts-slide');
+      let dots = carousel.querySelectorAll('.ts-dot');
+      if(slides.length <= 1) return;
+
+      let currentIndex = 0;
+      let slideTimer = null;
+
+      let updateSlide = () => {
+        container.style.transform = `translateX(-${currentIndex * 100}%)`;
+        dots.forEach(d => d.classList.remove('active'));
+        if(dots[currentIndex]) {
+          dots[currentIndex].classList.add('active');
+        }
+      };
+
+      let startCarousel = () => {
+        slideTimer = setInterval(() => {
+          currentIndex = (currentIndex + 1) % slides.length;
+          updateSlide();
+        }, intervalTime);
+      };
+
+      let stopCarousel = () => {
+        clearInterval(slideTimer);
+        currentIndex = 0; // Reset to first slide
+        updateSlide();
+      };
+
+      // Ensure we listen on the parent wrapper so hover area is entire image
+      let wrapper = carousel.closest('.ts-card-image-wrap');
+      if (wrapper) {
+        wrapper.addEventListener('mouseenter', startCarousel);
+        wrapper.addEventListener('mouseleave', stopCarousel);
+      }
+    });
   }
 
   openModal(btn) {

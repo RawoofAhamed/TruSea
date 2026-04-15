@@ -26,20 +26,29 @@
 <ts-product-card class="ts-product-card ts-reveal" data-product-id="{{ product.id }}">
   <div class="ts-card-image-wrap">
     <div class="ts-carousel-container">
-      {% if product.media.size > 0 %}
+      <div class="ts-carousel-track">
+        {% if product.media.size > 0 %}
+          {% for media in product.media limit: 5 %}
+            <div class="ts-slide {% if forloop.first %}active{% endif %}">
+              <img 
+                src="{{ media | image_url: width: 800 }}" 
+                alt="{{ product.title }} - Image {{ forloop.index }}" 
+                class="ts-carousel-img"
+                loading="{% if lazy_load %}lazy{% else %}eager{% endif %}"
+                width="400"
+                height="250"
+              >
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="ts-slide active">{{ 'product-1' | placeholder_svg_tag: 'ts-carousel-img placeholder-svg' }}</div>
+        {% endif %}
+      </div>
+      <div class="ts-carousel-dots">
         {% for media in product.media limit: 5 %}
-          <img 
-            src="{{ media | image_url: width: 800 }}" 
-            alt="{{ product.title }} - Image {{ forloop.index }}" 
-            class="ts-carousel-img {% if forloop.first %}active{% endif %}"
-            loading="{% if lazy_load %}lazy{% else %}eager{% endif %}"
-            width="400"
-            height="250"
-          >
+          <span class="ts-dot {% if forloop.first %}active{% endif %}"></span>
         {% endfor %}
-      {% else %}
-        {{ 'product-1' | placeholder_svg_tag: 'ts-carousel-img active placeholder-svg' }}
-      {% endif %}
+      </div>
     </div>
     
     <div class="ts-card-badge ts-badge--info">Protein: {{ protein }}</div>

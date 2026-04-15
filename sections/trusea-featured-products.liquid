@@ -35,7 +35,7 @@
         {%- case block.type -%}
           {%- when 'product_block' -%}
             {%- if block.settings.product != blank -%}
-              {% render 'trusea-product-card', product: block.settings.product %}
+              {% render 'licious-product-card', product: block.settings.product, section: section %}
             {%- else -%}
               {% comment %} Placeholder in editor {% endcomment %}
               <div class="ts-product-card ts-reveal">
@@ -54,7 +54,7 @@
       {%- if section.blocks.size == 0 -%}
         {%- if section.settings.collection != blank -%}
           {%- for product in section.settings.collection.products limit: section.settings.limit -%}
-            {% render 'trusea-product-card', product: product %}
+            {% render 'licious-product-card', product: product, section: section %}
           {%- endfor -%}
         {%- endif -%}
       {%- endif -%}
@@ -119,14 +119,20 @@
 
 .ts-product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 32px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .ts-product-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     padding: 0 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ts-product-grid {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 </style>
@@ -227,6 +233,46 @@
       "unit": "px",
       "label": "Bottom padding",
       "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Card Settings"
+    },
+    {
+      "type": "text",
+      "id": "badge_label",
+      "label": "Card Ribbon Badge",
+      "default": "Best Seller"
+    },
+    {
+      "type": "text",
+      "id": "image_ratio",
+      "label": "Image Ratio (e.g. 100%, 75%, 65%)",
+      "default": "75%"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_desc",
+      "label": "Show Description",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_weight",
+      "label": "Show Net Weight",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_discount",
+      "label": "Show Discount Badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_delivery",
+      "label": "Show Delivery Badge",
+      "default": true
     }
   ],
   "blocks": [

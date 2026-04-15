@@ -28,7 +28,7 @@
 
 <div class="lc-card">
   <!-- Image Carousel Area -->
-  <div class="lc-card__media-wrap" style="padding-bottom: {{ section.settings.image_ratio }};">
+  <div class="lc-card__media-wrap" style="padding-bottom: {{ section.settings.image_ratio | default: '75%' }};">
     
     <!-- Top left ribbon -->
     {% if section.settings.badge_label != blank %}
@@ -39,27 +39,32 @@
 
     <!-- Top right icon -->
     <div class="lc-card__icon-nv">
-      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" stroke="#D2213F" stroke-width="2"/><path d="M8 3L13 12H3L8 3Z" fill="#D2213F"/></svg>
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" stroke="#0d3d6e" stroke-width="2"/><path d="M8 3L13 12H3L8 3Z" fill="#0d3d6e"/></svg>
     </div>
 
+    <!-- Clickable overlay linking to PDP -->
+    <a href="{{ product.url }}" class="lc-card__link-overlay" aria-label="Go to {{ product.title }}"></a>
+
     <!-- Carousel -->
-    <div class="lc-card__carousel" id="lc-carousel-{{ product.id | default: index }}" data-interval="{{ section.settings.slider_interval | times: 1000 }}">
-      {% if placeholder %}
-        <div class="lc-card__slide active">
-          {{ 'product-1' | placeholder_svg_tag: 'lc-img' }}
-        </div>
-        <div class="lc-card__slide">
-          {{ 'product-2' | placeholder_svg_tag: 'lc-img' }}
-        </div>
-      {% else %}
-        {% for image in product.media limit: 4 %}
-          <div class="lc-card__slide {% if forloop.first %}active{% endif %}">
-            <img src="{{ image | image_url: width: 600 }}" alt="{{ image.alt }}" loading="lazy" class="lc-img">
+    <div class="lc-card__carousel" id="lc-carousel-{{ product.id | default: index }}" data-interval="{{ section.settings.slider_interval | default: 2 | times: 1000 }}">
+      <div class="lc-card__slides-container">
+        {% if placeholder %}
+          <div class="lc-card__slide active">
+            {{ 'product-1' | placeholder_svg_tag: 'lc-img' }}
+          </div>
+          <div class="lc-card__slide">
+            {{ 'product-2' | placeholder_svg_tag: 'lc-img' }}
           </div>
         {% else %}
-          <div class="lc-card__slide active">{{ 'image' | placeholder_svg_tag: 'lc-img' }}</div>
-        {% endfor %}
-      {% endif %}
+          {% for image in product.media limit: 4 %}
+            <div class="lc-card__slide {% if forloop.first %}active{% endif %}">
+              <img src="{{ image | image_url: width: 600 }}" alt="{{ image.alt }}" loading="lazy" class="lc-img">
+            </div>
+          {% else %}
+            <div class="lc-card__slide active">{{ 'image' | placeholder_svg_tag: 'lc-img' }}</div>
+          {% endfor %}
+        {% endif %}
+      </div>
 
       <div class="lc-card__dots">
         {% if placeholder %}
@@ -123,7 +128,6 @@
 </div>
 
 <style>
-/* CSS scoped to card via prefixes */
 .lc-card {
   background: #fff;
   border-radius: var(--card-radius, 12px);
@@ -133,6 +137,12 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  height: 100%; /* Ensures equal height in grids */
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+.lc-card:hover {
+  box-shadow: 0 8px 24px rgba(13, 61, 110, 0.1);
+  transform: translateY(-3px);
 }
 
 /* Media wrapper */
@@ -141,6 +151,14 @@
   width: 100%;
   background: #f8f8f8;
   overflow: hidden;
+}
+
+.lc-card__link-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4; /* Stays under dots but over images */
 }
 
 .lc-card__icon-nv {
@@ -160,7 +178,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: var(--badge-bg, #D2213F);
+  background: var(--badge-bg, #0d3d6e);
   color: var(--badge-text, #fff);
   padding: 8px 14px;
   font-size: 13px;
@@ -175,22 +193,25 @@
 .lc-card__carousel {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
+  overflow: hidden;
+}
+.lc-card__slides-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 .lc-card__slide {
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.4s ease;
-}
-.lc-card__slide.active {
-  opacity: 1;
-  visibility: visible;
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
 }
 .lc-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* Fit precisely without cropping */
+  padding: 8px; /* Breathing room so it doesn't touch edges */
+  box-sizing: border-box;
 }
 
 /* Dots */
@@ -284,7 +305,10 @@
 }
 .lc-discount-badge {
   font-size: 12px;
-  color: #16a34a;
+  color: #2d7a4f;
+  background: #e8f5ee;
+  padding: 2px 6px;
+  border-radius: 4px;
   font-weight: 700;
 }
 
@@ -305,7 +329,7 @@
 
 /* Button & Qty Control */
 .lc-btn-add {
-  background: var(--btn-color, #C72A42);
+  background: var(--btn-color, #0d3d6e);
   color: var(--btn-text, #fff);
   border: none;
   padding: 6px 14px;
@@ -320,7 +344,7 @@
   height: 32px;
 }
 .lc-btn-add span { font-size: 16px; font-weight: 400; line-height:1; }
-.lc-btn-add:hover { filter: brightness(0.9); transform: translateY(-1px); }
+.lc-btn-add:hover { background: #1a6ea8; transform: translateY(-1px); }
 
 /* Quantity Selector replacement */
 .lc-qty-control {
@@ -337,7 +361,7 @@
   border: none;
   width: 28px;
   font-size: 18px;
-  color: var(--btn-color, #C72A42);
+  color: var(--btn-color, #0d3d6e);
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -358,27 +382,47 @@
 </style>
 
 <script>
-// Auto Carousel
+// Hover Slide Carousel
 document.addEventListener('DOMContentLoaded', () => {
   const carousels = document.querySelectorAll('.lc-card__carousel');
   carousels.forEach(carousel => {
     let intervalBase = parseInt(carousel.getAttribute('data-interval'));
-    let interval = intervalBase > 0 ? intervalBase : 3000;
+    let intervalTime = intervalBase > 0 ? intervalBase : 1500; // Slide speed
     
+    let container = carousel.querySelector('.lc-card__slides-container');
     let slides = carousel.querySelectorAll('.lc-card__slide');
     let dots = carousel.querySelectorAll('.lc-dot');
     if(slides.length <= 1) return;
 
     let currentIndex = 0;
-    setInterval(() => {
-      slides[currentIndex].classList.remove('active');
-      dots[currentIndex].classList.remove('active');
-      
-      currentIndex = (currentIndex + 1) % slides.length;
-      
-      slides[currentIndex].classList.add('active');
-      dots[currentIndex].classList.add('active');
-    }, interval);
+    let slideTimer = null;
+
+    let updateSlide = () => {
+      container.style.transform = `translateX(-${currentIndex * 100}%)`;
+      dots.forEach(d => d.classList.remove('active'));
+      if(dots[currentIndex]) {
+        dots[currentIndex].classList.add('active');
+      }
+    };
+
+    let startCarousel = () => {
+      slideTimer = setInterval(() => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateSlide();
+      }, intervalTime);
+    };
+
+    let stopCarousel = () => {
+      clearInterval(slideTimer);
+      currentIndex = 0; // Reset to first slide
+      updateSlide();
+    };
+
+    // Attach to the entire wrapper so leaving the image/icon triggers reset
+    let wrapper = carousel.closest('.lc-card__media-wrap');
+    
+    wrapper.addEventListener('mouseenter', startCarousel);
+    wrapper.addEventListener('mouseleave', stopCarousel);
   });
 });
 
