@@ -402,7 +402,7 @@
       "trusea-live-ticker": {
         "type": "trusea-live-ticker",
         "settings": {
-          "show_section": true,
+          "show_section": false,
           "pause_on_hover": true,
           "bg_color": "#0e2541",
           "text_color": "#ffffff",
