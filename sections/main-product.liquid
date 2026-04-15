@@ -97,13 +97,15 @@
                   {{- block.settings.text -}}
                 </p>
               {%- when 'title' -%}
-                <div class="product__title" {{ block.shopify_attributes }}>
-                  <h2>{{ product.title | escape }}</h2>
-                  <a href="{{ product.url }}" class="product__title">
-                    <h2 class="h1">
-                      {{ product.title | escape }}
-                    </h2>
-                  </a>
+                <div class="product__title" {{ block.shopify_attributes }} style="display:flex; align-items:center; gap: 12px; margin-bottom: 8px;">
+                  <h1 style="margin: 0; font-size: 32px; font-weight: 700; color: #1D1D1D; line-height: 1.2;">
+                    {{ product.title | escape }}
+                  </h1>
+                  {% if product.available %}
+                    <span style="background: #e6f6ee; color: #1B4332; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; border: 1px solid #1B4332; white-space: nowrap;">In Stock</span>
+                  {% else %}
+                    <span style="background: #fef2f2; color: #dc2626; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; border: 1px solid #f87171; white-space: nowrap;">Out of Stock</span>
+                  {% endif %}
                 </div>
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
@@ -946,17 +948,18 @@
       }
     }
 
-    /* Media Wrapper Dark Background */
+    /* Media Wrapper Clean Background */
     .product__media-wrapper {
-      background: #111827 !important; /* Dark Slate */
-      border-radius: 16px;
+      background: transparent !important;
+      border-radius: 24px;
       overflow: hidden;
-      padding: 1rem;
+      padding: 0;
+      border: none;
     }
     .product__media-wrapper .product-media-container {
-      border-radius: 12px;
+      border-radius: 24px;
       overflow: hidden;
-      background: transparent !important;
+      background: #faf7f2 !important; /* Soft beige from screenshot */
     }
     .slider-mobile-gutter .product__media-item {
       background: transparent;
@@ -985,10 +988,15 @@
       flex-direction: column;
       align-items: flex-end;
     }
-    .price-item--regular {
-      font-size: 2rem !important;
+    .price-item--regular, .price-item--sale {
+      font-size: 1.8rem !important;
       font-weight: 800 !important;
-      color: #177ff2 !important;
+      color: #B58234 !important; /* Gold */
+    }
+    .price--on-sale .price-item--regular {
+      font-size: 1.2rem !important;
+      color: #9ca3af !important;
+      text-decoration: line-through !important;
     }
 
     /* Description */
@@ -1004,48 +1012,91 @@
       margin-top: 2rem;
     }
     .form__label {
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
+      font-size: 15px;
+      font-weight: 700;
       color: #4b5563;
+      margin-bottom: 8px;
     }
     .product-form__input input[type=radio] + label {
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-      padding: 12px 24px;
-      font-weight: 600;
-      color: #334155;
+      border-radius: 30px;
+      border: 1px solid #f3f4f6;
+      padding: 8px 24px;
+      font-weight: 500;
+      font-size: 14px;
+      color: #4b5563;
       background: #fff;
       transition: all 0.2s;
     }
     .product-form__input input[type=radio]:checked + label {
-      background: #eff6ff; /* light blue */
-      border-color: #177ff2;
-      color: #177ff2;
+      background: #1B4332; /* Dark green */
+      border-color: #1B4332;
+      color: #fff;
     }
 
-    /* Buy Buttons */
+    /* Buy Buttons Layout */
     .product-form__buttons {
       display: flex;
+      flex-wrap: wrap;
+      align-items: center;
       gap: 12px;
-      margin-top: 2rem;
+      margin-top: 1.5rem;
     }
+    .product-form__input.product-form__quantity {
+      margin: 0;
+      width: auto;
+    }
+    .quantity {
+      min-height: 48px !important;
+      height: 48px !important;
+      border-radius: 30px !important;
+      border: 1px solid #e5e7eb !important;
+      width: 120px !important;
+      background: #fff;
+    }
+    .quantity__input {
+      font-weight: 600;
+      font-size: 15px;
+      color: #1f2937;
+    }
+    .quantity__button {
+      width: 40px !important;
+      color: #1f2937 !important;
+    }
+    
     .product-form__submit {
-      flex-grow: 1;
-      background: #177ff2 !important;
+      flex: 0 0 auto;
+      padding: 0 28px !important;
+      background: #1B4332 !important; /* Dark Green */
       color: #fff !important;
-      border-radius: 8px !important;
-      font-weight: 700 !important;
-      font-size: 16px !important;
-      height: 56px !important;
-      box-shadow: 0 4px 14px rgba(23, 127, 242, 0.4) !important;
+      border-radius: 30px !important;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      min-height: 48px !important;
+      height: 48px !important;
       border: none !important;
       transition: all 0.2s ease;
+      white-space: nowrap;
     }
     .product-form__submit:hover {
-      background: #1466c3 !important;
-      transform: translateY(-2px);
+      background: #0d2218 !important;
+    }
+    
+    .shopify-payment-button__button--unbranded {
+      flex: 0 0 auto;
+      padding: 0 28px !important;
+      background: #C39953 !important; /* Tan Gold */
+      color: #fff !important;
+      border-radius: 30px !important;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      min-height: 48px !important;
+      height: 48px !important;
+      border: none !important;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .shopify-payment-button__button--unbranded:hover {
+      background: #a87d3a !important;
     }
     .product-form__submit::before, .product-form__submit::after {
       display: none !important;
@@ -1056,9 +1107,9 @@
       position: relative;
     }
     .ts-wishlist-btn {
-      width: 56px;
-      height: 56px;
-      border-radius: 8px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
       border: 1px solid #e2e8f0;
       display: flex;
       align-items: center;

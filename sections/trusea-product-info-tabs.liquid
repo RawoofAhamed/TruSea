@@ -1,310 +1,246 @@
-{% assign benefits_image = product.metafields.trusea.benefits_image %}
-{% assign benefits_points = product.metafields.trusea.benefits_points %}
-{% assign sourcing_image = product.metafields.trusea.sourcing_image %}
-{% assign sourcing_desc = product.metafields.trusea.sourcing_desc %}
+{% assign protein = product.metafields.custom.protein | default: "14.4 g" %}
+{% assign energy = "78 kcal" %}
+{% assign total_fat = "1.4 g" %}
+{% assign carbs = "0 g" %}
 
-{% assign recipe_title = product.metafields.custom.recipe_title %}
-{% assign recipe_image = product.metafields.custom.recipe_image %}
-{% assign recipe_content = product.metafields.custom.recipe_content %}
-
-<section class="trusea-tabs" id="trusea-tabs-{{ section.id }}">
-  <div class="trusea-tabs__wrap page-width">
-
-    <div class="trusea-tabs__nav" role="tablist" aria-label="Product details tabs">
-      <button class="trusea-tabs__tab is-active"
-        type="button"
-        role="tab"
-        aria-selected="true"
-        aria-controls="trusea-panel-benefits-{{ section.id }}"
-        id="trusea-tab-benefits-{{ section.id }}"
-        data-target="benefits">
-        What you get
-      </button>
-
-      <button class="trusea-tabs__tab"
-        type="button"
-        role="tab"
-        aria-selected="false"
-        aria-controls="trusea-panel-sourcing-{{ section.id }}"
-        id="trusea-tab-sourcing-{{ section.id }}"
-        data-target="sourcing">
-        Sourcing
-      </button>
-
-      {% if recipe_title != blank or recipe_content != blank or recipe_image != blank %}
-        <button class="trusea-tabs__tab"
-          type="button"
-          role="tab"
-          aria-selected="false"
-          aria-controls="trusea-panel-recipes-{{ section.id }}"
-          id="trusea-tab-recipes-{{ section.id }}"
-          data-target="recipes">
-          Recipes
-        </button>
-      {% endif %}
+<section class="beauty-pdp-tabs" id="beauty-pdp-tabs-{{ section.id }}">
+  <div class="page-width">
+    <!-- Tab Navigation -->
+    <div class="beauty-tabs-nav" role="tablist">
+      <button class="beauty-tab-btn is-active" type="button" role="tab" data-target="description">Description</button>
+      <button class="beauty-tab-btn" type="button" role="tab" data-target="additional">Additional Information</button>
+      <button class="beauty-tab-btn" type="button" role="tab" data-target="reviews">Review</button>
     </div>
 
-    <div class="trusea-tabs__panels">
-      <!-- WHAT YOU GET -->
-      <div class="trusea-tabs__panel is-active"
-        role="tabpanel"
-        aria-labelledby="trusea-tab-benefits-{{ section.id }}"
-        id="trusea-panel-benefits-{{ section.id }}"
-        data-panel="benefits">
-
-        <div class="trusea-tabs__grid">
-          <div class="trusea-tabs__media">
-            {% if benefits_image != blank %}
-              <img
-                src="{{ benefits_image | image_url: width: 900 }}"
-                alt="{{ benefits_image.alt | default: product.title | escape }}"
-                loading="lazy"
-                class="trusea-tabs__img"
-              >
-            {% endif %}
-          </div>
-
-          <div class="trusea-tabs__content">
-            <h2 class="trusea-tabs__h2">What you get</h2>
-
-            <div class="trusea-tabs__rt">
-              {% if benefits_points != blank %}
-                {{ benefits_points | metafield_tag }}
-              {% else %}
-                <p>Add your benefits points in product metafields.</p>
-              {% endif %}
-            </div>
-          </div>
+    <!-- Tab Panels -->
+    <div class="beauty-tabs-panels">
+      
+      <!-- Description Tab -->
+      <div class="beauty-tab-panel is-active" id="panel-description" role="tabpanel">
+        <div class="beauty-description-content">
+          {% if product.description != blank %}
+            {{ product.description }}
+          {% else %}
+            <p><strong>{{ product.title }}</strong>: Freshly prepared into clean cuts with natural ocean flavour. Firm texture, mildly savoury taste and versatile for grills, fries or rich curries. Built for flavour lovers and quick weekday cooking.</p>
+            <p><strong>Nutritional Information (Per 100g)</strong><br>
+            Energy: {{ energy }}<br>
+            Protein: {{ protein }}<br>
+            Total Fat: {{ total_fat }}<br>
+            Carbohydrates: {{ carbs }}</p>
+          {% endif %}
         </div>
       </div>
 
-      <!-- SOURCING -->
-      <div class="trusea-tabs__panel"
-        role="tabpanel"
-        aria-labelledby="trusea-tab-sourcing-{{ section.id }}"
-        id="trusea-panel-sourcing-{{ section.id }}"
-        data-panel="sourcing">
+      <!-- Additional Information Tab -->
+      <div class="beauty-tab-panel" id="panel-additional" role="tabpanel">
+        <table class="beauty-attributes-table">
+          <thead>
+            <tr>
+              <th>Attribute</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Skin Type</td>
+              <td>Normal, Oily, Dry, Combination, Sensitive skin</td>
+            </tr>
+            <tr>
+              <td>Size/Volume</td>
+              <td>30 ml, 60 ml, 80 ml, 100 ml</td>
+            </tr>
+            <tr>
+              <td>Shelf Life</td>
+              <td>24 months</td>
+            </tr>
+            <tr>
+              <td>Application Time</td>
+              <td>Morning and Evening</td>
+            </tr>
+            <tr>
+              <td>Packaging</td>
+              <td>Recyclable Glass Bottle</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-        <div class="trusea-tabs__grid">
-          <div class="trusea-tabs__media">
-            {% if sourcing_image != blank %}
-              <img
-                src="{{ sourcing_image | image_url: width: 900 }}"
-                alt="{{ sourcing_image.alt | default: product.title | escape }}"
-                loading="lazy"
-                class="trusea-tabs__img"
-              >
-            {% endif %}
-          </div>
-
-          <div class="trusea-tabs__content">
-            <h2 class="trusea-tabs__h2">Sourcing</h2>
-
-            <div class="trusea-tabs__rt">
-              {% if sourcing_desc != blank %}
-                {{ sourcing_desc | metafield_tag }}
-              {% else %}
-                <p>Add sourcing description in product metafields.</p>
-              {% endif %}
-            </div>
-          </div>
+      <!-- Review Tab -->
+      <div class="beauty-tab-panel" id="panel-reviews" role="tabpanel">
+        <div id="beauty-review-container">
+           <div class="beauty-review-placeholder">
+             <p>No reviews yet. Be the first to write a review!</p>
+           </div>
         </div>
       </div>
 
-      <!-- RECIPES (MOVED INSIDE TABS PANELS) -->
-      {% if recipe_title != blank or recipe_content != blank or recipe_image != blank %}
-        <div class="trusea-tabs__panel"
-          role="tabpanel"
-          aria-labelledby="trusea-tab-recipes-{{ section.id }}"
-          id="trusea-panel-recipes-{{ section.id }}"
-          data-panel="recipes">
-
-          <div class="trusea-tabs__grid">
-            <div class="trusea-tabs__media">
-              {% if recipe_image != blank %}
-                <img
-                  src="{{ recipe_image | image_url: width: 900 }}"
-                  alt="{{ recipe_image.alt | default: product.title | escape }}"
-                  loading="lazy"
-                  class="trusea-tabs__img"
-                >
-              {% endif %}
-            </div>
-
-            <div class="trusea-tabs__content">
-              <h2 class="trusea-tabs__h2">
-                {% if recipe_title != blank %}
-                  {{ recipe_title }}
-                {% else %}
-                  Recipes
-                {% endif %}
-              </h2>
-
-              <div class="trusea-tabs__rt">
-                {% if recipe_content != blank %}
-                  {{ recipe_content | metafield_tag }}
-                {% else %}
-                  <p>Add recipe content in product metafields.</p>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-        </div>
-      {% endif %}
     </div>
-
   </div>
 
   <style>
-    /* Section */
-    .trusea-tabs{
-      background: transparent;
-      padding: 22px 0 10px;
+    .beauty-pdp-tabs {
+      padding: 60px 0;
+      background: #ffffff;
+      font-family: inherit;
+    }
+    
+    /* Nav */
+    .beauty-tabs-nav {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      margin-bottom: 40px;
     }
 
-    /* Centered tabs like premium header */
-    .trusea-tabs__nav{
-      display:flex;
-      justify-content:center;
-      gap: 12px;
-      margin: 0 0 14px;
-      flex-wrap: wrap;
-    }
-    .trusea-tabs__tab{
-      appearance:none;
-      border: 1px solid rgba(15,35,55,0.16);
-      background: rgba(255,255,255,0.7);
-      padding: 10px 18px;
-      border-radius: 999px;
-      cursor:pointer;
-
-      /* H2-ish feel */
-      font-size: 18px;
-      font-weight: 900;
-      color: #0b1f33;
-      letter-spacing: .2px;
-
-      box-shadow: 0 10px 20px rgba(0,30,60,0.08);
-      transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
-    }
-    .trusea-tabs__tab:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 14px 26px rgba(0,30,60,0.10);
-      border-color: rgba(210,173,86,0.35);
-    }
-    .trusea-tabs__tab.is-active{
-      background: linear-gradient(180deg, #f6de97 0%, #d4af63 100%);
-      border-color: rgba(150,110,35,0.30);
-      box-shadow:
-        0 16px 28px rgba(212,175,99,0.22),
-        inset 0 1px 0 rgba(255,255,255,0.55);
-    }
-
-    /* Panels with smooth premium transition */
-    .trusea-tabs__panels{
+    .beauty-tab-btn {
+      background: none;
+      border: none;
+      font-size: 16px;
+      font-weight: 700;
+      color: #9ca3af;
+      padding: 10px 0;
+      cursor: pointer;
       position: relative;
+      transition: color 0.2s ease;
     }
-    .trusea-tabs__panel{
-      display:none;
-      opacity: 0;
-      transform: translateY(6px);
+
+    .beauty-tab-btn:hover {
+      color: #1B4332;
     }
-    .trusea-tabs__panel.is-active{
-      display:block;
-      animation: truseaFadeUp .22s ease forwards;
+
+    .beauty-tab-btn.is-active {
+      color: #1B4332;
     }
-    @keyframes truseaFadeUp{
+
+    .beauty-tab-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: #1B4332;
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .beauty-tab-btn.is-active::after {
+      transform: scaleX(1);
+    }
+
+    /* Panels */
+    .beauty-tab-panel {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+    
+    .beauty-tab-panel.is-active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Layout */
-    .trusea-tabs__grid{
-      display:grid;
-      grid-template-columns: 1.05fr 1fr;
-      gap: 18px;
-      align-items: center;
-      background: rgba(255,255,255,0.55);
-      border: 1px solid rgba(15,35,55,0.12);
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: 0 16px 34px rgba(0,30,60,0.10);
-      overflow:hidden;
+    .beauty-description-content {
+      color: #4b5563;
+      line-height: 1.8;
+      font-size: 14px;
+      max-width: 900px;
+      margin: 0 auto;
     }
 
-    .trusea-tabs__img{
-      width:100%;
-      height: auto;
-      border-radius: 14px;
-      display:block;
-      object-fit: cover;
+    /* Table for Additional Info */
+    .beauty-attributes-table {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #f3f4f6;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    
+    .beauty-attributes-table thead {
+      background: #1B4332;
+      color: #fff;
+    }
+    
+    .beauty-attributes-table th,
+    .beauty-attributes-table td {
+      padding: 16px 24px;
+      text-align: left;
+      font-size: 14px;
+    }
+    
+    .beauty-attributes-table th {
+      font-weight: 600;
+    }
+    
+    .beauty-attributes-table tbody tr {
+      background: #fff;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    
+    .beauty-attributes-table tbody tr:nth-child(even) {
+      background: #f9fafb;
+    }
+    
+    .beauty-attributes-table tbody td:first-child {
+      font-weight: 600;
+      color: #1f2937;
+      width: 30%;
+      border-right: 1px solid #f3f4f6;
+    }
+    
+    .beauty-attributes-table tbody td:last-child {
+      color: #4b5563;
     }
 
-    /* Centered H2 inside content area (as you requested) */
-    .trusea-tabs__h2{
-      margin: 0 0 10px;
+    .beauty-review-placeholder {
       text-align: center;
-      font-size: 28px;
-      font-weight: 900;
-      color: #0b1f33;
-      text-shadow: 0 1px 0 rgba(255,255,255,.7);
-    }
-
-    /* Rich text styles */
-    .trusea-tabs__rt{
-      color: rgba(13,43,68,0.88);
-      font-size: 15px;
-      line-height: 1.6;
-    }
-    .trusea-tabs__rt ul{ padding-left: 18px; margin: 10px 0 0; }
-    .trusea-tabs__rt li{ margin: 6px 0; }
-
-    /* Mobile */
-    @media (max-width: 900px){
-      .trusea-tabs__grid{ grid-template-columns: 1fr; }
-      .trusea-tabs__h2{ font-size: 24px; }
-      .trusea-tabs__tab{ font-size: 16px; }
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      .trusea-tabs__panel.is-active{ animation: none; opacity: 1; transform:none; }
-      .trusea-tabs__tab{ transition:none; }
+      padding: 40px;
+      color: #6b7280;
     }
   </style>
 
   <script>
-    (function(){
-      const root = document.getElementById('trusea-tabs-{{ section.id }}');
-      if(!root) return;
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('.beauty-tab-btn');
+      const panels = document.querySelectorAll('.beauty-tab-panel');
 
-      const tabs = root.querySelectorAll('.trusea-tabs__tab');
-      const panels = root.querySelectorAll('.trusea-tabs__panel');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('is-active'));
+          panels.forEach(p => p.classList.remove('is-active'));
 
-      function activate(target){
-        tabs.forEach(btn => {
-          const isOn = btn.dataset.target === target;
-          btn.classList.toggle('is-active', isOn);
-          btn.setAttribute('aria-selected', isOn ? 'true' : 'false');
+          tab.classList.add('is-active');
+          const target = tab.getAttribute('data-target');
+          document.getElementById('panel-' + target).classList.add('is-active');
         });
-
-        panels.forEach(p => {
-          const isOn = p.dataset.panel === target;
-          p.classList.toggle('is-active', isOn);
-        });
-      }
-
-      tabs.forEach(btn => {
-        btn.addEventListener('click', () => activate(btn.dataset.target));
       });
-    })();
+
+      // Move JDGM Review Widget into the Review Tab automatically if it exists on page
+      setTimeout(() => {
+        const jdgmWidget = document.querySelector('.jdgm-review-widget');
+        const reviewContainer = document.getElementById('beauty-review-container');
+        if (jdgmWidget && reviewContainer) {
+          reviewContainer.innerHTML = '';
+          reviewContainer.appendChild(jdgmWidget);
+        }
+      }, 500);
+    });
   </script>
 </section>
 
 {% schema %}
 {
-  "name": "TruSea Product Info Tabs",
+  "name": "Beauty Tabs Redesign",
   "settings": [],
   "presets": [
-    { "name": "TruSea Product Info Tabs" }
+    { "name": "Beauty Tabs Redesign" }
   ]
 }
 {% endschema %}

@@ -39,13 +39,7 @@
           "type": "price",
           "settings": {}
         },
-        "custom_liquid_BwCffF": {
-          "type": "custom_liquid",
-          "name": "Fresh Cut - Custom Liquid",
-          "settings": {
-            "custom_liquid": "<div class=\"trusea-freshcut\" role=\"note\">\n  <div class=\"trusea-freshcut__title\">Fresh-Cut Promise</div>\n  <div class=\"trusea-freshcut__text\">\n    Your fish is freshly cut to your chosen style <strong>only after we receive your order</strong> — never pre-cut, never pre packed.\n  </div>\n</div>\n\n<style>\n  .trusea-freshcut{\n    margin: 12px 0 0;\n    padding: 12px 14px;\n    border-radius: 12px;\n    border: 1px solid rgba(210,173,86,.35);\n    background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,247,218,.7));\n  }\n  .trusea-freshcut__title{\n    font-weight: 800;\n    letter-spacing: .2px;\n    color: #FF3030;\n    margin-bottom: 4px;\n    font-size: 14px;\n  }\n  .trusea-freshcut__text{\n    color: rgba(13,43,68,.9);\n    line-height: 1.45;\n    font-size: 13px;\n  }\n  .trusea-freshcut__text strong{\n    color: #FF3030;\n    font-weight: 800;\n  }\n</style>"
-          }
-        },
+
         "custom_liquid_db7xQx": {
           "type": "custom_liquid",
           "name": "Today's Delivery",
@@ -139,7 +133,6 @@
         "title",
         "judge_me_reviews_preview_badge_6EYFji",
         "price",
-        "custom_liquid_BwCffF",
         "custom_liquid_db7xQx",
         "variant_picker",
         "custom_liquid_TqLJ3k",
@@ -246,6 +239,10 @@
       "settings": {
         "include_margins": true
       }
+    },
+    "trust_badges_bot": {
+      "type": "trusea-pdp-trust-badges",
+      "settings": {}
     }
   },
   "order": [
@@ -253,6 +250,7 @@
     "trusea_product_info_tabs_YRgADG",
     "featured_collection_k3MDVU",
     "related-products",
-    "1770628263ea032e3c"
+    "1770628263ea032e3c",
+    "trust_badges_bot"
   ]
 }
