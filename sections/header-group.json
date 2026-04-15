@@ -114,10 +114,33 @@
         "text_color": "#ffffff",
         "sticky": true
       }
+    },
+    "licious_featured_collection_nK69VG": {
+      "type": "licious-featured-collection",
+      "name": "Licious Collection Grid",
+      "settings": {
+        "title": "Featured Items",
+        "collection": "bestsellers",
+        "max_products": 6,
+        "grid": 3,
+        "card_radius": 12,
+        "image_ratio": "75%",
+        "slider_interval": 3,
+        "show_desc": true,
+        "show_weight": true,
+        "show_discount": true,
+        "show_delivery": true,
+        "badge_label": "Combo Saver",
+        "badge_bg": "#3cbfa0",
+        "badge_text": "#FFFFFF",
+        "btn_color": "#3cbfa0",
+        "btn_text_color": "#FFFFFF"
+      }
     }
   },
   "order": [
     "announcement-bar",
-    "trusea-header"
+    "trusea-header",
+    "licious_featured_collection_nK69VG"
   ]
 }
