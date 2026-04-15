@@ -110,11 +110,12 @@
       </div>
 
       <div class="lc-card__action">
-        <button class="lc-btn-add" onclick="toggleLiciousQty(this)">Add <span>+</span></button>
+        {% assign variant_id = product.selected_or_first_available_variant.id | default: 'null' %}
+        <button class="lc-btn-add" onclick="addLiciousToCart(this, {{ variant_id }})">Add <span>+</span></button>
         <div class="lc-qty-control" style="display:none;">
-          <button class="lc-qty-minus">-</button>
-          <input type="text" value="1" readonly class="lc-qty-input">
-          <button class="lc-qty-plus">+</button>
+          <button class="lc-qty-minus" onclick="updateLiciousQty(this, {{ variant_id }}, -1)">-</button>
+          <input type="text" value="1" readonly class="lc-qty-input" aria-label="Quantity">
+          <button class="lc-qty-plus" onclick="updateLiciousQty(this, {{ variant_id }}, 1)">+</button>
         </div>
       </div>
     </div>
@@ -336,7 +337,7 @@
   border: none;
   width: 28px;
   font-size: 18px;
-  color: #C72A42;
+  color: var(--btn-color, #C72A42);
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -381,11 +382,58 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// UI Toggle for Add Button to Qty Selector
-function toggleLiciousQty(btn) {
-  const parent = btn.parentElement;
-  btn.style.display = 'none';
-  const qtyControl = parent.querySelector('.lc-qty-control');
-  qtyControl.style.display = 'flex';
+// Define functional Cart JS only once per page
+if (typeof addLiciousToCart !== 'function') {
+  window.addLiciousToCart = async function(btn, variantId) {
+    if(!variantId) return;
+    const parent = btn.parentElement;
+    btn.innerHTML = 'Add...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: variantId, quantity: 1 })
+      });
+      if (res.ok) {
+        btn.style.display = 'none';
+        btn.innerHTML = 'Add <span>+</span>';
+        
+        const qtyControl = parent.querySelector('.lc-qty-control');
+        qtyControl.style.display = 'flex';
+        qtyControl.querySelector('.lc-qty-input').value = 1;
+
+        document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+      }
+    } catch(e) { console.error(e); }
+    btn.disabled = false;
+  };
+
+  window.updateLiciousQty = async function(btn, variantId, delta) {
+    const parent = btn.parentElement;
+    const input = parent.querySelector('.lc-qty-input');
+    let newQty = parseInt(input.value) + delta;
+    if (newQty < 0) newQty = 0;
+
+    btn.disabled = true;
+    try {
+      const res = await fetch('/cart/change.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: variantId, quantity: newQty })
+      });
+      if (res.ok) {
+        input.value = newQty;
+        if (newQty === 0) {
+          parent.style.display = 'none';
+          const addBtn = parent.parentElement.querySelector('.lc-btn-add');
+          addBtn.style.display = 'flex';
+        }
+        document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+      }
+    } catch(e) { console.error(e); }
+    btn.disabled = false;
+  };
 }
 </script>

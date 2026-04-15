@@ -1,0 +1,128 @@
+<div class="lc-vprops-wrap">
+  <div class="lc-vprops-container" style="max-width: {{ section.settings.max_width }}px;">
+    {% for block in section.blocks %}
+      <div class="lc-vprops-item" {{ block.shopify_attributes }}>
+        <div class="lc-vprops-dash"></div>
+        <h4 class="lc-vprops-title">{{ block.settings.title }}</h4>
+        <div class="lc-vprops-text">{{ block.settings.text }}</div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+.lc-vprops-wrap {
+  width: 100%;
+  background-color: {{ section.settings.bg_color }};
+  padding: 50px 20px;
+  border-top: 1px solid #f2e6e6;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.lc-vprops-container {
+  margin: 0 auto;
+  display: flex;
+  gap: 40px;
+  justify-content: space-between;
+}
+.lc-vprops-item {
+  flex: 1;
+}
+.lc-vprops-dash {
+  width: 32px;
+  height: 3px;
+  background-color: #c72a42;
+  margin-bottom: 20px;
+  border-radius: 2px;
+}
+.lc-vprops-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 12px;
+  line-height: 1.4;
+}
+.lc-vprops-text {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .lc-vprops-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Licious Value Props",
+  "settings": [
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1400,
+      "step": 20,
+      "default": 1100,
+      "label": "Max Width"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#faf5f6"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "value_prop",
+      "name": "Value Proposition",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Value Proposition Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Add a description for your value proposition here."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Licious Value Props",
+      "blocks": [
+        {
+          "type": "value_prop",
+          "settings": {
+            "title": "We will sell only the meat that we would eat ourselves.",
+            "text": "At Licious, we're big meat-lovers. And by big, we mean huge. So when it comes to the meat we put on your plate, we're extremely picky. Every single product is handpicked by a team with years of experience."
+          }
+        },
+        {
+          "type": "value_prop",
+          "settings": {
+            "title": "If it's not fresh, we won't sell it.",
+            "text": "For meat to stay fresh and retain its natural juices, it needs to be stored at a temperature between 0° and 4°C. We maintain this temperature from the time we procure the meat to cleaning, cutting and storing it, until it leaves for delivery."
+          }
+        },
+        {
+          "type": "value_prop",
+          "settings": {
+            "title": "We will charge only for what you buy.",
+            "text": "Doesn't everyone do this? Not really. Most other places first weigh the meat, then cut up the pieces, and throw out the parts which aren't fit to eat, such as offal, gizzard, wingtips, etc. But you still pay based on the original weight even though what you finally get is 10% to 30% less."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

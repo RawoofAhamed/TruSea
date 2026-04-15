@@ -1,0 +1,1032 @@
+<div class="lc-pdp-wrap" style="--lc-pdp-max-width: {{ section.settings.max_width }}px;">
+  <!-- Breadcrumbs -->
+  {% if section.settings.show_breadcrumbs %}
+    <div class="lc-breadcrumb">
+      <a href="/">Home</a> / 
+      {% if product.collections.size > 0 %}
+        <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a> / 
+      {% endif %}
+      <span>{{ product.title }}</span>
+    </div>
+  {% endif %}
+
+  <div class="lc-pdp-container">
+    <!-- Gallery -->
+    <div class="lc-pdp-gallery">
+      <div class="lc-gallery__main">
+        {% if section.settings.badge_text != blank %}
+          <div class="lc-gallery__badge">{{ section.settings.badge_text }}</div>
+        {% endif %}
+        <div class="lc-gallery__nv-icon">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" stroke="#D2213F" stroke-width="2"/><path d="M8 3L13 12H3L8 3Z" fill="#D2213F"/></svg>
+        </div>
+        
+        <div class="lc-gallery__slider">
+          {% for media in product.media %}
+            <div class="lc-gallery__slide{% if forloop.first %} active{% endif %}">
+              <img src="{{ media | image_url: width: 800 }}" alt="{{ media.alt | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+            </div>
+          {% else %}
+            <div class="lc-gallery__slide active">
+              {{ 'product-1' | placeholder_svg_tag: 'lc-gallery__placeholder' }}
+            </div>
+          {% endfor %}
+        </div>
+        
+        {% if product.media.size > 1 %}
+          <div class="lc-gallery__dots">
+            {% for media in product.media %}
+              <div class="lc-gallery__dot{% if forloop.first %} active{% endif %}"></div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="lc-pdp-info">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {%- when '@app' -%}
+            {% render block %}
+
+          {% when 'title' %}
+            <h1 class="lc-pdp-title" {{ block.shopify_attributes }}>{{ product.title }}</h1>
+            {% if block.settings.subtitle != blank %}
+              <div class="lc-pdp-subtitle">{{ block.settings.subtitle }}</div>
+            {% endif %}
+
+          {% when 'meta_info' %}
+            <div class="lc-pdp-meta" {{ block.shopify_attributes }}>
+              <div class="lc-pdp-meta__item">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
+                {{ block.settings.weight | default: "500g" }}
+              </div>
+              <div class="lc-pdp-meta__item">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                {{ block.settings.pieces | default: "8-10 Pieces" }}
+              </div>
+              <div class="lc-pdp-meta__item">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                {{ block.settings.serves | default: "Serves 2-3" }}
+              </div>
+            </div>
+
+          {% when 'offer_banner' %}
+            {% if block.settings.show_offer %}
+            <div class="lc-pdp-offer" {{ block.shopify_attributes }} style="background: {{ block.settings.bg_color }}; border-color: {{ block.settings.border_color }};">
+              <div class="lc-pdp-offer__top">
+                <div class="lc-pdp-offer__title">
+                  <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="{{ block.settings.icon_color }}"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+                  <span>{{ block.settings.offer_title }}</span>
+                </div>
+                {% if block.settings.offer_code != blank %}
+                  <div class="lc-pdp-offer__code" style="background: {{ block.settings.code_bg }};">{{ block.settings.offer_code }}</div>
+                {% endif %}
+              </div>
+              <div class="lc-pdp-offer__desc" style="border-top-color: {{ block.settings.border_color }};">
+                {{ block.settings.offer_desc }}
+              </div>
+            </div>
+            {% endif %}
+
+          {% when 'description' %}
+            <div class="lc-pdp-desc" {{ block.shopify_attributes }}>
+              <div class="lc-pdp-desc__content">
+                {{ product.description }}
+              </div>
+            </div>
+
+          {% when 'variant_picker' %}
+            {%- unless product.has_only_default_variant -%}
+              <div class="lc-variant-wrapper" {{ block.shopify_attributes }}>
+                <script type="application/json" class="lc-variants-json">{{ product.variants | json }}</script>
+                {%- for option in product.options_with_values -%}
+                  <div class="lc-variant-group">
+                    <div class="lc-variant-label">{{ option.name }}</div>
+                    <div class="lc-variant-pills">
+                      {%- for value in option.values limit: 5 -%}
+                        <input type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                               name="options[{{ option.name | escape }}]"
+                               value="{{ value | escape }}"
+                               form="lc-pdp-form"
+                               class="lc-variant-radio visually-hidden"
+                               {% if option.selected_value == value %}checked{% endif %}>
+                        <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="lc-variant-pill">
+                          {{ value }}
+                        </label>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endunless -%}
+
+          {% when 'cut_preference' %}
+            <div class="lc-cut-wrapper" {{ block.shopify_attributes }}>
+              <div class="lc-cut-header">
+                <div class="lc-cut-label">CUT PREFERENCE</div>
+                <button type="button" class="lc-cut-ask">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                  <span>Ask for changes</span>
+                </button>
+              </div>
+              <div class="lc-cut-options">
+                {%- assign cuts = "Steak Cut|Thick transverse slices with bone-in,Fry Cut|Skin-on fillets perfect for pan searing,Curry Cut|Medium bite-sized cubes for slow cooking" | split: "," -%}
+                {%- for cut_pair in cuts -%}
+                  {%- assign cut_info = cut_pair | split: "|" -%}
+                  {%- assign cut_name = cut_info[0] -%}
+                  {%- assign cut_desc = cut_info[1] -%}
+                  
+                  <input type="radio" 
+                         id="cut-{{ forloop.index }}" 
+                         name="properties[Cut Type]" 
+                         value="{{ cut_name }}"
+                         form="lc-pdp-form"
+                         class="lc-cut-radio visually-hidden"
+                         {% if forloop.first %}checked{% endif %}>
+                         
+                  <label for="cut-{{ forloop.index }}" class="lc-cut-card">
+                    <div class="lc-cut-card-top">
+                      <div class="lc-cut-name">{{ cut_name }}</div>
+                      <div class="lc-cut-check">
+                         <svg class="lc-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      </div>
+                    </div>
+                    <div class="lc-cut-desc">{{ cut_desc }}</div>
+                  </label>
+                {%- endfor -%}
+              </div>
+            </div>
+
+          {% when 'price_and_buy' %}
+            <div class="lc-pdp-buy-box" {{ block.shopify_attributes }}>
+              {% form 'product', product, id: 'lc-pdp-form', class: 'lc-pdp-form' %}
+                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                <div class="lc-pdp-buy-row">
+                  <div class="lc-pdp-price-col">
+                    <span class="lc-pdp-price__sale">{{ product.price | money }}</span>
+                    {% if product.compare_at_price > product.price %}
+                      <div class="lc-pdp-price__sub">
+                        <span class="lc-pdp-price__regular">MRP {{ product.compare_at_price | money }}</span>
+                        {% assign diff = product.compare_at_price | minus: product.price | times: 100.0 %}
+                        {% assign discount_pct = diff | divided_by: product.compare_at_price | round %}
+                        <span class="lc-pdp-price__discount">{{ discount_pct }}% off</span>
+                      </div>
+                    {% endif %}
+                  </div>
+
+                  <div class="lc-pdp-action-col">
+                    <div class="lc-pdp-qty">
+                      <button type="button" class="lc-pdp-qty__btn js-lc-minus">−</button>
+                      <input type="number" name="quantity" class="lc-pdp-qty__val" value="1" min="1" readonly />
+                      <button type="button" class="lc-pdp-qty__btn js-lc-plus">+</button>
+                    </div>
+                    <button type="submit" name="add" class="lc-pdp-add-btn" {% unless product.available %}disabled{% endunless %}>
+                      {% if product.available %}Add to Cart{% else %}Sold Out{% endif %}
+                    </button>
+                  </div>
+                </div>
+                <div class="lc-pdp-delivery-text">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+                  {{ block.settings.delivery_text | default: "Today 6AM – 8AM" }}
+                </div>
+              {% endform %}
+            </div>
+            
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+/* Global overrides for Product Page layout */
+#shopify-section-header-group,
+#MainContent {
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Scoped Styles for Licious PDP */
+.lc-pdp-wrap {
+  width: 100%;
+  max-width: var(--lc-pdp-max-width, 1100px);
+  margin: 0 auto;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #1a1a1a;
+}
+.lc-breadcrumb {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.lc-breadcrumb a {
+  color: #888;
+  text-decoration: none;
+}
+.lc-breadcrumb span {
+  color: #0d3d6e;
+  font-weight: 600;
+}
+
+.lc-pdp-container {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* Gallery Region */
+.lc-pdp-gallery {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+.lc-gallery__main {
+  position: relative;
+  background: #fdfdfd;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+.lc-gallery__badge {
+  position: absolute;
+  top: 0; left: 0;
+  background: #ffcc00;
+  color: #1a1a1a;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 8px 16px;
+  border-bottom-right-radius: 12px;
+  z-index: 2;
+  border-bottom: 2px solid #fff;
+  border-right: 2px solid #fff;
+}
+.lc-gallery__nv-icon {
+  position: absolute;
+  top: 12px; right: 12px;
+  background: #fff;
+  border-radius: 2px;
+  padding: 4px;
+  display: flex;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.lc-gallery__slider {
+  position: absolute;
+  inset: 0;
+}
+.lc-gallery__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.lc-gallery__slide.active {
+  opacity: 1;
+}
+.lc-gallery__slide img, .lc-gallery__placeholder {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.lc-gallery__dots {
+  position: absolute;
+  bottom: 16px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  z-index: 2;
+}
+.lc-gallery__dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.6);
+  cursor: pointer;
+  transition: 0.3s;
+}
+.lc-gallery__dot.active {
+  background: #fff;
+  transform: scale(1.3);
+}
+
+/* Info Region */
+.lc-pdp-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.lc-pdp-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0 0 8px;
+  line-height: 1.25;
+  color: #1a1a1a;
+}
+.lc-pdp-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+}
+.lc-pdp-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.lc-pdp-meta__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #0d3d6e;
+  font-weight: 600;
+  background: #f0f8ff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #d8eeff;
+}
+/* Offer Banner */
+.lc-pdp-offer {
+  background: #f0f8ff;
+  border: 1px solid #d8eeff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+.lc-pdp-offer__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.lc-pdp-offer__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 14px;
+  color: #0d3d6e;
+}
+.lc-pdp-offer__code {
+  background: #0d3d6e;
+  color: #fff;
+  font-weight: 700;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+.lc-pdp-offer__desc {
+  font-size: 12px;
+  color: #4a5568;
+  line-height: 1.4;
+  padding-top: 10px;
+  border-top: 1px dashed #1a6ea8;
+}
+
+/* Description */
+.lc-pdp-desc {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+/* Variants & Cut Pref */
+.lc-variant-group { margin-bottom: 16px; }
+.lc-variant-label { font-size: 12px; font-weight: 800; color: #0d3d6e; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.4px; }
+.lc-variant-pills { 
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  justify-content: start;
+  gap: 8px;
+}
+.lc-variant-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  padding: 6px 12px;
+  border-radius: 50px;
+  background: #fff;
+  border: 1.5px solid #d8eeff;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0d3d6e;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  text-align: center;
+}
+.lc-variant-pill:hover {
+  border-color: #1a6ea8;
+  background: #f0f8ff;
+}
+.lc-variant-radio:checked + .lc-variant-pill {
+  background: #0d3d6e;
+  border-color: #0d3d6e;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(13,61,110,0.2);
+}
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;
+}
+
+.lc-cut-wrapper { margin-bottom: 24px; }
+.lc-cut-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.lc-cut-label { font-size: 12px; font-weight: 800; color: #555; text-transform: uppercase; letter-spacing: 0.5px; }
+.lc-cut-ask { 
+  background: #fff; border: 1px solid #eaeaea; border-radius: 8px; padding: 6px 12px; font-size: 13px; font-weight: 600; color: #333; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.lc-cut-ask span { line-height: 1; }
+.lc-cut-options { 
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 12px; 
+}
+.lc-cut-card {
+  display: flex; flex-direction: column; padding: 16px; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; cursor: pointer; transition: all 0.25s ease; height: 100%; position: relative;
+}
+.lc-cut-card:hover { border-color: #cbd5e1; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
+.lc-cut-radio:checked + .lc-cut-card {
+  background: #f0f8ff;
+  border-color: #1a6ea8;
+  box-shadow: 0 4px 12px rgba(26, 110, 168, 0.1);
+}
+.lc-cut-card-top {
+  display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; width: 100%;
+}
+.lc-cut-name { font-size: 15px; font-weight: 800; color: #0d3d6e; line-height: 1.2; padding-right: 8px; }
+.lc-cut-desc { font-size: 13px; color: #4a5568; line-height: 1.4; }
+.lc-cut-check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #d8eeff; background: #fff; display: flex; align-items: center; justify-content: center; transition: 0.2s; flex-shrink: 0; }
+.lc-cut-radio:checked + .lc-cut-card .lc-cut-check {
+  border-color: #1a6ea8;
+  background: #1a6ea8;
+}
+.lc-check-icon { width: 12px; height: 12px; color: #fff; display: none; }
+.lc-cut-radio:checked + .lc-cut-card .lc-check-icon { display: block; }
+
+@media screen and (max-width: 768px) {
+  .lc-cut-options {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 12px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .lc-cut-options::-webkit-scrollbar { display: none; }
+  .lc-cut-card {
+    flex: 0 0 82%; 
+    scroll-snap-align: start;
+  }
+}
+
+/* Buy Box */
+.lc-pdp-buy-box {
+  padding-top: 16px;
+  border-top: 1px solid #eef2f7;
+  margin-top: 4px;
+}
+.lc-pdp-form { display: block; }
+
+/* Single horizontal row: price left, actions right */
+.lc-pdp-buy-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Price column */
+.lc-pdp-price-col { display: flex; flex-direction: column; justify-content: center; }
+.lc-pdp-price__sale {
+  font-size: 24px;
+  font-weight: 900;
+  color: #0d3d6e;
+  line-height: 1.1;
+}
+.lc-pdp-price__sub { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+.lc-pdp-price__regular {
+  font-size: 12px;
+  color: #aaa;
+  text-decoration: line-through;
+  font-weight: 500;
+}
+.lc-pdp-price__discount {
+  font-size: 12px;
+  color: #2d7a4f;
+  font-weight: 700;
+  background: #e8f5ee;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Action column: qty + button side by side */
+.lc-pdp-action-col {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.lc-pdp-qty {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #d8eeff;
+  border-radius: 10px;
+  height: 44px;
+  background: #fff;
+  overflow: hidden;
+}
+.lc-pdp-qty__btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a6ea8;
+  width: 36px;
+  height: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.lc-pdp-qty__btn:hover { background: #f0f8ff; }
+.lc-pdp-qty__val {
+  width: 34px;
+  border: none;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 800;
+  color: #0d3d6e;
+  pointer-events: none;
+  background: transparent;
+}
+.lc-pdp-add-btn {
+  height: 44px;
+  padding: 0 22px;
+  background: #0d3d6e;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+  letter-spacing: 0.2px;
+}
+.lc-pdp-add-btn:hover { background: #1a6ea8; }
+.lc-pdp-add-btn:disabled { background: #c8d5e0; cursor: not-allowed; }
+
+/* Delivery text below the action row */
+.lc-pdp-delivery-text {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #4a5568;
+  margin-top: 8px;
+  letter-spacing: 0.2px;
+}
+
+
+
+@media (max-width: 768px) {
+  .lc-pdp-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .lc-pdp-gallery {
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+}
+
+/* ── Zippy Pincode Checker overrides (real DOM classes) ── */
+
+/* Container */
+[class*="zippy_widget"] {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  margin: 16px 0 !important;
+  padding: 0 !important;
+}
+
+/* "DELIVERY OPTIONS" title bar */
+[class*="zipcode_bar_title"] {
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  color: #0d3d6e !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  margin-bottom: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+/* Input + button row wrapper */
+[class*="zipcode_bar_input"] {
+  display: flex !important;
+  align-items: stretch !important;
+  gap: 0 !important;
+}
+
+/* The form wrapper */
+[class*="zippy_widget"] .formide {
+  display: flex !important;
+  align-items: stretch !important;
+  width: 100% !important;
+}
+
+/* Zipcode text input */
+[class*="zippy_widget"] input.pin {
+  border: 1.5px solid #d8eeff !important;
+  border-right: none !important;
+  border-radius: 8px 0 0 8px !important;
+  padding: 0 14px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #1a2433 !important;
+  background: #fff !important;
+  height: 42px !important;
+  width: 100% !important;
+  outline: none !important;
+  box-shadow: none !important;
+  flex: 1 !important;
+}
+[class*="zippy_widget"] input.pin:focus {
+  border-color: #1a6ea8 !important;
+  background: #f0f8ff !important;
+}
+[class*="zippy_widget"] input.pin::placeholder {
+  color: #9ab4cc !important;
+  font-weight: 500 !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.3px !important;
+}
+
+/* Check button */
+[class*="zippy_widget"] button.checkPin {
+  background: #0d3d6e !important;
+  background-color: #0d3d6e !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 0 8px 8px 0 !important;
+  padding: 0 20px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  height: 42px !important;
+  cursor: pointer !important;
+  transition: background 0.2s !important;
+  white-space: nowrap !important;
+  letter-spacing: 0.3px !important;
+}
+[class*="zippy_widget"] button.checkPin:hover {
+  background: #1a6ea8 !important;
+  background-color: #1a6ea8 !important;
+}
+
+/* "Powered by ZIPPY" */
+.powered-by-zippy,
+[class*="powered-by-zippy"] {
+  font-size: 10px !important;
+  color: #4a5568 !important;
+  margin-top: 6px !important;
+}
+.powered-by-zippy a,
+[class*="powered-by-zippy"] a {
+  color: #1a6ea8 !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+}
+
+/* Error / fail state */
+.pin_fail,
+[class*="pin_fail"] {
+  font-size: 12px !important;
+  color: #e05f3d !important;
+  font-weight: 600 !important;
+  margin-top: 6px !important;
+}
+
+/* ── Zippy Success Card ── */
+[class*="zippy-success-card"],
+.zippy-success-card-1511 {
+  background: #f0f8ff !important;
+  border: 1.5px solid #d8eeff !important;
+  border-radius: 10px !important;
+  padding: 12px 16px !important;
+  margin-top: 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+
+/* "DELIVER TO 600021" line */
+[class*="zippy-success-card"] > div:first-child,
+.zippy-success-card-1511 > div:first-child {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  color: #0d3d6e !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.4px !important;
+}
+
+/* SVG pin icon inside success card */
+[class*="zippy-success-card"] svg,
+.zippy-success-card-1511 svg {
+  fill: #1a6ea8 !important;
+  width: 16px !important;
+  height: 16px !important;
+  flex-shrink: 0 !important;
+}
+
+/* "Change" edit button */
+[class*="zippy-success-card"] button.change,
+.zippy-success-card-1511 button.change {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 4px !important;
+  color: #1a6ea8 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  text-decoration: underline !important;
+  border-radius: 0 !important;
+  height: auto !important;
+  display: inline !important;
+  letter-spacing: 0 !important;
+  transition: color 0.15s !important;
+}
+[class*="zippy-success-card"] button.change:hover,
+.zippy-success-card-1511 button.change:hover {
+  color: #0d3d6e !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Success / failure message text */
+[class*="zippy-success-card"] .zippy-failure,
+.zippy-success-card-1511 .zippy-failure {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #2d7a4f !important;
+  margin: 0 !important;
+}
+
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Simple gallery slider
+  const dots = document.querySelectorAll('.lc-gallery__dot');
+  const slides = document.querySelectorAll('.lc-gallery__slide');
+  
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      slides.forEach(s => s.classList.remove('active'));
+      dots.forEach(d => d.classList.remove('active'));
+      slides[index].classList.add('active');
+      dot.classList.add('active');
+    });
+  });
+
+  // Quantity control
+  const btnMinus = document.querySelector('.js-lc-minus');
+  const btnPlus = document.querySelector('.js-lc-plus');
+  const qtyVal = document.querySelector('.lc-pdp-qty__val');
+
+  if(btnMinus && btnPlus && qtyVal) {
+    btnMinus.addEventListener('click', () => {
+      let v = parseInt(qtyVal.value);
+      if(v > 1) qtyVal.value = v - 1;
+    });
+    btnPlus.addEventListener('click', () => {
+      let v = parseInt(qtyVal.value);
+      qtyVal.value = v + 1;
+    });
+  }
+
+  // Variant change logic
+  const radioInputs = document.querySelectorAll('.lc-variant-radio');
+  const jsonEl = document.querySelector('.lc-variants-json');
+  const formIdInput = document.querySelector('form.lc-pdp-form input[name="id"]');
+  if (radioInputs.length > 0 && jsonEl && formIdInput) {
+    const variants = JSON.parse(jsonEl.textContent);
+    radioInputs.forEach(radio => {
+      radio.addEventListener('change', () => {
+        const checkedValues = Array.from(document.querySelectorAll('.lc-variant-radio:checked')).map(el => el.value);
+        const selectedVariant = variants.find(variant => {
+          return variant.options.every((val, index) => val === checkedValues[index]);
+        });
+        if (selectedVariant) {
+          formIdInput.value = selectedVariant.id;
+          
+          const priceSale = document.querySelector('.lc-pdp-price__sale');
+          if(priceSale) {
+            // Very simplified money formatting usually fine for defaults
+            priceSale.innerHTML = '₹' + (selectedVariant.price / 100).toFixed(2);
+          }
+          const priceReg = document.querySelector('.lc-pdp-price__regular');
+          const priceDisc = document.querySelector('.lc-pdp-price__discount');
+          if(selectedVariant.compare_at_price > selectedVariant.price) {
+            if(priceReg) priceReg.innerHTML = 'MRP ₹' + (selectedVariant.compare_at_price / 100).toFixed(2);
+            if(priceDisc) priceDisc.innerHTML = '(' + Math.round((selectedVariant.compare_at_price - selectedVariant.price) / selectedVariant.compare_at_price * 100) + '% off)';
+            if(priceReg) priceReg.style.display = 'inline';
+            if(priceDisc) priceDisc.style.display = 'inline';
+          } else {
+            if(priceReg) priceReg.style.display = 'none';
+            if(priceDisc) priceDisc.style.display = 'none';
+          }
+
+          const addBtn = document.querySelector('.lc-pdp-add-btn');
+          if(addBtn) {
+            addBtn.disabled = !selectedVariant.available;
+            addBtn.innerHTML = selectedVariant.available ? 'Add to Cart' : 'Sold Out';
+          }
+        }
+      });
+    });
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Licious PDP Main",
+  "settings": [
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1400,
+      "step": 20,
+      "default": 1100,
+      "label": "Max Width"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumbs",
+      "label": "Show Breadcrumbs",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "Microwave Meal"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Ready To Cook"
+        }
+      ]
+    },
+    {
+      "type": "meta_info",
+      "name": "Meta Info",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "weight",
+          "label": "Weight Text",
+          "default": "500g"
+        },
+        {
+          "type": "text",
+          "id": "pieces",
+          "label": "Pieces Text",
+          "default": "8-10 Pieces"
+        },
+        {
+          "type": "text",
+          "id": "serves",
+          "label": "Serves Text",
+          "default": "Serves 2-3"
+        }
+      ]
+    },
+    {
+      "type": "offer_banner",
+      "name": "Offer Banner",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_offer",
+          "label": "Show Offer Banner",
+          "default": false,
+          "info": "Toggle to show or hide this banner on the page"
+        },
+        {
+          "type": "text",
+          "id": "offer_title",
+          "label": "Offer Title",
+          "default": "20% off + Free delivery"
+        },
+        {
+          "type": "text",
+          "id": "offer_code",
+          "label": "Offer Code",
+          "default": "Code: 20FLAT"
+        },
+        {
+          "type": "textarea",
+          "id": "offer_desc",
+          "label": "Offer Description",
+          "default": "Course delivery starting in 2 mins. Add items from the Malai Tikka sub-category. Minimum order values may apply."
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background Color",
+          "default": "#f0f8ff"
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Border / Divider Color",
+          "default": "#d8eeff"
+        },
+        {
+          "type": "color",
+          "id": "icon_color",
+          "label": "Icon Color",
+          "default": "#1a6ea8"
+        },
+        {
+          "type": "color",
+          "id": "code_bg",
+          "label": "Code Badge Color",
+          "default": "#0d3d6e"
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant Picker",
+      "limit": 1
+    },
+    {
+      "type": "cut_preference",
+      "name": "Cut Preference",
+      "limit": 1
+    },
+    {
+      "type": "price_and_buy",
+      "name": "Price & Buy Buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "delivery_text",
+          "label": "Delivery Text",
+          "default": "Today 6AM - 8AM"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Licious PDP Main",
+      "blocks": [
+        { "type": "title" },
+        { "type": "meta_info" },
+        { "type": "offer_banner" },
+        { "type": "description" },
+        { "type": "price_and_buy" }
+      ]
+    }
+  ]
+}
+{% endschema %}

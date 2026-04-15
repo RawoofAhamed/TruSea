@@ -1,226 +1,98 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
-      "type": "main-product",
+      "type": "main-licious-product",
       "blocks": {
-        "vendor": {
-          "type": "text",
-          "disabled": true,
-          "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "body"
-          }
-        },
-        "custom_liquid_mWBwPf": {
-          "type": "custom_liquid",
-          "name": "Limited Catch",
-          "settings": {
-            "custom_liquid": "<div class=\"trusea-stock\">\n  ⚡ Limited fresh catch available today.\n</div>\n\n<style>\n.trusea-stock{\n  margin-top:6px;\n  font-size:12px;\n  color:#b45309;\n  font-weight:600;\n}\n</style>"
-          }
-        },
         "title": {
           "type": "title",
           "settings": {}
         },
-        "judge_me_reviews_preview_badge_6EYFji": {
-          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "meta_info": {
+          "type": "meta_info",
           "settings": {}
         },
-        "price": {
-          "type": "price",
+        "offer_banner": {
+          "type": "offer_banner",
           "settings": {}
         },
-
-        "custom_liquid_db7xQx": {
-          "type": "custom_liquid",
-          "name": "Today's Delivery",
-          "settings": {
-            "custom_liquid": "<div class=\"trusea-delivery\">\n  <span class=\"dot\"></span>\n  <strong>Today’s Delivery:</strong> Order before 1:00 PM for same-day delivery.\n</div>\n\n<style>\n.trusea-delivery{\n  margin-top:10px;\n  font-size:13px;\n  color:#0b1f33;\n  display:flex;\n  align-items:center;\n  gap:8px;\n}\n.trusea-delivery .dot{\n  width:8px;\n  height:8px;\n  background:#1a7f37;\n  border-radius:50%;\n  box-shadow:0 0 6px rgba(26,127,55,.5);\n}\n</style>"
-          }
+        "description": {
+          "type": "description",
+          "settings": {}
         },
         "variant_picker": {
           "type": "variant_picker",
-          "settings": {
-            "picker_type": "button",
-            "swatch_shape": "circle"
-          }
+          "settings": {}
         },
-        "custom_liquid_TqLJ3k": {
-          "type": "custom_liquid",
-          "settings": {
-            "custom_liquid": "{% render 'preparation-selector', product: product %}"
-          }
-        },
-        "custom_liquid_DEGf9V": {
-          "type": "custom_liquid",
-          "disabled": true,
-          "settings": {
-            "custom_liquid": "<style>\n  .bubble-wrapper {\n    margin: 20px 0;\n    font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif;\n  }\n\n  .bubble-label-main {\n    font-weight: bold;\n    margin-bottom: 10px;\n    display: block;\n    font-size: 14px;\n    text-transform: uppercase;\n    letter-spacing: 0.05em;\n  }\n\n  .bubble-options-container {\n    display: flex;\n    flex-wrap: wrap;\n    gap: 8px;\n  }\n\n  .bubble-item {\n    position: relative;\n  }\n\n  /* Hide the actual radio input */\n  .bubble-item input[type=\"radio\"] {\n    position: absolute;\n    opacity: 0;\n    width: 0;\n    height: 0;\n  }\n\n  /* Style for the Bubble/Pill */\n  .bubble-item label {\n    display: inline-block;\n    padding: 10px 20px;\n    border: 1px solid #d1d1d1;\n    border-radius: 50px;\n    cursor: pointer;\n    font-size: 14px;\n    transition: all 0.2s ease;\n    background-color: #fff;\n    color: #333;\n    text-align: center;\n  }\n\n  /* Hover State */\n  .bubble-item label:hover {\n    border-color: #000;\n    background-color: #f9f9f9;\n  }\n\n  /* Selected State - Black background with white text */\n  .bubble-item input[type=\"radio\"]:checked + label {\n    background-color: #000;\n    color: #fff;\n    border-color: #000;\n  }\n</style>\n\n<div class=\"bubble-wrapper\">\n  <span class=\"bubble-label-main\">Cut Type</span>\n  \n  <div class=\"bubble-options-container\">\n    {%- assign prep_options = \"Curry Cut, Fry Cut, Steak\" | split: \", \" -%}\n    \n    {%- for option in prep_options -%}\n      <div class=\"bubble-item\">\n        <input \n          type=\"radio\" \n          id=\"prep-{{ forloop.index }}\" \n          name=\"properties[Preparation Style]\" \n          value=\"{{ option }}\" \n          {% if option == \"Curry Cut\" %}checked{% endif %}\n          form=\"product-form-{{ section.id }}\"\n        >\n        <label for=\"prep-{{ forloop.index }}\">\n          {{ option }}\n        </label>\n      </div>\n    {%- endfor -%}\n  </div>\n</div>"
-          }
-        },
-        "quantity_selector": {
-          "type": "quantity_selector",
+        "cut_preference": {
+          "type": "cut_preference",
           "settings": {}
         },
         "zippy_zipcode_validator_zippy_widget_RiXcnt": {
           "type": "shopify://apps/zippy-zipcode-validator/blocks/zippy_widget/14b4faf5-2197-4ce1-b361-3bf431fbc80f",
           "settings": {}
         },
-        "delivery_slots_cGmfHm": {
-          "type": "delivery_slots",
-          "disabled": true,
-          "settings": {
-            "heading": "Choose delivery slot",
-            "label": "Delivery slot",
-            "placeholder": "Select a slot",
-            "slot_1": "Morning (7:00–10:00)",
-            "slot_2": "Afternoon (12:00–3:00)",
-            "slot_3": "Evening (4:00–7:30)",
-            "cutoff_hour": 15,
-            "cutoff_minute": 30
-          }
-        },
-        "sw_back_in_stock_product_restore_email_9QNGKm": {
-          "type": "shopify://apps/sw-back-in-stock/blocks/product-restore-email/b190bced-3b7b-47da-a05f-6ea4821c3a77",
+        "price_and_buy": {
+          "type": "price_and_buy",
           "settings": {}
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
+        }
+      },
+      "block_order": [
+        "title",
+        "meta_info",
+        "offer_banner",
+        "description",
+        "variant_picker",
+        "cut_preference",
+        "price_and_buy",
+        "zippy_zipcode_validator_zippy_widget_RiXcnt"
+      ],
+      "settings": {
+        "max_width": 1100,
+        "show_breadcrumbs": true,
+        "badge_text": "Microwave Meal"
+      }
+    },
+    "cooking_methods": {
+      "type": "trusea-licious-cooking",
+      "settings": {}
+    },
+    "related_products": {
+      "type": "trusea-licious-related",
+      "settings": {}
+    },
+    "value_props": {
+      "type": "trusea-licious-value-props",
+      "blocks": {
+        "prop_1": {
+          "type": "value_prop",
           "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true
+            "title": "We will sell only the meat that we would eat ourselves.",
+            "text": "At Licious, we're big meat-lovers. And by big, we mean huge. So when it comes to the meat we put on your plate, we're extremely picky. Every single product is handpicked by a team with years of experience."
           }
         },
-        "custom_liquid_xxaPYe": {
-          "type": "custom_liquid",
-          "name": "Whatsapp Buy",
-          "disabled": true,
+        "prop_2": {
+          "type": "value_prop",
           "settings": {
-            "custom_liquid": "<a href=\"https://wa.me/917397468800?text=Hi%20I%20want%20to%20order%20{{ product.title }}\" \n   class=\"trusea-wa\" target=\"_blank\">\n   Chat on WhatsApp to Order\n</a>\n\n<style>\n.trusea-wa{\n  display:block;\n  margin-top:10px;\n  width:460px;\n  text-align:center;\n  padding:12px;\n  border-radius:12px;\n  background:#25D366;\n  color:#fff;\n  font-weight:700;\n  text-decoration:none;\n  transition:.3s;\n}\n.trusea-wa:hover{\n  opacity:.9;\n}\n</style>"
+            "title": "If it's not fresh, we won't sell it.",
+            "text": "For meat to stay fresh and retain its natural juices, it needs to be stored at a temperature between 0° and 4°C. We maintain this temperature from the time we procure the meat to cleaning, cutting and storing it, until it leaves for delivery."
           }
         },
-        "custom_liquid_UGxdcF": {
-          "type": "custom_liquid",
-          "name": "Selfish club badge",
-          "disabled": true,
+        "prop_3": {
+          "type": "value_prop",
           "settings": {
-            "custom_liquid": "{% assign member_tag = 'selfish_club' %}\n\n{% if product.available %}\n  <div class=\"ts-club-card\" role=\"note\">\n    {% if customer and customer.tags contains member_tag %}\n      <!-- MEMBER VIEW -->\n      <div class=\"ts-club-top\">\n        <div class=\"ts-club-badge\">SelFish Club</div>\n        <div class=\"ts-club-save\">Member active</div>\n      </div>\n\n      <div class=\"ts-club-title\">You’re eligible for priority access ✨</div>\n      <div class=\"ts-club-sub\">\n        You’ll see member pricing and get earlier access to today’s catch when available.\n      </div>\n\n      <div class=\"ts-club-actions\">\n        <a class=\"ts-club-btn ts-club-btn--gold\" href=\"/account\">Go to your account</a>\n        <a class=\"ts-club-btn ts-club-btn--ghost\" href=\"/pages/selfish-club#selfish-faqs\">Member FAQs</a>\n      </div>\n\n    {% else %}\n      <!-- NON-MEMBER VIEW -->\n      <div class=\"ts-club-top\">\n        <div class=\"ts-club-badge\">SelFish Club</div>\n        <div class=\"ts-club-save\">+10% credits</div>\n      </div>\n\n      <div class=\"ts-club-title\">Get first access + priority delivery</div>\n      <div class=\"ts-club-sub\">\n        Members order earlier, get rare fish first, and earn credits on every order.\n      </div>\n\n      <div class=\"ts-club-actions\">\n        <a class=\"ts-club-btn ts-club-btn--gold\" href=\"/pages/selfish-club\">View membership</a>\n        <a class=\"ts-club-btn ts-club-btn--ghost\" href=\"/pages/selfish-club#selfish-pricing\">Pricing</a>\n      </div>\n    {% endif %}\n  </div>\n\n  <style>\n    .ts-club-card{\n      margin-top: 12px;\n      border-radius: 14px;\n      width:460px;\n      padding: 14px 14px 12px;\n      border: 1px solid rgba(210,173,86,.35);\n      background: linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,247,218,.68));\n      box-shadow: 0 12px 26px rgba(0,30,60,.08);\n    }\n\n    .ts-club-top{\n      display:flex;\n      align-items:center;\n      justify-content:space-between;\n      gap:10px;\n      margin-bottom: 8px;\n    }\n\n    .ts-club-badge{\n      font-size: 12px;\n      font-weight: 900;\n      padding: 6px 10px;\n      border-radius: 999px;\n      color:#0b1f33;\n      background: linear-gradient(180deg, #f6de97 0%, #d4af63 100%);\n      border: 1px solid rgba(150,110,35,.25);\n      box-shadow: 0 10px 18px rgba(212,175,99,.22);\n      position: relative;\n      overflow:hidden;\n    }\n    .ts-club-badge::after{\n      content:\"\";\n      position:absolute;\n      inset:-20px;\n      background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.55) 50%, transparent 65%);\n      transform: translateX(-140%);\n      animation: tsClubShine 4.6s ease-in-out infinite;\n      opacity:.6;\n      pointer-events:none;\n      mix-blend-mode: screen;\n    }\n    @keyframes tsClubShine{\n      0%{ transform: translateX(-140%); }\n      55%{ transform: translateX(140%); }\n      100%{ transform: translateX(140%); }\n    }\n\n    .ts-club-save{\n      font-size: 12px;\n      font-weight: 900;\n      color: rgba(11,31,51,.9);\n      padding: 6px 10px;\n      border-radius: 999px;\n      border: 1px solid rgba(11,31,51,.14);\n      background: rgba(240,247,255,.72);\n    }\n\n    .ts-club-title{\n      font-weight: 900;\n      font-size: 14px;\n      color:#0b1f33;\n      margin: 0 0 4px;\n    }\n\n    .ts-club-sub{\n      font-size: 12.5px;\n      line-height: 1.45;\n      color: rgba(13,43,68,.82);\n      margin: 0 0 10px;\n    }\n\n    .ts-club-actions{\n      display:flex;\n      gap:10px;\n    }\n\n    .ts-club-btn{\n      flex:1;\n      text-align:center;\n      padding: 10px 12px;\n      border-radius: 12px;\n      text-decoration:none;\n      font-weight: 900;\n      font-size: 12.5px;\n      transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease;\n      display:flex;\n      align-items:center;\n      justify-content:center;\n      min-height: 44px;\n      box-sizing:border-box;\n    }\n\n    .ts-club-btn--gold{\n      color:#0b1f33;\n      background: linear-gradient(180deg, #f6de97 0%, #d4af63 100%);\n      border: 1px solid rgba(150,110,35,.28);\n      box-shadow: 0 14px 26px rgba(212,175,99,.22);\n      position: relative;\n      overflow:hidden;\n    }\n    .ts-club-btn--gold::after{\n      content:\"\";\n      position:absolute;\n      inset:-20px;\n      background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.50) 50%, transparent 65%);\n      transform: translateX(-140%);\n      animation: tsClubBtnShine 5.0s ease-in-out infinite;\n      opacity:.55;\n      pointer-events:none;\n      mix-blend-mode: screen;\n    }\n    @keyframes tsClubBtnShine{\n      0%{ transform: translateX(-140%); }\n      55%{ transform: translateX(140%); }\n      100%{ transform: translateX(140%); }\n    }\n\n    .ts-club-btn--ghost{\n      color:#0b1f33;\n      background: rgba(255,255,255,.78);\n      border: 1px solid rgba(11,31,51,.16);\n      box-shadow: 0 12px 22px rgba(0,30,60,.06);\n    }\n\n    .ts-club-btn:hover{ transform: translateY(-1px); }\n  </style>\n{% endif %}"
-          }
-        },
-        "description": {
-          "type": "description",
-          "settings": {}
-        },
-        "share": {
-          "type": "share",
-          "settings": {
-            "share_label": "Share"
+            "title": "We will charge only for what you buy.",
+            "text": "Doesn't everyone do this? Not really. Most other places first weigh the meat, then cut up the pieces, and throw out the parts which aren't fit to eat, such as offal, gizzard, wingtips, etc. But you still pay based on the original weight even though what you finally get is 10% to 30% less."
           }
         }
       },
       "block_order": [
-        "vendor",
-        "custom_liquid_mWBwPf",
-        "title",
-        "judge_me_reviews_preview_badge_6EYFji",
-        "price",
-        "custom_liquid_db7xQx",
-        "variant_picker",
-        "custom_liquid_TqLJ3k",
-        "custom_liquid_DEGf9V",
-        "quantity_selector",
-        "zippy_zipcode_validator_zippy_widget_RiXcnt",
-        "delivery_slots_cGmfHm",
-        "sw_back_in_stock_product_restore_email_9QNGKm",
-        "buy_buttons",
-        "custom_liquid_xxaPYe",
-        "custom_liquid_UGxdcF",
-        "description",
-        "share"
+        "prop_1",
+        "prop_2",
+        "prop_3"
       ],
-      "custom_css": [
-        ".ts-slot-mini select,.ts-slot-mini__row select {min-height: 48px !important; padding: 12px 14px !important; font-size: 15px !important; border-radius: 8px !important;}"
-      ],
-      "settings": {
-        "enable_sticky_info": true,
-        "color_scheme": "scheme-1",
-        "media_size": "medium",
-        "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "gallery_layout": "thumbnail",
-        "mobile_thumbnails": "show",
-        "media_position": "left",
-        "image_zoom": "hover",
-        "hide_variants": false,
-        "enable_video_looping": false,
-        "padding_top": 20,
-        "padding_bottom": 12
-      }
-    },
-    "trusea_product_info_tabs_YRgADG": {
-      "type": "trusea-product-info-tabs",
-      "name": "TruSea Product Info Tabs",
       "settings": {}
     },
-    "featured_collection_k3MDVU": {
-      "type": "featured-collection",
-      "name": "t:sections.featured-collection.presets.name",
-      "settings": {
-        "enable_card_carousel": true,
-        "collection": "bestsellers",
-        "products_to_show": 4,
-        "title": "Bestsellers",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 4,
-        "enable_desktop_slider": false,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "color_scheme": "",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": false,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "related-products": {
-      "type": "related-products",
-      "disabled": true,
-      "settings": {
-        "heading": "You may also like",
-        "heading_size": "h2",
-        "products_to_show": 4,
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "color_scheme": "scheme-1",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": false,
-        "show_vendor": false,
-        "show_rating": false,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "1770628263ea032e3c": {
+    "judge_me_reviews": {
       "type": "apps",
       "blocks": {
         "judge_me_reviews_review_widget_ygE9pB": {
@@ -239,18 +111,13 @@
       "settings": {
         "include_margins": true
       }
-    },
-    "trust_badges_bot": {
-      "type": "trusea-pdp-trust-badges",
-      "settings": {}
     }
   },
   "order": [
     "main",
-    "trusea_product_info_tabs_YRgADG",
-    "featured_collection_k3MDVU",
-    "related-products",
-    "1770628263ea032e3c",
-    "trust_badges_bot"
+    "cooking_methods",
+    "related_products",
+    "value_props",
+    "judge_me_reviews"
   ]
 }

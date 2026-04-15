@@ -1,0 +1,220 @@
+<div class="lc-cooking-wrap" style="--lc-cw-max-width: {{ section.settings.max_width }}px;">
+  <div class="lc-cooking-container">
+    <div class="lc-cooking-header">
+      <h2 class="lc-cooking-title">{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="lc-cooking-content">
+      <!-- Media side -->
+      <div class="lc-cooking-media">
+        {% if section.settings.image %}
+          <img src="{{ section.settings.image | image_url: width: 600 }}" alt="{{ section.settings.image.alt | escape }}" loading="lazy">
+        {% else %}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'lc-cooking-placeholder' }}
+        {% endif %}
+
+        {% if section.settings.badge_top != blank or section.settings.badge_bottom != blank %}
+          <div class="lc-cooking-badge">
+            {% if section.settings.badge_top != blank %}
+              <span class="lc-cooking-badge__top">{{ section.settings.badge_top }}</span>
+            {% endif %}
+            {% if section.settings.badge_bottom != blank %}
+              <span class="lc-cooking-badge__bot">{{ section.settings.badge_bottom }}</span>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Instructions side -->
+      <div class="lc-cooking-steps">
+        <h3 class="lc-cooking-subtitle">{{ section.settings.subheading }}</h3>
+        <div class="lc-cooking-richtext">
+          {{ section.settings.instructions }}
+        </div>
+        
+        {% if section.settings.note != blank %}
+          <div class="lc-cooking-note">
+            {{ section.settings.note }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.lc-cooking-wrap {
+  width: 100%;
+  max-width: var(--lc-cw-max-width, 1100px);
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.lc-cooking-container {
+  background: #fff;
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  padding: 32px 40px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.03);
+}
+.lc-cooking-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.lc-cooking-title {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+  position: relative;
+  padding-bottom: 12px;
+}
+.lc-cooking-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: #c72a42;
+  border-radius: 2px;
+}
+
+.lc-cooking-content {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+.lc-cooking-media {
+  flex: 0 0 45%;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f8f8f8;
+}
+.lc-cooking-media img, .lc-cooking-placeholder {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+}
+.lc-cooking-badge {
+  position: absolute;
+  top: 16px; left: 16px;
+  background: #ea580c;
+  color: #fff;
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 800;
+  line-height: 1.1;
+  box-shadow: 0 4px 10px rgba(234,88,12,0.4);
+  border: 4px solid #fff;
+  transform: rotate(-10deg);
+}
+.lc-cooking-badge__top { font-size: 11px; text-transform: uppercase; }
+.lc-cooking-badge__bot { font-size: 18px; }
+
+.lc-cooking-steps {
+  flex: 1;
+}
+.lc-cooking-subtitle {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 16px;
+}
+.lc-cooking-richtext {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.6;
+}
+.lc-cooking-richtext p { margin-top: 0; margin-bottom: 12px; }
+.lc-cooking-richtext ul { padding-left: 20px; margin-bottom: 16px; }
+.lc-cooking-note {
+  margin-top: 24px;
+  font-size: 13px;
+  color: #666;
+  font-style: italic;
+  background: #fafafa;
+  padding: 12px 16px;
+  border-left: 3px solid #ddd;
+  border-radius: 0 4px 4px 0;
+}
+
+@media (max-width: 768px) {
+  .lc-cooking-content { flex-direction: column; }
+  .lc-cooking-media, .lc-cooking-steps { flex: 0 0 100%; width: 100%; }
+  .lc-cooking-container { padding: 24px; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Licious Cooking Methods",
+  "settings": [
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1400,
+      "step": 20,
+      "default": 1100,
+      "label": "Max Width"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Cooking Methods"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "badge_top",
+      "label": "Badge Top Text",
+      "default": "Heat in"
+    },
+    {
+      "type": "text",
+      "id": "badge_bottom",
+      "label": "Badge Bottom Text",
+      "default": "2 MINS"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "How to cook"
+    },
+    {
+      "type": "richtext",
+      "id": "instructions",
+      "label": "Instructions",
+      "default": "<p>Peel open the foil a little on one corner of the tray.</p><p>Place the tray in the microwave and heat for 2 minutes.</p><p>Peel back the foil entirely and stir well before serving.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "note",
+      "label": "Note",
+      "default": "<p>For instructions on using a pan, please refer to the packaging.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Licious Cooking Methods"
+    }
+  ]
+}
+{% endschema %}
