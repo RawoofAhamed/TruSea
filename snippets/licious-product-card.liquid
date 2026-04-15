@@ -1,0 +1,391 @@
+{% comment %}
+  Accepts:
+  - product (Object)
+  - section (Object)
+  - placeholder (Boolean)
+  - index (Integer)
+{% endcomment %}
+
+{% if placeholder %}
+  {% assign title = "Product Title " | append: index %}
+  {% assign subtitle = "Short description of the product." %}
+  {% assign price = 25000 %}
+  {% assign compare_at = 30000 %}
+  {% assign available = true %}
+{% else %}
+  {% assign title = product.title %}
+  {% assign subtitle = product.description | strip_html | truncatewords: 8 %}
+  {% assign price = product.price %}
+  {% assign compare_at = product.compare_at_price %}
+  {% assign available = product.available %}
+{% endif %}
+
+{% assign discount_pct = 0 %}
+{% if compare_at > price %}
+  {% assign diff = compare_at | minus: price | times: 100.0 %}
+  {% assign discount_pct = diff | divided_by: compare_at | round %}
+{% endif %}
+
+<div class="lc-card">
+  <!-- Image Carousel Area -->
+  <div class="lc-card__media-wrap" style="padding-bottom: {{ section.settings.image_ratio }};">
+    
+    <!-- Top left ribbon -->
+    {% if section.settings.badge_label != blank %}
+      <div class="lc-card__ribbon">
+        {{ section.settings.badge_label }}
+      </div>
+    {% endif %}
+
+    <!-- Top right icon -->
+    <div class="lc-card__icon-nv">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" stroke="#D2213F" stroke-width="2"/><path d="M8 3L13 12H3L8 3Z" fill="#D2213F"/></svg>
+    </div>
+
+    <!-- Carousel -->
+    <div class="lc-card__carousel" id="lc-carousel-{{ product.id | default: index }}" data-interval="{{ section.settings.slider_interval | times: 1000 }}">
+      {% if placeholder %}
+        <div class="lc-card__slide active">
+          {{ 'product-1' | placeholder_svg_tag: 'lc-img' }}
+        </div>
+        <div class="lc-card__slide">
+          {{ 'product-2' | placeholder_svg_tag: 'lc-img' }}
+        </div>
+      {% else %}
+        {% for image in product.media limit: 4 %}
+          <div class="lc-card__slide {% if forloop.first %}active{% endif %}">
+            <img src="{{ image | image_url: width: 600 }}" alt="{{ image.alt }}" loading="lazy" class="lc-img">
+          </div>
+        {% else %}
+          <div class="lc-card__slide active">{{ 'image' | placeholder_svg_tag: 'lc-img' }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="lc-card__dots">
+        {% if placeholder %}
+          <span class="lc-dot active"></span><span class="lc-dot"></span>
+        {% else %}
+          {% for image in product.media limit: 4 %}
+             <span class="lc-dot {% if forloop.first %}active{% endif %}"></span>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Area -->
+  <div class="lc-card__info">
+    <h3 class="lc-card__title">
+      <a href="{{ product.url | default: '#' }}">{{ title }}</a>
+    </h3>
+
+    {% if section.settings.show_desc %}
+      <div class="lc-card__desc">{{ subtitle }}</div>
+    {% endif %}
+
+    {% if section.settings.show_weight %}
+      <div class="lc-card__meta">
+        {% assign weight_meta = product.metafields.custom.weight_info | default: "500 g | 10-12 Pieces | Serves 2-3" %}
+        {{ weight_meta }}
+      </div>
+    {% endif %}
+
+    <!-- Price Row -->
+    <div class="lc-card__price-row">
+      <span class="lc-price-sale">{{ price | money_without_trailing_zeros }}</span>
+      {% if compare_at > price %}
+        <span class="lc-price-regular">{{ compare_at | money_without_trailing_zeros }}</span>
+        {% if section.settings.show_discount %}
+          <span class="lc-discount-badge">{{ discount_pct }}% off</span>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    <!-- Bottom Row (Delivery + Button) -->
+    <div class="lc-card__bottom">
+      <div class="lc-card__delivery">
+        {% if section.settings.show_delivery %}
+          Tomorrow 6AM - 8AM
+        {% endif %}
+      </div>
+
+      <div class="lc-card__action">
+        <button class="lc-btn-add" onclick="toggleLiciousQty(this)">Add <span>+</span></button>
+        <div class="lc-qty-control" style="display:none;">
+          <button class="lc-qty-minus">-</button>
+          <input type="text" value="1" readonly class="lc-qty-input">
+          <button class="lc-qty-plus">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* CSS scoped to card via prefixes */
+.lc-card {
+  background: #fff;
+  border-radius: var(--card-radius, 12px);
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.06);
+  border: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Media wrapper */
+.lc-card__media-wrap {
+  position: relative;
+  width: 100%;
+  background: #f8f8f8;
+  overflow: hidden;
+}
+
+.lc-card__icon-nv {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #fff;
+  border-radius: 2px;
+  padding: 4px;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+}
+
+/* Ribbon badge */
+.lc-card__ribbon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--badge-bg, #D2213F);
+  color: var(--badge-text, #fff);
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.1;
+  border-radius: 0 0 18px 0;
+  z-index: 10;
+  max-width: 55%;
+}
+
+/* Carousel */
+.lc-card__carousel {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+}
+.lc-card__slide {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease;
+}
+.lc-card__slide.active {
+  opacity: 1;
+  visibility: visible;
+}
+.lc-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Dots */
+.lc-card__dots {
+  position: absolute;
+  bottom: 12px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  z-index: 10;
+}
+.lc-dot {
+  width: 6px;
+  height: 6px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.lc-dot.active {
+  background: #fff;
+  transform: scale(1.2);
+}
+
+/* Info container */
+.lc-card__info {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Title */
+.lc-card__title {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 40px;
+}
+.lc-card__title a {
+  text-decoration: none;
+  color: inherit;
+}
+.lc-card__title a:hover {
+  text-decoration: underline;
+}
+
+/* Desc */
+.lc-card__desc {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Meta info */
+.lc-card__meta {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+/* Price block */
+.lc-card__price-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.lc-price-sale {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+.lc-price-regular {
+  font-size: 13px;
+  color: #888;
+  text-decoration: line-through;
+  font-weight: 500;
+}
+.lc-discount-badge {
+  font-size: 12px;
+  color: #16a34a;
+  font-weight: 700;
+}
+
+/* Bottom Actions */
+.lc-card__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  border-top: 1px solid #f5f5f5;
+  padding-top: 12px;
+}
+.lc-card__delivery {
+  font-size: 11px;
+  color: #777;
+  font-weight: 500;
+}
+
+/* Button & Qty Control */
+.lc-btn-add {
+  background: var(--btn-color, #C72A42);
+  color: var(--btn-text, #fff);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.2s;
+  height: 32px;
+}
+.lc-btn-add span { font-size: 16px; font-weight: 400; line-height:1; }
+.lc-btn-add:hover { filter: brightness(0.9); transform: translateY(-1px); }
+
+/* Quantity Selector replacement */
+.lc-qty-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background:#fff;
+  height: 32px;
+  overflow: hidden;
+}
+.lc-qty-control button {
+  background: none;
+  border: none;
+  width: 28px;
+  font-size: 18px;
+  color: #C72A42;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lc-qty-control input {
+  width: 24px;
+  border: none;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  padding: 0;
+}
+</style>
+
+<script>
+// Auto Carousel
+document.addEventListener('DOMContentLoaded', () => {
+  const carousels = document.querySelectorAll('.lc-card__carousel');
+  carousels.forEach(carousel => {
+    let intervalBase = parseInt(carousel.getAttribute('data-interval'));
+    let interval = intervalBase > 0 ? intervalBase : 3000;
+    
+    let slides = carousel.querySelectorAll('.lc-card__slide');
+    let dots = carousel.querySelectorAll('.lc-dot');
+    if(slides.length <= 1) return;
+
+    let currentIndex = 0;
+    setInterval(() => {
+      slides[currentIndex].classList.remove('active');
+      dots[currentIndex].classList.remove('active');
+      
+      currentIndex = (currentIndex + 1) % slides.length;
+      
+      slides[currentIndex].classList.add('active');
+      dots[currentIndex].classList.add('active');
+    }, interval);
+  });
+});
+
+// UI Toggle for Add Button to Qty Selector
+function toggleLiciousQty(btn) {
+  const parent = btn.parentElement;
+  btn.style.display = 'none';
+  const qtyControl = parent.querySelector('.lc-qty-control');
+  qtyControl.style.display = 'flex';
+}
+</script>

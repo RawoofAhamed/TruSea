@@ -1,0 +1,183 @@
+<div class="licious-fc page-width" style="
+  --btn-color: {{ section.settings.btn_color }};
+  --btn-text: {{ section.settings.btn_text_color }};
+  --badge-bg: {{ section.settings.badge_bg }};
+  --badge-text: {{ section.settings.badge_text }};
+  --card-radius: {{ section.settings.card_radius }}px;
+">
+
+  {% if section.settings.title != blank %}
+    <h2 class="licious-fc__title">{{ section.settings.title }}</h2>
+  {% endif %}
+
+  <div class="licious-fc__grid licious-fc__grid--{{ section.settings.grid }}">
+    {% assign collection = collections[section.settings.collection] %}
+    {% for product in collection.products limit: section.settings.max_products %}
+      {% render 'licious-product-card', 
+        product: product, 
+        section: section 
+      %}
+    {% else %}
+      {% for i in (1..section.settings.grid) %}
+        {% render 'licious-product-card', section: section, placeholder: true, index: i %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+
+</div>
+
+<style>
+  .licious-fc {
+    padding: 40px 0;
+  }
+  .licious-fc__title {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 24px;
+    color: #1a1a1a;
+  }
+  .licious-fc__grid {
+    display: grid;
+    gap: 20px;
+  }
+  .licious-fc__grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .licious-fc__grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .licious-fc__grid--4 { grid-template-columns: repeat(4, 1fr); }
+
+  @media (max-width: 900px) {
+    .licious-fc__grid--3, .licious-fc__grid--4 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .licious-fc__grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Licious Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured Items"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "min": 2, "max": 12, "step": 1,
+      "default": 6,
+      "label": "Total products to show"
+    },
+    {
+      "type": "range",
+      "id": "grid",
+      "min": 2, "max": 4, "step": 1,
+      "default": 3,
+      "label": "Products per row"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0, "max": 40, "step": 1,
+      "default": 12,
+      "label": "Card Border Radius (px)"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image Aspect Ratio",
+      "options": [
+        { "value": "100%", "label": "Square (1:1)" },
+        { "value": "75%", "label": "Landscape (4:3)" },
+        { "value": "66.66%", "label": "Landscape (3:2)" },
+        { "value": "133.33%", "label": "Portrait (3:4)" }
+      ],
+      "default": "66.66%"
+    },
+    {
+      "type": "range",
+      "id": "slider_interval",
+      "min": 2, "max": 10, "step": 1,
+      "default": 3,
+      "label": "Auto-slide interval (seconds)"
+    },
+    {
+      "type": "header",
+      "content": "Card Data Display"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_desc",
+      "label": "Show Description Subtitle",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_weight",
+      "label": "Show Weight/Serving Info",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_discount",
+      "label": "Show Discount % (Red/Green)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_delivery",
+      "label": "Show Delivery Text",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Badge Configuration"
+    },
+    {
+      "type": "text",
+      "id": "badge_label",
+      "label": "Badge Label (Global)",
+      "default": "Combo Saver"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Badge Background Color",
+      "default": "#D2213F"
+    },
+    {
+      "type": "color",
+      "id": "badge_text",
+      "label": "Badge Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Button Configuration"
+    },
+    {
+      "type": "color",
+      "id": "btn_color",
+      "label": "Button Background Color",
+      "default": "#C72A42"
+    },
+    {
+      "type": "color",
+      "id": "btn_text_color",
+      "label": "Button Text Color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Licious Collection Grid"
+    }
+  ]
+}
+{% endschema %}
