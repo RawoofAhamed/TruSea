@@ -218,13 +218,6 @@
               "cta_text": "Join Pro Club",
               "cta_url": ""
             }
-          },
-          "perk_nkYXaF": {
-            "type": "perk",
-            "settings": {
-              "icon": "",
-              "label": "Priority Early Access"
-            }
           }
         },
         "block_order": [

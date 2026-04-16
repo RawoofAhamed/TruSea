@@ -137,6 +137,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  z-index: 1; /* Isolates stacking context so inner elements don't bleed over global modals/drawers */
   height: 100%; /* Ensures equal height in grids */
   transition: box-shadow 0.25s, transform 0.25s;
 }
@@ -168,7 +169,7 @@
   background: #fff;
   border-radius: 2px;
   padding: 4px;
-  z-index: 10;
+  z-index: 2;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   display: flex;
 }
@@ -185,7 +186,7 @@
   font-weight: 800;
   line-height: 1.1;
   border-radius: 0 0 18px 0;
-  z-index: 10;
+  z-index: 2;
   max-width: 55%;
 }
 
@@ -437,9 +438,11 @@ if (typeof addLiciousToCart !== 'function') {
     try {
       const res = await fetch('/cart/add.js', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/javascript' },
         body: JSON.stringify({ id: variantId, quantity: 1 })
       });
+      const parsedAdd = await res.json();
+
       if (res.ok) {
         btn.style.display = 'none';
         btn.innerHTML = 'Add <span>+</span>';
@@ -448,7 +451,16 @@ if (typeof addLiciousToCart !== 'function') {
         qtyControl.style.display = 'flex';
         qtyControl.querySelector('.lc-qty-input').value = 1;
 
-        document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+        // Fetch fresh sections to force Cart Drawer update
+        const sectionRes = await fetch(window.location.pathname + '?sections=cart-drawer,cart-icon-bubble');
+        const sectionsHtml = await sectionRes.json();
+
+        const cartDrawer = document.querySelector('cart-drawer');
+        if (cartDrawer && typeof cartDrawer.renderContents === 'function') {
+          cartDrawer.renderContents({ id: variantId, sections: sectionsHtml });
+        } else {
+          document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+        }
       }
     } catch(e) { console.error(e); }
     btn.disabled = false;
@@ -462,11 +474,13 @@ if (typeof addLiciousToCart !== 'function') {
 
     btn.disabled = true;
     try {
-      const res = await fetch('/cart/change.js', {
+      const res = await fetch('/cart/update.js', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: variantId, quantity: newQty })
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/javascript' },
+        body: JSON.stringify({ updates: { [variantId]: newQty } })
       });
+      const parsedUpdate = await res.json();
+
       if (res.ok) {
         input.value = newQty;
         if (newQty === 0) {
@@ -474,7 +488,17 @@ if (typeof addLiciousToCart !== 'function') {
           const addBtn = parent.parentElement.querySelector('.lc-btn-add');
           addBtn.style.display = 'flex';
         }
-        document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+        
+        // Fetch fresh sections to force Cart Drawer update
+        const sectionRes = await fetch(window.location.pathname + '?sections=cart-drawer,cart-icon-bubble');
+        const sectionsHtml = await sectionRes.json();
+
+        const cartDrawer = document.querySelector('cart-drawer');
+        if (cartDrawer && typeof cartDrawer.renderContents === 'function') {
+          cartDrawer.renderContents({ id: variantId, sections: sectionsHtml });
+        } else {
+          document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+        }
       }
     } catch(e) { console.error(e); }
     btn.disabled = false;

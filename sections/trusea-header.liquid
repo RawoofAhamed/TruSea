@@ -54,6 +54,7 @@
     <!-- Right icons -->
     <div class="ts-header-actions">
       <!-- Location selector -->
+      {% if section.settings.show_location_picker %}
       <div class="ts-location-wrapper" id="ts-location-wrapper">
         <button class="ts-location-btn" id="ts-location-btn" aria-label="Select location" aria-expanded="false">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -61,11 +62,21 @@
           <svg class="ts-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="ts-location-dropdown" id="ts-location-dropdown" aria-hidden="true">
-          <p class="ts-location-title">Enter your pincode</p>
-          <div class="ts-pincode-row">
-            <input type="text" id="ts-pincode-input" placeholder="e.g. 600001" maxlength="6" pattern="[0-9]*" inputmode="numeric">
-            <button type="button" id="ts-pincode-apply" class="ts-btn ts-btn-primary" style="padding:8px 18px;font-size:13px;">Apply</button>
+          <!-- Zippy Widget Block -->
+          <div id="ts-zippy-wrapper">
+            {% for block in section.blocks %}
+              {% if block.type == '@app' %}
+                {% render block %}
+              {% endif %}
+            {% endfor %}
           </div>
+
+          {% assign has_locations = false %}
+          {% for block in section.blocks %}
+            {% if block.type == 'location' %}{% assign has_locations = true %}{% endif %}
+          {% endfor %}
+
+          {% if has_locations %}
           <p class="ts-location-or">or choose area</p>
           <ul class="ts-location-list">
             {% for block in section.blocks %}
@@ -79,8 +90,10 @@
               {% endif %}
             {% endfor %}
           </ul>
+          {% endif %}
         </div>
       </div>
+      {% endif %}
 
       <!-- Search -->
       <button class="ts-icon-btn" id="ts-search-trigger" aria-label="Search">
@@ -322,18 +335,31 @@
 
 .ts-location-dropdown {
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(100% + 14px);
   right: 0;
-  width: 280px;
+  width: 320px;
   background: var(--ts-white);
   border-radius: var(--ts-radius-md);
-  box-shadow: var(--ts-shadow-lg);
-  padding: 20px;
+  box-shadow: 0 12px 40px rgba(14,37,65,0.15), 0 0 0 1px rgba(14,37,65,0.05);
+  padding: 24px;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);
-  transition: var(--ts-transition);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 100;
+}
+.ts-location-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 28px;
+  width: 12px;
+  height: 12px;
+  background: var(--ts-white);
+  transform: rotate(45deg);
+  border-top: 1px solid rgba(14,37,65,0.05);
+  border-left: 1px solid rgba(14,37,65,0.05);
+  box-shadow: -2px -2px 4px rgba(14,37,65,0.02);
 }
 .ts-location-dropdown.open {
   opacity: 1;
@@ -342,62 +368,119 @@
 }
 .ts-location-title {
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--ts-navy);
-  margin: 0 0 12px;
+  margin: 0 0 16px;
   text-transform: uppercase;
   letter-spacing: .06em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ts-location-title svg {
+  color: var(--ts-header-accent, var(--ts-mint));
 }
 .ts-pincode-row {
   display: flex;
-  gap: 8px;
-  margin-bottom: 14px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 .ts-pincode-row input {
   flex: 1;
-  padding: 9px 14px;
+  padding: 10px 14px;
   border: 1.5px solid var(--ts-gray-light);
   border-radius: var(--ts-radius-sm);
   font-size: 14px;
+  font-weight: 500;
   font-family: var(--ts-font);
   outline: none;
   transition: var(--ts-transition);
   color: var(--ts-navy);
+  width: 100%;
 }
-.ts-pincode-row input:focus { border-color: var(--ts-header-accent, var(--ts-mint)); }
+.ts-pincode-row input:focus { 
+  border-color: var(--ts-header-accent, var(--ts-mint)); 
+  box-shadow: 0 0 0 3px rgba(60,191,160,0.15);
+}
 .ts-location-or {
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 600;
   color: var(--ts-gray);
   text-align: center;
-  margin: 0 0 10px;
+  margin: 0 0 16px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  display: flex;
+  align-items: center;
 }
-.ts-location-list { display: flex; flex-direction: column; gap: 4px; }
+.ts-location-or::before, .ts-location-or::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--ts-gray-light);
+  margin: 0 12px;
+}
+.ts-location-list { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 6px; 
+  list-style: none; /* Fixed bullet points */
+  margin: 0; 
+  padding: 0; 
+}
 .ts-location-option {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 9px 12px;
+  padding: 10px 14px;
   border-radius: var(--ts-radius-sm);
-  border: none;
-  background: transparent;
+  border: 1px solid transparent;
+  background: rgba(14,37,65,0.03);
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600;
   font-family: var(--ts-font);
-  color: var(--ts-text);
+  color: var(--ts-navy);
   text-align: left;
   transition: var(--ts-transition);
 }
 .ts-location-option:hover {
-  background: var(--ts-mint-pale);
+  background: rgba(60,191,160,.08);
+  border-color: rgba(60,191,160,.3);
   color: var(--ts-header-accent, var(--ts-mint));
+  transform: translateY(-1px);
 }
 .ts-location-option span {
   font-size: 12px;
+  font-weight: 600;
   color: var(--ts-gray);
-  background: var(--ts-gray-light);
-  padding: 2px 8px;
-  border-radius: 4px;
+  background: var(--ts-white);
+  padding: 3px 8px;
+  border-radius: var(--ts-radius-full);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+  border: 1px solid var(--ts-gray-light);
+  transition: all .2s ease;
+}
+.ts-location-option:hover span {
+  color: var(--ts-header-accent, var(--ts-mint));
+  border-color: rgba(60,191,160,.5);
+}
+.ts-location-option.active {
+  background: rgba(60,191,160,.1);
+  border-color: rgba(60,191,160,.4);
+  color: var(--ts-header-accent, var(--ts-mint));
+}
+.ts-location-option.active::after {
+  content: '✓';
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ts-header-accent, var(--ts-mint));
+  margin-left: auto;
+  padding-left: 8px;
+}
+.ts-location-option.active span {
+  color: var(--ts-header-accent, var(--ts-mint));
+  border-color: rgba(60,191,160,.5);
 }
 
 /* ---- Search Overlay ---- */
@@ -865,12 +948,25 @@
     });
   }
 
-  // Location dropdown
+  // ── Location dropdown ──────────────────────────────────────────
   const locBtn      = document.getElementById('ts-location-btn');
   const locDropdown = document.getElementById('ts-location-dropdown');
   const locLabel    = document.getElementById('ts-location-label');
-  const pincodeInput  = document.getElementById('ts-pincode-input');
-  const pincodeApply  = document.getElementById('ts-pincode-apply');
+
+  function setLocation(label, pincode) {
+    const displayText = pincode ? pincode + ' · ' + label : label;
+    if (locLabel) locLabel.textContent = displayText;
+    localStorage.setItem('ts_location_label', label);
+    localStorage.setItem('ts_location_pincode', pincode || '');
+    localStorage.setItem('ts_location', label);
+    if (locDropdown) {
+      locDropdown.classList.remove('open');
+      locBtn && locBtn.setAttribute('aria-expanded', 'false');
+    }
+    document.querySelectorAll('.ts-location-option').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.label === label);
+    });
+  }
 
   if (locBtn && locDropdown) {
     locBtn.addEventListener('click', (e) => {
@@ -887,40 +983,60 @@
     });
   }
 
-  // Apply pincode
-  if (pincodeApply && pincodeInput && locLabel) {
-    pincodeApply.addEventListener('click', () => {
-      const val = pincodeInput.value.trim();
-      if (val.length === 6 && /^\d+$/.test(val)) {
-        locLabel.textContent = val;
-        locDropdown.classList.remove('open');
-        locBtn.setAttribute('aria-expanded', 'false');
-        localStorage.setItem('ts_location', val);
-      } else {
-        pincodeInput.style.borderColor = '#ef4444';
-        setTimeout(() => pincodeInput.style.borderColor = '', 1200);
-      }
+  // Pre-fill saved location on page load
+  const savedLabel   = localStorage.getItem('ts_location_label');
+  const savedPincode = localStorage.getItem('ts_location_pincode');
+  if (savedLabel && locLabel) {
+    const displayText = savedPincode ? savedPincode + ' · ' + savedLabel : savedLabel;
+    locLabel.textContent = displayText;
+    document.querySelectorAll('.ts-location-option').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.label === savedLabel);
     });
-    pincodeInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') pincodeApply.click();
-    });
+  } else {
+    const legacy = localStorage.getItem('ts_location');
+    if (legacy && locLabel) locLabel.textContent = legacy;
   }
 
-  // Pre-fill saved location
-  const saved = localStorage.getItem('ts_location');
-  if (saved && locLabel) locLabel.textContent = saved;
-
-  // Location list options
+  // Location list – click on area name shortcuts
   document.querySelectorAll('.ts-location-option').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const label = e.currentTarget.dataset.label;
       const pin   = e.currentTarget.dataset.pincode;
-      if (locLabel) locLabel.textContent = pin ? label + ' – ' + pin : label;
-      locDropdown.classList.remove('open');
-      locBtn.setAttribute('aria-expanded', 'false');
-      localStorage.setItem('ts_location', label);
+      // Also pre-fill Zippy's input if present
+      const zippyInput = document.querySelector('#ts-zippy-wrapper input.pin');
+      if (zippyInput) {
+        zippyInput.value = pin;
+        const checkBtn = document.querySelector('#ts-zippy-wrapper button.checkPin');
+        if (checkBtn) checkBtn.click();
+      } else {
+        setLocation(label, pin);
+      }
     });
   });
+
+  // ── Watch Zippy success card to update header label ──────────────
+  const zippyWrapper = document.getElementById('ts-zippy-wrapper');
+  if (zippyWrapper) {
+    const observer = new MutationObserver(() => {
+      // Zippy renders a success card with the pincode
+      const successCard = zippyWrapper.querySelector('[class*="zippy-success-card"], [class*="zippy_success"]');
+      if (successCard) {
+        // Extract pincode: Zippy shows text like "DELIVER TO 600042"
+        const text = successCard.textContent || '';
+        const pincodeMatch = text.match(/\b(\d{6})\b/);
+        if (pincodeMatch) {
+          const pin = pincodeMatch[1];
+          // Find matching area name from shortcuts
+          let label = pin;
+          document.querySelectorAll('.ts-location-option').forEach(btn => {
+            if (btn.dataset.pincode === pin) label = btn.dataset.label;
+          });
+          setLocation(label, pin);
+        }
+      }
+    });
+    observer.observe(zippyWrapper, { childList: true, subtree: true, characterData: true });
+  }
 
   // Mobile drawer
   const hamburger = document.getElementById('ts-hamburger');
@@ -1161,6 +1277,17 @@
       "id": "default_location",
       "label": "Default Location Label",
       "default": "Select Area"
+    },
+    {
+      "type": "header",
+      "content": "📍 Location Picker"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_location_picker",
+      "label": "Show Location / Pincode Picker",
+      "info": "Toggle the location selector button in the header on or off.",
+      "default": true
     },
     {
       "type": "header",
