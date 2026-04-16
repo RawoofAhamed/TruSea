@@ -109,6 +109,7 @@
         "logo": "shopify://shop_images/Inverted_logo-removebg-preview.png",
         "menu": "main-menu",
         "default_location": "Select Area",
+        "show_location_picker": false,
         "bg_color": "#0e2541",
         "accent_color": "#3cbfa0",
         "text_color": "#ffffff",
