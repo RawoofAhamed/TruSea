@@ -166,8 +166,8 @@
           "cta_text": "Shop Fresh",
           "cta_url": "",
           "video_url": "",
-          "show_countdown": true,
-          "cutoff_time": "11:00",
+          "show_countdown": false,
+          "cutoff_time": "",
           "hero_image": "shopify://shop_images/pnglobster.png"
         }
       },
@@ -439,7 +439,13 @@
           "collection": "all-seafoods",
           "limit": 6,
           "padding_top": 80,
-          "padding_bottom": 80
+          "padding_bottom": 80,
+          "badge_label": "Best Seller",
+          "image_ratio": "75%",
+          "show_desc": true,
+          "show_weight": true,
+          "show_discount": true,
+          "show_delivery": true
         }
       },
       "trusea-recipes": {
