@@ -19,12 +19,12 @@
       <div class="ts-lab-content ts-reveal-left">
         <div class="ts-tag">Certified Quality</div>
         <h2 class="ts-lab-heading">{{ section.settings.heading | default: '100% Formalin-Free & Safety Tested' }}</h2>
-        <p class="ts-lab-text">Every batch we source undergoes rigorous quality checks. We publish our lab test certificates transparently for your peace of mind.</p>
+        <p class="ts-lab-text">Every batch we source undergoes rigorous quality checks. We publish our reports transparently for your peace of mind.</p>
         <div class="ts-lab-badges">
-          <div class="ts-lab-badge">
+          <a href="{{ 'Fssai Registration.png' | asset_url }}" target="_blank" rel="noopener" class="ts-lab-badge">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3CBFA0" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            <span>NABL Accredited Lab</span>
-          </div>
+            <span>FSSAI Certified</span>
+          </a>
           <div class="ts-lab-badge">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3CBFA0" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
             <span>Zero Preservatives</span>
@@ -34,12 +34,11 @@
       
       <div class="ts-lab-visual ts-reveal-right">
         <div class="ts-lab-card">
-          <div class="ts-lab-card-header">Lab Report #8247</div>
+          <div class="ts-lab-card-header">Report #8247</div>
           <div class="ts-lab-card-body">
              <div class="ts-lab-row"><span>Status:</span> <span class="ts-status-pass">PASSED</span></div>
              <div class="ts-lab-row"><span>Formalin:</span> <span>Not Detected</span></div>
              <div class="ts-lab-row"><span>Ammonia:</span> <span>Not Detected</span></div>
-             <div class="ts-lab-row"><span>Freshness Score:</span> <span>98/100</span></div>
           </div>
           <div class="ts-lab-card-footer">Verified on {{ "now" | date: "%d %b %Y" }}</div>
         </div>
@@ -55,7 +54,11 @@
 .ts-lab-heading { font-size: clamp(28px, 4vw, 40px); font-weight: 900; color: var(--ts-navy); margin: 16px 0 24px; }
 .ts-lab-text { color: var(--ts-gray); font-size: 16px; line-height: 1.7; margin-bottom: 32px; }
 .ts-lab-badges { display: flex; flex-direction: column; gap: 16px; }
-.ts-lab-badge { display: flex; align-items: center; gap: 12px; font-weight: 600; color: var(--ts-navy); }
+.ts-lab-badge { 
+  display: flex; align-items: center; gap: 12px; font-weight: 600; color: var(--ts-navy); 
+  text-decoration: none; transition: all 0.3s ease;
+}
+a.ts-lab-badge:hover { color: var(--ts-mint); transform: translateX(5px); }
 .ts-lab-card { 
   background: white; border-radius: 20px; padding: 32px; 
   box-shadow: 0 30px 60px rgba(14,37,65,0.1); border: 1px solid rgba(14,37,65,0.05);

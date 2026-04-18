@@ -1,0 +1,353 @@
+{{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.show_section != false %}
+<section class="ts-sh-club ts-section" id="ts-sh-club"
+  style="
+    --ts-sh-navy: {{ section.settings.bg_color | default: '#0E2541' }};
+    --ts-sh-mint: {{ section.settings.accent_color | default: '#3CBFA0' }};
+    --ts-sh-white: #FFFFFF;
+  "
+>
+  <div class="ts-container">
+    
+    <!-- 1. SECTION HEADER -->
+    <div class="ts-sh-header ts-reveal-up">
+      <div class="ts-sh-badge">{{ section.settings.top_badge | default: 'Join the SelFish Club' }}</div>
+      <h2 class="ts-sh-headline">{{ section.settings.headline | default: 'INAUGURAL YEAR OFFER — Free for a Year' }}</h2>
+      <p class="ts-sh-subheadline">{{ section.settings.subheadline | default: "No forms. No fees. No fuss. Just sign up on TruSea and place your first order — you're automatically a SelFish Club member." }}</p>
+      <div class="ts-sh-note">{{ section.settings.small_note | default: 'Limited to the first 1000 members.' }}</div>
+    </div>
+
+    <!-- 2. JOINING CTA BLOCK -->
+    <div class="ts-sh-cta-block ts-reveal-up">
+      <div class="ts-sh-cta-inner">
+        <h3 class="ts-sh-cta-big-line">{{ section.settings.cta_big_line | default: "Sign Up. Shop. You're In." }}</h3>
+        <p class="ts-sh-cta-support">{{ section.settings.cta_supporting_text | default: "There's no application, no membership form, and no fee. Create your TruSea account, place your first order, and your SelFish Club membership is activated instantly — along with all 4 benefits listed below." }}</p>
+        
+        <div class="ts-sh-steps">
+          <div class="ts-sh-step">
+            <div class="ts-sh-step-num">1</div>
+            <div class="ts-sh-step-text">Create your free TruSea account</div>
+          </div>
+          <div class="ts-sh-step-connector"></div>
+          <div class="ts-sh-step">
+            <div class="ts-sh-step-num">2</div>
+            <div class="ts-sh-step-text">Place your first order (any product, any value)</div>
+          </div>
+          <div class="ts-sh-step-connector"></div>
+          <div class="ts-sh-step">
+            <div class="ts-sh-step-num">3</div>
+            <div class="ts-sh-step-text">SelFish Club unlocked automatically</div>
+          </div>
+        </div>
+
+        <div class="ts-sh-cta-actions">
+          <a href="/account/register" class="ts-btn ts-btn-primary ts-sh-main-btn">{{ section.settings.cta_btn_text | default: 'Sign Up & Start Shopping' }}</a>
+          <p class="ts-sh-cta-alt-note">{{ section.settings.cta_alt_note | default: 'Already have an account? Place your next order to activate.' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. BENEFIT CARDS -->
+    <div class="ts-sh-benefits-grid">
+      <!-- Card 1 -->
+      <div class="ts-sh-benefit-card ts-reveal-up">
+        <div class="ts-sh-card-header">
+           <div class="ts-sh-card-icon">
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
+           </div>
+           <span class="ts-sh-card-label">Welcome Bonus</span>
+        </div>
+        <h4 class="ts-sh-card-title">₹1,000 SelFish Credits on Us</h4>
+        <p class="ts-sh-card-body">Get ₹1,000 worth of SelFish Credits the moment you join — redeemable across any order for an entire year. Plus, earn lifetime SelFish Credits on every purchase you make, forever. The more you buy, the more you save.</p>
+        <ul class="ts-sh-card-bullets">
+          <li><span>₹1,000 credits credited on joining</span></li>
+          <li><span>Valid for 12 months from joining date</span></li>
+          <li><span>Earn credits on every order — no expiry on earned credits</span></li>
+          <li><span>Redeem against any product, any time</span></li>
+        </ul>
+        <div class="ts-sh-card-tag">Worth ₹1,000 — Yours Free</div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="ts-sh-benefit-card ts-reveal-up" style="animation-delay: 0.1s">
+        <div class="ts-sh-card-header">
+           <div class="ts-sh-card-icon">
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><path d="M12 22V8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg>
+           </div>
+           <span class="ts-sh-card-label">Exclusive Experience</span>
+        </div>
+        <h4 class="ts-sh-card-title">SelFish Sea Ride</h4>
+        <p class="ts-sh-card-body">Step onto the water. As a SelFish Club member, you get exclusive access to a curated sea ride experience with TruSea's fishing partners — go out to sea, watch the catch happen live, and come back with stories (and possibly your own fish).</p>
+        <ul class="ts-sh-card-bullets">
+          <li><span>Members-only boat experience</span></li>
+          <li><span>Go out to sea with TruSea's fishermen</span></li>
+          <li><span>See the catch, the sorting, the whole process firsthand</span></li>
+          <li><span>Limited slots — priority booking for SelFish members</span></li>
+        </ul>
+        <div class="ts-sh-card-tag">An experience you can't buy anywhere else</div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="ts-sh-benefit-card ts-reveal-up" style="animation-delay: 0.2s">
+        <div class="ts-sh-card-header">
+           <div class="ts-sh-card-icon">
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13.8V4a2 2 0 1 1 4 0v9.8"/><path d="M13 10c0-2 1.5-3 3-3s3 1 3 3v3.8"/><path d="M6 14h13a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2Z"/></svg>
+           </div>
+           <span class="ts-sh-card-label">For the Food Lover</span>
+        </div>
+        <h4 class="ts-sh-card-title">Private Cooking Session with a 5-Star Chef</h4>
+        <p class="ts-sh-card-body">Your fish, your kitchen, your personal chef. SelFish Club members get a dedicated one-on-one cooking session with a professional 5-star chef who will come to you, cook with TruSea fish, and teach you techniques you'll use for life.</p>
+        <ul class="ts-sh-card-bullets">
+          <li><span>One dedicated private cooking session per year</span></li>
+          <li><span>Chef comes to your home or a partner kitchen</span></li>
+          <li><span>Personalised to your taste and fish preference</span></li>
+          <li><span>Ideal for families, couples, and serious home cooks</span></li>
+        </ul>
+        <div class="ts-sh-card-tag">A ₹5,000+ experience, included free</div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="ts-sh-benefit-card ts-reveal-up" style="animation-delay: 0.3s">
+        <div class="ts-sh-card-header">
+           <div class="ts-sh-card-icon">
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+           </div>
+           <span class="ts-sh-card-label">Rare & Exclusive</span>
+        </div>
+        <h4 class="ts-sh-card-title">First Access to Exotic Catches</h4>
+        <p class="ts-sh-card-body">Some fish are so rare, they never make it to the public store. Ghol, Barramundi, Yellowfin Tuna, Red Snapper — when a rare catch lands, SelFish Club members get a private notification before anyone else. You buy first. Everyone else waits.</p>
+        <ul class="ts-sh-card-bullets">
+          <li><span>Instant notification the moment rare fish arrives</span></li>
+          <li><span>Exclusive purchase window before public listing</span></li>
+          <li><span>Access to species not available in the regular store</span></li>
+          <li><span>Limited quantities — first come, first served among members</span></li>
+        </ul>
+        <div class="ts-sh-card-tag">Rare fish. Only for SelFish members.</div>
+      </div>
+    </div>
+
+    <!-- 4. FOOTER CTA -->
+    <div class="ts-sh-footer-cta ts-reveal-up">
+       <p class="ts-sh-reassurance">Simply sign up and shop — that's all it takes to become a SelFish Club member during our inaugural year. No separate registration. No waiting. Your membership is live the moment your first order is placed.</p>
+       <a href="/account/register" class="ts-btn ts-btn-primary ts-sh-final-btn">{{ section.settings.final_cta_text | default: 'Sign Up & Shop to Join' }}</a>
+       <p class="ts-sh-footer-alt-note">{{ section.settings.cta_alt_note | default: 'Already have an account? Place your next order to activate.' }}</p>
+    </div>
+
+  </div>
+
+  <!-- 5. BOTTOM STRIP -->
+  <div class="ts-sh-bottom-strip">
+    <div class="ts-sh-strip-inner">
+      <span>Just sign up and shop</span>
+      <span class="ts-sh-dot">·</span>
+      <span>Membership activates on your first order</span>
+      <span class="ts-sh-dot">·</span>
+      <span>Free during inaugural year</span>
+      <span class="ts-sh-dot">·</span>
+      <span>No forms required</span>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<style>
+.ts-sh-club {
+  background: var(--ts-sh-navy);
+  color: var(--ts-sh-white);
+  padding: 100px 0 0; /* Bottom padding handled by strip */
+  font-family: var(--ts-font);
+  overflow: hidden;
+}
+
+.ts-sh-header { text-align: center; max-width: 800px; margin: 0 auto 60px; }
+.ts-sh-badge { 
+  display: inline-block; background: rgba(60,191,160,0.1); color: var(--ts-sh-mint); 
+  font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;
+  padding: 6px 18px; border-radius: 40px; margin-bottom: 24px; border: 1px solid rgba(60,191,160,0.2);
+}
+.ts-sh-headline { font-size: clamp(32px, 5vw, 56px); font-weight: 900; margin-bottom: 20px; line-height: 1.1; letter-spacing: -0.02em; color: var(--ts-sh-mint); }
+.ts-sh-subheadline { font-size: clamp(16px, 1.5vw, 19px); opacity: 0.8; line-height: 1.6; margin-bottom: 16px; }
+.ts-sh-note { font-size: 14px; font-weight: 700; color: var(--ts-sh-mint); letter-spacing: 0.02em; }
+
+.ts-sh-cta-block { margin-bottom: 100px; }
+.ts-sh-cta-inner { 
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); 
+  padding: 60px; border-radius: 40px; text-align: center; backdrop-filter: blur(10px);
+}
+.ts-sh-cta-big-line { font-size: clamp(24px, 3vw, 36px); font-weight: 800; margin-bottom: 20px; }
+.ts-sh-cta-support { font-size: 16px; opacity: 0.7; max-width: 700px; margin: 0 auto 40px; line-height: 1.6; }
+
+.ts-sh-steps { display: flex; justify-content: space-between; align-items: flex-start; max-width: 900px; margin: 0 auto 50px; gap: 20px; }
+.ts-sh-step { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.ts-sh-step-num { 
+  width: 48px; height: 48px; background: var(--ts-sh-mint); color: var(--ts-sh-navy); 
+  border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+  font-weight: 900; font-size: 18px;
+}
+.ts-sh-step-text { font-size: 15px; font-weight: 700; line-height: 1.4; opacity: 0.9; }
+.ts-sh-step-connector { height: 1px; background: rgba(255,255,255,0.1); flex: 0.5; margin-top: 24px; }
+
+.ts-sh-cta-actions { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.ts-sh-main-btn { font-size: 18px; padding: 18px 48px; }
+.ts-sh-cta-alt-note { font-size: 14px; font-weight: 600; opacity: 0.5; }
+
+.ts-sh-benefits-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-bottom: 100px; }
+.ts-sh-benefit-card { 
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); 
+  padding: 48px; border-radius: 32px; transition: var(--ts-transition);
+  display: flex; flex-direction: column;
+}
+.ts-sh-benefit-card:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.15); transform: translateY(-8px); }
+.ts-sh-card-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+.ts-sh-card-icon { color: var(--ts-sh-mint); }
+.ts-sh-card-label { font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--ts-sh-mint); letter-spacing: 0.1em; }
+.ts-sh-card-title { font-size: 24px; font-weight: 800; margin-bottom: 16px; line-height: 1.3; }
+.ts-sh-card-body { font-size: 15px; opacity: 0.7; line-height: 1.6; margin-bottom: 28px; }
+.ts-sh-card-bullets { list-style: none; padding: 0; margin: 0 0 32px; display: grid; gap: 12px; }
+.ts-sh-card-bullets li { display: flex; gap: 10px; font-size: 14px; font-weight: 600; opacity: 0.9; }
+.ts-sh-card-bullets li::before { content: "✓"; color: var(--ts-sh-mint); font-weight: 900; }
+.ts-sh-card-tag { 
+  margin-top: auto; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05); 
+  font-size: 13px; font-weight: 800; color: var(--ts-sh-mint);
+}
+
+.ts-sh-footer-cta { text-align: center; padding: 80px 0; border-top: 1px solid rgba(255,255,255,0.1); }
+.ts-sh-reassurance { font-size: 17px; font-weight: 600; max-width: 800px; margin: 0 auto 40px; line-height: 1.6; opacity: 0.8; }
+.ts-sh-final-btn { font-size: 18px; padding: 18px 48px; }
+.ts-sh-footer-alt-note { font-size: 14px; font-weight: 600; opacity: 0.5; margin-top: 16px; }
+
+.ts-sh-bottom-strip { 
+  background: var(--ts-sh-mint); color: var(--ts-sh-navy); 
+  padding: 24px 0; text-align: center; margin-top: 40px;
+}
+.ts-sh-strip-inner { 
+  font-weight: 800; text-transform: uppercase; font-size: 13px; letter-spacing: 0.05em; 
+  display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap;
+}
+.ts-sh-dot { opacity: 0.3; }
+
+@media (max-width: 900px) {
+  .ts-sh-steps { flex-direction: column; align-items: flex-start; gap: 32px; text-align: left; }
+  .ts-sh-step { flex-direction: row; text-align: left; gap: 20px; width: 100%; }
+  .ts-sh-step-num { flex-shrink: 0; width: 40px; height: 40px; font-size: 16px; }
+  .ts-sh-step-connector { display: none; }
+  .ts-sh-benefits-grid { grid-template-columns: 1fr; }
+  .ts-sh-cta-inner { padding: 40px 24px; }
+  .ts-sh-benefit-card { padding: 32px; }
+  .ts-sh-strip-inner { flex-direction: column; gap: 10px; }
+  .ts-sh-dot { display: none; }
+}
+</style>
+
+<script>
+(function() {
+  const scRevealEls = document.querySelectorAll('#ts-sh-club .ts-reveal-up');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('ts-revealed');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  scRevealEls.forEach(el => observer.observe(el));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "SelFish Club Inaugural",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#0E2541"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#3CBFA0"
+    },
+    {
+       "type": "header",
+       "content": "Header Text"
+    },
+    {
+      "type": "text",
+      "id": "top_badge",
+      "label": "Top Badge",
+      "default": "Join the SelFish Club"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "INAUGURAL YEAR OFFER — Free for a Year"
+    },
+    {
+      "type": "textarea",
+      "id": "subheadline",
+      "label": "Subheadline",
+      "default": "No forms. No fees. No fuss. Just sign up on TruSea and place your first order — you're automatically a SelFish Club member."
+    },
+    {
+      "type": "text",
+      "id": "small_note",
+      "label": "Small Note",
+      "default": "Limited to the first 1000 members."
+    },
+    {
+       "type": "header",
+       "content": "Joining CTA Block"
+    },
+    {
+      "type": "text",
+      "id": "cta_big_line",
+      "label": "CTA Big Line",
+      "default": "Sign Up. Shop. You're In."
+    },
+    {
+      "type": "textarea",
+      "id": "cta_supporting_text",
+      "label": "Supporting Text",
+      "default": "There's no application, no membership form, and no fee. Create your TruSea account, place your first order, and your SelFish Club membership is activated instantly — along with all 4 benefits listed below."
+    },
+    {
+      "type": "text",
+      "id": "cta_btn_text",
+      "label": "CTA Button Text",
+      "default": "Sign Up & Start Shopping"
+    },
+    {
+      "type": "header",
+      "content": "Footer CTA"
+    },
+    {
+      "type": "text",
+      "id": "final_cta_text",
+      "label": "Final CTA Button Text",
+      "default": "Sign Up & Shop to Join"
+    },
+    {
+      "type": "text",
+      "id": "cta_alt_note",
+      "label": "Already have account note",
+      "default": "Already have an account? Place your next order to activate."
+    }
+  ],
+  "presets": [
+    {
+      "name": "SelFish Club Inaugural Offer"
+    }
+  ]
+}
+{% endschema %}
