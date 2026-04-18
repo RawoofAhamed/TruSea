@@ -20,164 +20,19 @@
         "faq_anchor": "selfish-faqs"
       }
     },
-    "selfish_features": {
-      "type": "trusea-selfish-features",
-      "blocks": {
-        "card_HdqFbC": {
-          "type": "card",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/Fresh_catch.png",
-            "title": "First Choice of the Day's Catch",
-            "description": "Fish lands at 5:30AM.\nMembers order at 5:45AM.\nPublic order at 7:00AM.",
-            "show_exclusive": false,
-            "show_timer": true
-          }
-        },
-        "card_qeYWWw": {
-          "type": "card",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/delivery.png",
-            "title": "Unlimited Priority Delivery",
-            "description": "No delivery fees.\nNo minimum order.\nPriority delivery slots.",
-            "show_exclusive": false,
-            "show_timer": true
-          }
-        },
-        "card_HUJnGh": {
-          "type": "card",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/Exclusive.png",
-            "title": "Exclusive & Rare Fish Access",
-            "description": "Members-only orders.\nPre-orders before public listing.",
-            "show_exclusive": true,
-            "show_timer": false
-          }
-        },
-        "card_yMPkDL": {
-          "type": "card",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/credits.png",
-            "title": "Selfish Credits",
-            "description": "10% value credited on every order. Special member pricing.",
-            "show_exclusive": false,
-            "show_timer": false
-          }
-        },
-        "card_Gi4hW9": {
-          "type": "card",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/preference.png",
-            "title": "Preference Auto-Saved",
-            "description": "Cut styles & boneless options. Pack weight & TruSea Flavours.",
-            "show_exclusive": false,
-            "show_timer": false
-          }
-        }
-      },
-      "block_order": [
-        "card_HdqFbC",
-        "card_qeYWWw",
-        "card_HUJnGh",
-        "card_yMPkDL",
-        "card_Gi4hW9"
-      ],
-      "settings": {
-        "section_heading": "Why SelFish Club?"
-      }
-    },
-    "selfish_comparison": {
-      "type": "trusea-selfish-comparison",
-      "blocks": {
-        "row_WzVjzn": {
-          "type": "row",
-          "settings": {
-            "feature": "Early Access to Fresh Catch",
-            "club_value": "yes",
-            "normal_value": "no"
-          }
-        },
-        "row_gNY46b": {
-          "type": "row",
-          "settings": {
-            "feature": "Priority Delivery Slots",
-            "club_value": "yes",
-            "normal_value": "no"
-          }
-        },
-        "row_Y8xkXT": {
-          "type": "row",
-          "settings": {
-            "feature": "Exclusive & Rare Fish Deals",
-            "club_value": "yes",
-            "normal_value": "no"
-          }
-        },
-        "row_R6tkx8": {
-          "type": "row",
-          "settings": {
-            "feature": "Selfish Credit on Every Order",
-            "club_value": "10%",
-            "normal_value": "no"
-          }
-        },
-        "row_KAHfQh": {
-          "type": "row",
-          "settings": {
-            "feature": "No Minimum Order & Free Delivery",
-            "club_value": "yes",
-            "normal_value": "no"
-          }
-        }
-      },
-      "block_order": [
-        "row_WzVjzn",
-        "row_gNY46b",
-        "row_Y8xkXT",
-        "row_R6tkx8",
-        "row_KAHfQh"
-      ],
-      "settings": {
-        "heading": "Comparison Table",
-        "club_title": "SelFish Member",
-        "normal_title": "Regular"
-      }
-    },
+
     "selfish_plans": {
-      "type": "trusea-selfish-pricing-plans",
+      "type": "trusea-selfish-club-inaugural",
       "settings": {
-        "heading": "Membership Plan",
-        "month_price": "₹249",
-        "month_unit": "month",
-        "year_price": "₹1999",
-        "year_unit": "year",
-        "badge_text": "Just 167rs\nper month\npaid annually",
-        "ribbon_text": "100% of joining fee credited as SelFish Credits for the first 100 members"
-      }
-    },
-    "selfish_experiences": {
-      "type": "trusea-selfish-experiences",
-      "blocks": {
-        "experience_FmC3iY": {
-          "type": "experience",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/yatch.png",
-            "title": "Deep Sea Ride"
-          }
-        },
-        "experience_jkYxMF": {
-          "type": "experience",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/flavours.png",
-            "title": "Free Flavours"
-          }
-        }
-      },
-      "block_order": [
-        "experience_FmC3iY",
-        "experience_jkYxMF"
-      ],
-      "settings": {
-        "section_heading": "Member-Only Experiences"
+        "top_badge": "Join the SelFish Club",
+        "headline": "INAUGURAL YEAR OFFER — Free for a Year",
+        "subheadline": "No forms. No fees. No fuss. Just sign up on TruSea and place your first order — you're automatically a SelFish Club member.",
+        "small_note": "Limited to the first 1000 members.",
+        "cta_big_line": "Sign Up. Shop. You're In.",
+        "cta_supporting_text": "There's no application, no membership form, and no fee. Create your TruSea account, place your first order, and your SelFish Club membership is activated instantly — along with all 4 benefits listed below.",
+        "cta_btn_text": "Sign Up & Start Shopping",
+        "final_cta_text": "Sign Up & Shop to Join",
+        "cta_alt_note": "Already have an account? Place your next order to activate."
       }
     },
     "selfish_faqs": {
@@ -242,10 +97,7 @@
   "order": [
     "main",
     "selfish_hero",
-    "selfish_features",
-    "selfish_comparison",
     "selfish_plans",
-    "selfish_experiences",
     "selfish_faqs",
     "selfish_quote"
   ]

@@ -9,78 +9,77 @@
     --ts-sp-text: {{ section.settings.text_color | default: 'rgba(255,255,255,.65)' }};
   "
 >
-  <!-- Decorative background -->
-  <div class="ts-sp-bg-deco" aria-hidden="true">
-    <div class="ts-sp-blob ts-sp-blob--1"></div>
-    <div class="ts-sp-blob ts-sp-blob--2"></div>
-    <div class="ts-sp-wave"></div>
-  </div>
-
   <div class="ts-container">
     <!-- Header -->
     <div class="ts-sp-header ts-reveal">
-      <div class="ts-tag">{{ section.settings.eyebrow | default: 'Exclusive Membership' }}</div>
-      <h2 class="ts-sp-title">
-        Join the <span style="color:var(--ts-sp-accent)">{{ section.settings.heading_accent | default: 'SelFish Club' }}</span>
+      <div class="ts-tag">{{ section.settings.eyebrow | default: 'Join the SelFish Club' }}</div>
+      <h2 class="ts-sp-title ">
+        {{ section.settings.headline | default: 'Selfish Club | INAUGURAL YEAR OFFER — Free for a Year' }}
       </h2>
       <p class="ts-sp-subtitle">
-        {{ section.settings.subtitle | default: 'Get priority access to the freshest catch at dawn, exclusive pricing, and member-only perks delivered to your door.' }}
+        {{ section.settings.subtitle | default: "No forms. No fees. No fuss. Just sign up on TruSea and place your first order — you're automatically a SelFish Club member." }}
       </p>
     </div>
 
-    <!-- Perks bar -->
-    <div class="ts-sp-perks ts-reveal ts-delay-1">
-      {% for block in section.blocks %}
-        {% if block.type == 'perk' %}
-          <div class="ts-sp-perk" {{ block.shopify_attributes }}>
-            <div class="ts-sp-perk-icon">{{ block.settings.icon | default: '✦' }}</div>
-            <span>{{ block.settings.label | default: 'Exclusive Perk' }}</span>
-          </div>
-        {% endif %}
-      {% endfor %}
+    <!-- 4 Cards Grid -->
+    <div class="ts-sp-cards-grid">
+      <!-- Card 1 -->
+      <div class="ts-sp-benefit-card ts-reveal ts-delay-1">
+        <div class="ts-sp-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ts-sp-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
+        </div>
+        <div class="ts-sp-card-content">
+          <div class="ts-sp-card-label">Welcome Bonus</div>
+          <h3 class="ts-sp-card-title">₹1,000 Credits on Us</h3>
+          <p class="ts-sp-card-text">Get ₹1,000 SelFish Credits on joining, redeemable for an entire year.</p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="ts-sp-benefit-card ts-reveal ts-delay-2">
+        <div class="ts-sp-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ts-sp-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><path d="M12 22V8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg>
+        </div>
+        <div class="ts-sp-card-content">
+          <div class="ts-sp-card-label">Exclusive Experience</div>
+          <h3 class="ts-sp-card-title">SelFish Sea Ride</h3>
+          <p class="ts-sp-card-text">Go out to sea with our fishermen and watch the catch happen live.</p>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="ts-sp-benefit-card ts-reveal ts-delay-3">
+        <div class="ts-sp-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ts-sp-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13.8V4a2 2 0 1 1 4 0v9.8"/><path d="M13 10c0-2 1.5-3 3-3s3 1 3 3v3.8"/><path d="M6 14h13a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2Z"/></svg>
+        </div>
+        <div class="ts-sp-card-content">
+          <div class="ts-sp-card-label">For the food lover</div>
+          <h3 class="ts-sp-card-title">Private Chef Sessions</h3>
+          <p class="ts-sp-card-text">One-on-one cooking lessons with a professional 5-star chef at your home.</p>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="ts-sp-benefit-card ts-reveal ts-delay-4">
+        <div class="ts-sp-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ts-sp-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+        </div>
+        <div class="ts-sp-card-content">
+          <div class="ts-sp-card-label">Rare & Exclusive</div>
+          <h3 class="ts-sp-card-title">First Access to Catches</h3>
+          <p class="ts-sp-card-text">Get private notifications for rare species like Ghol and Yellowfin Tuna.</p>
+        </div>
+      </div>
     </div>
 
-    <!-- Pricing cards -->
-    <div class="ts-sp-cards">
-      {% assign card_index = 0 %}
-      {% for block in section.blocks %}
-        {% if block.type == 'plan' %}
-          {% assign card_index = card_index | plus: 1 %}
-          <div class="ts-sp-card {% if block.settings.featured %}ts-sp-card--featured{% endif %} ts-reveal ts-delay-{{ card_index }}" {{ block.shopify_attributes }}>
-            {% if block.settings.featured %}
-              <div class="ts-sp-popular">Most Popular</div>
-            {% endif %}
-            <div class="ts-sp-plan-icon">{{ block.settings.icon | default: '🐟' }}</div>
-            <h3 class="ts-sp-plan-name">{{ block.settings.name | default: 'Basic' }}</h3>
-            <div class="ts-sp-price">
-              <span class="ts-sp-currency">₹</span>
-              <span class="ts-sp-amount">{{ block.settings.price | default: '499' }}</span>
-              <span class="ts-sp-period">/month</span>
-            </div>
-            <p class="ts-sp-plan-desc">{{ block.settings.description | default: 'Perfect for individuals who love fresh seafood.' }}</p>
-            <ul class="ts-sp-features">
-              {% assign feats = block.settings.features | split: '|' %}
-              {% for feat in feats %}
-                {% unless feat == blank %}
-                  <li>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                    {{ feat | strip }}
-                  </li>
-                {% endunless %}
-              {% endfor %}
-            </ul>
-            <a href="{{ block.settings.cta_url | default: '/pages/selfish-club' }}" class="ts-btn {% if block.settings.featured %}ts-btn-primary{% else %}ts-btn-outline{% endif %}" style="width:100%;justify-content:center;margin-top:auto;">
-              {{ block.settings.cta_text | default: 'Get Started' }}
-            </a>
-          </div>
-        {% endif %}
-      {% endfor %}
+    <!-- CTA Section -->
+    <div class="ts-sp-cta-actions ts-reveal ts-delay-5">
+      <div class="ts-sp-buttons">
+        <a href="/account/login" class="ts-btn ts-btn-primary">Join Now</a>
+        <a href="/pages/selfish-club" class="ts-btn ts-btn-outline" style="border-color: rgba(255,255,255,0.2); color: #fff;">Know More</a>
+      </div>
+      <p class="ts-sp-limit-note">{{ section.settings.note | default: 'Limited to the first 1000 members.' }}</p>
     </div>
-
-    <!-- Bottom note -->
-    {% if section.settings.note != blank %}
-      <p class="ts-sp-note ts-reveal">{{ section.settings.note }}</p>
-    {% endif %}
   </div>
 </section>
 {% endif %}
@@ -89,170 +88,61 @@
 .ts-selfish-promo {
   position: relative;
   background: var(--ts-sp-bg, var(--ts-navy));
-  padding: 80px 0 90px;
+  padding: 100px 0;
   font-family: var(--ts-font);
   overflow: hidden;
-  color: var(--ts-sp-heading, var(--ts-white));
+  color: var(--ts-sp-white, #FFFFFF);
 }
 
-/* Background deco */
-.ts-sp-bg-deco { position: absolute; inset: 0; pointer-events: none; }
-.ts-sp-blob {
-  position: absolute;
-  border-radius: 50%;
+.ts-sp-header { text-align: center; margin-bottom: 60px; }
+.ts-sp-title { 
+  font-size: clamp(32px, 5vw, 48px); font-weight: 900; line-height: 1.1; 
+  margin: 12px 0 20px; letter-spacing: -.02em; 
+  color: var(--ts-sp-accent);
 }
-.ts-sp-blob--1 {
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(60,191,160,.1) 0%, transparent 70%);
-  top: -150px; right: -100px;
-  animation: ts-float 10s ease-in-out infinite;
-}
-.ts-sp-blob--2 {
-  width: 350px; height: 350px;
-  background: radial-gradient(circle, rgba(60,191,160,.07) 0%, transparent 70%);
-  bottom: -100px; left: 5%;
-  animation: ts-float-alt 12s ease-in-out infinite 2s;
-}
-.ts-sp-wave {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 60px;
-  background: linear-gradient(to top right, rgba(60,191,160,.05) 0%, transparent 100%);
-}
+.ts-sp-subtitle { font-size: 16px; opacity: 0.7; max-width: 600px; margin: 0 auto; line-height: 1.6; }
 
-/* Header */
-.ts-sp-header {
-  text-align: center;
-  margin-bottom: 40px;
-}
-.ts-sp-title {
-  font-size: clamp(30px, 4.5vw, 50px);
-  font-weight: 900;
-  line-height: 1.1;
-  color: var(--ts-sp-heading, var(--ts-white));
-  margin: 12px 0 16px;
-  letter-spacing: -.02em;
-}
-.ts-sp-subtitle {
-  font-size: 16px;
-  color: var(--ts-sp-text, rgba(255,255,255,.65));
-  max-width: 560px;
-  margin: 0 auto;
-  line-height: 1.7;
-}
-
-/* Perks row */
-.ts-sp-perks {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 48px;
-}
-.ts-sp-perk {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(60,191,160,.12);
-  border: 1px solid rgba(60,191,160,.25);
-  color: rgba(255,255,255,.85);
-  font-size: 13px;
-  font-weight: 500;
-  padding: 8px 16px;
-  border-radius: var(--ts-radius-full);
-}
-.ts-sp-perk-icon { font-size: 15px; }
-
-/* Cards */
-.ts-sp-cards {
+.ts-sp-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-  max-width: 960px;
-  margin: 0 auto 32px;
+  max-width: 1000px;
+  margin: 0 auto 60px;
 }
-.ts-sp-card {
-  position: relative;
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: var(--ts-radius-lg);
-  padding: 36px 28px;
+
+.ts-sp-benefit-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px;
+  padding: 32px;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  gap: 20px;
+  align-items: flex-start;
   transition: var(--ts-transition);
 }
-.ts-sp-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(60,191,160,.3);
-  box-shadow: 0 20px 48px rgba(0,0,0,.3);
-}
-.ts-sp-card--featured {
-  background: linear-gradient(135deg, rgba(60,191,160,.18) 0%, rgba(60,191,160,.06) 100%);
-  border-color: var(--ts-mint);
-  box-shadow: 0 0 0 1px rgba(60,191,160,.3), 0 20px 48px rgba(60,191,160,.15);
-}
-.ts-sp-popular {
-  position: absolute;
-  top: -14px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--ts-mint);
-  color: var(--ts-white);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  padding: 5px 18px;
-  border-radius: var(--ts-radius-full);
-  white-space: nowrap;
-}
-.ts-sp-plan-icon { font-size: 36px; margin-bottom: 4px; }
-.ts-sp-plan-name {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--ts-white);
-  margin: 0;
-}
-.ts-sp-price {
-  display: flex;
-  align-items: baseline;
-  gap: 3px;
-  margin: 4px 0 8px;
-}
-.ts-sp-currency { font-size: 22px; font-weight: 700; color: var(--ts-mint); }
-.ts-sp-amount { font-size: 48px; font-weight: 900; color: var(--ts-white); line-height: 1; }
-.ts-sp-period { font-size: 14px; color: rgba(255,255,255,.5); }
-.ts-sp-plan-desc { font-size: 14px; color: rgba(255,255,255,.55); line-height: 1.6; margin: 0; }
-.ts-sp-features {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-  flex: 1;
-  padding: 0;
-  margin: 8px 0 0;
-}
-.ts-sp-features li {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  font-size: 14px;
-  color: rgba(255,255,255,.75);
-  line-height: 1.5;
-}
-.ts-sp-features li svg { color: var(--ts-mint); flex-shrink: 0; margin-top: 2px; }
-
-/* Note */
-.ts-sp-note {
-  text-align: center;
-  font-size: 13px;
-  color: rgba(255,255,255,.4);
-  margin: 0;
+.ts-sp-benefit-card:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.15);
+  transform: translateY(-5px);
 }
 
-/* Responsive */
-@media (max-width: 660px) {
-  .ts-sp-cards { grid-template-columns: 1fr; max-width: 400px; }
+.ts-sp-card-icon { 
+  background: rgba(60,191,160,0.1); 
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.ts-sp-card-label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--ts-sp-accent); letter-spacing: 0.05em; margin-bottom: 8px; }
+.ts-sp-card-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; color: #fff; }
+.ts-sp-card-text { font-size: 14px; opacity: 0.6; line-height: 1.5; margin: 0; }
+
+.ts-sp-cta-actions { text-align: center; }
+.ts-sp-buttons { display: flex; justify-content: center; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+.ts-sp-limit-note { font-size: 14px; font-weight: 700; color: var(--ts-sp-accent); opacity: 0.9; }
+
+@media (max-width: 768px) {
+  .ts-sp-cards-grid { grid-template-columns: 1fr; }
+  .ts-sp-benefit-card { padding: 24px; }
+  .ts-sp-buttons .ts-btn { width: 100%; justify-content: center; }
 }
 </style>
 
@@ -273,18 +163,10 @@
   "name": "SelFish Club Promo",
   "settings": [
     {
-      "type": "header",
-      "content": "⚙️ Section Visibility"
-    },
-    {
       "type": "checkbox",
       "id": "show_section",
       "label": "Show section",
       "default": true
-    },
-    {
-      "type": "header",
-      "content": "🎨 Colors"
     },
     {
       "type": "color",
@@ -299,169 +181,33 @@
       "default": "#3cbfa0"
     },
     {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading text color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Body text color",
-      "default": "#cfdce4"
-    },
-    {
-      "type": "header",
-      "content": "📝 Text Content"
-    },
-    {
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow tag",
-      "default": "Exclusive Membership"
+      "default": "Join the SelFish Club"
     },
     {
       "type": "text",
-      "id": "heading_accent",
-      "label": "Heading Accent (colored)",
-      "default": "SelFish Club"
+      "id": "headline",
+      "label": "Headline",
+      "default": "Selfish Club - Inaugural Year Offer — Free for a Year"
     },
     {
       "type": "textarea",
       "id": "subtitle",
       "label": "Section Subtitle",
-      "default": "Get priority access to the freshest catch at dawn, exclusive pricing, and member-only perks delivered to your door."
+      "default": "No forms. No fees. No fuss. Just sign up on TruSea and place your first order — you're automatically a SelFish Club member."
     },
     {
       "type": "text",
       "id": "note",
-      "label": "Bottom Note (optional)",
-      "default": "Cancel anytime. No hidden charges."
-    }
-  ],
-  "blocks": [
-    {
-      "type": "perk",
-      "name": "Club Perk Badge",
-      "limit": 6,
-      "settings": [
-        {
-          "type": "text",
-          "id": "icon",
-          "label": "Icon / Emoji",
-          "default": "🌊"
-        },
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Perk Label",
-          "default": "Priority Early Access"
-        }
-      ]
-    },
-    {
-      "type": "plan",
-      "name": "Membership Plan",
-      "limit": 4,
-      "settings": [
-        {
-          "type": "text",
-          "id": "icon",
-          "label": "Plan Icon / Emoji",
-          "default": "🐟"
-        },
-        {
-          "type": "text",
-          "id": "name",
-          "label": "Plan Name",
-          "default": "Starter"
-        },
-        {
-          "type": "text",
-          "id": "price",
-          "label": "Price (number only, ₹/month)",
-          "default": "499"
-        },
-        {
-          "type": "textarea",
-          "id": "description",
-          "label": "Short Description",
-          "default": "Perfect for individuals who love fresh seafood."
-        },
-        {
-          "type": "textarea",
-          "id": "features",
-          "label": "Features (separate with | pipe)",
-          "default": "5:45 AM early access|Priority delivery|10% SelFish credits|Member-only pricing"
-        },
-        {
-          "type": "checkbox",
-          "id": "featured",
-          "label": "Mark as Featured (highlighted)",
-          "default": false
-        },
-        {
-          "type": "text",
-          "id": "cta_text",
-          "label": "Button Text",
-          "default": "Join Now"
-        },
-        {
-          "type": "url",
-          "id": "cta_url",
-          "label": "Button URL"
-        }
-      ]
+      "label": "Limit Note",
+      "default": "Limited to the first 1000 members."
     }
   ],
   "presets": [
     {
-      "name": "SelFish Club Promo",
-      "blocks": [
-        { "type": "perk", "settings": { "icon": "🌅", "label": "5:45 AM Priority Access" } },
-        { "type": "perk", "settings": { "icon": "🚀", "label": "Free Priority Delivery" } },
-        { "type": "perk", "settings": { "icon": "💸", "label": "10% SelFish Credits" } },
-        { "type": "perk", "settings": { "icon": "🎯", "label": "Member-Only Pricing" } },
-        {
-          "type": "plan",
-          "settings": {
-            "icon": "🐠",
-            "name": "Basic",
-            "price": "299",
-            "description": "Great start for seafood lovers.",
-            "features": "Early access at 6 AM|Standard delivery|5% credits|Member pricing",
-            "featured": false,
-            "cta_text": "Get Started",
-            "cta_url": "/pages/selfish-club"
-          }
-        },
-        {
-          "type": "plan",
-          "settings": {
-            "icon": "🐟",
-            "name": "Premium",
-            "price": "699",
-            "description": "The ultimate fresh fish experience.",
-            "features": "5:45 AM first access|Free priority delivery|10% SelFish credits|Member-only pricing|Free cleaning & descaling",
-            "featured": true,
-            "cta_text": "Join Premium",
-            "cta_url": "/pages/selfish-club"
-          }
-        },
-        {
-          "type": "plan",
-          "settings": {
-            "icon": "🦞",
-            "name": "Family",
-            "price": "999",
-            "description": "Feed the whole family with the finest.",
-            "features": "5:45 AM first access|Free priority delivery|15% SelFish credits|Family plan (2 addresses)|Monthly surprise box",
-            "featured": false,
-            "cta_text": "Go Family",
-            "cta_url": "/pages/selfish-club"
-          }
-        }
-      ]
+      "name": "SelFish Club Promo"
     }
   ]
 }
