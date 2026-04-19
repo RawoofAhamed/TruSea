@@ -9,7 +9,7 @@
       <!-- 1. Hero Header -->
       <div class="ts-recipe-hero ts-reveal">
         <div class="ts-recipe-img-wrap">
-          {%- assign hero_image = section.settings.banner_image | default: article.image -%}
+          {%- assign hero_image = article.metafields.custom.recipe_banner.value | default: article.image | default: section.settings.banner_image -%}
           {%- if hero_image -%}
             <img src="{{ hero_image | image_url: width: 1400 }}" alt="{{ hero_image.alt | default: article.title }}" class="ts-recipe-hero-img">
           {%- else -%}
@@ -42,21 +42,21 @@
               <span class="ts-recipe-meta-label">Prep Time</span>
               <div class="ts-recipe-meta-val">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                <span>{{ section.settings.prep_time | default: '15 m' }}</span>
+                <span>{{ article.metafields.custom.recipe_prep_time.value | default: section.settings.prep_time | default: '20 min' }}</span>
               </div>
             </div>
             <div class="ts-recipe-meta-item">
               <span class="ts-recipe-meta-label">Cook Time</span>
               <div class="ts-recipe-meta-val">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 11V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M13 10V6"/><path d="M9 10V6"/><path d="M13 14V11"/><path d="M9 14V11"/></svg>
-                <span>{{ section.settings.cook_time | default: '5 m' }}</span>
+                <span>{{ article.metafields.custom.recipe_cook_time.value | default: section.settings.cook_time | default: '5 min' }}</span>
               </div>
             </div>
             <div class="ts-recipe-meta-item">
               <span class="ts-recipe-meta-label">Servings</span>
               <div class="ts-recipe-meta-val">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                <span>{{ section.settings.servings | default: '4 people' }}</span>
+                <span>{{ article.metafields.custom.recipe_servings.value | default: section.settings.servings | default: '4 people' }}</span>
               </div>
             </div>
             <div class="ts-recipe-meta-item">
@@ -109,10 +109,10 @@
             <div class="ts-nutrition-bento">
               <h4 class="ts-nutrition-title">Nutrition (per serving)</h4>
               <div class="ts-nutrition-grid">
-                <div class="ts-nut-item"><span>Calories</span> <strong>{{ section.settings.calories | default: '250' }}</strong></div>
-                <div class="ts-nut-item"><span>Protein</span> <strong>{{ section.settings.protein | default: '22g' }}</strong></div>
-                <div class="ts-nut-item"><span>Fat</span> <strong>{{ section.settings.fat | default: '16g' }}</strong></div>
-                <div class="ts-nut-item"><span>Carbs</span> <strong>{{ section.settings.carbs | default: '4g' }}</strong></div>
+                <div class="ts-nut-item"><span>Calories</span> <strong>{{ article.metafields.custom.recipe_calories.value | default: section.settings.calories | default: '250' }}</strong></div>
+                <div class="ts-nut-item"><span>Protein</span> <strong>{{ article.metafields.custom.recipe_protein.value | default: section.settings.protein | default: '22g' }}</strong></div>
+                <div class="ts-nut-item"><span>Fat</span> <strong>{{ article.metafields.custom.recipe_fat.value | default: section.settings.fat | default: '16g' }}</strong></div>
+                <div class="ts-nut-item"><span>Carbs</span> <strong>{{ article.metafields.custom.recipe_carbs.value | default: section.settings.carbs | default: '4g' }}</strong></div>
               </div>
             </div>
           </div>
@@ -136,11 +136,13 @@
           </div>
 
           <!-- Social Share CTA -->
-          {%- if section.settings.cooks_notes != blank -%}
+          <!-- Cook's Wisdom Section -->
+          {%- assign notes_content = article.metafields.custom.recipe_notes.value | default: section.settings.cooks_notes -%}
+          {%- if notes_content != blank -%}
             <div class="ts-recipe-notes ts-reveal-up">
-              <h3 class="ts-notes-title">{{ section.settings.cooks_notes_title | default: "Cook's Wisdom" }}</h3>
+              <h3 class="ts-notes-title">{{ article.metafields.custom.recipe_notes_title.value | default: section.settings.cooks_notes_title | default: "Cook's Wisdom" }}</h3>
               <div class="ts-notes-content">
-                {{ section.settings.cooks_notes | newline_to_br }}
+                {{ notes_content | newline_to_br }}
               </div>
             </div>
           {%- endif -%}
