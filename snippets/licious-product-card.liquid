@@ -30,16 +30,16 @@
   <!-- Image Carousel Area -->
   <div class="lc-card__media-wrap" style="padding-bottom: {{ section.settings.image_ratio | default: '75%' }};">
     
-    <!-- Top left ribbon -->
-    {% if section.settings.badge_label != blank %}
-      <div class="lc-card__ribbon">
-        {{ section.settings.badge_label }}
+    <!-- Sold out ribbon (Shown only when unavailable, replaces regular badges) -->
+    {% if available == false %}
+      <div class="lc-card__ribbon lc-card__ribbon--soldout">
+        Sold Out
       </div>
     {% endif %}
 
-    <!-- Top right icon -->
+    <!-- Top right icon (Non-Veg indicator) -->
     <div class="lc-card__icon-nv">
-      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" stroke="#0d3d6e" stroke-width="2"/><path d="M8 3L13 12H3L8 3Z" fill="#0d3d6e"/></svg>
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" stroke="#EF4444" stroke-width="2"/><path d="M8 3L13 12H3L8 3Z" fill="#EF4444"/></svg>
     </div>
 
     <!-- Clickable overlay linking to PDP -->
@@ -188,6 +188,9 @@
   border-radius: 0 0 18px 0;
   z-index: 2;
   max-width: 55%;
+}
+.lc-card__ribbon--soldout {
+  background: #EF4444; /* Red for Sold Out */
 }
 
 /* Carousel */

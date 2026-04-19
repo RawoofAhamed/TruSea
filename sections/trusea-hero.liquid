@@ -54,7 +54,7 @@
     </div>
   </div>
 
-  <div class="ts-container" style="position: relative; z-index: 10;">
+  <div class="ts-container" style="position: relative; z-index: 3;">
     <div class="ts-hero-grid">
       <!-- Left side: Text & Countdown -->
       <div class="ts-hero-content">
@@ -160,10 +160,22 @@
 @keyframes ts-pop-in-right { from { opacity:0; transform: translateX(50px); } to { opacity:1; transform: translateX(0); } }
 
 @media (max-width: 900px) {
-  .ts-hero-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; }
-  .ts-hero-ctas { justify-content: center; }
-  .ts-hero-deco { z-index: -1; }
-  .ts-deco { transform: scale(0.6); }
+  .ts-hero { padding: 48px 0 60px; }
+  .ts-hero-grid { grid-template-columns: 1fr; text-align: center; gap: 32px; }
+  .ts-hero-content h1 { font-size: 34px !important; margin-bottom: 16px; }
+  .ts-hero-sub { margin-left: auto; margin-right: auto; font-size: 15px; }
+  .ts-hero-ctas { justify-content: center; gap: 16px; }
+  .ts-hero-image-wrap { order: -1; } /* Image on top for mobile */
+  .ts-hero-image-wrap div { margin: 0 auto; max-width: 320px !important; }
+  
+  /* Hide decorative elements on mobile to prevent clutter/overlaps */
+  .ts-hero-deco { display: none !important; }
+  .ts-hero-blob { opacity: 0.4; }
+}
+
+@media (max-width: 480px) {
+  .ts-hero-content h1 { font-size: 28px !important; }
+  .ts-hero-ctas .ts-btn { width: 100%; justify-content: center; }
 }
 </style>
 

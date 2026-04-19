@@ -22,7 +22,7 @@
     },
 
     "selfish_plans": {
-      "type": "trusea-selfish-club-inaugural",
+      "type": "ts-selfish-inaugural",
       "settings": {
         "top_badge": "Join the SelFish Club",
         "headline": "INAUGURAL YEAR OFFER — Free for a Year",
