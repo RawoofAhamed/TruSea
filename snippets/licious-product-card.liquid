@@ -442,7 +442,11 @@ if (typeof addLiciousToCart !== 'function') {
       const res = await fetch('/cart/add.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/javascript' },
-        body: JSON.stringify({ id: variantId, quantity: 1 })
+        body: JSON.stringify({ 
+          id: variantId, 
+          quantity: 1,
+          sections: "cart-drawer,cart-icon-bubble"
+        })
       });
       const parsedAdd = await res.json();
 
@@ -454,15 +458,20 @@ if (typeof addLiciousToCart !== 'function') {
         qtyControl.style.display = 'flex';
         qtyControl.querySelector('.lc-qty-input').value = 1;
 
-        // Fetch fresh sections to force Cart Drawer update
-        const sectionRes = await fetch(window.location.pathname + '?sections=cart-drawer,cart-icon-bubble');
-        const sectionsHtml = await sectionRes.json();
+        if (parsedAdd.sections) {
+          // Update Bubble
+          const bubble = document.getElementById('cart-icon-bubble');
+          if (bubble && parsedAdd.sections['cart-icon-bubble']) {
+            const newBubble = new DOMParser().parseFromString(parsedAdd.sections['cart-icon-bubble'], 'text/html').querySelector('.shopify-section');
+            if (newBubble) bubble.innerHTML = newBubble.innerHTML;
+          }
 
-        const cartDrawer = document.querySelector('cart-drawer');
-        if (cartDrawer && typeof cartDrawer.renderContents === 'function') {
-          cartDrawer.renderContents({ id: variantId, sections: sectionsHtml });
-        } else {
-          document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+          // Update Drawer
+          const drawerInner = document.querySelector('cart-drawer .drawer__inner');
+          if (drawerInner && parsedAdd.sections['cart-drawer']) {
+            const newDrawer = new DOMParser().parseFromString(parsedAdd.sections['cart-drawer'], 'text/html').querySelector('.drawer__inner');
+            if (newDrawer) drawerInner.innerHTML = newDrawer.innerHTML;
+          }
         }
       }
     } catch(e) { console.error(e); }
@@ -480,7 +489,10 @@ if (typeof addLiciousToCart !== 'function') {
       const res = await fetch('/cart/update.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/javascript' },
-        body: JSON.stringify({ updates: { [variantId]: newQty } })
+        body: JSON.stringify({ 
+          updates: { [variantId]: newQty },
+          sections: "cart-drawer,cart-icon-bubble"
+        })
       });
       const parsedUpdate = await res.json();
 
@@ -492,15 +504,20 @@ if (typeof addLiciousToCart !== 'function') {
           addBtn.style.display = 'flex';
         }
         
-        // Fetch fresh sections to force Cart Drawer update
-        const sectionRes = await fetch(window.location.pathname + '?sections=cart-drawer,cart-icon-bubble');
-        const sectionsHtml = await sectionRes.json();
+        if (parsedUpdate.sections) {
+          // Update Bubble
+          const bubble = document.getElementById('cart-icon-bubble');
+          if (bubble && parsedUpdate.sections['cart-icon-bubble']) {
+            const newBubble = new DOMParser().parseFromString(parsedUpdate.sections['cart-icon-bubble'], 'text/html').querySelector('.shopify-section');
+            if (newBubble) bubble.innerHTML = newBubble.innerHTML;
+          }
 
-        const cartDrawer = document.querySelector('cart-drawer');
-        if (cartDrawer && typeof cartDrawer.renderContents === 'function') {
-          cartDrawer.renderContents({ id: variantId, sections: sectionsHtml });
-        } else {
-          document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+          // Update Drawer
+          const drawerInner = document.querySelector('cart-drawer .drawer__inner');
+          if (drawerInner && parsedUpdate.sections['cart-drawer']) {
+            const newDrawer = new DOMParser().parseFromString(parsedUpdate.sections['cart-drawer'], 'text/html').querySelector('.drawer__inner');
+            if (newDrawer) drawerInner.innerHTML = newDrawer.innerHTML;
+          }
         }
       }
     } catch(e) { console.error(e); }
