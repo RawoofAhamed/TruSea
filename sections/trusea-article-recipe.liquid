@@ -137,7 +137,7 @@
           <!-- Social Share CTA -->
           {%- if section.settings.cooks_notes != blank -%}
             <div class="ts-recipe-notes ts-reveal-up">
-              <h3 class="ts-notes-title">Cook's Wisdom</h3>
+              <h3 class="ts-notes-title">{{ section.settings.cooks_notes_title | default: "Cook's Wisdom" }}</h3>
               <div class="ts-notes-content">
                 {{ section.settings.cooks_notes | newline_to_br }}
               </div>
@@ -623,10 +623,16 @@
        "content": "Footer Notes"
     },
     {
+      "type": "text",
+      "id": "cooks_notes_title",
+      "label": "Notes Section Title",
+      "default": "Cook's Wisdom"
+    },
+    {
       "type": "textarea",
       "id": "cooks_notes",
       "label": "Cook's Wisdom / Notes",
-      "default": "The fish does not turn fully crisp, but the shallow fry creates a partially smoked masala coat — that is the magic of this dish.\n\nMedium-low heat is non-negotiable. High heat scorches the spices before the fish is cooked through.\n\nTamarind pulp is recommended over lime for a richer, more rounded tang in the marinade.\n\nServe alongside steamed rice, sambar, or rasam. As the original recipe from Cook Like Priya notes, curd rice makes a perfect pairing — a combination that has been a coastal favourite for generations."
+      "default": "The fish does not turn fully crisp, but the shallow fry creates a partially smoked masala coat — that is the magic of this dish.\n\nMedium-low heat is non-negotiable. High heat scorches the spices before the fish is cooked through.\n\nTamarind pulp is recommended over lime for a richer, more rounded tang in the marinade.\n\nServe alongside steamed rice, sambar, or rasam. Curd rice makes a perfect pairing — a combination that has been a coastal favourite for generations."
     }
   ],
   "blocks": [
