@@ -11,7 +11,37 @@
   "sections": {
     "main": {
       "type": "trusea-article-recipe",
+      "blocks": {
+        "step_nL7Ytt": {
+          "type": "step",
+          "settings": {
+            "title": "Prep the Fish",
+            "text": "Wash the fish well, ensuring it is thoroughly cleaned. Drain the water completely, then pat the slices dry with a paper towel to remove excess moisture."
+          }
+        },
+        "ingredient_pFwTcn": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Vanjaram fish slices",
+            "quantity": "4 no"
+          }
+        }
+      },
+      "block_order": [
+        "step_nL7Ytt",
+        "ingredient_pFwTcn"
+      ],
       "settings": {
+        "bg_color": "#f5fbf6",
+        "default_desc": "A classic South Indian coastal delicacy. Thick slices of firm seer fish marinated in a fiery blend of roasted spices, ginger, and garlic, then pan-fried to crispy perfection. The addition of rice flour ensures a perfect crust while locking in the ocean-fresh moisture.",
+        "prep_time": "20 m",
+        "cook_time": "5 m",
+        "servings": "4 people",
+        "author": "Test",
+        "calories": "250",
+        "protein": "22g",
+        "fat": "16g",
+        "carbs": "4g"
       }
     }
   },
