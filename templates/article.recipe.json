@@ -12,28 +12,132 @@
     "main": {
       "type": "trusea-article-recipe",
       "blocks": {
-        "step_nL7Ytt": {
+        "step_VyAT7p": {
           "type": "step",
           "settings": {
             "title": "Prep the Fish",
-            "text": "Wash the fish well, ensuring it is thoroughly cleaned. Drain the water completely, then pat the slices dry with a paper towel to remove excess moisture."
+            "text": "Wash the fish well with cold water, lime, and salt. Drain completely, then pat each slice dry with a paper towel. Patting dry is essential — soggy fish won't hold the spice paste."
+          }
+        },
+        "step_nL7Ytt": {
+          "type": "step",
+          "settings": {
+            "title": "Make the marinade",
+            "text": "Combine turmeric, red chilli, coriander powder, pepper, ginger garlic paste, tamarind pulp, rice flour, and salt. Mix into a thick paste — do not add water. Use a few drops of lime juice if needed to bring it together."
+          }
+        },
+        "step_n4kWkq": {
+          "type": "step",
+          "settings": {
+            "title": "Marinate overnight",
+            "text": "Apply the masala paste evenly on both sides of each fish slice. Cover and refrigerate overnight for the spices to fully penetrate the flesh. This step is the key to ultimate depth of flavour."
+          }
+        },
+        "step_MrqATi": {
+          "type": "step",
+          "settings": {
+            "title": "Bring to room temperature",
+            "text": "Remove the fish from the refrigerator 30–40 minutes before frying. Cold fish placed in hot oil will remain raw at the centre."
+          }
+        },
+        "step_DzbC4i": {
+          "type": "step",
+          "settings": {
+            "title": "Pan fry to perfection",
+            "text": "Heat oil in a pan on medium-low flame. Place the fish slices in and fry each side for 6–7 minutes undisturbed. Do not flip repeatedly — this causes the fish to break and cook unevenly. Serve hot."
           }
         },
         "ingredient_pFwTcn": {
           "type": "ingredient",
           "settings": {
             "name": "Vanjaram fish slices",
-            "quantity": "4 no"
+            "quantity": "8-10 Pieces"
+          }
+        },
+        "ingredient_xmtjn4": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Turmeric powder",
+            "quantity": "1/2 tsp"
+          }
+        },
+        "ingredient_6HtU9B": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Red chilli / fish fry masala",
+            "quantity": "4 tsp"
+          }
+        },
+        "ingredient_GMnrG8": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Coriander powder",
+            "quantity": "2 tsp"
+          }
+        },
+        "ingredient_8HwGiB": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Ginger garlic paste",
+            "quantity": "1 tsp"
+          }
+        },
+        "ingredient_RtVryK": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Pepper Powder",
+            "quantity": "1/2 tsp"
+          }
+        },
+        "ingredient_4jA3A8": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Tamarind pulp (thick)",
+            "quantity": "1 tsp"
+          }
+        },
+        "ingredient_eGHYxV": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Rice flour",
+            "quantity": "1 tbsp"
+          }
+        },
+        "ingredient_x6GB6t": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Salt",
+            "quantity": "to taste"
+          }
+        },
+        "ingredient_8ahgRB": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Oil for pan frying",
+            "quantity": "3-5 tbsp"
           }
         }
       },
       "block_order": [
+        "step_VyAT7p",
         "step_nL7Ytt",
-        "ingredient_pFwTcn"
+        "step_n4kWkq",
+        "step_MrqATi",
+        "step_DzbC4i",
+        "ingredient_pFwTcn",
+        "ingredient_xmtjn4",
+        "ingredient_6HtU9B",
+        "ingredient_GMnrG8",
+        "ingredient_8HwGiB",
+        "ingredient_RtVryK",
+        "ingredient_4jA3A8",
+        "ingredient_eGHYxV",
+        "ingredient_x6GB6t",
+        "ingredient_8ahgRB"
       ],
       "settings": {
         "bg_color": "#f5fbf6",
-        "default_desc": "A classic South Indian coastal delicacy. Thick slices of firm seer fish marinated in a fiery blend of roasted spices, ginger, and garlic, then pan-fried to crispy perfection. The addition of rice flour ensures a perfect crust while locking in the ocean-fresh moisture.",
+        "default_desc": "South Indian homes and restaurants can never complete their menu without the popular Vanjaram Meen Varuval. Of all fish fries, the Vanjaram — king fish — is widely considered the best. The secret lies in the spice combination and the patience of a good marinade.\n\nThick slices of firm seer fish are marinated in a fiery blend of roasted spices, ginger, and garlic, then pan-fried to crispy perfection. The addition of rice flour ensures a perfect crust while locking in the ocean-fresh moisture. Serve it hot alongside sambar, rasam, or simply with curd rice — a combination beloved along the Tamil Nadu coast.",
         "prep_time": "20 m",
         "cook_time": "5 m",
         "servings": "4 people",
@@ -41,7 +145,8 @@
         "calories": "250",
         "protein": "22g",
         "fat": "16g",
-        "carbs": "4g"
+        "carbs": "4g",
+        "cooks_notes": "The fish does not turn fully crisp, but the shallow fry creates a partially smoked masala coat — that is the magic of this dish.\n\nMedium-low heat is non-negotiable. High heat scorches the spices before the fish is cooked through.\n\nTamarind pulp is recommended over lime for a richer, more rounded tang in the marinade.\n\nServe alongside steamed rice, sambar, or rasam. Curd rice makes a perfect pairing — a combination that has been a coastal favourite for generations."
       }
     }
   },
