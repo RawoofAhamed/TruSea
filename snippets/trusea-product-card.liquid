@@ -51,14 +51,26 @@
       </div>
     </div>
     
-    <div class="ts-card-badge ts-badge--info">Protein: {{ protein }}</div>
-    
-    {% if pre_book %}
-      <div class="ts-card-badge ts-badge--stock">📋 Pre-Book</div>
-    {% elsif product.available %}
-      <div class="ts-card-badge ts-badge--stock">✓ In Stock</div>
-    {% else %}
-      <div class="ts-card-badge ts-badge--stock" style="background: rgba(239, 68, 68, 0.1); color: #EF4444; border-color: #EF4444;">Out of Stock</div>
+    <!-- Sold out ribbon (Shown only when unavailable) -->
+    {% if product.available == false %}
+      <div class="lc-card__ribbon lc-card__ribbon--soldout">
+        Sold Out
+      </div>
+    {% endif %}
+
+    <!-- Top right icon (Non-Veg indicator) -->
+    <div class="lc-card__icon-nv">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" stroke="#EF4444" stroke-width="2"/><path d="M8 3L13 12H3L8 3Z" fill="#EF4444"/></svg>
+    </div>
+
+    {% if product.available %}
+      <div class="ts-card-badge ts-badge--info">Protein: {{ protein }}</div>
+      
+      {% if pre_book %}
+        <div class="ts-card-badge ts-badge--stock">📋 Pre-Book</div>
+      {% else %}
+        <div class="ts-card-badge ts-badge--stock">✓ In Stock</div>
+      {% endif %}
     {% endif %}
   </div>
 

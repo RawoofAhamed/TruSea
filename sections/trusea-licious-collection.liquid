@@ -152,12 +152,13 @@
 /* Toolbar */
 .lc-coll-toolbar {
   position: sticky;
-  top: 0;
-  z-index: 10; /* Keep below cart drawer (z-index 1000) and header (z-index 1000+) */
+  top: var(--header-height, 0);
+  z-index: 3; /* Stay above content but below drawers/modals */
   background: #fff;
   border-bottom: 1px solid #eef2f7;
   margin-bottom: 24px;
-  padding: 10px 0;
+  padding: 12px 0;
+  transition: top 0.3s ease;
 }
 .lc-coll-toolbar__inner {
   display: flex;
@@ -173,9 +174,13 @@
   overflow-x: auto;
   scrollbar-width: none;
   flex: 1;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch; /* Smooth momentum scroll on iOS */
+  padding: 4px 0;
 }
 .lc-coll-filters::-webkit-scrollbar { display: none; }
 .lc-filter-pill {
+  flex-shrink: 0; /* Prevent pills from squeezing */
   padding: 6px 16px;
   border-radius: 50px;
   border: 1.5px solid #d8eeff;
@@ -229,8 +234,54 @@
   grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
   gap: 20px;
 }
-@media (max-width: 900px) { .lc-coll-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 600px) { .lc-coll-grid { grid-template-columns: repeat({{ section.settings.columns_mobile }}, 1fr); gap: 12px; } }
+@media (max-width: 1024px) {
+  .lc-coll-header { padding: 30px 0 15px; }
+  .lc-coll-title { font-size: 24px; }
+  .lc-coll-toolbar__inner { gap: 16px; }
+  .lc-coll-filters {
+    margin-right: -10px;
+    padding-right: 10px;
+  }
+}
+
+@media (max-width: 600px) { 
+  .lc-coll-grid { grid-template-columns: repeat({{ section.settings.columns_mobile }}, 1fr); gap: 12px; } 
+  .lc-coll-header { padding: 25px 0 15px; }
+  
+  .lc-coll-toolbar { 
+    margin-left: -20px; 
+    margin-right: -20px; 
+    padding: 12px 20px;
+  }
+  
+  .lc-coll-toolbar__inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .lc-coll-filters {
+    margin-right: -20px;
+    padding-right: 20px;
+  }
+  
+  .lc-filter-pill { padding: 6px 14px; font-size: 11px; }
+  
+  .lc-coll-sort {
+    justify-content: space-between;
+    border-top: 1px solid #f8fafc;
+    padding-top: 12px;
+  }
+  
+  .lc-sort-label { display: inline-block; font-size: 10px; opacity: 0.6; } 
+
+  .lc-sort-select {
+    font-size: 13px;
+    padding: 8px 32px 8px 12px;
+    flex: 1;
+    max-width: 200px;
+  }
+}
 
 
 
