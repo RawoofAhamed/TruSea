@@ -95,14 +95,27 @@
               Ingredients
             </h3>
             <ul class="ts-ingredients-list">
-              {%- for block in section.blocks -%}
-                {%- if block.type == 'ingredient' -%}
-                  <li class="ts-ingredient-item" {{ block.shopify_attributes }}>
-                    <span class="ts-ing-name">{{ block.settings.name }}</span>
-                    <span class="ts-ing-qty">{{ block.settings.quantity }}</span>
-                  </li>
-                {%- endif -%}
-              {%- endfor -%}
+              {%- assign custom_ingredients = article.metafields.custom.recipe_ingredients.value | newline_to_br | split: '<br />' -%}
+              {%- if custom_ingredients.size > 0 -%}
+                {%- for line in custom_ingredients -%}
+                  {%- if line != blank -%}
+                    {%- assign ing_parts = line | split: ':' -%}
+                    <li class="ts-ingredient-item">
+                      <span class="ts-ing-name">{{ ing_parts[1] | default: ing_parts[0] | strip }}</span>
+                      <span class="ts-ing-qty">{{ ing_parts[0] | strip }}{% if ing_parts[1] == blank %} {% endif %}</span>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- else -%}
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'ingredient' -%}
+                    <li class="ts-ingredient-item" {{ block.shopify_attributes }}>
+                      <span class="ts-ing-name">{{ block.settings.name }}</span>
+                      <span class="ts-ing-qty">{{ block.settings.quantity }}</span>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
             </ul>
 
             <!-- Nutrition Bento -->
@@ -122,17 +135,31 @@
         <main class="ts-recipe-instructions">
           <h2 class="ts-instructions-title">Instructions</h2>
           <div class="ts-instructions-list">
-            {%- for block in section.blocks -%}
-              {%- if block.type == 'step' -%}
-                <div class="ts-step-item group ts-reveal-up" {{ block.shopify_attributes }}>
-                  <div class="ts-step-num">{{ forloop.index }}</div>
-                  <div class="ts-step-content">
-                    <h4 class="ts-step-title">{{ block.settings.title }}</h4>
-                    <p class="ts-step-text">{{ block.settings.text }}</p>
+            {%- assign custom_steps = article.metafields.custom.recipe_instructions.value | newline_to_br | split: '<br />' -%}
+            {%- if custom_steps.size > 0 -%}
+              {%- for step_text in custom_steps -%}
+                {%- if step_text != blank -%}
+                  <div class="ts-step-item group ts-reveal-up">
+                    <div class="ts-step-num">{{ forloop.index }}</div>
+                    <div class="ts-step-content">
+                      <p class="ts-step-text">{{ step_text | strip }}</p>
+                    </div>
                   </div>
-                </div>
-              {%- endif -%}
-            {%- endfor -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- else -%}
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'step' -%}
+                  <div class="ts-step-item group ts-reveal-up" {{ block.shopify_attributes }}>
+                    <div class="ts-step-num">{{ forloop.index }}</div>
+                    <div class="ts-step-content">
+                      <h4 class="ts-step-title">{{ block.settings.title }}</h4>
+                      <p class="ts-step-text">{{ block.settings.text }}</p>
+                    </div>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
           </div>
 
           <!-- Social Share CTA -->
