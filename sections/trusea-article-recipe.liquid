@@ -9,8 +9,9 @@
       <!-- 1. Hero Header -->
       <div class="ts-recipe-hero ts-reveal">
         <div class="ts-recipe-img-wrap">
-          {%- if article.image -%}
-            <img src="{{ article.image | image_url: width: 1400 }}" alt="{{ article.title }}" class="ts-recipe-hero-img">
+          {%- assign hero_image = section.settings.banner_image | default: article.image -%}
+          {%- if hero_image -%}
+            <img src="{{ hero_image | image_url: width: 1400 }}" alt="{{ hero_image.alt | default: article.title }}" class="ts-recipe-hero-img">
           {%- else -%}
              <div class="ts-rec-placeholder">
                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1fNg_FId2fekpuGFe64eLB-UcLeGNLJyq1R2i73oquc-cjVEdX8jf9oyqUM0v98_f74xH-D-CKAy3eP7iumsoteDRUny91RMsqM-ei3p-8DdX21k9IfhP71V0_X5MEslkHywy95VYeDM3tOPBYAqHljV3VJtFh5NSv3x8JKMgAUlXjXKL8Fn9_v_wzovJxKMiQKqepBqcHS3GdUdD2pGBNCUZXa988MdYM6hkJ1UA-_sE7BoPMbsSrcpOrUKpKd9xIfl-f-1CALA" alt="Seer Fish Fry" class="ts-recipe-hero-img">
@@ -505,6 +506,11 @@
 {
   "name": "Recipe Page",
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image (Overrides Article Image)"
+    },
     {
       "type": "color",
       "id": "bg_color",
