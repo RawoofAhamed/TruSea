@@ -15,95 +15,81 @@
         "step_VyAT7p": {
           "type": "step",
           "settings": {
-            "title": "Prep the Fish",
-            "text": "Wash the fish well with cold water, lime, and salt. Drain completely, then pat each slice dry with a paper towel. Patting dry is essential — soggy fish won't hold the spice paste."
+            "title": "Prep the fish and curry leaves",
+            "text": "Clean the fish pieces thoroughly. Pat them dry with a paper towel. Mince the fresh curry leaves finely."
           }
         },
         "step_nL7Ytt": {
           "type": "step",
           "settings": {
-            "title": "Make the marinade",
-            "text": "Combine turmeric, red chilli, coriander powder, pepper, ginger garlic paste, tamarind pulp, rice flour, and salt. Mix into a thick paste — do not add water. Use a few drops of lime juice if needed to bring it together."
+            "title": "Make the spice paste",
+            "text": "In a plate, combine the red chilli powder, turmeric powder, minced curry leaves, and salt. Add the lemon juice and stir until you have a loose paste. The paste should be thin enough to coat the fish but not runny."
           }
         },
         "step_n4kWkq": {
           "type": "step",
           "settings": {
-            "title": "Marinate overnight",
-            "text": "Apply the masala paste evenly on both sides of each fish slice. Cover and refrigerate overnight for the spices to fully penetrate the flesh. This step is the key to ultimate depth of flavour."
+            "title": "Apply the masala",
+            "text": "Take each fish piece and rub the spice paste on both sides, applying a thin, even layer. The key is not to oversaturate — a thin coat is more effective than a thick one."
           }
         },
         "step_MrqATi": {
           "type": "step",
           "settings": {
-            "title": "Bring to room temperature",
-            "text": "Remove the fish from the refrigerator 30–40 minutes before frying. Cold fish placed in hot oil will remain raw at the centre."
+            "title": "Marinate briefly",
+            "text": "Cover the fish with a lid and let it rest for 30 minutes. This allows the flavours to begin to develop."
           }
         },
         "step_DzbC4i": {
           "type": "step",
           "settings": {
-            "title": "Pan fry to perfection",
-            "text": "Heat oil in a pan on medium-low flame. Place the fish slices in and fry each side for 6–7 minutes undisturbed. Do not flip repeatedly — this causes the fish to break and cook unevenly. Serve hot."
+            "title": "Heat the pan and oil",
+            "text": "Place a heavy-bottomed or cast-iron pan over medium-high heat. Add the virgin coconut oil and let it heat until it shimmers and is about to smoke. This is the crucial step — the oil must be hot."
+          }
+        },
+        "step_UEJEAc": {
+          "type": "step",
+          "settings": {
+            "title": "Fry the fish",
+            "text": "Once the oil is ready, gently place the fish pieces in the pan. Do not move them immediately. Let them cook on the first side for 3 minutes on medium flame before flipping. Cook the second side for another 3–4 minutes until both sides are golden brown and the flesh is opaque."
           }
         },
         "ingredient_pFwTcn": {
           "type": "ingredient",
           "settings": {
-            "name": "Vanjaram fish slices",
-            "quantity": "8-10 Pieces"
+            "name": "Red snapper (sankara) fish",
+            "quantity": "4-5 Pieces"
           }
         },
         "ingredient_xmtjn4": {
           "type": "ingredient",
           "settings": {
-            "name": "Turmeric powder",
-            "quantity": "1/2 tsp"
+            "name": "Red chilli powder",
+            "quantity": "1&1/2 tsp"
           }
         },
         "ingredient_6HtU9B": {
           "type": "ingredient",
           "settings": {
-            "name": "Red chilli / fish fry masala",
-            "quantity": "4 tsp"
+            "name": "Turmeric powder",
+            "quantity": "1/4 tsp"
           }
         },
         "ingredient_GMnrG8": {
           "type": "ingredient",
           "settings": {
-            "name": "Coriander powder",
-            "quantity": "2 tsp"
+            "name": "Fresh curry leaves",
+            "quantity": "2 tsp, powder"
           }
         },
         "ingredient_8HwGiB": {
           "type": "ingredient",
           "settings": {
-            "name": "Ginger garlic paste",
-            "quantity": "1 tsp"
+            "name": "Lemon juice",
+            "quantity": "2 tbsp"
           }
         },
         "ingredient_RtVryK": {
-          "type": "ingredient",
-          "settings": {
-            "name": "Pepper Powder",
-            "quantity": "1/2 tsp"
-          }
-        },
-        "ingredient_4jA3A8": {
-          "type": "ingredient",
-          "settings": {
-            "name": "Tamarind pulp (thick)",
-            "quantity": "1 tsp"
-          }
-        },
-        "ingredient_eGHYxV": {
-          "type": "ingredient",
-          "settings": {
-            "name": "Rice flour",
-            "quantity": "1 tbsp"
-          }
-        },
-        "ingredient_x6GB6t": {
           "type": "ingredient",
           "settings": {
             "name": "Salt",
@@ -113,8 +99,8 @@
         "ingredient_8ahgRB": {
           "type": "ingredient",
           "settings": {
-            "name": "Oil for pan frying",
-            "quantity": "3-5 tbsp"
+            "name": "Virgin coconut oil",
+            "quantity": "2-3 tbsp"
           }
         }
       },
@@ -124,30 +110,29 @@
         "step_n4kWkq",
         "step_MrqATi",
         "step_DzbC4i",
+        "step_UEJEAc",
         "ingredient_pFwTcn",
         "ingredient_xmtjn4",
         "ingredient_6HtU9B",
         "ingredient_GMnrG8",
         "ingredient_8HwGiB",
         "ingredient_RtVryK",
-        "ingredient_4jA3A8",
-        "ingredient_eGHYxV",
-        "ingredient_x6GB6t",
         "ingredient_8ahgRB"
       ],
       "settings": {
+        "banner_image": "shopify://shop_images/Red_Snapper.png",
         "bg_color": "#f5fbf6",
-        "default_desc": "South Indian homes and restaurants can never complete their menu without the popular Vanjaram Meen Varuval. Of all fish fries, the Vanjaram — king fish — is widely considered the best. The secret lies in the spice combination and the patience of a good marinade.\n\nThick slices of firm seer fish are marinated in a fiery blend of roasted spices, ginger, and garlic, then pan-fried to crispy perfection. The addition of rice flour ensures a perfect crust while locking in the ocean-fresh moisture. Serve it hot alongside sambar, rasam, or simply with curd rice — a combination beloved along the Tamil Nadu coast.",
-        "prep_time": "20 m",
-        "cook_time": "5 m",
-        "servings": "4 people",
+        "default_desc": "Red snapper — known as Sankara meen in Tamil — is a white-fleshed fish that takes to Indian spices beautifully. Unlike the complex spice blends found in some regional preparations, this recipe celebrates simplicity: turmeric, red chilli, salt, fresh curry leaves, and the unmistakable warmth of virgin coconut oil.\n\nThis is the home cook's fish fry — the one that appears on weekend tables across North America and India alike. Each piece is rubbed with a thin layer of spiced paste, then pan-fried until the exterior catches golden and the interior remains tender. There's no marination overnight, no ginger garlic paste, no coriander powder. Just the essentials: tartness from lemon, heat from chilli, the aromatic lift of curry leaves, and the incomparable flavour of coconut oil that transforms ordinary fish into something memorable.",
+        "prep_time": "30 m",
+        "cook_time": "10 m",
+        "servings": "2 people",
         "author": "TruSea Chef",
-        "calories": "250",
-        "protein": "22g",
-        "fat": "16g",
-        "carbs": "4g",
+        "calories": "280",
+        "protein": "28g",
+        "fat": "18g",
+        "carbs": "1g",
         "cooks_notes_title": "Cook's Wisdom",
-        "cooks_notes": "The fish does not turn fully crisp, but the shallow fry creates a partially smoked masala coat — that is the magic of this dish.\n\nMedium-low heat is non-negotiable. High heat scorches the spices before the fish is cooked through.\n\nTamarind pulp is recommended over lime for a richer, more rounded tang in the marinade.\n\nServe alongside steamed rice, sambar, or rasam. Curd rice makes a perfect pairing — a combination that has been a coastal favourite for generations."
+        "cooks_notes": "Why is the masala not sticking?\n\nThe spice paste needs to be thick, and applied as a thin layer. If it's still sliding off, add a teaspoon of rice flour or all-purpose flour to the paste. Most importantly, ensure your oil is hot enough before adding the fish.\n\nHow do I prevent the fish from sticking to the pan?\n\nUse a heavy-bottomed or cast-iron pan. A thick iron dosa pan (irumbu dosai kal) works beautifully. Ensure the oil is really hot — add the fish only when the oil is about to smoke. Don't flip immediately; wait 1½–2 minutes on the first side.\n\nWhat oil should I use?\n\nVirgin coconut oil is ideal. It adds an incomparable flavour to the fish fry and elevates the entire dish. If you cannot source it, use any good quality oil, but the flavour profile will be different.\n-------------------------------------\nThis recipe is about restraint and simplicity. There's no overnight marination, no complex spice blends — just fresh fish, essential spices, and patience. The best fish fry is made with hot oil and undisturbed cooking on the first side.\n\nFresh curry leaves are optional but highly recommended. If you cannot source them, skip them rather than use dried — the flavour difference is significant."
       }
     }
   },
