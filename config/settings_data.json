@@ -481,6 +481,11 @@
         "settings": {
           "heading": "Reward Rally"
         }
+      },
+      "9466161677832145516": {
+        "type": "shopify://apps/preorder-restock-duck/blocks/app-embed/0abe2c21-42b2-472f-8c7a-98f669971fd8",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
