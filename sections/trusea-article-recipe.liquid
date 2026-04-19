@@ -135,6 +135,15 @@
           </div>
 
           <!-- Social Share CTA -->
+          {%- if section.settings.cooks_notes != blank -%}
+            <div class="ts-recipe-notes ts-reveal-up">
+              <h3 class="ts-notes-title">Cook's Wisdom</h3>
+              <div class="ts-notes-content">
+                {{ section.settings.cooks_notes | newline_to_br }}
+              </div>
+            </div>
+          {%- endif -%}
+
           <div class="ts-recipe-social-cta ts-reveal-up">
             <div class="ts-social-cta-content">
               <h3>Tried this recipe?</h3>
@@ -451,6 +460,32 @@
   background: var(--ts-navy-dark);
 }
 
+/* --- Cook's Notes --- */
+.ts-recipe-notes {
+  margin-top: 60px;
+  padding: 32px;
+  background: var(--ts-mint-pale);
+  border-left: 4px solid var(--ts-mint);
+  border-radius: var(--ts-radius-md);
+}
+
+.ts-notes-title {
+  font-size: 20px;
+  font-weight: 900;
+  margin-bottom: 16px;
+  color: var(--ts-navy);
+}
+
+.ts-notes-content {
+  font-size: 16px;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+.ts-notes-content p {
+  margin-bottom: 12px;
+}
+
 /* --- Responsive --- */
 @media (max-width: 1100px) {
   .ts-recipe-split { grid-template-columns: 1fr; gap: 60px; }
@@ -525,7 +560,7 @@
       "type": "textarea",
       "id": "default_desc",
       "label": "Description Placeholder",
-      "default": "A classic South Indian coastal delicacy. Thick slices of firm seer fish marinated in a fiery blend of roasted spices, ginger, and garlic, then pan-fried to crispy perfection. The addition of rice flour ensures a perfect crust while locking in the ocean-fresh moisture."
+      "default": "South Indian homes and restaurants can never complete their menu without the popular Vanjaram Meen Varuval. Of all fish fries, the Vanjaram — king fish — is widely considered the best. The secret lies in the spice combination and the patience of a good marinade.\n\nThick slices of firm seer fish are marinated in a fiery blend of roasted spices, ginger, and garlic, then pan-fried to crispy perfection. The addition of rice flour ensures a perfect crust while locking in the ocean-fresh moisture. Serve it hot alongside sambar, rasam, or simply with curd rice — a combination beloved along the Tamil Nadu coast."
     },
     {
        "type": "header",
@@ -535,13 +570,13 @@
       "type": "text",
       "id": "prep_time",
       "label": "Prep Time",
-      "default": "15 m"
+      "default": "20 min"
     },
     {
       "type": "text",
       "id": "cook_time",
       "label": "Cook Time",
-      "default": "5 m"
+      "default": "5 min"
     },
     {
       "type": "text",
@@ -553,7 +588,7 @@
       "type": "text",
       "id": "author",
       "label": "Default Author",
-      "default": "Srivalli"
+      "default": "TruSea"
     },
     {
        "type": "header",
@@ -582,6 +617,16 @@
       "id": "carbs",
       "label": "Carbs",
       "default": "4g"
+    },
+    {
+       "type": "header",
+       "content": "Footer Notes"
+    },
+    {
+      "type": "textarea",
+      "id": "cooks_notes",
+      "label": "Cook's Wisdom / Notes",
+      "default": "The fish does not turn fully crisp, but the shallow fry creates a partially smoked masala coat — that is the magic of this dish.\n\nMedium-low heat is non-negotiable. High heat scorches the spices before the fish is cooked through.\n\nTamarind pulp is recommended over lime for a richer, more rounded tang in the marinade.\n\nServe alongside steamed rice, sambar, or rasam. As the original recipe from Cook Like Priya notes, curd rice makes a perfect pairing — a combination that has been a coastal favourite for generations."
     }
   ],
   "blocks": [
@@ -626,18 +671,21 @@
     {
       "name": "Recipe Page",
       "blocks": [
-        { "type": "ingredient", "settings": { "name": "Vanjaram fish slices", "quantity": "4 no" } },
-        { "type": "ingredient", "settings": { "name": "Ginger Garlic Paste", "quantity": "1/2 tsp" } },
-        { "type": "ingredient", "settings": { "name": "Red Chili powder", "quantity": "3/4 tsp" } },
-        { "type": "ingredient", "settings": { "name": "Coriander powder", "quantity": "1/2 tsp" } },
-        { "type": "ingredient", "settings": { "name": "Turmeric powder", "quantity": "1/4 tsp" } },
+        { "type": "ingredient", "settings": { "name": "Vanjaram (king fish) slices", "quantity": "8–10 pieces" } },
+        { "type": "ingredient", "settings": { "name": "Turmeric powder", "quantity": "½ tsp" } },
+        { "type": "ingredient", "settings": { "name": "Red chilli / fish fry masala", "quantity": "4 tsp" } },
+        { "type": "ingredient", "settings": { "name": "Coriander powder", "quantity": "2 tsp" } },
+        { "type": "ingredient", "settings": { "name": "Ginger garlic paste", "quantity": "1 tsp" } },
+        { "type": "ingredient", "settings": { "name": "Pepper powder", "quantity": "½ tsp" } },
+        { "type": "ingredient", "settings": { "name": "Tamarind pulp (thick)", "quantity": "1 tsp" } },
+        { "type": "ingredient", "settings": { "name": "Rice flour", "quantity": "1 tbsp" } },
         { "type": "ingredient", "settings": { "name": "Salt", "quantity": "to taste" } },
-        { "type": "ingredient", "settings": { "name": "Rice flour", "quantity": "1/2 tsp" } },
-        { "type": "ingredient", "settings": { "name": "Oil", "quantity": "for cooking" } },
-        { "type": "step", "settings": { "title": "Prep the Fish", "text": "Wash the fish well, ensuring it is thoroughly cleaned. Drain the water completely, then pat the slices dry with a paper towel to remove excess moisture." } },
-        { "type": "step", "settings": { "title": "Prepare the Masala Paste", "text": "In a wide bowl, combine the Ginger Garlic paste, Red Chili powder, Coriander powder, Turmeric powder, and Salt. Add just enough water to create a thick, smooth paste." } },
-        { "type": "step", "settings": { "title": "Marinate", "text": "Coat each fish slice evenly with the masala paste. Ensure both sides are covered. Just before resting, dust the slices lightly with rice flour. Allow the marinated fish to rest for 15 minutes." } },
-        { "type": "step", "settings": { "title": "Pan Fry", "text": "Heat a non-stick pan and add cooking oil. Carefully place the marinated fish slices into the hot pan. Cook on medium heat for about 2 minutes. Flip the slices and cook the other side for another 2-3 minutes until golden brown and cooked through." } }
+        { "type": "ingredient", "settings": { "name": "Oil for pan frying", "quantity": "3–4 tbsp" } },
+        { "type": "step", "settings": { "title": "Prep the fish", "text": "Wash the fish well with cold water, lime, and salt. Drain completely, then pat each slice dry with a paper towel. Patting dry is essential — soggy fish won't hold the spice paste." } },
+        { "type": "step", "settings": { "title": "Make the marinade", "text": "Combine turmeric, red chilli, coriander powder, pepper, ginger garlic paste, tamarind pulp, rice flour, and salt. Mix into a thick paste — do not add water. Use a few drops of lime juice if needed to bring it together." } },
+        { "type": "step", "settings": { "title": "Marinate overnight", "text": "Apply the masala paste evenly on both sides of each fish slice. Cover and refrigerate overnight for the spices to fully penetrate the flesh. This step is the key to ultimate depth of flavour." } },
+        { "type": "step", "settings": { "title": "Bring to room temperature", "text": "Remove the fish from the refrigerator 30–40 minutes before frying. Cold fish placed in hot oil will remain raw at the centre." } },
+        { "type": "step", "settings": { "title": "Pan fry to perfection", "text": "Heat oil in a pan on medium-low flame. Place the fish slices in and fry each side for 6–7 minutes undisturbed. Do not flip repeatedly — this causes the fish to break and cook unevenly. Serve hot." } }
       ]
     }
   ]
