@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "trusea-article-recipe",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
