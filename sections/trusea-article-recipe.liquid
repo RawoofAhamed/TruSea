@@ -394,12 +394,28 @@
 .ts-ingredient-item {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
   padding: 14px 0;
   border-bottom: 1px solid rgba(14, 37, 65, 0.06);
 }
 
-.ts-ing-name { font-weight: 500; opacity: 0.9; }
-.ts-ing-qty { font-weight: 800; font-size: 13px; opacity: 0.6; }
+.ts-ing-name { 
+  font-weight: 500; 
+  opacity: 0.9;
+  flex: 1;
+  line-height: 1.4;
+}
+
+.ts-ing-qty { 
+  font-weight: 800; 
+  font-size: 13px; 
+  opacity: 0.6;
+  text-align: right;
+  flex-shrink: 0;
+  max-width: 40%;
+  line-height: 1.4;
+}
 
 .ts-nutrition-bento {
   margin-top: 40px;
@@ -550,7 +566,7 @@
 /* --- Responsive --- */
 @media (max-width: 1100px) {
   .ts-recipe-split { grid-template-columns: 1fr; gap: 60px; }
-  .ts-recipe-sidebar { order: 2; }
+  .ts-recipe-sidebar { order: -1; }
   .ts-recipe-ingredients-card { position: static; }
 }
 
