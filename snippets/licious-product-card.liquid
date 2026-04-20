@@ -30,12 +30,12 @@
   <!-- Image Carousel Area -->
   <div class="lc-card__media-wrap" style="padding-bottom: {{ section.settings.image_ratio | default: '75%' }};">
     
-    <!-- Sold out ribbon (Shown only when unavailable, replaces regular badges) -->
+    <!-- Sold out ribbon (Shown only when unavailable, replaces regular badges) 
     {% if available == false %}
       <div class="lc-card__ribbon lc-card__ribbon--soldout">
         Sold Out
       </div>
-    {% endif %}
+    {% endif %}-->
 
     <!-- Top right icon (Non-Veg indicator) -->
     <div class="lc-card__icon-nv">
@@ -512,6 +512,10 @@ if (typeof addLiciousToCart !== 'function') {
         })
       });
       const parsedUpdate = await res.json();
+      
+      if (parsedUpdate.status && parsedUpdate.message) {
+        throw new Error(parsedUpdate.message);
+      }
 
       if (res.ok) {
         input.value = newQty;

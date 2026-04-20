@@ -1189,14 +1189,23 @@
 
   // Update line item quantity via AJAX
   function updateLineItem(key, quantity) {
-    fetch('/cart/change.js', {
+    fetch('/cart/update.js', {
       method: 'POST',
-      credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-      body: JSON.stringify({ id: key, quantity })
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ updates: { [key]: quantity } })
     })
     .then(r => r.json())
-    .then(renderCart);
+    .then(data => {
+      if (data.status && data.message) {
+        console.error('Shopify Cart API Error:', data);
+        return fetchCart(); // Recover by fetching fresh state
+      }
+      renderCart(data);
+    })
+    .catch(err => {
+      console.error(err);
+      fetchCart();
+    });
   }
 
   // Open mini-cart
