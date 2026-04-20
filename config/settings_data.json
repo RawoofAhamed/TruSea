@@ -408,12 +408,29 @@
       },
       "trusea-recipes": {
         "type": "trusea-recipes",
+        "blocks": {
+          "recipe_article_z3yfJk": {
+            "type": "recipe_article",
+            "settings": {
+              "article": "news/vanjaram-fry"
+            }
+          },
+          "recipe_article_FrdcTE": {
+            "type": "recipe_article",
+            "settings": {
+              "article": "news/red-snapper-sankara-fish-fry"
+            }
+          }
+        },
+        "block_order": [
+          "recipe_article_z3yfJk",
+          "recipe_article_FrdcTE"
+        ],
         "settings": {
           "show_section": true,
           "bg_color": "#f5f9f7",
           "eyebrow": "TruSea Kitchen",
           "heading_en": "What Are You Cooking Today?",
-          "heading_ta": "இன்று நீங்கள் என்ன சமைக்கிறீர்கள்?",
           "all_recipes_url": ""
         }
       },
