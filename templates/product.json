@@ -129,7 +129,7 @@
         "show_weight": true,
         "show_discount": true,
         "show_delivery": true,
-        "image_ratio": "75%"
+        "image_ratio": "60%"
       }
     },
     "value_props": {
