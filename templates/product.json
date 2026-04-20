@@ -18,12 +18,16 @@
             "subtitle": "Ready To Cook"
           }
         },
+        "judge_me_reviews_preview_badge_AFjppQ": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
         "meta_info": {
           "type": "meta_info",
           "settings": {
-            "weight": "500g",
-            "pieces": "8-10 Pieces",
-            "serves": "Serves 2-3"
+            "weight": "{{ product.metafields.custom.gross_weight.value }}",
+            "pieces": "{{ product.metafields.custom.pieces.value }}",
+            "serves": "{{ product.metafields.custom.serves.value }}"
           }
         },
         "offer_banner": {
@@ -65,7 +69,7 @@
           "type": "shopify://apps/reward-rally/blocks/user_balance_display/7a5b3c5a-2c07-4679-abe0-3d120b89d95a",
           "settings": {
             "show_box": true,
-            "gradient_start_color": "#00C950",
+            "gradient_start_color": "#00c950",
             "gradient_end_color": "#009966",
             "gradient_direction": "90deg",
             "box_text_color": "#ffffff",
@@ -83,6 +87,7 @@
       },
       "block_order": [
         "title",
+        "judge_me_reviews_preview_badge_AFjppQ",
         "meta_info",
         "offer_banner",
         "description",
@@ -93,14 +98,16 @@
         "reward_rally_user_balance_display_ViqYeB",
         "reward_rally_monthly_loyalty_pdp_H8g7Ak"
       ],
+      "name": "Trusea PDP Main",
       "settings": {
         "max_width": 1100,
         "show_breadcrumbs": true,
-        "badge_text": "Microwave Meal"
+        "badge_text": "{{ product.metafields.custom.recipe_title.value }}"
       }
     },
     "cooking_methods": {
       "type": "trusea-licious-cooking",
+      "name": "Trusea Cooking Methods",
       "settings": {
         "max_width": 1100,
         "heading": "Cooking Methods",
@@ -113,6 +120,7 @@
     },
     "related_products": {
       "type": "trusea-licious-related",
+      "name": "Trusea Related Products",
       "settings": {
         "max_width": 1100,
         "heading": "You may also like",
@@ -154,6 +162,7 @@
         "prop_2",
         "prop_3"
       ],
+      "name": "Trusea Value Props",
       "settings": {
         "max_width": 1100,
         "bg_color": "#faf5f6"
