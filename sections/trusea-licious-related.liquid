@@ -36,6 +36,8 @@
   margin: 60px auto 40px;
   padding: 0 20px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+  overflow: hidden; /* Prevent any child from bleeding out */
 }
 .lc-related-title {
   font-size: 20px;
@@ -45,20 +47,15 @@
 }
 .lc-related-grid {
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
-  overflow-x: auto;
   padding-bottom: 20px;
-  scroll-snap-type: x mandatory;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
 }
 .lc-related-grid::-webkit-scrollbar {
   display: none;
 }
 .lc-related-item {
   flex: 0 0 calc(25% - 15px);
-  min-width: 250px;
-  scroll-snap-align: start;
 }
 
 @media (max-width: 1024px) {
@@ -68,7 +65,11 @@
   .lc-related-item { flex: 0 0 calc(50% - 10px); }
 }
 @media (max-width: 480px) {
-  .lc-related-item { flex: 0 0 calc(85% - 10px); }
+  .lc-related-wrap { padding: 0 12px; }
+  .lc-related-grid { gap: 12px; }
+  .lc-related-item { 
+    flex: 0 0 calc(100%); /* Stack one below another as requested, or keep 50%? User said "one below another" */
+  }
 }
 </style>
 

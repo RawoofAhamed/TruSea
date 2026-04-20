@@ -137,10 +137,9 @@
               <span>Subtotal</span>
               <strong id="ts-minicart-total">₹0.00</strong>
             </div>
-            <p class="ts-minicart-note">Taxes and shipping calculated at checkout</p>
-            <a href="/cart" class="ts-btn ts-btn-primary" style="width:100%;justify-content:center;">
-              Go to cart →
-            </a>
+            <div class="ts-minicart-actions">
+              <a href="/cart" class="ts-btn ts-btn-primary" style="width:100%;justify-content:center;">View Cart</a>
+            </div>
           </div>
 
           <div class="ts-minicart-empty" id="ts-minicart-empty" style="display:none">
@@ -640,56 +639,84 @@
   .ts-location-dropdown { right: -60px; width: 260px; }
 }
 
-/* ---- Mini-Cart Popup ---- */
+/* ---- Mini-Cart Dropdown ---- */
 .ts-cart-wrapper { position: relative; }
 
 .ts-minicart {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 380px;
-  max-width: 100vw;
-  height: 100%;
+  position: absolute;
+  top: calc(100% + 15px);
+  right: -10px;
+  width: 400px;
+  max-width: calc(100vw - 32px);
   background: var(--ts-white);
-  box-shadow: -8px 0 40px rgba(14,37,65,.18);
+  box-shadow: 0 16px 48px rgba(14,37,65,.18), 0 0 0 1px rgba(14,37,65,0.05);
+  border-radius: 16px;
   z-index: 1600;
   display: flex;
   flex-direction: column;
-  transform: translateX(100%);
-  transition: transform .35s cubic-bezier(.4,0,.2,1);
-  font-family: var(--ts-font);
-}
-.ts-minicart.open { transform: translateX(0); }
-
-.ts-minicart-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(14,37,65,.45);
-  backdrop-filter: blur(3px);
-  z-index: 1590;
   opacity: 0;
   visibility: hidden;
-  transition: all .3s ease;
+  transform: translateY(12px);
+  transition: all .35s cubic-bezier(0.19, 1, 0.22, 1);
+  overflow: hidden;
+  pointer-events: none;
 }
-.ts-minicart-backdrop.open { opacity: 1; visibility: visible; }
+.ts-minicart.open { 
+  opacity: 1; 
+  visibility: visible; 
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+@media (max-width: 540px) {
+  .ts-minicart {
+    position: fixed;
+    top: 70px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+    max-width: none;
+    max-height: calc(100vh - 100px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  }
+  .ts-minicart::before { display: none; } /* Hide arrow on mobile as it won't align perfectly with fixed position */
+}
+
+.ts-minicart::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 22px;
+  width: 12px;
+  height: 12px;
+  background: #0E2541;
+  transform: rotate(45deg);
+  z-index: 1;
+}
+
+.ts-minicart-backdrop {
+  display: none !important; /* Disabled for dropdown style */
+}
 
 /* Header */
 .ts-minicart-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 22px 18px;
-  border-bottom: 1px solid var(--ts-gray-light);
+  padding: 18px 24px;
+  background: #0E2541; /* Navy header to match reference style */
   flex-shrink: 0;
 }
 .ts-minicart-title {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 800;
-  color: var(--ts-navy);
+  color: #FFFFFF;
   margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 .ts-minicart-title svg { color: var(--ts-mint); }
 .ts-minicart-count {
@@ -697,31 +724,31 @@
   color: white;
   font-size: 11px;
   font-weight: 700;
-  min-width: 20px;
-  height: 20px;
-  border-radius: 10px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 5px;
+  padding: 0 4px;
 }
 .ts-minicart-close {
-  width: 34px; height: 34px;
+  width: 24px; height: 24px;
   border-radius: 50%;
   border: none;
-  background: var(--ts-gray-light);
-  color: var(--ts-navy);
+  background: rgba(255,255,255,0.1);
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: var(--ts-transition);
 }
-.ts-minicart-close:hover { background: var(--ts-mint); color: white; }
+.ts-minicart-close:hover { background: rgba(255,255,255,0.25); }
 
 /* Body / scrollable area */
 .ts-minicart-body {
-  flex: 1;
+  max-height: 215px; /* Roughly 2 items at ~107px each */
   overflow-y: auto;
   padding: 0;
 }
@@ -849,19 +876,20 @@
 .ts-minicart-item:hover .ts-minicart-remove { opacity: 1; }
 .ts-minicart-remove:hover { background: #fee2e2; color: #ef4444; }
 
-/* Footer */
 .ts-minicart-footer {
-  padding: 18px 22px 24px;
+  padding: 24px;
+  background: #fdfdfd;
   border-top: 1px solid var(--ts-gray-light);
-  flex-shrink: 0;
-  background: var(--ts-white);
 }
 .ts-minicart-subtotal {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
-  font-size: 15px;
+  margin-bottom: 20px;
+}
+.ts-minicart-subtotal span {
+  font-size: 16px;
+  font-weight: 700;
   color: var(--ts-navy);
 }
 .ts-minicart-subtotal strong {
@@ -869,19 +897,22 @@
   font-weight: 800;
   color: var(--ts-navy);
 }
-.ts-minicart-note {
-  font-size: 11px;
-  color: var(--ts-gray);
-  margin: 0 0 14px;
-}
-.ts-minicart-view-link {
+.ts-minicart-actions {
   display: block;
-  text-align: center;
+}
+.ts-minicart-actions .ts-btn {
+  justify-content: center;
+  padding: 14px;
   font-size: 13px;
-  color: var(--ts-gray);
-  margin-top: 10px;
-  text-decoration: underline;
-  transition: color .2s;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: 100%;
+}
+@media (max-width: 540px) {
+  .ts-minicart-footer { padding: 16px; }
+  .ts-minicart-subtotal { margin-bottom: 12px; }
+  .ts-minicart-actions .ts-btn { padding: 12px; }
 }
 .ts-minicart-view-link:hover { color: var(--ts-mint); }
 
@@ -1211,18 +1242,14 @@
   // Open mini-cart
   function openMiniCart() {
     minicart.classList.add('open');
-    minicartBd.classList.add('open');
     cartTrigger.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
     fetchCart();
   }
 
   // Close mini-cart
   function closeMiniCart() {
     minicart.classList.remove('open');
-    minicartBd.classList.remove('open');
     cartTrigger.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
   }
 
   if (cartTrigger) cartTrigger.addEventListener('click', openMiniCart);
