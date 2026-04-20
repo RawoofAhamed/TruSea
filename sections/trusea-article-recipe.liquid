@@ -191,12 +191,12 @@
 
           <!-- Social Share CTA -->
           <!-- Cook's Wisdom Section -->
-          {%- assign notes_content = article.metafields.custom.recipe_notes.value | default: section.settings.cooks_notes -%}
+          {%- assign notes_content = article.metafields.custom.recipe_cooks_notes.value | default: article.metafields.custom.recipe_notes.value | default: section.settings.cooks_notes -%}
           {%- if notes_content != blank -%}
             <div class="ts-recipe-notes ts-reveal-up">
               <h3 class="ts-notes-title">{{ article.metafields.custom.recipe_notes_title.value | default: section.settings.cooks_notes_title | default: "Cook's Wisdom" }}</h3>
               <div class="ts-notes-content">
-                {{ notes_content | newline_to_br }}
+                {{ notes_content }}
               </div>
             </div>
           {%- endif -%}
