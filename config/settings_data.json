@@ -315,7 +315,7 @@
           "usp_gLnUpw"
         ],
         "settings": {
-          "show_section": true,
+          "show_section": false,
           "bg_color": "#f5f9f7",
           "heading_color": "#0e2541",
           "accent_color": "#3cbfa0",
@@ -330,7 +330,7 @@
       "trusea-promo-bento": {
         "type": "trusea-promo-bento",
         "settings": {
-          "show_section": true,
+          "show_section": false,
           "bg_color": "#f5f9f7",
           "heading_color": "#0e2541",
           "accent_color": "#3cbfa0",
