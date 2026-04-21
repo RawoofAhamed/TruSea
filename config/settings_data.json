@@ -436,6 +436,43 @@
       },
       "trusea-whatsapp-reviews": {
         "type": "trusea-whatsapp-reviews",
+        "blocks": {
+          "review_Xr9dUK": {
+            "type": "review",
+            "settings": {
+              "name": "Rahul V",
+              "date": "Adayar",
+              "title": "Consistent Quality & Professional Service.",
+              "text": "I’ve ordered three times now, and the consistency is what keeps me coming back. The fish is always feels super fresh, and the 'Cut Type' preferences are handled exactly how I like them. I had a small question about my token balance, and the TruSea support team called me back within minutes to resolve it. Truly a premium experience for seafood lovers.",
+              "hashtag": "FreshSeaFood"
+            }
+          },
+          "review_HxVwLX": {
+            "type": "review",
+            "settings": {
+              "name": "Karthik",
+              "date": "Pallavaram",
+              "title": "Finally, a brand that understands `Fresh`",
+              "text": "Most places claim their fish is fresh, but with TruSea, you can actually taste the difference. I ordered the Whole Pomfret, and it was glistening. The delivery was punctual, and I loved the real-time updates on WhatsApp. I already used my SelfishClub Tokens for a 42rs discount on my latest order. It’s rare to find a loyalty program that actually gives back this quickly.",
+              "hashtag": "SelfishClub"
+            }
+          },
+          "review_nGHEDU": {
+            "type": "review",
+            "settings": {
+              "name": "Sarah.",
+              "date": "Nungambakkam",
+              "title": "AMAZING EXPERIENCE!",
+              "text": "I’ve always been skeptical about ordering fish online, but TruSea changed that. Being able to order directly through WhatsApp without downloading another app was so convenient. The Curry Cut Seer Fish arrived perfectly cleaned and packed. It truly felt 'Fresh Daily.' I just placed my second order and happily joined the Selfish Club—the subscription is totally worth it for the quality you get!",
+              "hashtag": "TruSeaFish"
+            }
+          }
+        },
+        "block_order": [
+          "review_Xr9dUK",
+          "review_HxVwLX",
+          "review_nGHEDU"
+        ],
         "settings": {
           "show_section": true,
           "bg_color": "#f5f9f7",
