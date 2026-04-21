@@ -644,12 +644,12 @@
 
 .ts-minicart {
   position: absolute;
-  top: calc(100% + 15px);
-  right: -10px;
+  top: calc(100% + 20px);
+  right: -12px;
   width: 400px;
   max-width: calc(100vw - 32px);
   background: var(--ts-white);
-  box-shadow: 0 16px 48px rgba(14,37,65,.18), 0 0 0 1px rgba(14,37,65,0.05);
+  box-shadow: 0 16px 48px rgba(14,37,65,.18);
   border-radius: 16px;
   z-index: 1600;
   display: flex;
@@ -658,7 +658,7 @@
   visibility: hidden;
   transform: translateY(12px);
   transition: all .35s cubic-bezier(0.19, 1, 0.22, 1);
-  overflow: hidden;
+  overflow: visible; /* Allow arrow to show */
   pointer-events: none;
 }
 .ts-minicart.open { 
@@ -671,28 +671,34 @@
 @media (max-width: 540px) {
   .ts-minicart {
     position: fixed;
-    top: 70px;
-    right: 12px;
+    top: 124px; /* Precise clearance */
     left: 12px;
+    right: 12px;
     width: auto;
     max-width: none;
-    max-height: calc(100vh - 100px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    border-radius: 12px;
+    transform: none; /* Removed translate for fixed centering */
   }
-  .ts-minicart::before { display: none; } /* Hide arrow on mobile as it won't align perfectly with fixed position */
+  .ts-minicart::before { 
+    right: 54px !important; /* Adjusted to align with cart icon offset on mobile */
+    top: -8px !important;
+  }
 }
 
 .ts-minicart::before {
   content: '';
   position: absolute;
-  top: -6px;
-  right: 22px;
-  width: 12px;
-  height: 12px;
-  background: #0E2541;
+  top: -7px;
+  right: 26px; 
+  width: 14px;
+  height: 14px;
+  background: #0E2541; 
   transform: rotate(45deg);
-  z-index: 1;
+  z-index: 2;
+  box-shadow: -2px -2px 5px rgba(0,0,0,0.1); /* Adds depth so it's visible */
 }
+
+
 
 .ts-minicart-backdrop {
   display: none !important; /* Disabled for dropdown style */
@@ -960,7 +966,7 @@
 .ts-cart-toast svg { color: var(--ts-mint); flex-shrink: 0; }
 
 @media (max-width: 420px) {
-  .ts-minicart { width: 100vw; }
+  .ts-minicart { width: 95vw; }
 }
 </style>
 
