@@ -108,7 +108,13 @@
 .ts-wa-reviews {
   background: var(--ts-wa-bg);
   padding: 100px 0;
-  overflow: visible !important; /* Allow pop out */
+  overflow: hidden !important;
+  max-width: 100vw !important;
+  box-sizing: border-box !important;
+}
+
+.ts-wa-reviews * {
+  box-sizing: border-box !important;
 }
 
 /* Decorative Styling */
@@ -121,15 +127,21 @@
 }
 .ts-wa-heading {
   text-align: center;
-  font-size: clamp(24px, 3vw, 32px);
+  font-size: clamp(18px, 4vw, 32px);
   font-weight: 900;
   color: var(--ts-navy);
-  margin-bottom: 60px;
+  margin-bottom: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  flex-wrap: wrap; 
+  gap: 8px;
   letter-spacing: 0.02em;
+  padding: 0 16px;
+  line-height: 1.2;
+  width: 100%;
+  white-space: normal !important;
+  word-break: break-word !important;
 }
 .ts-wa-title-icon { display: flex; }
 
@@ -140,11 +152,27 @@
   align-items: center;
   gap: 20px;
   padding: 0 40px;
+  min-width: 0; /* Crucial: allows flex container to shrink */
+  width: 100%;
 }
 .ts-wa-carousel {
   flex: 1;
   overflow: hidden;
   padding: 40px 0;
+  min-width: 0; /* Crucial: allows flex container to shrink */
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .ts-wa-carousel {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 -20px;
+    padding: 20px 20px;
+  }
+  .ts-wa-carousel::-webkit-scrollbar { display: none; }
 }
 .ts-wa-track {
   display: flex;
@@ -156,6 +184,16 @@
   transition: transform 0.5s ease, opacity 0.5s ease;
   opacity: 0.5;
   transform: scale(0.9);
+}
+
+@media (max-width: 640px) {
+  .ts-wa-slide {
+    flex: 0 0 85%;
+    scroll-snap-align: center;
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    padding: 0 10px;
+  }
 }
 .ts-wa-slide.active {
   opacity: 1;
@@ -318,13 +356,13 @@
 }
 
 @media (max-width: 1024px) {
-  .ts-wa-slide { flex: 0 0 50%; }
+  .ts-wa-slide { flex: 0 0 85%; }
 }
 @media (max-width: 640px) {
-  .ts-wa-slide { flex: 0 0 100%; }
-  .ts-wa-carousel-wrapper { padding: 0 10px; }
-  .ts-wa-slide { transform: scale(1); opacity: 1; }
-  .ts-wa-nav { display: none; }
+  .ts-wa-carousel-wrapper { padding: 0 16px; gap: 0; }
+  .ts-wa-nav { display: none !important; }
+  .ts-wa-heading { margin-bottom: 24px; padding: 0 10px; }
+  .ts-wa-dots { display: none; }
 }
 </style>
 
@@ -351,7 +389,13 @@
   const dots = Array.from(dotsContainer.children);
 
   function updateCarousel() {
-    const slideWidth = slides[0].offsetWidth;
+    if (window.innerWidth <= 640) {
+      track.style.transform = 'none';
+      return;
+    }
+    const slide = slides[0];
+    if (!slide) return;
+    const slideWidth = slide.getBoundingClientRect().width;
     const offset = -(currentIndex * slideWidth);
     track.style.transform = `translateX(${offset}px)`;
 
