@@ -197,6 +197,7 @@
           "bg_color": "#0e2541",
           "accent_color": "#3cbfa0",
           "eyebrow": "Exclusive Membership",
+          "headline": "Selfish Club - Inaugural Year Offer — Free for a Year",
           "subtitle": "Get priority access to the freshest catch at dawn, exclusive pricing, and member-only perks delivered to your door.",
           "note": "Cancel anytime. No hidden charges."
         }
@@ -407,12 +408,29 @@
       },
       "trusea-recipes": {
         "type": "trusea-recipes",
+        "blocks": {
+          "recipe_article_z3yfJk": {
+            "type": "recipe_article",
+            "settings": {
+              "article": "news/vanjaram-fry"
+            }
+          },
+          "recipe_article_FrdcTE": {
+            "type": "recipe_article",
+            "settings": {
+              "article": "news/red-snapper-sankara-fish-fry"
+            }
+          }
+        },
+        "block_order": [
+          "recipe_article_z3yfJk",
+          "recipe_article_FrdcTE"
+        ],
         "settings": {
           "show_section": true,
           "bg_color": "#f5f9f7",
           "eyebrow": "TruSea Kitchen",
           "heading_en": "What Are You Cooking Today?",
-          "heading_ta": "இன்று நீங்கள் என்ன சமைக்கிறீர்கள்?",
           "all_recipes_url": ""
         }
       },
@@ -477,15 +495,10 @@
       },
       "9569641368542784305": {
         "type": "shopify://apps/reward-rally/blocks/star_rating/7a5b3c5a-2c07-4679-abe0-3d120b89d95a",
-        "disabled": true,
+        "disabled": false,
         "settings": {
           "heading": "Reward Rally"
         }
-      },
-      "9466161677832145516": {
-        "type": "shopify://apps/preorder-restock-duck/blocks/app-embed/0abe2c21-42b2-472f-8c7a-98f669971fd8",
-        "disabled": true,
-        "settings": {}
       }
     },
     "color_schemes": {

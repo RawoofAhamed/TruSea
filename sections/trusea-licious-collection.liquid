@@ -24,16 +24,17 @@
   <div class="lc-coll-toolbar">
     <div class="lc-coll-toolbar__inner">
 
-      <!-- Filter tags as pills -->
-      <div class="lc-coll-filters" id="lc-filters">
-        <button class="lc-filter-pill active" data-tag="all" onclick="lcFilterAll(this)">All</button>
-        {%- for tag in collection.all_tags limit: 10 -%}
-          <button class="lc-filter-pill {% if current_tags contains tag %}active{% endif %}"
-                  data-tag="{{ tag | handleize }}"
-                  onclick="lcFilterTag(this, '{{ tag | escape }}')">
-            {{ tag }}
-          </button>
-        {%- endfor -%}
+      <div class="lc-coll-filters-scroll-wrap">
+        <div class="lc-coll-filters" id="lc-filters">
+          <button class="lc-filter-pill active" data-tag="all" onclick="lcFilterAll(this)">All</button>
+          {%- for tag in collection.all_tags limit: 10 -%}
+            <button class="lc-filter-pill {% if current_tags contains tag %}active{% endif %}"
+                    data-tag="{{ tag | handleize }}"
+                    onclick="lcFilterTag(this, '{{ tag | escape }}')">
+              {{ tag }}
+            </button>
+          {%- endfor -%}
+        </div>
       </div>
 
       <!-- Sort -->
@@ -97,7 +98,7 @@
   max-width: 1080px;
   margin: 0 auto;
   padding: 24px 20px 48px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--ts-font, 'Inter', sans-serif);
 }
 
 /* Header */
@@ -125,12 +126,15 @@
   gap: 16px;
 }
 .lc-coll-title {
-  font-size: 26px;
-  font-weight: 900;
-  color: #0d3d6e;
-  margin: 0 0 4px;
-  line-height: 1.2;
-  font-family: 'Playfair Display', Georgia, serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: #0d3d6e;
+    margin: 0 0 4px;
+    line-height: 1.1;
+    font-family: var(--font-heading-family);
+    letter-spacing: -0.5px;
+    font-style: var(--font-heading-style);
+    font-weight: var(--font-heading-weight);
 }
 .lc-coll-desc {
   font-size: 13px;
@@ -168,15 +172,40 @@
 }
 
 /* Filter pills */
+.lc-coll-filters-scroll-wrap {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+.lc-coll-filters-scroll-wrap::before,
+.lc-coll-filters-scroll-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.lc-coll-filters-scroll-wrap::before {
+  left: 0;
+  background: linear-gradient(to right, #fff, rgba(255,255,255,0));
+}
+.lc-coll-filters-scroll-wrap::after {
+  right: 0;
+  background: linear-gradient(to left, #fff, rgba(255,255,255,0));
+}
+
 .lc-coll-filters {
   display: flex;
   gap: 8px;
   overflow-x: auto;
   scrollbar-width: none;
-  flex: 1;
+  width: 100%;
   white-space: nowrap;
-  -webkit-overflow-scrolling: touch; /* Smooth momentum scroll on iOS */
-  padding: 4px 0;
+  -webkit-overflow-scrolling: touch; 
+  padding: 8px 0;
 }
 .lc-coll-filters::-webkit-scrollbar { display: none; }
 .lc-filter-pill {
@@ -242,8 +271,14 @@
     margin-right: -10px;
     padding-right: 10px;
     overflow-x: scroll;
-    max-width: 100vw;
+    max-width: 85vw;
   }
+}
+
+@media (max-width: 540px) {
+    .lc-coll-filters {
+        max-width: 90vw;
+    }
 }
 
 @media (max-width: 600px) { 
