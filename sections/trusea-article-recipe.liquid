@@ -28,13 +28,15 @@
       <div class="ts-recipe-header-grid ts-reveal">
         <div class="ts-recipe-main-info">
           <h1 class="ts-recipe-title">{{ article.title | default: 'Vanjaram Varuval ! Seer Fish Fry' }}</h1>
-          <p class="ts-recipe-desc">
-            {%- if article.excerpt.size > 0 -%}
-              {{ article.excerpt | strip_html }}
+          <div class="ts-recipe-desc">
+            {%- if article.metafields.custom.recipe_long_description != blank -%}
+              {{ article.metafields.custom.recipe_long_description | metafield_tag }}
+            {%- elsif article.excerpt.size > 0 -%}
+              <p>{{ article.excerpt | strip_html }}</p>
             {%- else -%}
-              {{ section.settings.default_desc | default: 'A classic South Indian coastal delicacy. Thick slices of firm seer fish marinated in a fiery blend of roasted spices, ginger, and garlic, then pan-fried to crispy perfection. The addition of rice flour ensures a perfect crust while locking in the ocean-fresh moisture.' }}
+              <p>{{ section.settings.default_desc | default: 'A classic South Indian coastal delicacy. Thick slices of firm seer fish marinated in a fiery blend of roasted spices, ginger, and garlic, then pan-fried to crispy perfection. The addition of rice flour ensures a perfect crust while locking in the ocean-fresh moisture.' }}</p>
             {%- endif -%}
-          </p>
+          </div>
 
           <!-- Meta Bento -->
           <div class="ts-recipe-meta-grid">
