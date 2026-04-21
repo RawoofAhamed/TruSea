@@ -1140,6 +1140,7 @@
   // Render cart items into the panel
   function renderCart(data) {
     cartData = data;
+    document.dispatchEvent(new CustomEvent('cart:updated', { detail: data }));
     const itemCount = data.item_count || 0;
 
     // Update count badge

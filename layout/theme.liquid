@@ -524,5 +524,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 </script>
+  {%- unless template == 'cart' or template contains 'checkout' or template contains 'order' -%}
+    {%- render 'mobile-cart-bar' -%}
+  {%- endunless -%}
 </body>
 </html>
