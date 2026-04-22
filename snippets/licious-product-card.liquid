@@ -29,16 +29,20 @@
 <div class="lc-card">
   <!-- Image Carousel Area -->
   {%- liquid
-    assign ratio = '4/3'
+    assign pb = '75%'
     if section.settings.image_ratio == 'square'
-      assign ratio = '1/1'
+      assign pb = '100%'
     elsif section.settings.image_ratio == 'portrait'
-      assign ratio = '2/3'
+      assign pb = '150%'
+    elsif section.settings.image_ratio == 'adapt'
+      if product.featured_media != blank
+        assign pb = 1 | divided_by: product.featured_media.aspect_ratio | times: 100 | append: '%'
+      endif
     elsif section.settings.image_ratio contains '%'
-      assign ratio = section.settings.image_ratio
+      assign pb = section.settings.image_ratio
     endif
   -%}
-  <div class="lc-card__media-wrap" style="aspect-ratio: {{ ratio }};">
+  <div class="lc-card__media-wrap" style="padding-bottom: {{ pb }};">
     
     <!-- Sold out ribbon (Shown only when unavailable, replaces regular badges) 
     {% if available == false %}
