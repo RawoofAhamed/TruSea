@@ -11,6 +11,7 @@
   "sections": {
     "product-grid": {
       "type": "trusea-licious-collection",
+      "name": "TrueSea Collection Grid",
       "settings": {
         "products_per_page": 24,
         "columns_desktop": "3",
