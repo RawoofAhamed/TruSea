@@ -53,12 +53,27 @@
   -%}
   <div class="lc-card__media-wrap" style="padding-bottom: {{ pb }};">
     
-    <!-- Sold out ribbon (Shown only when unavailable, replaces regular badges) 
-    {% if available == false %}
+    <!-- Availability Badges -->
+    {%- liquid
+      assign has_prebook = false
+      for tag in product.tags
+        assign t = tag | downcase
+        if t == 'prebook' or t == 'pre-book'
+          assign has_prebook = true
+          break
+        endif
+      endfor
+    -%}
+
+    {% if has_prebook %}
+      <div class="lc-card__ribbon lc-card__ribbon--prebook">
+        Pre-Book
+      </div>
+    {% elsif available == false %}
       <div class="lc-card__ribbon lc-card__ribbon--soldout">
         Sold Out
       </div>
-    {% endif %}-->
+    {% endif %}
 
     <!-- Top right icon (Non-Veg indicator) -->
     <div class="lc-card__icon-nv">
@@ -149,25 +164,31 @@
     <!-- Bottom Row (Delivery + Button) -->
     <div class="lc-card__bottom">
       <div class="lc-card__delivery">
-        {% if section.settings.show_delivery %}
+        {% if section.settings.show_delivery and has_prebook %}
           Delivery at the earliest
         {% endif %}
       </div>
 
       <div class="lc-card__action">
-        {% assign first_variant = product.selected_or_first_available_variant %}
-        {% assign variant_id = first_variant.id | default: 'null' %}
-        {% assign is_preorder = 'false' %}
-        {% if first_variant.available and first_variant.inventory_quantity <= 0 and first_variant.inventory_management != blank %}
-          {% assign is_preorder = 'true' %}
-        {% endif %}
+        {%- liquid
+          assign first_variant = product.selected_or_first_available_variant
+          assign variant_id = first_variant.id | default: 'null'
+          
+          assign is_preorder = 'false'
+          if has_prebook
+            assign is_preorder = 'true'
+          elsif first_variant.available and first_variant.inventory_quantity <= 0 and first_variant.inventory_management != blank
+            assign is_preorder = 'true'
+          endif
+        -%}
         
-        {% if card_group != "" %}
-          <button class="lc-btn-add" onclick="openLiciousCutModal(this, {{ variant_id }}, '{{ product.title | escape }}', {{ price }}, {{ is_preorder }}, '{{ subtitle | escape }}', '{{ card_group }}')">Add <span>+</span></button>
+        {% if has_prebook %}
+          <button class="lc-btn-add lc-btn-prebook" onclick="openLiciousCutModal(this, {{ variant_id }}, '{{ product.title | escape }}', {{ price }}, {{ is_preorder }}, '{{ subtitle | escape }}')">Prebook</button>
+        {% elsif available == false %}
+          <button class="lc-btn-add lc-btn-soldout" disabled>Sold Out</button>
         {% else %}
-          <button class="lc-btn-add" onclick="addLiciousToCart(this, {{ variant_id }}, {{ is_preorder }})">Add <span>+</span></button>
+          <button class="lc-btn-add" onclick="openLiciousCutModal(this, {{ variant_id }}, '{{ product.title | escape }}', {{ price }}, {{ is_preorder }}, '{{ subtitle | escape }}')">Add <span>+</span></button>
         {% endif %}
-
       </div>
     </div>
   </div>
@@ -226,20 +247,29 @@
 /* Ribbon badge */
 .lc-card__ribbon {
   position: absolute;
-  top: 0;
+  top: 15px;
   left: 0;
   background: var(--badge-bg, #0d3d6e);
   color: var(--badge-text, #fff);
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 800;
-  line-height: 1.1;
-  border-radius: 0 0 18px 0;
-  z-index: 2;
-  max-width: 55%;
+  padding: 6px 20px 6px 12px;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.lc-card:hover .lc-card__ribbon {
+  transform: scale(1.05);
 }
 .lc-card__ribbon--soldout {
-  background: #EF4444; /* Red for Sold Out */
+  background: #EF4444;
+}
+.lc-card__ribbon--prebook {
+  background: #00C896;
 }
 
 /* Carousel */
@@ -431,7 +461,32 @@
   height: 32px;
 }
 .lc-btn-add span { font-size: 16px; font-weight: 400; line-height:1; }
-.lc-btn-add:hover { background: #1a6ea8; transform: translateY(-1px); }
+.lc-btn-add:hover:not(:disabled) { background: #1a6ea8; transform: translateY(-1px); }
+
+/* Prebook state */
+.lc-btn-prebook {
+  background: #00C896;
+  color: #fff;
+  border: none;
+  font-weight: 800;
+  min-width: 100px;
+  justify-content: center;
+}
+.lc-btn-prebook:hover:not(:disabled) {
+  background: #00b386;
+  transform: translateY(-1px);
+}
+
+/* Sold out state */
+.lc-btn-soldout {
+  background: #cbd5e1;
+  color: #64748b;
+  cursor: not-allowed;
+}
+.lc-btn-soldout:hover {
+  transform: none;
+  background: #cbd5e1;
+}
 
 /* Quantity Selector replacement */
 .lc-qty-control {
@@ -769,7 +824,7 @@ if (typeof addLiciousToCart !== 'function') {
     backdrop.onclick = closeModal;
     
     const qtyInput = m.querySelector('.lc-modal__qty-input');
-    const updatePrice = () => {
+    m.updatePrice = () => {
       const q = parseInt(qtyInput.value);
       const total = m._unitPrice * q;
       const formatted = (total / 100).toLocaleString('en-IN', { maximumFractionDigits: 0 });
@@ -777,8 +832,8 @@ if (typeof addLiciousToCart !== 'function') {
       m.querySelector('.js-modal-btn-price').innerText = 'Rs. ' + formatted;
     };
 
-    m.querySelector('.js-minus').onclick = () => { if(qtyInput.value > 1) { qtyInput.value--; updatePrice(); } };
-    m.querySelector('.js-plus').onclick = () => { qtyInput.value++; updatePrice(); };
+    m.querySelector('.js-minus').onclick = () => { if(qtyInput.value > 1) { qtyInput.value--; m.updatePrice(); } };
+    m.querySelector('.js-plus').onclick = () => { qtyInput.value++; m.updatePrice(); };
   }
 
   window.openLiciousCutModal = function(btn, variantId, title, pricePaise, isPreorder, subtitle, group) {
@@ -813,12 +868,23 @@ if (typeof addLiciousToCart !== 'function') {
     
     // Override Add Button
     const addBtn = modal.querySelector('.lc-modal__add-btn');
+    const addBtnSpan = addBtn.querySelector('span');
+    const isPrebook = String(isPreorder) === 'true';
+    
+    if (addBtnSpan) {
+      if (isPrebook) {
+        addBtnSpan.innerHTML = 'Prebook Now <span class="js-modal-btn-price"></span>';
+      } else {
+        addBtnSpan.innerHTML = 'Add to Cart <span class="js-modal-btn-price"></span>';
+      }
+    }
+
     addBtn.onclick = async () => {
       const cut = modal.querySelector('input[name="lc-cut"]:checked').value;
       const qty = parseInt(modal.querySelector('.lc-modal__qty-input').value);
       addBtn.disabled = true;
       const originalHTML = addBtn.innerHTML;
-      addBtn.innerText = 'Adding...';
+      addBtn.innerText = isPrebook ? 'Prebooking...' : 'Adding...';
       
       await addLiciousToCart(btn, variantId, isPreorder, qty, cut);
       
@@ -826,6 +892,9 @@ if (typeof addLiciousToCart !== 'function') {
       addBtn.innerHTML = originalHTML;
       modal.classList.remove('is-active');
     };
+    
+    // Update initial price display in button
+    modal.updatePrice();
   };
 
   window.addLiciousToCart = async function(btn, variantId, isPreorder = false, quantity = 1, cutSelected = null) {
