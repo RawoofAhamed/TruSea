@@ -156,41 +156,60 @@
             {%- endunless -%}
 
           {% when 'cut_preference' %}
-            <div class="lc-cut-wrapper" {{ block.shopify_attributes }}>
-              <div class="lc-cut-header">
-                <div class="lc-cut-label">CUT PREFERENCE</div>
-                <button type="button" class="lc-cut-ask">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                  <span>Ask for changes</span>
-                </button>
-              </div>
-              <div class="lc-cut-options">
-                {%- assign cuts = "Steak Cut|Thick transverse slices with bone-in,Fry Cut|Skin-on fillets perfect for pan searing,Curry Cut|Medium bite-sized cubes for slow cooking" | split: "," -%}
-                {%- for cut_pair in cuts -%}
-                  {%- assign cut_info = cut_pair | split: "|" -%}
-                  {%- assign cut_name = cut_info[0] -%}
-                  {%- assign cut_desc = cut_info[1] -%}
-                  
-                  <input type="radio" 
-                         id="cut-{{ forloop.index }}" 
-                         name="properties[Cut Type]" 
-                         value="{{ cut_name }}"
-                         form="lc-pdp-form"
-                         class="lc-cut-radio visually-hidden"
-                         {% if forloop.first %}checked{% endif %}>
-                         
-                  <label for="cut-{{ forloop.index }}" class="lc-cut-card">
-                    <div class="lc-cut-card-top">
-                      <div class="lc-cut-name">{{ cut_name }}</div>
-                      <div class="lc-cut-check">
-                         <svg class="lc-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            {% assign product_tags = product.tags | join: ',' | downcase %}
+            {% assign current_group = "" %}
+            {% if product_tags contains 'cut_slices' %}
+              {% assign current_group = "A" %}
+            {% elsif product_tags contains 'cut_cleaned' %}
+              {% assign current_group = "B" %}
+            {% elsif product_tags contains 'cut_whole' %}
+              {% assign current_group = "C" %}
+            {% endif %}
+
+            {% if current_group != "" %}
+              <div class="lc-cut-wrapper" {{ block.shopify_attributes }}>
+                <div class="lc-cut-header">
+                  <div class="lc-cut-label">SELECT CUT PREFERENCE</div>
+                  <button type="button" class="lc-cut-ask">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                    <span>Ask for changes</span>
+                  </button>
+                </div>
+                <div class="lc-cut-options">
+                  {% if current_group == "A" %}
+                    {%- assign cuts = "Premium Slices|Thick uniform center cuts,Regular Slices|Standard cuts with head & tail portions" | split: "," -%}
+                  {% elsif current_group == "B" %}
+                    {%- assign cuts = "Cleaned & Whole|Fully cleaned and ready to cook" | split: "," -%}
+                  {% elsif current_group == "C" %}
+                    {%- assign cuts = "Whole Fish|Uncut whole fish" | split: "," -%}
+                  {% endif %}
+
+                  {%- for cut_pair in cuts -%}
+                    {%- assign cut_info = cut_pair | split: "|" -%}
+                    {%- assign cut_name = cut_info[0] -%}
+                    {%- assign cut_desc = cut_info[1] -%}
+                    
+                    <input type="radio" 
+                           id="cut-{{ forloop.index }}" 
+                           name="properties[Cut preference]" 
+                           value="{{ cut_name }}"
+                           form="lc-pdp-form"
+                           class="lc-cut-radio visually-hidden"
+                           {% if forloop.first %}checked{% endif %}>
+                           
+                    <label for="cut-{{ forloop.index }}" class="lc-cut-card">
+                      <div class="lc-cut-card-top">
+                        <div class="lc-cut-name">{{ cut_name }}</div>
+                        <div class="lc-cut-check">
+                           <svg class="lc-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                       </div>
-                    </div>
-                    <div class="lc-cut-desc">{{ cut_desc }}</div>
-                  </label>
-                {%- endfor -%}
+                      <div class="lc-cut-desc">{{ cut_desc }}</div>
+                    </label>
+                  {%- endfor -%}
+                </div>
               </div>
-            </div>
+            {% endif %}
 
           {% when 'price_and_buy' %}
             <div class="lc-pdp-buy-box" {{ block.shopify_attributes }}>

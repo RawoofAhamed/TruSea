@@ -19,11 +19,20 @@
   {% assign compare_at = product.compare_at_price %}
   {% assign available = product.available %}
 {% endif %}
-
 {% assign discount_pct = 0 %}
 {% if compare_at > price %}
   {% assign diff = compare_at | minus: price | times: 100.0 %}
   {% assign discount_pct = diff | divided_by: compare_at | round %}
+{% endif %}
+
+{% assign product_tags = product.tags | join: ',' | downcase %}
+{% assign card_group = "" %}
+{% if product_tags contains 'cut_slices' %}
+  {% assign card_group = "A" %}
+{% elsif product_tags contains 'cut_cleaned' %}
+  {% assign card_group = "B" %}
+{% elsif product_tags contains 'cut_whole' %}
+  {% assign card_group = "C" %}
 {% endif %}
 
 <div class="lc-card">
@@ -153,7 +162,11 @@
           {% assign is_preorder = 'true' %}
         {% endif %}
         
-        <button class="lc-btn-add" onclick="openLiciousCutModal(this, {{ variant_id }}, '{{ product.title | escape }}', {{ price }}, {{ is_preorder }}, '{{ subtitle | escape }}')">Add <span>+</span></button>
+        {% if card_group != "" %}
+          <button class="lc-btn-add" onclick="openLiciousCutModal(this, {{ variant_id }}, '{{ product.title | escape }}', {{ price }}, {{ is_preorder }}, '{{ subtitle | escape }}', '{{ card_group }}')">Add <span>+</span></button>
+        {% else %}
+          <button class="lc-btn-add" onclick="addLiciousToCart(this, {{ variant_id }}, {{ is_preorder }})">Add <span>+</span></button>
+        {% endif %}
 
       </div>
     </div>
@@ -724,38 +737,7 @@ if (typeof addLiciousToCart !== 'function') {
           <div class="lc-modal__body">
             <div class="lc-modal__label">SELECT CUT PREFERENCE</div>
             <div class="lc-modal__cuts">
-              <label class="lc-modal__cut-item">
-                <input type="radio" name="lc-cut" value="Steak Cut" checked>
-                <div class="lc-modal__cut-box">
-                  <div class="lc-modal__cut-name">Steak Cut</div>
-                  <div class="lc-modal__cut-desc">Thick uniform slices</div>
-                  <div class="lc-modal__check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-                </div>
-              </label>
-              <label class="lc-modal__cut-item">
-                <input type="radio" name="lc-cut" value="Curry Cut">
-                <div class="lc-modal__cut-box">
-                  <div class="lc-modal__cut-name">Curry Cut</div>
-                  <div class="lc-modal__cut-desc">Medium chunks</div>
-                  <div class="lc-modal__check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-                </div>
-              </label>
-              <label class="lc-modal__cut-item">
-                <input type="radio" name="lc-cut" value="Fry Cut">
-                <div class="lc-modal__cut-box">
-                  <div class="lc-modal__cut-name">Fry Cut</div>
-                  <div class="lc-modal__cut-desc">Thin even slices</div>
-                  <div class="lc-modal__check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-                </div>
-              </label>
-              <label class="lc-modal__cut-item">
-                <input type="radio" name="lc-cut" value="No Cut">
-                <div class="lc-modal__cut-box">
-                  <div class="lc-modal__cut-name">No Cut</div>
-                  <div class="lc-modal__cut-desc">Whole cleaned</div>
-                  <div class="lc-modal__check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-                </div>
-              </label>
+              <!-- Dynamically populated -->
             </div>
             
             <div class="lc-modal__qty-row">
@@ -799,8 +781,24 @@ if (typeof addLiciousToCart !== 'function') {
     m.querySelector('.js-plus').onclick = () => { qtyInput.value++; updatePrice(); };
   }
 
-  window.openLiciousCutModal = function(btn, variantId, title, pricePaise, isPreorder, subtitle) {
+  window.openLiciousCutModal = function(btn, variantId, title, pricePaise, isPreorder, subtitle, group) {
     const modal = document.getElementById('lc-cut-modal');
+    
+    // Populate Cuts based on group
+    const cutsContainer = modal.querySelector('.lc-modal__cuts');
+    let cutsHTML = '';
+    if (group === 'A') {
+      cutsHTML = `
+        <label class="lc-modal__cut-item"><input type="radio" name="lc-cut" value="Premium Slices" checked><div class="lc-modal__cut-box"><div class="lc-modal__cut-name">Premium Slices</div><div class="lc-modal__cut-desc">Thick uniform center cuts</div><div class="lc-modal__check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div></label>
+        <label class="lc-modal__cut-item"><input type="radio" name="lc-cut" value="Regular Slices"><div class="lc-modal__cut-box"><div class="lc-modal__cut-name">Regular Slices</div><div class="lc-modal__cut-desc">Standard head & tail cuts</div><div class="lc-modal__check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div></label>
+      `;
+    } else if (group === 'B') {
+      cutsHTML = `<label class="lc-modal__cut-item"><input type="radio" name="lc-cut" value="Cleaned & Whole" checked><div class="lc-modal__cut-box"><div class="lc-modal__cut-name">Cleaned & Whole</div><div class="lc-modal__cut-desc">Fully cleaned, ready to cook</div><div class="lc-modal__check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div></label>`;
+    } else if (group === 'C') {
+      cutsHTML = `<label class="lc-modal__cut-item"><input type="radio" name="lc-cut" value="Whole Fish" checked><div class="lc-modal__cut-box"><div class="lc-modal__cut-name">Whole Fish</div><div class="lc-modal__cut-desc">Uncut whole fish</div><div class="lc-modal__check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div></label>`;
+    }
+    cutsContainer.innerHTML = cutsHTML;
+
     modal._unitPrice = pricePaise;
     modal.querySelector('.lc-modal__title').innerText = title;
     modal.querySelector('.lc-modal__subtitle').innerText = subtitle || 'Premium Seafood';
