@@ -183,11 +183,11 @@
         -%}
         
         {% if has_prebook %}
-          <button class="lc-btn-add lc-btn-prebook" onclick="openLiciousCutModal(this, {{ variant_id }}, '{{ product.title | escape }}', {{ price }}, {{ is_preorder }}, '{{ subtitle | escape }}')">Prebook</button>
+          <button class="lc-btn-add lc-btn-prebook" onclick="openLiciousCutModal(this, {{ variant_id }}, '{{ product.title | escape }}', {{ price }}, {{ is_preorder }}, '{{ subtitle | escape }}', '{{ card_group }}')">Prebook</button>
         {% elsif available == false %}
           <button class="lc-btn-add lc-btn-soldout" disabled>Sold Out</button>
         {% else %}
-          <button class="lc-btn-add" onclick="openLiciousCutModal(this, {{ variant_id }}, '{{ product.title | escape }}', {{ price }}, {{ is_preorder }}, '{{ subtitle | escape }}')">Add <span>+</span></button>
+          <button class="lc-btn-add" onclick="openLiciousCutModal(this, {{ variant_id }}, '{{ product.title | escape }}', {{ price }}, {{ is_preorder }}, '{{ subtitle | escape }}', '{{ card_group }}')">Add <span>+</span></button>
         {% endif %}
       </div>
     </div>
@@ -247,12 +247,12 @@
 /* Ribbon badge */
 .lc-card__ribbon {
   position: absolute;
-  top: 15px;
+  top: 10px;
   left: 0;
   background: var(--badge-bg, #0d3d6e);
   color: var(--badge-text, #fff);
-  padding: 6px 20px 6px 12px;
-  font-size: 12px;
+  padding: 4px 14px 4px 8px;
+  font-size: 10px;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.08em;
