@@ -12,10 +12,14 @@
   assign serves = product.metafields.custom.serves | default: "3-4"
   assign cut = product.metafields.custom.cut | default: "1 inch"
   
-  assign pre_book = false
-  if product.tags contains 'Pre-Book'
-    assign pre_book = true
-  endif
+  assign has_prebook = false
+  for tag in product.tags
+    assign t = tag | downcase
+    if t == 'prebook' or t == 'pre-book'
+      assign has_prebook = true
+      break
+    endif
+  endfor
 
   comment
     Head and Tail add-on (standard for fish)
@@ -51,11 +55,11 @@
       </div>
     </div>
     
-    <!-- Sold out ribbon (Shown only when unavailable) -->
-    {% if product.available == false %}
-      <div class="lc-card__ribbon lc-card__ribbon--soldout">
-        Sold Out
-      </div>
+    <!-- Availability Badges -->
+    {% if has_prebook %}
+      <div class="lc-card__ribbon lc-card__ribbon--prebook">Pre-Book</div>
+    {% elsif product.available == false %}
+      <div class="lc-card__ribbon lc-card__ribbon--soldout">Sold Out</div>
     {% endif %}
 
     <!-- Top right icon (Non-Veg indicator) -->
@@ -65,12 +69,6 @@
 
     {% if product.available %}
       <div class="ts-card-badge ts-badge--info">Protein: {{ protein }}</div>
-      
-      {% if pre_book %}
-        <div class="ts-card-badge ts-badge--stock">📋 Pre-Book</div>
-      {% else %}
-        <div class="ts-card-badge ts-badge--stock">✓ In Stock</div>
-      {% endif %}
     {% endif %}
   </div>
 
@@ -133,13 +131,13 @@
           </span>
         </div>
         
-        <button 
-          type="button" 
-          class="ts-btn ts-btn-primary ts-card-add-btn"
-          {% unless product.available %}disabled{% endunless %}
-        >
-          {% if product.available %}Add{% else %}Sold Out{% endif %}
-        </button>
+        {% if has_prebook %}
+          <button type="button" class="ts-btn ts-btn-primary ts-card-add-btn lc-btn-prebook">Prebook</button>
+        {% elsif product.available == false %}
+          <button type="button" class="ts-btn ts-btn-primary ts-card-add-btn lc-btn-soldout" disabled>Sold Out</button>
+        {% else %}
+          <button type="button" class="ts-btn ts-btn-primary ts-card-add-btn">Add</button>
+        {% endif %}
       </div>
     </form>
   </div>

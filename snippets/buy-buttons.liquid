@@ -22,6 +22,15 @@
       if block.settings.show_dynamic_checkout and gift_card_recipient_feature_active == false
         assign show_dynamic_checkout = true
       endif
+
+      assign has_prebook = false
+      for tag in product.tags
+        assign t = tag | downcase
+        if t == 'prebook' or t == 'pre-book'
+          assign has_prebook = true
+          break
+        endif
+      endfor
     -%}
 
     <product-form
@@ -56,6 +65,10 @@
           class="product-variant-id"
         >
 
+        {%- if has_prebook -%}
+          <input type="hidden" name="properties[Preorder]" value="Yes">
+        {%- endif -%}
+
         {%- if gift_card_recipient_feature_active -%}
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
         {%- endif -%}
@@ -74,7 +87,7 @@
             id="ProductSubmitButton-{{ section_id }}"
             type="submit"
             name="add"
-            class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+            class="product-form__submit button button--full-width {% if has_prebook %}ts-btn-prebook{% elsif show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
             {% if product.selected_or_first_available_variant.available == false
               or quantity_rule_soldout
               or product.selected_or_first_available_variant == null
@@ -85,6 +98,8 @@
             <span>
               {%- if product.selected_or_first_available_variant == null -%}
                 {{ 'products.product.unavailable' | t }}
+              {%- elsif has_prebook -%}
+                Prebook Now
               {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
                 {{ 'products.product.sold_out' | t }}
               {%- else -%}
@@ -156,3 +171,14 @@
     <script src="{{ 'pickup-availability.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
 </div>
+
+<style>
+.product-form__submit.ts-btn-prebook {
+  background: #00C896 !important;
+  color: #fff !important;
+  border-color: #00C896 !important;
+}
+.product-form__submit.ts-btn-prebook:hover {
+  background: #00b386 !important;
+}
+</style>

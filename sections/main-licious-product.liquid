@@ -14,9 +14,23 @@
     <!-- Gallery -->
     <div class="lc-pdp-gallery">
       <div class="lc-gallery__main">
-       <!--  {% if section.settings.badge_text != blank %}
-          <div class="lc-gallery__badge">{{ section.settings.badge_text }}</div>
-        {% endif %} -->
+        {%- liquid
+          assign has_prebook = false
+          for tag in product.tags
+            assign t = tag | downcase
+            if t == 'prebook' or t == 'pre-book'
+              assign has_prebook = true
+              break
+            endif
+          endfor
+        -%}
+
+        {% if has_prebook %}
+          <div class="lc-gallery__ribbon lc-gallery__ribbon--prebook">Pre-Book</div>
+        {% elsif product.available == false %}
+          <div class="lc-gallery__ribbon lc-gallery__ribbon--soldout">Sold Out</div>
+        {% endif %}
+        
         <div class="lc-gallery__nv-icon">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" stroke="#D2213F" stroke-width="2"/><path d="M8 3L13 12H3L8 3Z" fill="#D2213F"/></svg>
         </div>
@@ -234,15 +248,23 @@
                       <input type="number" name="quantity" class="lc-pdp-qty__val" value="1" min="1" readonly />
                       <button type="button" class="lc-pdp-qty__btn js-lc-plus">+</button>
                     </div>
-                    <button type="submit" name="add" class="lc-pdp-add-btn" {% unless product.available %}disabled{% endunless %}>
-                      {% if product.available %}Add to Cart{% else %}Sold Out{% endif %}
+                    <button type="submit" name="add" class="lc-pdp-add-btn {% if has_prebook %}lc-pdp-prebook-btn{% endif %}" {% unless product.available or has_prebook %}disabled{% endunless %}>
+                      {% if has_prebook %}
+                        Prebook Now
+                      {% elsif product.available %}
+                        Add to Cart
+                      {% else %}
+                        Sold Out
+                      {% endif %}
                     </button>
                   </div>
                 </div>
-                <div class="lc-pdp-delivery-text">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
-                  {{ block.settings.delivery_text | default: "Today 6AM – 8AM" }}
-                </div>
+                {% if block.settings.delivery_text != blank and has_prebook %}
+                  <div class="lc-pdp-delivery-text">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+                    {{ block.settings.delivery_text }}
+                  </div>
+                {% endif %}
               {% endform %}
             </div>
             
@@ -308,19 +330,24 @@
   overflow: hidden;
   aspect-ratio: 4 / 3;
 }
-.lc-gallery__badge {
+.lc-gallery__ribbon {
   position: absolute;
-  top: 0; left: 0;
-  background: #ffcc00;
-  color: #1a1a1a;
-  font-weight: 800;
-  font-size: 13px;
-  padding: 8px 16px;
-  border-bottom-right-radius: 12px;
-  z-index: 2;
-  border-bottom: 2px solid #fff;
-  border-right: 2px solid #fff;
+  top: 15px;
+  left: 0;
+  background: #0d3d6e;
+  color: #fff;
+  padding: 4px 14px 4px 8px;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
 }
+.lc-gallery__ribbon--soldout { background: #EF4444; }
+.lc-gallery__ribbon--prebook { background: #00C896; }
 .lc-gallery__nv-icon {
   position: absolute;
   top: 12px; right: 12px;
@@ -718,6 +745,8 @@
 }
 .lc-pdp-add-btn:hover { background: #1a6ea8; }
 .lc-pdp-add-btn:disabled { background: #c8d5e0; cursor: not-allowed; }
+.lc-pdp-add-btn.lc-pdp-prebook-btn { background: #00C896; color: #fff; }
+.lc-pdp-add-btn.lc-pdp-prebook-btn:hover { background: #00b386; }
 
 /* Delivery text below the action row */
 .lc-pdp-delivery-text {
