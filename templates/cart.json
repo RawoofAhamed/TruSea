@@ -1,1 +1,63 @@
-{"sections":{"cart-items":{"type":"main-cart-items","settings":{"color_scheme":"scheme-1","padding_top":32,"padding_bottom":32}},"cart-footer":{"type":"main-cart-footer","blocks":{"subtotal":{"type":"subtotal","settings":{}},"buttons":{"type":"buttons","settings":{}}},"block_order":["subtotal","buttons"],"settings":{"color_scheme":"scheme-1","padding_top":20,"padding_bottom":40}}},"order":["cart-items","cart-footer"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "cart-items": {
+      "type": "main-cart-items",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    },
+    "cart-footer": {
+      "type": "main-cart-footer",
+      "blocks": {
+        "subtotal": {
+          "type": "subtotal",
+          "settings": {}
+        },
+        "reward_rally_user_balance_display_LP8wXp": {
+          "type": "shopify://apps/reward-rally/blocks/user_balance_display/7a5b3c5a-2c07-4679-abe0-3d120b89d95a",
+          "settings": {
+            "show_box": true,
+            "gradient_start_color": "#00C950",
+            "gradient_end_color": "#009966",
+            "gradient_direction": "90deg",
+            "box_text_color": "#ffffff",
+            "button_text_color": "#00b96b",
+            "login_message": "Your rewards are waiting! Log-in now to unlock coins and grab instant discounts.",
+            "zero_balance_message": "Start shopping to earn coins and unlock exciting discounts!",
+            "rr_login_text": "Login",
+            "rr_redeem_text": "Redeem Now"
+          }
+        },
+        "buttons": {
+          "type": "buttons",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "subtotal",
+        "reward_rally_user_balance_display_LP8wXp",
+        "buttons"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 20,
+        "padding_bottom": 40
+      }
+    }
+  },
+  "order": [
+    "cart-items",
+    "cart-footer"
+  ]
+}
