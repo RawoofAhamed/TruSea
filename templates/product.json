@@ -168,6 +168,41 @@
         "bg_color": "#faf5f6"
       }
     },
+    "product_whatsapp_reviews_HqmqNU": {
+      "type": "product-whatsapp-reviews",
+      "blocks": {
+        "review_JUhnJY": {
+          "type": "review",
+          "settings": {
+            "name": "Sarah L.",
+            "date": "2 Days Ago",
+            "title": "AMAZING EXPERIENCE!",
+            "text": "Absolutely love my fish delivery!",
+            "hashtag": "HappyCustomer"
+          }
+        },
+        "review_T9pYm3": {
+          "type": "review",
+          "settings": {
+            "name": "David R.",
+            "date": "2 Days Ago",
+            "title": "AMAZING EXPERIENCE!",
+            "text": "The way they cut the fish is so professional.",
+            "hashtag": "HappyCustomer"
+          }
+        }
+      },
+      "block_order": [
+        "review_JUhnJY",
+        "review_T9pYm3"
+      ],
+      "name": "Product WhatsApp Reviews",
+      "settings": {
+        "show_section": true,
+        "bg_color": "#F5F9F7",
+        "heading": "WHAT OUR CUSTOMERS ARE SAYING"
+      }
+    },
     "judge_me_reviews": {
       "type": "apps",
       "blocks": {
@@ -194,6 +229,7 @@
     "cooking_methods",
     "related_products",
     "value_props",
+    "product_whatsapp_reviews_HqmqNU",
     "judge_me_reviews"
   ]
 }
