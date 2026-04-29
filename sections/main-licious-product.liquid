@@ -268,6 +268,15 @@
               {% endform %}
             </div>
             
+          {% when 'whatsapp_reviews' %}
+            <div class="lc-pdp-wa-reviews" {{ block.shopify_attributes }}>
+              {% render 'whatsapp-reviews-pdp',
+                id: block.id,
+                reviews_data: product.metafields.custom.whatsapp_reviews.value,
+                heading: 'WHAT OUR CUSTOMERS ARE SAYING'
+              %}
+            </div>
+            
         {% endcase %}
       {% endfor %}
     </div>
@@ -1270,6 +1279,12 @@ document.addEventListener('DOMContentLoaded', () => {
           "default": "Today 6AM - 8AM"
         }
       ]
+    },
+    {
+      "type": "whatsapp_reviews",
+      "name": "WhatsApp Reviews",
+      "limit": 1,
+      "settings": []
     }
   ],
   "presets": [
