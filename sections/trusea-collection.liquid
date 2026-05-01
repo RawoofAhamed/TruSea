@@ -61,7 +61,7 @@
   <!-- ── Product Grid ── -->
   <div class="lc-coll-grid" id="lc-product-grid">
     {%- for product in collection.products -%}
-      {% render 'licious-product-card', product: product, section: section %}
+      {% render 'trusea-product-card', product: product, section: section %}
     {%- else -%}
       <div class="lc-coll-empty">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d8eeff" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
@@ -379,7 +379,7 @@ function lcFilterAll(btn) {
 
 {% schema %}
 {
-  "name": "Licious Collection Grid",
+  "name": "TruSea Collection Grid",
   "settings": [
     {
       "type": "range",
@@ -459,7 +459,7 @@ function lcFilterAll(btn) {
     }
   ],
   "presets": [
-    { "name": "Licious Collection Grid" }
+    { "name": "TruSea Collection Grid" }
   ]
 }
 {% endschema %}

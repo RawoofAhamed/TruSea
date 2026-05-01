@@ -35,7 +35,7 @@
         {%- case block.type -%}
           {%- when 'product_block' -%}
             {%- if block.settings.product != blank -%}
-              {% render 'licious-product-card', product: block.settings.product, section: section %}
+              {% render 'trusea-product-card', product: block.settings.product, section: section %}
             {%- else -%}
               {% comment %} Placeholder in editor {% endcomment %}
               <div class="ts-product-card ts-reveal">
@@ -54,7 +54,7 @@
       {%- if section.blocks.size == 0 -%}
         {%- if section.settings.collection != blank -%}
           {%- for product in section.settings.collection.products limit: section.settings.limit -%}
-            {% render 'licious-product-card', product: product, section: section %}
+            {% render 'trusea-product-card', product: product, section: section %}
           {%- endfor -%}
         {%- endif -%}
       {%- endif -%}

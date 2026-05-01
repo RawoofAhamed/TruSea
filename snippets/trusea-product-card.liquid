@@ -1,65 +1,78 @@
 {% comment %}
-  TruSea Premium Product Card Snippet
-  Usage: {% render 'trusea-product-card', product: product, lazy_load: true %}
+  Accepts:
+  - product (Object)
+  - section (Object)
+  - placeholder (Boolean)
+  - index (Integer)
 {% endcomment %}
 
-{%- liquid
-  assign current_variant = product.selected_or_first_available_variant
-  assign protein = product.metafields.custom.protein | default: "22g/100g"
-  assign pieces = product.metafields.custom.pieces | default: "5-7"
-  assign gross = product.metafields.custom.gross_weight | default: "540-600g"
-  assign net = product.metafields.custom.net_weight | default: "480-520g"
-  assign serves = product.metafields.custom.serves | default: "3-4"
-  assign cut = product.metafields.custom.cut | default: "1 inch"
-  
-  assign has_prebook = false
-  for tag in product.tags
-    assign t = tag | downcase
-    if t == 'prebook' or t == 'pre-book'
-      assign has_prebook = true
-      break
+{% if placeholder %}
+  {% assign title = "Product Title " | append: index %}
+  {% assign subtitle = "Short description of the product." %}
+  {% assign price = 25000 %}
+  {% assign compare_at = 30000 %}
+  {% assign available = true %}
+{% else %}
+  {% assign title = product.title %}
+  {% assign subtitle = product.description | strip_html | truncatewords: 8 %}
+  {% assign price = product.price %}
+  {% assign compare_at = product.compare_at_price %}
+  {% assign available = product.available %}
+{% endif %}
+{% assign discount_pct = 0 %}
+{% if compare_at > price %}
+  {% assign diff = compare_at | minus: price | times: 100.0 %}
+  {% assign discount_pct = diff | divided_by: compare_at | round %}
+{% endif %}
+
+{% assign product_tags = product.tags | join: ',' | downcase %}
+{% assign card_group = "" %}
+{% if product_tags contains 'cut_slices' %}
+  {% assign card_group = "A" %}
+{% elsif product_tags contains 'cut_cleaned' %}
+  {% assign card_group = "B" %}
+{% elsif product_tags contains 'cut_whole' %}
+  {% assign card_group = "C" %}
+{% endif %}
+
+<div class="lc-card">
+  <!-- Image Carousel Area -->
+  {%- liquid
+    assign pb = '75%'
+    if section.settings.image_ratio == 'square'
+      assign pb = '100%'
+    elsif section.settings.image_ratio == 'portrait'
+      assign pb = '150%'
+    elsif section.settings.image_ratio == 'adapt'
+      if product.featured_media != blank
+        assign pb = 1 | divided_by: product.featured_media.aspect_ratio | times: 100 | append: '%'
+      endif
+    elsif section.settings.image_ratio contains '%'
+      assign pb = section.settings.image_ratio
     endif
-  endfor
-
-  comment
-    Head and Tail add-on (standard for fish)
-  endcomment
-  assign head_tail_addon = all_products['vanjaram-big-slice-cut']
--%}
-
-<ts-product-card class="ts-product-card ts-reveal" data-product-id="{{ product.id }}">
-  <div class="ts-card-image-wrap">
-    <div class="ts-carousel-container">
-      <div class="ts-carousel-track">
-        {% if product.media.size > 0 %}
-          {% for media in product.media limit: 5 %}
-            <div class="ts-slide {% if forloop.first %}active{% endif %}">
-              <img 
-                src="{{ media | image_url: width: 800 }}" 
-                alt="{{ product.title }} - Image {{ forloop.index }}" 
-                class="ts-carousel-img"
-                loading="{% if lazy_load %}lazy{% else %}eager{% endif %}"
-                width="400"
-                height="250"
-              >
-            </div>
-          {% endfor %}
-        {% else %}
-          <div class="ts-slide active">{{ 'product-1' | placeholder_svg_tag: 'ts-carousel-img placeholder-svg' }}</div>
-        {% endif %}
-      </div>
-      <div class="ts-carousel-dots">
-        {% for media in product.media limit: 5 %}
-          <span class="ts-dot {% if forloop.first %}active{% endif %}"></span>
-        {% endfor %}
-      </div>
-    </div>
+  -%}
+  <div class="lc-card__media-wrap" style="padding-bottom: {{ pb }};">
     
     <!-- Availability Badges -->
+    {%- liquid
+      assign has_prebook = false
+      for tag in product.tags
+        assign t = tag | downcase
+        if t == 'prebook' or t == 'pre-book'
+          assign has_prebook = true
+          break
+        endif
+      endfor
+    -%}
+
     {% if has_prebook %}
-      <div class="lc-card__ribbon lc-card__ribbon--prebook">Pre-Book</div>
-    {% elsif product.available == false %}
-      <div class="lc-card__ribbon lc-card__ribbon--soldout">Sold Out</div>
+      <div class="lc-card__ribbon lc-card__ribbon--prebook">
+        Pre-Book
+      </div>
+    {% elsif available == false %}
+      <div class="lc-card__ribbon lc-card__ribbon--soldout">
+        Sold Out
+      </div>
     {% endif %}
 
     <!-- Top right icon (Non-Veg indicator) -->
@@ -67,78 +80,927 @@
       <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" stroke="#EF4444" stroke-width="2"/><path d="M8 3L13 12H3L8 3Z" fill="#EF4444"/></svg>
     </div>
 
-    {% if product.available %}
-      <div class="ts-card-badge ts-badge--info">Protein: {{ protein }}</div>
-    {% endif %}
-  </div>
+    <!-- Clickable overlay linking to PDP -->
+    <a href="{{ product.url | default: '#' }}" class="lc-card__link-overlay" aria-label="Go to {{ title }}"></a>
 
-  <div class="ts-card-body">
-    <div class="ts-card-header">
-      <h3 class="ts-card-title">
-        <a href="{{ product.url }}">{{ product.title }}</a>
-      </h3>
-      {% if product.metafields.custom.subtitle %}
-        <span class="ts-card-subtitle">{{ product.metafields.custom.subtitle }}</span>
-      {% else %}
-        <span class="ts-card-subtitle">{{ current_variant.title }}</span>
-      {% endif %}
-    </div>
-
-    <div class="ts-card-stats">
-      <div class="ts-stat-item"><span class="ts-stat-label">Slices:</span> {{ pieces }}</div>
-      <div class="ts-stat-item"><span class="ts-stat-label">Gross:</span> {{ gross }}</div>
-      <div class="ts-stat-item"><span class="ts-stat-label">Net:</span> {{ net }}</div>
-      <div class="ts-stat-item"><span class="ts-stat-label">Serves:</span> {{ serves }}</div>
-      <div class="ts-stat-item"><span class="ts-stat-label">Cut:</span> {{ cut }}</div>
-    </div>
-
-    <form method="post" action="/cart/add" class="ts-card-form" enctype="multipart/form-data">
-      <input type="hidden" name="id" value="{{ current_variant.id }}">
-      
-      {% unless product.has_only_default_variant %}
-        <div class="ts-card-variants">
-          <span class="ts-variant-label">SELECT WEIGHT</span>
-          <div class="ts-variant-pills">
-            {% for variant in product.variants %}
-              <button 
-                type="button" 
-                class="ts-variant-pill {% if variant == current_variant %}active{% endif %}"
-                data-variant-id="{{ variant.id }}"
-                data-price="{{ variant.price | money_without_trailing_zeros }}"
-              >
-                {{ variant.title }}
-              </button>
-            {% endfor %}
+    <!-- Carousel -->
+    <div class="lc-card__carousel" id="lc-carousel-{{ product.id | default: index }}" data-interval="{{ section.settings.slider_interval | default: 2 | times: 1000 }}">
+      <div class="lc-card__slides-container">
+        {% if placeholder %}
+          <div class="lc-card__slide active">
+            {{ 'product-1' | placeholder_svg_tag: 'lc-img' }}
           </div>
-        </div>
-      {% endunless %}
-
-      {% if head_tail_addon != blank and product.tags contains 'Fish' %}
-        <div class="ts-card-addons">
-          <label class="ts-addon-item">
-            <input type="checkbox" class="ts-addon-check" data-variant-id="{{ head_tail_addon.variants.first.id }}">
-            <span class="ts-addon-text">Add Head and Tail (Curry Cut)</span>
-            <span class="ts-addon-price">+ {{ head_tail_addon.price | money_without_trailing_zeros }}</span>
-          </label>
-        </div>
-      {% endif %}
-
-      <div class="ts-card-footer">
-        <div class="ts-card-price-row">
-          <span class="ts-card-price">
-            <span class="ts-card-price-value">{{ current_variant.price | money_without_trailing_zeros }}</span>
-            <span class="ts-card-price-info">(Incl. GST & FREE delivery)</span>
-          </span>
-        </div>
-        
-        {% if has_prebook %}
-          <button type="button" class="ts-btn ts-btn-primary ts-card-add-btn lc-btn-prebook">Prebook</button>
-        {% elsif product.available == false %}
-          <button type="button" class="ts-btn ts-btn-primary ts-card-add-btn lc-btn-soldout" disabled>Sold Out</button>
+          <div class="lc-card__slide">
+            {{ 'product-2' | placeholder_svg_tag: 'lc-img' }}
+          </div>
         {% else %}
-          <button type="button" class="ts-btn ts-btn-primary ts-card-add-btn">Add</button>
+          {% if product.featured_media != blank %}
+            <div class="lc-card__slide active">
+              <img src="{{ product.featured_media | image_url: width: 600 }}" alt="{{ product.featured_media.alt | escape }}" loading="lazy" class="lc-img">
+            </div>
+            {% for image in product.media offset: 1 limit: 3 %}
+              <div class="lc-card__slide">
+                <img src="{{ image | image_url: width: 600 }}" alt="{{ image.alt | escape }}" loading="lazy" class="lc-img">
+              </div>
+            {% endfor %}
+          {% elsif product.images.size > 0 %}
+            {% for image in product.images limit: 4 %}
+              <div class="lc-card__slide {% if forloop.first %}active{% endif %}">
+                <img src="{{ image | image_url: width: 600 }}" alt="{{ image.alt | escape }}" loading="lazy" class="lc-img">
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="lc-card__slide active">{{ 'image' | placeholder_svg_tag: 'lc-img' }}</div>
+          {% endif %}
         {% endif %}
       </div>
-    </form>
+
+      <div class="lc-card__dots">
+        {% if placeholder %}
+          <span class="lc-dot active"></span><span class="lc-dot"></span>
+        {% else %}
+          {% for image in product.media limit: 4 %}
+             <span class="lc-dot {% if forloop.first %}active{% endif %}"></span>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
   </div>
-</ts-product-card>
+
+  <!-- Content Area -->
+  <div class="lc-card__info">
+    <div class="lc-card__rating">
+      {% comment %} Official Judge.me Preview Badge {% endcomment %}
+      <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'>
+        {{ product.metafields.judgeme.badge }}
+      </div>
+    </div>
+    <h3 class="lc-card__title">
+      <a href="{{ product.url | default: '#' }}">{{ title }}</a>
+    </h3>
+
+    {% if section.settings.show_desc %}
+      <div class="lc-card__desc">{{ subtitle }}</div>
+    {% endif %}
+
+    {% if section.settings.show_weight %}
+      <div class="lc-card__meta">
+        {% assign weight_meta = product.metafields.custom.weight_info | default: "500 g | 10-12 Pieces | Serves 2-3" %}
+        {{ weight_meta }}
+      </div>
+    {% endif %}
+
+    <!-- Price Row -->
+    <div class="lc-card__price-row">
+      <span class="lc-price-sale">{{ price | money_without_trailing_zeros }}</span>
+      {% if compare_at > price %}
+        <span class="lc-price-regular">{{ compare_at | money_without_trailing_zeros }}</span>
+        {% if section.settings.show_discount %}
+          <span class="lc-discount-badge">{{ discount_pct }}% off</span>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    <!-- Bottom Row (Delivery + Button) -->
+    <div class="lc-card__bottom">
+      <div class="lc-card__delivery">
+        {% if section.settings.show_delivery and has_prebook %}
+          Delivery at the earliest
+        {% endif %}
+      </div>
+
+      <div class="lc-card__action">
+        {%- liquid
+          assign first_variant = product.selected_or_first_available_variant
+          assign variant_id = first_variant.id | default: 'null'
+          
+          assign is_preorder = 'false'
+          if has_prebook
+            assign is_preorder = 'true'
+          elsif first_variant.available and first_variant.inventory_quantity <= 0 and first_variant.inventory_management != blank
+            assign is_preorder = 'true'
+          endif
+        -%}
+        
+        {% if has_prebook %}
+          <button class="lc-btn-add lc-btn-prebook" onclick="openTruSeaCutModal(this, {{ variant_id }}, '{{ product.title | escape }}', {{ price }}, {{ is_preorder }}, '{{ subtitle | escape }}', '{{ card_group }}')">Prebook</button>
+        {% elsif available == false %}
+          <button class="lc-btn-add lc-btn-soldout" disabled>Sold Out</button>
+        {% else %}
+          <button class="lc-btn-add" onclick="openTruSeaCutModal(this, {{ variant_id }}, '{{ product.title | escape }}', {{ price }}, {{ is_preorder }}, '{{ subtitle | escape }}', '{{ card_group }}')">Add <span>+</span></button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.lc-card {
+  background: #fff;
+  border-radius: var(--card-radius, 12px);
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.06);
+  border: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1; 
+  height: 100%; 
+  transition: box-shadow 0.25s, transform 0.25s;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.lc-card:hover {
+  box-shadow: 0 8px 24px rgba(13, 61, 110, 0.1);
+  transform: translateY(-3px);
+}
+
+/* Media wrapper */
+.lc-card__media-wrap {
+  position: relative;
+  width: 100%;
+  background: #f8f8f8;
+  overflow: hidden;
+}
+
+.lc-card__link-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5; /* Stays under dots but over images */
+  display: block;
+}
+
+.lc-card__icon-nv {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #fff;
+  border-radius: 2px;
+  padding: 4px;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+}
+
+/* Ribbon badge */
+.lc-card__ribbon {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  background: var(--badge-bg, #0d3d6e);
+  color: var(--badge-text, #fff);
+  padding: 4px 14px 4px 8px;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.lc-card:hover .lc-card__ribbon {
+  transform: scale(1.05);
+}
+.lc-card__ribbon--soldout {
+  background: #EF4444;
+}
+.lc-card__ribbon--prebook {
+  background: #00C896;
+}
+
+/* Carousel */
+.lc-card__carousel {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+.lc-card__slides-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.lc-card__slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+}
+.lc-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Fit precisely without cropping */
+  padding: 8px; /* Breathing room so it doesn't touch edges */
+  box-sizing: border-box;
+}
+
+/* Dots */
+.lc-card__dots {
+  position: absolute;
+  bottom: 12px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  z-index: 10;
+  pointer-events: auto;
+}
+.lc-dot {
+  width: 6px;
+  height: 6px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.lc-dot.active {
+  background: #fff;
+  transform: scale(1.2);
+}
+
+/* Info container */
+.lc-card__info {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.lc-card__rating {
+  margin-bottom: 8px;
+  min-height: 20px;
+}
+.lc-card__rating .jdgm-prev-badge {
+  display: flex !important;
+  align-items: center;
+}
+.lc-card__rating .jdgm-prev-badge__text {
+  margin-left: 5px !important;
+  font-size: 11px !important;
+  padding-top: 5px !important;
+  color: #64748b;
+  font-weight: 600;
+}
+.lc-card__rating .jdgm-preview-badge .jdgm-star {
+  font-size: 11px !important;
+}
+.lc-rating-val {
+  color: #1e293b;
+  font-weight: 700;
+}
+.lc-rating-sep {
+  color: #e2e8f0;
+  font-size: 10px;
+}
+.lc-rating-count {
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.lc-card__title {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 40px;
+}
+.lc-card__title a {
+  text-decoration: none;
+  color: inherit;
+}
+.lc-card__title a:hover {
+  text-decoration: underline;
+}
+
+/* Desc */
+.lc-card__desc {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 34px;
+}
+
+/* Meta info */
+.lc-card__meta {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+/* Price block */
+.lc-card__price-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.lc-price-sale {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+.lc-price-regular {
+  font-size: 13px;
+  color: #888;
+  text-decoration: line-through;
+  font-weight: 500;
+}
+.lc-discount-badge {
+  font-size: 12px;
+  color: #2d7a4f;
+  background: #e8f5ee;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+/* Bottom Actions */
+.lc-card__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  border-top: 1px solid #f5f5f5;
+  padding-top: 12px;
+}
+.lc-card__delivery {
+  font-size: 11px;
+  color: #777;
+  font-weight: 500;
+}
+
+/* Button & Qty Control */
+.lc-btn-add {
+  background: var(--btn-color, #0d3d6e);
+  color: var(--btn-text, #fff);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.2s;
+  height: 32px;
+}
+.lc-btn-add span { font-size: 16px; font-weight: 400; line-height:1; }
+.lc-btn-add:hover:not(:disabled) { background: #1a6ea8; transform: translateY(-1px); }
+
+/* Prebook state */
+.lc-btn-prebook {
+  background: #00C896;
+  color: #fff;
+  border: none;
+  font-weight: 800;
+  min-width: 100px;
+  justify-content: center;
+}
+.lc-btn-prebook:hover:not(:disabled) {
+  background: #00b386;
+  transform: translateY(-1px);
+}
+
+/* Sold out state */
+.lc-btn-soldout {
+  background: #cbd5e1;
+  color: #64748b;
+  cursor: not-allowed;
+}
+.lc-btn-soldout:hover {
+  transform: none;
+  background: #cbd5e1;
+}
+
+/* Quantity Selector replacement */
+.lc-qty-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background:#fff;
+  height: 32px;
+  overflow: hidden;
+}
+.lc-qty-control button {
+  background: none;
+  border: none;
+  width: 28px;
+  font-size: 18px;
+  color: var(--btn-color, #0d3d6e);
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lc-qty-control input {
+  width: 24px;
+  border: none;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  padding: 0;
+}
+/* --- Custom Cut Modal --- */
+.lc-modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 100000;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.lc-modal.is-active { display: flex; }
+.lc-modal__backdrop {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(4px);
+}
+.lc-modal__content {
+  position: relative;
+  background: #fff;
+  width: 92%;
+  max-width: 440px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  animation: lc-modal-open 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes lc-modal-open {
+  from { transform: translateY(20px) scale(0.95); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+.lc-modal__close {
+  position: absolute;
+  top: 8px; right: 10px;
+  background: #f1f5f9;
+  border: none;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #64748b;
+  z-index: 5;
+  transition: all 0.2s;
+}
+.lc-modal__close:hover { background: #e2e8f0; color: #1e293b; }
+
+.lc-modal__header {
+  padding: 32px 32px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.lc-modal__header-left { flex: 1; padding-right: 16px; }
+.lc-modal__title {
+  font-size: 22px;
+  font-weight: 900;
+  color: #0d3d6e;
+  margin: 0;
+  line-height: 1.25;
+}
+.lc-modal__subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 8px;
+  font-weight: 500;
+}
+.lc-modal__price {
+  color: #0d3d6e;
+  font-weight: 900;
+  font-size: 22px;
+  white-space: nowrap;
+  padding-left: 10px;
+  margin-top: 2px;
+}
+
+.lc-modal__body {
+  padding: 0 32px 24px;
+}
+.lc-modal__label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #64748b;
+  margin: 20px 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.lc-modal__cuts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.lc-modal__cut-item {
+  display: block;
+  cursor: pointer;
+}
+.lc-modal__cut-item input {
+  position: absolute; width: 0; height: 0; opacity: 0;
+}
+.lc-modal__cut-box {
+  border: 1.5px solid #f1f5f9;
+  border-radius: 16px;
+  padding: 16px;
+  transition: all 0.25s;
+  background: #fdfdfd;
+  position: relative;
+  height: 100%;
+}
+.lc-modal__cut-item:hover .lc-modal__cut-box {
+  border-color: #cbd5e1;
+}
+.lc-modal__cut-item input:checked + .lc-modal__cut-box {
+  background: #f0f8ff;
+  border-color: #0d3d6e;
+  box-shadow: 0 4px 12px rgba(13,61,110,0.08);
+}
+.lc-modal__cut-name {
+  font-weight: 800;
+  color: #0d3d6e;
+  font-size: 15px;
+}
+.lc-modal__cut-desc {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 4px;
+  line-height: 1.3;
+}
+.lc-modal__check {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 18px; height: 18px;
+  background: #0d3d6e;
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.lc-modal__cut-item input:checked + .lc-modal__cut-box .lc-modal__check {
+  display: flex;
+}
+
+.lc-modal__qty-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 32px;
+}
+.lc-modal__qty {
+  display: flex;
+  align-items: center;
+  background: #f1f5f9;
+  border-radius: 50px;
+  padding: 4px;
+}
+.lc-modal__qty-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  color: #1e293b;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.lc-modal__qty-input {
+  width: 44px;
+  border: none;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0d3d6e;
+  background: transparent;
+}
+
+.lc-modal__footer {
+  padding: 0 32px 32px;
+}
+.lc-modal__add-btn {
+  width: 100%;
+  background: #0d3d6e;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  height: 56px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: all 0.25s;
+}
+.lc-modal__add-btn:hover { background: #1a4a7e; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(13,61,110,0.2); }
+.lc-modal__add-btn:active { transform: translateY(0); }
+</style>
+
+<script>
+// Hover Slide Carousel
+document.addEventListener('DOMContentLoaded', () => {
+  const carousels = document.querySelectorAll('.lc-card__carousel');
+  carousels.forEach(carousel => {
+    let intervalBase = parseInt(carousel.getAttribute('data-interval'));
+    let intervalTime = intervalBase > 0 ? intervalBase : 1500; // Slide speed
+    
+    let container = carousel.querySelector('.lc-card__slides-container');
+    let slides = carousel.querySelectorAll('.lc-card__slide');
+    let dots = carousel.querySelectorAll('.lc-dot');
+    if(slides.length <= 1) return;
+
+    let currentIndex = 0;
+    let slideTimer = null;
+
+    let updateSlide = () => {
+      container.style.transform = `translateX(-${currentIndex * 100}%)`;
+      dots.forEach(d => d.classList.remove('active'));
+      if(dots[currentIndex]) {
+        dots[currentIndex].classList.add('active');
+      }
+    };
+
+    let startCarousel = () => {
+      slideTimer = setInterval(() => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateSlide();
+      }, intervalTime);
+    };
+
+    let stopCarousel = () => {
+      clearInterval(slideTimer);
+      currentIndex = 0; // Reset to first slide
+      updateSlide();
+    };
+
+    // Attach to the entire wrapper so leaving the image/icon triggers reset
+    let wrapper = carousel.closest('.lc-card__media-wrap');
+    
+    wrapper.addEventListener('mouseenter', startCarousel);
+    wrapper.addEventListener('mouseleave', stopCarousel);
+  });
+});
+
+// Define functional Cart JS only once per page
+if (typeof addTruSeaToCart !== 'function') {
+  // Modal Singleton HTML injection
+  if (!document.getElementById('lc-cut-modal')) {
+    const modalDiv = document.createElement('div');
+    modalDiv.innerHTML = `
+      <div id="lc-cut-modal" class="lc-modal">
+        <div class="lc-modal__backdrop"></div>
+        <div class="lc-modal__content">
+          <button class="lc-modal__close">&times;</button>
+          <div class="lc-modal__header">
+            <div class="lc-modal__header-left">
+              <h3 class="lc-modal__title"></h3>
+              <div class="lc-modal__subtitle"></div>
+            </div>
+            <div class="lc-modal__price"></div>
+          </div>
+          <div class="lc-modal__body">
+            <div class="lc-modal__label">SELECT CUT PREFERENCE</div>
+            <div class="lc-modal__cuts">
+              <!-- Dynamically populated -->
+            </div>
+            
+            <div class="lc-modal__qty-row">
+              <div class="lc-modal__label" style="margin:0">QUANTITY</div>
+              <div class="lc-modal__qty">
+                <button class="lc-modal__qty-btn js-minus">&minus;</button>
+                <input type="number" value="1" min="1" class="lc-modal__qty-input" readonly>
+                <button class="lc-modal__qty-btn js-plus">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="lc-modal__footer">
+            <button class="lc-modal__add-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              <span>Add to Cart <span class="js-modal-btn-price"></span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modalDiv.firstElementChild);
+    
+    const m = document.getElementById('lc-cut-modal');
+    const closeBtn = m.querySelector('.lc-modal__close');
+    const backdrop = m.querySelector('.lc-modal__backdrop');
+    
+    const closeModal = () => m.classList.remove('is-active');
+    closeBtn.onclick = closeModal;
+    backdrop.onclick = closeModal;
+    
+    const qtyInput = m.querySelector('.lc-modal__qty-input');
+    m.updatePrice = () => {
+      const q = parseInt(qtyInput.value);
+      const total = m._unitPrice * q;
+      const formatted = (total / 100).toLocaleString('en-IN', { maximumFractionDigits: 0 });
+      m.querySelector('.lc-modal__price').innerText = 'Rs. ' + formatted;
+      m.querySelector('.js-modal-btn-price').innerText = 'Rs. ' + formatted;
+    };
+
+    m.querySelector('.js-minus').onclick = () => { if(qtyInput.value > 1) { qtyInput.value--; m.updatePrice(); } };
+    m.querySelector('.js-plus').onclick = () => { qtyInput.value++; m.updatePrice(); };
+  }
+
+  window.openTruSeaCutModal = function(btn, variantId, title, pricePaise, isPreorder, subtitle, group) {
+    const modal = document.getElementById('lc-cut-modal');
+    
+    // Populate Cuts based on group
+    const cutsContainer = modal.querySelector('.lc-modal__cuts');
+    let cutsHTML = '';
+    if (group === 'A') {
+      cutsHTML = `
+        <label class="lc-modal__cut-item"><input type="radio" name="lc-cut" value="Premium Slices" checked><div class="lc-modal__cut-box"><div class="lc-modal__cut-name">Premium Slices</div><div class="lc-modal__cut-desc">Thick uniform center cuts</div><div class="lc-modal__check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div></label>
+        <label class="lc-modal__cut-item"><input type="radio" name="lc-cut" value="Regular Slices"><div class="lc-modal__cut-box"><div class="lc-modal__cut-name">Regular Slices</div><div class="lc-modal__cut-desc">Standard head & tail cuts</div><div class="lc-modal__check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div></label>
+      `;
+    } else if (group === 'B') {
+      cutsHTML = `<label class="lc-modal__cut-item"><input type="radio" name="lc-cut" value="Cleaned & Whole" checked><div class="lc-modal__cut-box"><div class="lc-modal__cut-name">Cleaned & Whole</div><div class="lc-modal__cut-desc">Fully cleaned, ready to cook</div><div class="lc-modal__check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div></label>`;
+    } else if (group === 'C') {
+      cutsHTML = `<label class="lc-modal__cut-item"><input type="radio" name="lc-cut" value="Whole Fish" checked><div class="lc-modal__cut-box"><div class="lc-modal__cut-name">Whole Fish</div><div class="lc-modal__cut-desc">Uncut whole fish</div><div class="lc-modal__check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></div></div></label>`;
+    }
+    cutsContainer.innerHTML = cutsHTML;
+
+    modal._unitPrice = pricePaise;
+    modal.querySelector('.lc-modal__title').innerText = title;
+    modal.querySelector('.lc-modal__subtitle').innerText = subtitle || 'Premium Seafood';
+    
+    const qtyInput = modal.querySelector('.lc-modal__qty-input');
+    qtyInput.value = 1;
+
+    // Set initial price
+    modal.querySelector('.lc-modal__price').innerText = 'Rs. ' + (pricePaise / 100).toLocaleString('en-IN', { maximumFractionDigits: 0 });
+    
+    modal.classList.add('is-active');
+    
+    // Override Add Button
+    const addBtn = modal.querySelector('.lc-modal__add-btn');
+    const addBtnSpan = addBtn.querySelector('span');
+    const isPrebook = String(isPreorder) === 'true';
+    
+    if (addBtnSpan) {
+      if (isPrebook) {
+        addBtnSpan.innerHTML = 'Prebook Now <span class="js-modal-btn-price"></span>';
+      } else {
+        addBtnSpan.innerHTML = 'Add to Cart <span class="js-modal-btn-price"></span>';
+      }
+    }
+
+    addBtn.onclick = async () => {
+      const cut = modal.querySelector('input[name="lc-cut"]:checked').value;
+      const qty = parseInt(modal.querySelector('.lc-modal__qty-input').value);
+      addBtn.disabled = true;
+      const originalHTML = addBtn.innerHTML;
+      addBtn.innerText = isPrebook ? 'Prebooking...' : 'Adding...';
+      
+      await addTruSeaToCart(btn, variantId, isPreorder, qty, cut);
+      
+      addBtn.disabled = false;
+      addBtn.innerHTML = originalHTML;
+      modal.classList.remove('is-active');
+    };
+    
+    // Update initial price display in button
+    modal.updatePrice();
+  };
+
+  window.addTruSeaToCart = async function(btn, variantId, isPreorder = false, quantity = 1, cutSelected = null) {
+    if(!variantId) return;
+    const parent = btn.parentElement;
+    // btn.innerHTML = 'Add...';
+    btn.disabled = true;
+
+    try {
+      const payload = { 
+        id: variantId, 
+        quantity: quantity,
+        sections: "cart-drawer,cart-icon-bubble"
+      };
+      
+      const props = {};
+      if (isPreorder) props['Preorder'] = 'Yes';
+      if (cutSelected) props['Cut Preference'] = cutSelected;
+      
+      if (Object.keys(props).length > 0) payload.properties = props;
+
+      const res = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/javascript' },
+        body: JSON.stringify(payload)
+      });
+      const parsedAdd = await res.json();
+
+      if (res.ok) {
+        // btn.style.display = 'none'; // Don't hide the add button
+        showToast(parsedAdd.title + ' added!');
+        
+        // const qtyControl = parent.querySelector('.lc-qty-control');
+        // qtyControl.style.display = 'flex';
+        // qtyControl.querySelector('.lc-qty-input').value = quantity;
+        
+        // btn.innerHTML = 'Add <span>+</span>';
+
+        if (parsedAdd.sections) {
+          // Update Bubble
+          const bubble = document.getElementById('cart-icon-bubble');
+          if (bubble && parsedAdd.sections['cart-icon-bubble']) {
+            const newBubble = new DOMParser().parseFromString(parsedAdd.sections['cart-icon-bubble'], 'text/html').querySelector('.shopify-section');
+            if (newBubble) bubble.innerHTML = newBubble.innerHTML;
+          }
+
+          // Update Drawer
+          const drawerInner = document.querySelector('cart-drawer .drawer__inner');
+          if (drawerInner && parsedAdd.sections['cart-drawer']) {
+            const newDrawer = new DOMParser().parseFromString(parsedAdd.sections['cart-drawer'], 'text/html').querySelector('.drawer__inner');
+            if (newDrawer) drawerInner.innerHTML = newDrawer.innerHTML;
+          }
+        }
+      }
+    } catch(e) { console.error(e); }
+    btn.disabled = false;
+  };
+
+  window.updateTruSeaQty = async function(btn, variantId, delta) {
+    const parent = btn.parentElement;
+    const input = parent.querySelector('.lc-qty-input');
+    let newQty = parseInt(input.value) + delta;
+    if (newQty < 0) newQty = 0;
+
+    btn.disabled = true;
+    try {
+      const res = await fetch('/cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/javascript' },
+        body: JSON.stringify({ 
+          updates: { [variantId]: newQty },
+          sections: "cart-drawer,cart-icon-bubble"
+        })
+      });
+      const parsedUpdate = await res.json();
+      
+      if (parsedUpdate.status && parsedUpdate.message) {
+        throw new Error(parsedUpdate.message);
+      }
+
+      if (res.ok) {
+        input.value = newQty;
+        if (newQty === 0) {
+          parent.style.display = 'none';
+          const addBtn = parent.parentElement.querySelector('.lc-btn-add');
+          addBtn.style.display = 'flex';
+        }
+        
+        if (parsedUpdate.sections) {
+          // Update Bubble
+          const bubble = document.getElementById('cart-icon-bubble');
+          if (bubble && parsedUpdate.sections['cart-icon-bubble']) {
+            const newBubble = new DOMParser().parseFromString(parsedUpdate.sections['cart-icon-bubble'], 'text/html').querySelector('.shopify-section');
+            if (newBubble) bubble.innerHTML = newBubble.innerHTML;
+          }
+
+          // Update Drawer
+          const drawerInner = document.querySelector('cart-drawer .drawer__inner');
+          if (drawerInner && parsedUpdate.sections['cart-drawer']) {
+            const newDrawer = new DOMParser().parseFromString(parsedUpdate.sections['cart-drawer'], 'text/html').querySelector('.drawer__inner');
+            if (newDrawer) drawerInner.innerHTML = newDrawer.innerHTML;
+          }
+        }
+      }
+    } catch(e) { console.error(e); }
+    btn.disabled = false;
+  };
+}
+</script>

@@ -1,4 +1,4 @@
-<div class="licious-fc page-width" style="
+<div class="trusea-fc page-width" style="
   --btn-color: {{ section.settings.btn_color }};
   --btn-text: {{ section.settings.btn_text_color }};
   --badge-bg: {{ section.settings.badge_bg }};
@@ -7,19 +7,19 @@
 ">
 
   {% if section.settings.title != blank %}
-    <h2 class="licious-fc__title">{{ section.settings.title }}</h2>
+    <h2 class="trusea-fc__title">{{ section.settings.title }}</h2>
   {% endif %}
 
-  <div class="licious-fc__grid licious-fc__grid--{{ section.settings.grid }}">
+  <div class="trusea-fc__grid trusea-fc__grid--{{ section.settings.grid }}">
     {% assign collection = collections[section.settings.collection] %}
     {% for product in collection.products limit: section.settings.max_products %}
-      {% render 'licious-product-card', 
+      {% render 'trusea-product-card', 
         product: product, 
         section: section 
       %}
     {% else %}
       {% for i in (1..section.settings.grid) %}
-        {% render 'licious-product-card', section: section, placeholder: true, index: i %}
+        {% render 'trusea-product-card', section: section, placeholder: true, index: i %}
       {% endfor %}
     {% endfor %}
   </div>
@@ -27,34 +27,34 @@
 </div>
 
 <style>
-  .licious-fc {
+  .trusea-fc {
     padding: 40px 0;
   }
-  .licious-fc__title {
+  .trusea-fc__title {
     font-size: 24px;
     font-weight: 800;
     margin-bottom: 24px;
     color: #1a1a1a;
   }
-  .licious-fc__grid {
+  .trusea-fc__grid {
     display: grid;
     gap: 20px;
   }
-  .licious-fc__grid--2 { grid-template-columns: repeat(2, 1fr); }
-  .licious-fc__grid--3 { grid-template-columns: repeat(3, 1fr); }
-  .licious-fc__grid--4 { grid-template-columns: repeat(4, 1fr); }
+  .trusea-fc__grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .trusea-fc__grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .trusea-fc__grid--4 { grid-template-columns: repeat(4, 1fr); }
 
   @media (max-width: 900px) {
-    .licious-fc__grid--3, .licious-fc__grid--4 { grid-template-columns: repeat(2, 1fr); }
+    .trusea-fc__grid--3, .trusea-fc__grid--4 { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 600px) {
-    .licious-fc__grid { grid-template-columns: 1fr; }
+    .trusea-fc__grid { grid-template-columns: 1fr; }
   }
 </style>
 
 {% schema %}
 {
-  "name": "Licious Collection",
+  "name": "TruSea Collection",
   "settings": [
     {
       "type": "text",
@@ -176,7 +176,7 @@
   ],
   "presets": [
     {
-      "name": "Licious Collection Grid"
+      "name": "TruSea Collection Grid"
     }
   ]
 }

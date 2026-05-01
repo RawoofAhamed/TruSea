@@ -88,7 +88,7 @@
   border: 1px solid var(--ts-mint);
 }
 
-/* Licious-style Ribbon for TruSea Cards */
+/* TruSea-style Ribbon for TruSea Cards */
 .lc-card__ribbon {
   position: absolute;
   top: 10px;
