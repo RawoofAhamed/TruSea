@@ -3930,80 +3930,30 @@ a[class*="sw"] {
   display: none !important;
 }
 
-/* Reward Rally Button Styling */
-#reward-rally-floating-icon, 
+/* Reward Rally Button Positioning */
+#reward-rally-floating-icon,
 .reward-rally-widget,
 .reward-rally-widget > div {
-  z-index: 10001 !important; /* Above cart bars and drawers */
+  z-index: 10001 !important;
   position: fixed !important;
-  bottom: 20px !important;
-  left: 20px !important;
-  right: auto !important;
-  top: auto !important;
 }
 
-#reward-rally-floating-icon button,
-.reward-rally-widget button,
-.reward-rally-widget div[class*="sc-"] button {
-  background-color: #0d3d6e !important; /* Default Navy for Desktop */
-  color: #ffffff !important;
-  border-radius: 12px !important; /* Premium rounded corners */
-  font-weight: 700 !important;
-  font-family: inherit !important;
-  padding: 12px 20px !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 10px !important;
-  min-width: 130px !important;
-  cursor: pointer !important;
+body:not(.mobile-cart-bar-active):not(.cart-drawer-open) .reward-rally-widget button,
+body:not(.mobile-cart-bar-active):not(.cart-drawer-open) .reward-rally-widget div[class*="sc-"] button {
+  position: relative !important;
+  transition: all 0.3s ease !important;
 }
 
-#reward-rally-floating-icon button:hover,
-.reward-rally-widget button:hover {
-  transform: translateY(-3px) !important;
-  background-color: #1a4a7e !important;
-  box-shadow: 0 8px 25px rgba(14, 37, 65, 0.3) !important;
+@media screen and (min-width: 768px) {
+  body:not(.mobile-cart-bar-active):not(.cart-drawer-open) .reward-rally-widget button,
+  body:not(.mobile-cart-bar-active):not(.cart-drawer-open) .reward-rally-widget div[class*="sc-"] button {
+    top: 50px !important;
+  }
 }
 
-/* Mobile Specific Rewards Button Styling */
 @media screen and (max-width: 767px) {
-
-  #reward-rally-floating-icon,
-  .reward-rally-widget,
-  .reward-rally-widget > div {
-    bottom: 20px !important;
-    left: 15px !important;
-    z-index: 10001 !important;
-  }
-
-  #reward-rally-floating-icon button,
-  .reward-rally-widget button,
-  .reward-rally-widget div[class*="sc-"] button {
-    background-color: #3cbfa0 !important;
-    /* Mint Green for Mobile */
-    width: 46px !important;
-    height: 46px !important;
-    padding: 0 !important;
-    border-radius: 50% !important;
-    justify-content: center !important;
-    min-width: auto !important;
-  }
-
-  /* Hide text on mobile for icon-only launcher */
-  #reward-rally-floating-icon button span:not(.icon),
-  .reward-rally-widget button span:not(.icon),
-  #reward-rally-floating-icon button .reward-rally-text,
-  #reward-rally-floating-icon button div:not(.icon) {
-    display: none !important;
-  }
-
-  #reward-rally-floating-icon button svg,
-  .reward-rally-widget button svg {
-    width: 24px !important;
-    height: 24px !important;
+  body:not(.mobile-cart-bar-active):not(.cart-drawer-open) .reward-rally-widget button,
+  body:not(.mobile-cart-bar-active):not(.cart-drawer-open) .reward-rally-widget div[class*="sc-"] button {
+    top: -25px !important;
   }
 }
