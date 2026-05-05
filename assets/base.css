@@ -3931,22 +3931,23 @@ a[class*="sw"] {
 }
 
 /* Reward Rally Button Styling */
-#reward-rally-floating-icon,
-.reward-rally-widget {
-  z-index: 999 !important;
+#reward-rally-floating-icon, 
+.reward-rally-widget,
+.reward-rally-widget > div {
+  z-index: 10001 !important; /* Above cart bars and drawers */
   position: fixed !important;
   bottom: 20px !important;
   left: 20px !important;
   right: auto !important;
+  top: auto !important;
 }
 
 #reward-rally-floating-icon button,
-.reward-rally-widget button {
-  background-color: #0d3d6e !important;
-  /* Default Navy for Desktop */
+.reward-rally-widget button,
+.reward-rally-widget div[class*="sc-"] button {
+  background-color: #0d3d6e !important; /* Default Navy for Desktop */
   color: #ffffff !important;
-  border-radius: 12px !important;
-  /* Premium rounded corners */
+  border-radius: 12px !important; /* Premium rounded corners */
   font-weight: 700 !important;
   font-family: inherit !important;
   padding: 12px 20px !important;
@@ -3972,13 +3973,16 @@ a[class*="sw"] {
 @media screen and (max-width: 767px) {
 
   #reward-rally-floating-icon,
-  .reward-rally-widget {
+  .reward-rally-widget,
+  .reward-rally-widget > div {
     bottom: 20px !important;
     left: 15px !important;
+    z-index: 10001 !important;
   }
 
   #reward-rally-floating-icon button,
-  .reward-rally-widget button {
+  .reward-rally-widget button,
+  .reward-rally-widget div[class*="sc-"] button {
     background-color: #3cbfa0 !important;
     /* Mint Green for Mobile */
     width: 46px !important;
