@@ -1,8 +1,9 @@
 {%- liquid
   assign combo_products = product.metafields.custom.combo_products.value
+  assign is_editor = request.design_mode
 -%}
 
-{%- if combo_products != blank -%}
+{%- if combo_products != blank or is_editor -%}
 <section class="ts-combo" id="ts-combo-{{ section.id }}">
   <div class="page-width">
     <div class="ts-combo__header">
