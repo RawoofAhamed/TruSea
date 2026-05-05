@@ -105,6 +105,13 @@
         "badge_text": "{{ product.metafields.custom.recipe_title.value }}"
       }
     },
+    "trusea_combo_buy_NqYCpy": {
+      "type": "trusea-combo-buy",
+      "name": "TruSea Combo Buy",
+      "settings": {
+        "heading": "Frequently Bought Together"
+      }
+    },
     "cooking_methods": {
       "type": "trusea-cooking",
       "name": "Trusea Cooking Methods",
@@ -221,13 +228,6 @@
       ],
       "settings": {
         "include_margins": true
-      }
-    },
-    "trusea_combo_buy_NqYCpy": {
-      "type": "trusea-combo-buy",
-      "name": "TruSea Combo Buy",
-      "settings": {
-        "heading": "Frequently Bought Together"
       }
     }
   },
