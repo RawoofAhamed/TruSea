@@ -56,21 +56,29 @@
     <!-- Availability Badges -->
     {%- liquid
       assign has_prebook = false
+      assign has_popular = false
       for tag in product.tags
         assign t = tag | downcase
         if t == 'prebook' or t == 'pre-book'
           assign has_prebook = true
-          break
+        elsif t == 'popular'
+          assign has_popular = true
         endif
       endfor
     -%}
 
+    {% if has_popular %}
+      <div class="lc-card__ribbon lc-card__ribbon--popular">
+        Popular
+      </div>
+    {% endif %}
+
     {% if has_prebook %}
-      <div class="lc-card__ribbon lc-card__ribbon--prebook">
+      <div class="lc-card__ribbon lc-card__ribbon--prebook {% if has_popular %}lc-card__ribbon--stacked{% endif %}">
         Pre-Book
       </div>
     {% elsif available == false %}
-      <div class="lc-card__ribbon lc-card__ribbon--soldout">
+      <div class="lc-card__ribbon lc-card__ribbon--soldout {% if has_popular %}lc-card__ribbon--stacked{% endif %}">
         Sold Out
       </div>
     {% endif %}
@@ -270,6 +278,12 @@
 }
 .lc-card__ribbon--prebook {
   background: #00C896;
+}
+.lc-card__ribbon--popular {
+  background: #0d3d6e;
+}
+.lc-card__ribbon--stacked {
+  top: 38px !important;
 }
 
 /* Carousel */
