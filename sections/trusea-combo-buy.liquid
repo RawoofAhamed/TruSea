@@ -391,6 +391,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function handleCartUpdate(parsed) {
+    if (window.openMiniCart) {
+      window.openMiniCart();
+      return;
+    }
+
     if (!parsed || !parsed.sections) return;
     const bubble = document.getElementById('cart-icon-bubble');
     if (bubble && parsed.sections['cart-icon-bubble']) {

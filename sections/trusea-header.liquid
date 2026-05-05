@@ -1253,6 +1253,7 @@
     // Build item elements
     const frag = document.createDocumentFragment();
     (data.items || []).forEach(item => {
+      if (item.quantity <= 0) return; // Skip ghost items
       const div = document.createElement('div');
       div.className = 'ts-minicart-item';
       div.dataset.key = item.key;
@@ -1334,18 +1335,37 @@
   }
 
   // Open mini-cart
-  function openMiniCart() {
+  window.openMiniCart = function() {
+    if (!minicart) return;
     minicart.classList.add('open');
     document.body.classList.add('cart-drawer-open');
-    cartTrigger.setAttribute('aria-expanded', 'true');
+    if (cartTrigger) cartTrigger.setAttribute('aria-expanded', 'true');
     fetchCart();
+
+    // Auto-close after 5 seconds
+    clearTimeout(window._minicartTimer);
+    window._minicartTimer = setTimeout(() => {
+      // Only close if the mouse is not hovering over the minicart
+      if (!minicart.matches(':hover')) {
+        window.closeMiniCart();
+      } else {
+        // If hovering, check again in 2 seconds
+        const recheck = setInterval(() => {
+          if (!minicart.matches(':hover')) {
+            window.closeMiniCart();
+            clearInterval(recheck);
+          }
+        }, 2000);
+      }
+    }, 5000);
   }
 
   // Close mini-cart
-  function closeMiniCart() {
+  window.closeMiniCart = function() {
+    if (!minicart) return;
     minicart.classList.remove('open');
     document.body.classList.remove('cart-drawer-open');
-    cartTrigger.setAttribute('aria-expanded', 'false');
+    if (cartTrigger) cartTrigger.setAttribute('aria-expanded', 'false');
   }
 
   if (cartTrigger) cartTrigger.addEventListener('click', openMiniCart);
