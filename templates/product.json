@@ -199,7 +199,7 @@
       "name": "Product WhatsApp Reviews",
       "settings": {
         "show_section": true,
-        "bg_color": "#F5F9F7",
+        "bg_color": "#f5f9f7",
         "heading": "WHAT OUR CUSTOMERS ARE SAYING"
       }
     },
@@ -222,10 +222,18 @@
       "settings": {
         "include_margins": true
       }
+    },
+    "trusea_combo_buy_NqYCpy": {
+      "type": "trusea-combo-buy",
+      "name": "TruSea Combo Buy",
+      "settings": {
+        "heading": "Frequently Bought Together"
+      }
     }
   },
   "order": [
     "main",
+    "trusea_combo_buy_NqYCpy",
     "cooking_methods",
     "related_products",
     "value_props",
