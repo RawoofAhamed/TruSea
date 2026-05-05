@@ -18,6 +18,9 @@
           <div class="ts-combo-item__inner">
             <div class="ts-combo-item__image">
               <img src="{{ product.featured_media | image_url: width: 300 }}" alt="{{ product.title }}" loading="lazy">
+              {% if product.available == false %}
+                <div class="ts-combo-item__badge ts-combo-item__badge--soldout">Sold Out</div>
+              {% endif %}
               <div class="ts-combo-item__check">
                 <input type="checkbox" checked disabled id="combo-main-{{ section.id }}">
                 <label for="combo-main-{{ section.id }}"></label>
@@ -37,8 +40,11 @@
             <div class="ts-combo-item__inner">
               <div class="ts-combo-item__image">
                 <img src="{{ combo.featured_media | image_url: width: 300 }}" alt="{{ combo.title }}" loading="lazy">
+                {% if combo.available == false %}
+                  <div class="ts-combo-item__badge ts-combo-item__badge--soldout">Sold Out</div>
+                {% endif %}
                 <div class="ts-combo-item__check">
-                  <input type="checkbox" checked id="combo-{{ combo.id }}-{{ section.id }}" class="ts-combo-checkbox">
+                  <input type="checkbox" {% if combo.available %}checked{% else %}disabled{% endif %} id="combo-{{ combo.id }}-{{ section.id }}" class="ts-combo-checkbox">
                   <label for="combo-{{ combo.id }}-{{ section.id }}"></label>
                 </div>
               </div>
@@ -121,6 +127,20 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.ts-combo-item__badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #EF4444;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  z-index: 3;
+  border-bottom-right-radius: 8px;
 }
 
 /* Custom Flipkart Style Checkbox */
@@ -292,14 +312,15 @@ document.addEventListener('DOMContentLoaded', () => {
   checkboxes.forEach(cb => cb.addEventListener('change', updateBundle));
   updateBundle(); // Init
 
-  submitBtn.addEventListener('click', async () => {
+  submitBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
     submitBtn.classList.add('loading');
     submitBtn.disabled = true;
 
     const itemsToAdd = [];
     section.querySelectorAll('.ts-combo-item').forEach(item => {
       const cb = item.querySelector('input[type="checkbox"]');
-      if (cb.checked) {
+      if (cb && cb.checked) {
         itemsToAdd.push({
           id: item.dataset.variantId,
           quantity: 1
@@ -308,26 +329,88 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     try {
-      await fetch('/cart/add.js', {
+      const res = await fetch('/cart/add.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: itemsToAdd })
+        body: JSON.stringify({ 
+          items: itemsToAdd,
+          sections: "cart-drawer,cart-icon-bubble"
+        })
       });
+      const parsed = await res.json();
       
-      // Refresh cart drawer if exists
-      if (window.refreshCartDrawer) {
-        window.refreshCartDrawer();
+      if (res.ok) {
+        handleCartUpdate(parsed);
+      } else if (res.status === 422) {
+        // BATCH FAILED - Try adding items individually to find the culprit
+        console.warn('Batch add failed, trying individually...');
+        let addedCount = 0;
+        let errors = [];
+
+        for (const item of itemsToAdd) {
+          const singleRes = await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items: [item], sections: "cart-drawer,cart-icon-bubble" })
+          });
+          const singleData = await singleRes.json();
+          
+          if (singleRes.ok) {
+            addedCount++;
+            handleCartUpdate(singleData);
+          } else {
+            errors.push(`${singleData.title || 'An item'}: ${singleData.description || singleData.message}`);
+          }
+        }
+
+        if (errors.length > 0) {
+          if (window.showToast) {
+            window.showToast(errors[0]); // Show the first error specifically
+          }
+          submitBtn.style.backgroundColor = '#ef4444';
+          submitBtn.innerText = 'Some items at limit';
+          setTimeout(() => {
+            submitBtn.style.backgroundColor = '';
+            submitBtn.innerHTML = originalText;
+          }, 3000);
+        }
       } else {
-        window.location.href = '/cart';
+        const errorMsg = parsed.description || parsed.message || 'Error adding items';
+        if (window.showToast) window.showToast(errorMsg);
       }
     } catch (err) {
       console.error('Bundle add failed', err);
-      alert('Error adding bundle. Please try again.');
     } finally {
       submitBtn.classList.remove('loading');
       submitBtn.disabled = false;
     }
   });
+
+  function handleCartUpdate(parsed) {
+    if (!parsed || !parsed.sections) return;
+    
+    // Update Bubble
+    const bubble = document.getElementById('cart-icon-bubble');
+    if (bubble && parsed.sections['cart-icon-bubble']) {
+      const newBubble = new DOMParser().parseFromString(parsed.sections['cart-icon-bubble'], 'text/html').querySelector('.shopify-section');
+      if (newBubble) bubble.innerHTML = newBubble.innerHTML;
+    }
+
+    // Update Drawer
+    const drawer = document.querySelector('cart-drawer');
+    const drawerInner = document.querySelector('cart-drawer .drawer__inner');
+    if (drawerInner && parsed.sections['cart-drawer']) {
+      const newDrawer = new DOMParser().parseFromString(parsed.sections['cart-drawer'], 'text/html').querySelector('.drawer__inner');
+      if (newDrawer) drawerInner.innerHTML = newDrawer.innerHTML;
+    }
+    
+    // Open Drawer
+    if (drawer && typeof drawer.open === 'function') {
+      drawer.open();
+    } else if (drawer) {
+      drawer.classList.add('active');
+    }
+  }
 });
 </script>
 {%- endif -%}
