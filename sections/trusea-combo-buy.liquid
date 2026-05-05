@@ -244,6 +244,12 @@
   letter-spacing: 0;
   font-size: 16px;
   box-shadow: 0 4px 15px rgba(60, 191, 160, 0.2);
+  transition: all 0.3s ease;
+}
+
+.ts-combo__submit.loading {
+  opacity: 0.7;
+  cursor: wait;
 }
 
 @media (max-width: 1024px) {
@@ -288,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const totalPriceEl = section.querySelector('.ts-combo__total-price');
   const countEl = section.querySelector('.ts-combo__count');
   const submitBtn = section.querySelector('.ts-combo__submit');
-  const symbol = totalPriceEl.dataset.baseCurrency || 'Rs.';
+  const symbol = totalPriceEl.dataset.baseCurrency || '₹';
 
   const updateBundle = () => {
     let total = 0;
@@ -297,16 +303,21 @@ document.addEventListener('DOMContentLoaded', () => {
     
     items.forEach(item => {
       const checkbox = item.querySelector('input[type="checkbox"]');
-      if (checkbox.checked) {
+      if (checkbox && checkbox.checked) {
         total += parseFloat(item.dataset.price) / 100;
         count++;
       }
     });
 
-    totalPriceEl.textContent = symbol + ' ' + total.toLocaleString();
-    countEl.textContent = count;
+    totalPriceEl.textContent = symbol + ' ' + total.toLocaleString('en-IN');
+    if (countEl) countEl.textContent = count;
     
+    // Reset button state
     submitBtn.disabled = count === 0;
+    submitBtn.classList.remove('loading');
+    submitBtn.style.backgroundColor = '';
+    submitBtn.style.borderColor = '';
+    submitBtn.innerHTML = `Add <span class="ts-combo__count">${count}</span> items to Cart`;
   };
 
   checkboxes.forEach(cb => cb.addEventListener('change', updateBundle));
@@ -314,17 +325,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   submitBtn.addEventListener('click', async (e) => {
     e.preventDefault();
+    if (submitBtn.classList.contains('loading')) return;
+
     submitBtn.classList.add('loading');
     submitBtn.disabled = true;
+    submitBtn.innerText = 'Adding...';
 
     const itemsToAdd = [];
     section.querySelectorAll('.ts-combo-item').forEach(item => {
       const cb = item.querySelector('input[type="checkbox"]');
       if (cb && cb.checked) {
-        itemsToAdd.push({
-          id: item.dataset.variantId,
-          quantity: 1
-        });
+        itemsToAdd.push({ id: item.dataset.variantId, quantity: 1 });
       }
     });
 
@@ -332,84 +343,68 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch('/cart/add.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          items: itemsToAdd,
-          sections: "cart-drawer,cart-icon-bubble"
-        })
+        body: JSON.stringify({ items: itemsToAdd, sections: "cart-drawer,cart-icon-bubble" })
       });
       const parsed = await res.json();
       
       if (res.ok) {
         handleCartUpdate(parsed);
+        submitBtn.innerText = 'Added!';
+        setTimeout(updateBundle, 2000);
       } else if (res.status === 422) {
-        // BATCH FAILED - Try adding items individually to find the culprit
-        console.warn('Batch add failed, trying individually...');
-        let addedCount = 0;
         let errors = [];
-
         for (const item of itemsToAdd) {
-          const singleRes = await fetch('/cart/add.js', {
+          const sRes = await fetch('/cart/add.js', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ items: [item], sections: "cart-drawer,cart-icon-bubble" })
           });
-          const singleData = await singleRes.json();
-          
-          if (singleRes.ok) {
-            addedCount++;
-            handleCartUpdate(singleData);
+          const sData = await sRes.json();
+          if (sRes.ok) {
+            handleCartUpdate(sData);
           } else {
-            errors.push(`${singleData.title || 'An item'}: ${singleData.description || singleData.message}`);
+            errors.push(`${sData.title || 'Item'}: ${sData.description || sData.message}`);
           }
         }
-
         if (errors.length > 0) {
-          if (window.showToast) {
-            window.showToast(errors[0]); // Show the first error specifically
-          }
+          if (window.showToast) window.showToast(errors[0]);
           submitBtn.style.backgroundColor = '#ef4444';
-          submitBtn.innerText = 'Some items at limit';
-          setTimeout(() => {
-            submitBtn.style.backgroundColor = '';
-            submitBtn.innerHTML = originalText;
-          }, 3000);
+          submitBtn.style.borderColor = '#ef4444';
+          submitBtn.innerText = 'Limit Reached';
+          setTimeout(updateBundle, 3000);
+        } else {
+          submitBtn.innerText = 'Added!';
+          setTimeout(updateBundle, 2000);
         }
       } else {
         const errorMsg = parsed.description || parsed.message || 'Error adding items';
         if (window.showToast) window.showToast(errorMsg);
+        submitBtn.innerText = 'Error';
+        setTimeout(updateBundle, 3000);
       }
     } catch (err) {
       console.error('Bundle add failed', err);
+      updateBundle();
     } finally {
       submitBtn.classList.remove('loading');
-      submitBtn.disabled = false;
     }
   });
 
   function handleCartUpdate(parsed) {
     if (!parsed || !parsed.sections) return;
-    
-    // Update Bubble
     const bubble = document.getElementById('cart-icon-bubble');
     if (bubble && parsed.sections['cart-icon-bubble']) {
-      const newBubble = new DOMParser().parseFromString(parsed.sections['cart-icon-bubble'], 'text/html').querySelector('.shopify-section');
-      if (newBubble) bubble.innerHTML = newBubble.innerHTML;
+      const newB = new DOMParser().parseFromString(parsed.sections['cart-icon-bubble'], 'text/html').querySelector('.shopify-section');
+      if (newB) bubble.innerHTML = newB.innerHTML;
     }
-
-    // Update Drawer
     const drawer = document.querySelector('cart-drawer');
-    const drawerInner = document.querySelector('cart-drawer .drawer__inner');
-    if (drawerInner && parsed.sections['cart-drawer']) {
-      const newDrawer = new DOMParser().parseFromString(parsed.sections['cart-drawer'], 'text/html').querySelector('.drawer__inner');
-      if (newDrawer) drawerInner.innerHTML = newDrawer.innerHTML;
+    const dInner = document.querySelector('cart-drawer .drawer__inner');
+    if (dInner && parsed.sections['cart-drawer']) {
+      const newD = new DOMParser().parseFromString(parsed.sections['cart-drawer'], 'text/html').querySelector('.drawer__inner');
+      if (newD) dInner.innerHTML = newD.innerHTML;
     }
-    
-    // Open Drawer
-    if (drawer && typeof drawer.open === 'function') {
-      drawer.open();
-    } else if (drawer) {
-      drawer.classList.add('active');
-    }
+    if (drawer && typeof drawer.open === 'function') drawer.open();
+    else if (drawer) drawer.classList.add('active');
   }
 });
 </script>
