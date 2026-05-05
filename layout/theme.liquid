@@ -501,9 +501,13 @@
 
   window.addEventListener('scroll', () => {
     if (window.scrollY > 300) {
-      pageUpBtn.style.display = 'flex';
+      pageUpBtn.style.opacity = '1';
+      pageUpBtn.style.visibility = 'visible';
+      pageUpBtn.style.pointerEvents = 'auto';
     } else {
-      pageUpBtn.style.display = 'none';
+      pageUpBtn.style.opacity = '0';
+      pageUpBtn.style.visibility = 'hidden';
+      pageUpBtn.style.pointerEvents = 'none';
     }
   });
 

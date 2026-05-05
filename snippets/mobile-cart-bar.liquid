@@ -49,11 +49,14 @@
     }
   }
 
-  /* Move sticky icons and reward launcher up when cart bar is active */
+  /* Move sticky icons and reward launcher up when cart bar or drawer is active */
   @media screen and (max-width: 767px) {
     body.mobile-cart-bar-active .sticky-whatsapp,
     body.mobile-cart-bar-active .sticky-pageup,
-    body.mobile-cart-bar-active #reward-rally-floating-icon {
+    body.mobile-cart-bar-active #reward-rally-floating-icon,
+    body.cart-drawer-open .sticky-whatsapp,
+    body.cart-drawer-open .sticky-pageup,
+    body.cart-drawer-open #reward-rally-floating-icon {
       bottom: 100px !important;
       transition: bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
     }
