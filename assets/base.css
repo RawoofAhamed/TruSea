@@ -3938,22 +3938,18 @@ a[class*="sw"] {
   position: fixed !important;
 }
 
-body:not(.mobile-cart-bar-active):not(.cart-drawer-open) .reward-rally-widget button,
-body:not(.mobile-cart-bar-active):not(.cart-drawer-open) .reward-rally-widget div[class*="sc-"] button {
-  position: relative !important;
-  transition: all 0.3s ease !important;
-}
-
 @media screen and (min-width: 768px) {
   body:not(.mobile-cart-bar-active):not(.cart-drawer-open) .reward-rally-widget button,
   body:not(.mobile-cart-bar-active):not(.cart-drawer-open) .reward-rally-widget div[class*="sc-"] button {
     top: 50px !important;
+    position: relative !important;
   }
 }
 
 @media screen and (max-width: 767px) {
-  body:not(.mobile-cart-bar-active):not(.cart-drawer-open) .reward-rally-widget button,
-  body:not(.mobile-cart-bar-active):not(.cart-drawer-open) .reward-rally-widget div[class*="sc-"] button {
+  .reward-rally-widget button,
+  .reward-rally-widget div[class*="sc-"] button {
     top: -25px !important;
+    position: relative !important;
   }
 }
