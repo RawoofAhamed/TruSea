@@ -95,6 +95,19 @@
       </div>
       {% endif %}
 
+      <!-- WhatsApp Support -->
+      {% assign wa_number = section.settings.whatsapp_number | default: '+917397468800' %}
+      <a
+        href="https://wa.me/{{ wa_number | remove: '+' | remove: ' ' | remove: '-' }}"
+        class="ts-wa-support-btn"
+        target="_blank"
+        rel="noopener"
+        aria-label="Contact support on WhatsApp"
+      >
+        <svg width="15" height="15" viewBox="0 0 32 32" fill="currentColor"><path d="M16.04 2.003c-7.732 0-14.037 6.305-14.037 14.037 0 2.48.654 4.903 1.896 7.043L2 30l7.13-1.864a13.97 13.97 0 006.91 1.813h.006c7.73 0 14.036-6.305 14.036-14.037 0-3.747-1.459-7.268-4.11-9.92a13.95 13.95 0 00-9.93-3.99zm8.135 19.8c-.34.96-1.99 1.83-2.74 1.95-.71.11-1.63.16-2.63-.17-.6-.19-1.38-.45-2.38-.88-4.19-1.81-6.91-6.07-7.12-6.35-.21-.28-1.71-2.28-1.71-4.35 0-2.07 1.08-3.09 1.46-3.52.38-.43.83-.54 1.11-.54.28 0 .56 0 .8.01.26.01.61-.1.95.73.34.83 1.15 2.87 1.25 3.08.1.21.17.46.03.74-.14.28-.21.45-.42.69-.21.24-.44.53-.63.71-.21.21-.42.44-.18.86.24.42 1.07 1.77 2.3 2.87 1.58 1.41 2.91 1.85 3.33 2.06.42.21.67.18.92-.11.24-.28 1.06-1.24 1.35-1.67.28-.42.56-.35.95-.21.38.14 2.42 1.14 2.84 1.35.42.21.7.31.8.49.1.18.1 1.04-.24 2.01z"/></svg>
+        <span>Support</span>
+      </a>
+
       <!-- Search -->
       <button class="ts-icon-btn" id="ts-search-trigger" aria-label="Search">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -179,7 +192,18 @@
         {% endif %}
       </nav>
       <div class="ts-drawer-actions">
-        <a href="/account" class="ts-btn ts-btn-outline" style="width:100%;justify-content:center;">My Account</a>
+        {% assign wa_number = section.settings.whatsapp_number | default: '+917397468800' %}
+        <a
+          href="https://wa.me/{{ wa_number | remove: '+' | remove: ' ' | remove: '-' }}"
+          class="ts-drawer-wa-btn"
+          target="_blank"
+          rel="noopener"
+          aria-label="Contact support on WhatsApp"
+        >
+          <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor"><path d="M16.04 2.003c-7.732 0-14.037 6.305-14.037 14.037 0 2.48.654 4.903 1.896 7.043L2 30l7.13-1.864a13.97 13.97 0 006.91 1.813h.006c7.73 0 14.036-6.305 14.036-14.037 0-3.747-1.459-7.268-4.11-9.92a13.95 13.95 0 00-9.93-3.99zm8.135 19.8c-.34.96-1.99 1.83-2.74 1.95-.71.11-1.63.16-2.63-.17-.6-.19-1.38-.45-2.38-.88-4.19-1.81-6.91-6.07-7.12-6.35-.21-.28-1.71-2.28-1.71-4.35 0-2.07 1.08-3.09 1.46-3.52.38-.43.83-.54 1.11-.54.28 0 .56 0 .8.01.26.01.61-.1.95.73.34.83 1.15 2.87 1.25 3.08.1.21.17.46.03.74-.14.28-.21.45-.42.69-.21.24-.44.53-.63.71-.21.21-.42.44-.18.86.24.42 1.07 1.77 2.3 2.87 1.58 1.41 2.91 1.85 3.33 2.06.42.21.67.18.92-.11.24-.28 1.06-1.24 1.35-1.67.28-.42.56-.35.95-.21.38.14 2.42 1.14 2.84 1.35.42.21.7.31.8.49.1.18.1 1.04-.24 2.01z"/></svg>
+          Contact Support
+        </a>
+        <a href="/account" class="ts-btn ts-btn-outline" style="width:100%;justify-content:center;margin-top:10px;">My Account</a>
         <a href="/cart" class="ts-btn ts-btn-primary" style="width:100%;justify-content:center;margin-top:12px;">Cart ({{ cart.item_count }})</a>
       </div>
     </div>
@@ -628,12 +652,75 @@
 .ts-drawer-link:hover { color: var(--ts-mint); padding-left: 22px; }
 .ts-drawer-actions { padding-top: 24px; border-top: 1px solid rgba(255,255,255,.1); margin-top: 16px; }
 
+/* ---- WhatsApp Support Pill (desktop header) ---- */
+.ts-wa-support-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,.75);
+  background: rgba(37,211,102,.12);
+  border: 1px solid rgba(37,211,102,.25);
+  padding: 6px 12px 6px 10px;
+  border-radius: var(--ts-radius-full);
+  text-decoration: none;
+  transition: all .25s ease;
+  white-space: nowrap;
+  letter-spacing: .01em;
+  flex-shrink: 0;
+}
+.ts-wa-support-btn svg {
+  color: #25D366;
+  flex-shrink: 0;
+  transition: transform .25s ease;
+}
+.ts-wa-support-btn:hover {
+  background: rgba(37,211,102,.22);
+  border-color: rgba(37,211,102,.5);
+  color: #25D366;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(37,211,102,.18);
+}
+.ts-wa-support-btn:hover svg { transform: scale(1.1); }
+.ts-wa-support-btn span { line-height: 1; }
+
+/* ---- WhatsApp Support Button (mobile drawer) ---- */
+.ts-drawer-wa-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: var(--ts-radius-sm);
+  background: rgba(37,211,102,.12);
+  border: 1px solid rgba(37,211,102,.25);
+  color: #25D366;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all .25s ease;
+  font-family: var(--ts-font);
+}
+.ts-drawer-wa-btn:hover {
+  background: rgba(37,211,102,.2);
+  border-color: rgba(37,211,102,.45);
+}
+
 /* ---- Responsive ---- */
 @media (max-width: 960px) {
   .ts-header-nav { display: none; }
   .ts-hamburger { display: flex; }
   .ts-location-btn span { display: none; }
   #ts-location-label { display: none; }
+  .ts-wa-support-btn span { display: none; }
+  .ts-wa-support-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    justify-content: center;
+  }
 }
 @media (max-width: 560px) {
   .ts-header-inner { padding: 0 16px; }
@@ -1362,6 +1449,17 @@ document.addEventListener('DOMContentLoaded', () => {
       "id": "default_location",
       "label": "Default Location Label",
       "default": "Select Area"
+    },
+    {
+      "type": "header",
+      "content": "💬 WhatsApp Support"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_number",
+      "label": "WhatsApp Number",
+      "default": "+917397468800",
+      "info": "Include country code, e.g. +917397468800. Used for the 'Support' button in the header."
     },
     {
       "type": "header",
