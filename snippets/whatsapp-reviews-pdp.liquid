@@ -9,8 +9,8 @@
 {% if has_reviews %}
 <div class="ts-wa-reviews ts-section ts-wa-reviews-snippet" id="ts-wa-reviews-{{ id }}"
   style="
-    --ts-wa-bg: {{ bg_color | default: '#F5F9F7' }};
-    --ts-wa-accent: #25D366;
+    --ts-wa-bg: {{ bg_color | default: 'var(--ts-bg-secondary)' }};
+    --ts-wa-accent: var(--ts-mint);
   "
 >
   <div class="ts-container">
@@ -144,7 +144,7 @@
   text-align: center;
   font-size: clamp(24px, 5vw, 40px);
   font-weight: 900;
-  color: #000000;
+  color: var(--ts-text-heading);
   margin-bottom: 8px;
   display: flex;
   align-items: center;
@@ -162,7 +162,7 @@
   text-align: center;
   font-size: 14px;
   font-weight: 800;
-  color: #9CA3AF;
+  color: var(--ts-text-muted);
   letter-spacing: 0.1em;
   margin-bottom: 40px;
   display: flex;
@@ -227,14 +227,13 @@
 }
 
 .ts-wa-card {
-  background: #FFFFFF;
+  background: var(--ts-bg-card);
   border-radius: 24px;
   padding: 32px;
-  box-shadow: 0 20px 50px rgba(14,37,65,0.08);
-  height: 100%;
+  box-shadow: var(--ts-shadow-md);
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(14,37,65,0.03);
+  border: 1px solid var(--ts-border);
 }
 
 .ts-wa-profile { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
@@ -243,20 +242,20 @@
 .ts-wa-avatar-placeholder { width: 100%; height: 100%; background: var(--ts-mint-pale); color: var(--ts-mint); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; border-radius: 50%; }
 .ts-wa-verified { position: absolute; bottom: -2px; right: -2px; background: #25D366; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; }
 .ts-wa-meta { display: flex; flex-direction: column; gap: 4px; }
-.ts-wa-reviewer { font-size: 15px; font-weight: 700; color: #1A2B3D; }
+.ts-wa-reviewer { font-size: 15px; font-weight: 700; color: var(--ts-text-heading); }
 .ts-wa-sep { color: #E5E7EB; margin: 0 4px; }
-.ts-wa-date { color: #9CA3AF; font-weight: 500; font-size: 14px; }
+.ts-wa-date { color: var(--ts-text-muted); font-weight: 500; font-size: 14px; }
 .ts-wa-stars { display: flex; gap: 2px; }
-.ts-wa-review-title { font-size: 16px; font-weight: 800; color: #0E2541; margin: 0 0 10px; text-transform: uppercase; }
+.ts-wa-review-title { font-size: 16px; font-weight: 800; color: var(--ts-text-heading); margin: 0 0 10px; text-transform: uppercase; }
 .ts-wa-stars-inline { display: flex; gap: 4px; margin-bottom: 12px; }
-.ts-wa-review-text { font-size: 15px; line-height: 1.6; color: #4B5563; margin-bottom: 12px; flex: 1; }
-.ts-wa-hashtag { font-size: 14px; font-weight: 700; color: #0E2541; }
+.ts-wa-review-text { font-size: 15px; line-height: 1.6; color: var(--ts-text); margin-bottom: 12px; flex: 1; }
+.ts-wa-hashtag { font-size: 14px; font-weight: 700; color: var(--ts-mint); }
 .ts-wa-card-footer { margin-top: 24px; display: flex; justify-content: flex-end; }
-.ts-wa-via { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #9CA3AF; }
+.ts-wa-via { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--ts-text-muted); }
 
 .ts-wa-nav {
-  background: white;
-  border: none;
+  background: var(--ts-bg-raised);
+  border: 1px solid var(--ts-border);
   width: 44px;
   height: 44px;
   border-radius: 50%;

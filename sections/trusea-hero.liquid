@@ -2,10 +2,10 @@
 
 <section class="ts-hero ts-section" id="ts-hero"
   style="
-    --ts-hero-bg: {{ section.settings.bg_color | default: '#F5F9F7' }};
-    --ts-hero-heading: {{ section.settings.heading_color | default: '#0E2541' }};
-    --ts-hero-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
-    --ts-hero-body: {{ section.settings.body_color | default: '#5a7a8a' }};
+    --ts-hero-bg: {{ section.settings.bg_color | default: 'var(--ts-bg-secondary)' }};
+    --ts-hero-heading: {{ section.settings.heading_color | default: 'var(--ts-text-heading)' }};
+    --ts-hero-accent: {{ section.settings.accent_color | default: 'var(--ts-mint)' }};
+    --ts-hero-body: {{ section.settings.body_color | default: 'var(--ts-text)' }};
   "
 >
   <!-- Decorative background blobs -->
@@ -50,7 +50,7 @@
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 2L17.5 12.5L28 14L17.5 15.5L16 26L14.5 15.5L4 14L14.5 12.5Z" fill="#3CBFA0" opacity="0.7"/></svg>
     </div>
     <div class="ts-deco ts-deco--sparkle2" data-parallax="0.25" style="bottom: 20%; left: 35%;">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 1L11 8.5L18.5 9.5L11 10.5L10 18L9 10.5L1.5 9.5L9 8.5Z" fill="#0E2541" opacity="0.3"/></svg>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 1L11 8.5L18.5 9.5L11 10.5L10 18L9 10.5L1.5 9.5L9 8.5Z" fill="currentColor" opacity="0.3"/></svg>
     </div>
   </div>
 
@@ -59,26 +59,26 @@
       <!-- Left side: Text & Countdown -->
       <div class="ts-hero-content">
         {% if section.settings.eyebrow != blank %}
-          <div class="ts-tag" style="display:inline-block; background:#E8F9F5; color:#3CBFA0; padding:6px 14px; border-radius:20px; font-weight:700; font-size:12px; margin-bottom:16px;">{{ section.settings.eyebrow }}</div>
+          <div class="ts-tag">{{ section.settings.eyebrow }}</div>
         {% endif %}
 
-        <h1 class="ts-hero-heading" style="color:{{ section.settings.heading_color | default: '#0E2541' }}; font-size: clamp(34px, 5vw, 58px); font-weight:900; line-height:1.1; margin-bottom:24px;">
+        <h1 class="ts-hero-heading" style="color:var(--ts-hero-heading); font-size: clamp(34px, 5vw, 58px); font-weight:900; line-height:1.1; margin-bottom:24px;">
           {{ section.settings.heading_line1 | default: 'Premium' }}<br>
-          <span style="color:#3CBFA0;">{{ section.settings.heading_line2 | default: 'Fresh Fish' }}</span>
+          <span style="color:var(--ts-hero-accent);">{{ section.settings.heading_line2 | default: 'Fresh Fish' }}</span>
           {{ section.settings.heading_line3 | default: ', Perfectly Cut.' }}
         </h1>
 
-        <p class="ts-hero-sub" style="color:{{ section.settings.body_color | default: '#6B7280' }}; font-size:16px; line-height:1.6; max-width:440px; margin-bottom:32px;">
+        <p class="ts-hero-sub" style="color:var(--ts-hero-body); font-size:16px; line-height:1.6; max-width:440px; margin-bottom:32px;">
           {{ section.settings.subtext | default: 'Fresh fish, hygienically prepared and perfectly cut, ready for your kitchen and family meals.' }}
         </p>
 
         <!-- Countdown Timer -->
         {% if section.settings.show_countdown != false %}
         <div class="ts-hero-countdown" id="ts-hero-countdown" data-cutoff="{{ section.settings.cutoff_time | default: '11:00' }}" style="margin-bottom:32px;">
-          <div style="background:rgba(14,37,65,0.03); border:1px solid rgba(14,37,65,0.08); padding:12px 20px; border-radius:12px; display:inline-flex; align-items:center; gap:12px;">
-            <span style="font-size:14px; color:#6B7280; font-weight:700;">ORDER IN</span>
-            <span style="font-family:monospace; font-size:22px; color:#0E2541; font-weight:700;" id="ts-hr">00</span>:<span style="font-family:monospace; font-size:22px; color:#0E2541; font-weight:700;" id="ts-min">00</span>:<span style="font-family:monospace; font-size:22px; color:#0E2541; font-weight:700;" id="ts-sec">00</span>
-            <span style="font-size:14px; color:#3CBFA0; font-weight:700;">For Same Day Delivery</span>
+          <div style="background:var(--ts-bg-raised); border:1px solid var(--ts-border); padding:12px 20px; border-radius:12px; display:inline-flex; align-items:center; gap:12px;">
+            <span style="font-size:14px; color:var(--ts-text-muted); font-weight:700;">ORDER IN</span>
+            <span style="font-family:monospace; font-size:22px; color:var(--ts-text-heading); font-weight:700;" id="ts-hr">00</span>:<span style="font-family:monospace; font-size:22px; color:var(--ts-text-heading); font-weight:700;" id="ts-min">00</span>:<span style="font-family:monospace; font-size:22px; color:var(--ts-text-heading); font-weight:700;" id="ts-sec">00</span>
+            <span style="font-size:14px; color:var(--ts-mint); font-weight:700;">For Same Day Delivery</span>
           </div>
         </div>
         {% endif %}
@@ -89,8 +89,8 @@
           </a>
 
           {% if section.settings.video_url != blank or section.settings.video_library != blank %}
-            <button id="ts-video-trigger" style="display:flex; align-items:center; gap:12px; background:none; border:none; cursor:pointer; font-weight:600; color:#0E2541;">
-              <span style="width:44px; height:44px; border-radius:50%; background:#0E2541; display:flex; align-items:center; justify-content:center; color:white;">▶</span>
+            <button id="ts-video-trigger" style="display:flex; align-items:center; gap:12px; background:none; border:none; cursor:pointer; font-weight:600; color:var(--ts-text-heading);">
+              <span style="width:44px; height:44px; border-radius:50%; background:var(--ts-text-heading); display:flex; align-items:center; justify-content:center; color:var(--ts-bg-card);">▶</span>
               <span>Watch how to order</span>
             </button>
           {% endif %}

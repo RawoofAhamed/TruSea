@@ -1,13 +1,15 @@
 /* --- TruSea Unified Product Card --- */
 
 .ts-product-card {
-  background: var(--ts-white);
-  border: 1px solid rgba(14, 37, 65, 0.08);
+  background: var(--ts-bg-card);
+  border: 1px solid var(--ts-border);
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(14, 37, 65, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  color: var(--ts-navy);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--ts-shadow-sm);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  color: var(--ts-text);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -144,6 +146,7 @@
   font-weight: 800;
   margin: 0 0 4px 0;
   letter-spacing: -0.01em;
+  color: var(--ts-text-heading);
 }
 .ts-card-title a {
   color: inherit;
@@ -163,7 +166,7 @@
   flex-wrap: wrap;
   gap: 12px;
   padding-bottom: 20px;
-  border-bottom: 1px solid rgba(14, 37, 65, 0.08);
+  border-bottom: 1px solid var(--ts-border);
   margin-bottom: 20px;
 }
 .ts-stat-item {
@@ -171,11 +174,11 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  color: var(--ts-navy);
+  color: var(--ts-text);
   font-weight: 700;
 }
 .ts-stat-label {
-  color: var(--ts-gray);
+  color: var(--ts-text-muted);
   font-weight: 400;
 }
 
@@ -187,7 +190,7 @@
   display: block;
   font-size: 13px;
   font-weight: 700;
-  color: var(--ts-gray);
+  color: var(--ts-text-muted);
   margin-bottom: 12px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -198,9 +201,9 @@
 }
 .ts-variant-pill {
   flex: 1;
-  background: #F3F4F6;
-  border: 1px solid #E5E7EB;
-  color: var(--ts-navy);
+  background: var(--ts-bg-secondary);
+  border: 1px solid var(--ts-border);
+  color: var(--ts-text);
   padding: 10px;
   border-radius: 12px;
   font-weight: 700;
@@ -209,7 +212,7 @@
   text-align: center;
 }
 .ts-variant-pill:hover {
-  background: #E5E7EB;
+  background: var(--ts-bg-raised);
 }
 .ts-variant-pill.active {
   background: var(--ts-mint);
@@ -229,7 +232,7 @@
 .ts-card-price-info {
   font-size: 14px;
   font-weight: 400;
-  color: var(--ts-gray);
+  color: var(--ts-text-muted);
   margin-left: 8px;
 }
 
@@ -243,15 +246,15 @@
 .ts-addon-item {
   display: flex;
   align-items: center;
-  background: #F9FAFB;
-  border: 1px solid #E5E7EB;
+  background: var(--ts-bg-secondary);
+  border: 1px solid var(--ts-border);
   padding: 12px 16px;
   border-radius: 12px;
   cursor: pointer;
   transition: var(--ts-transition);
 }
 .ts-addon-item:hover {
-  background: #F3F4F6;
+  background: var(--ts-bg-raised);
 }
 .ts-addon-item.active {
   border-color: var(--ts-mint);
@@ -267,7 +270,7 @@
   flex-grow: 1;
   font-size: 14px;
   font-weight: 600;
-  color: var(--ts-navy);
+  color: var(--ts-text);
 }
 .ts-addon-price {
   font-weight: 800;
@@ -279,20 +282,20 @@
 .ts-card-footer {
   margin-top: auto;
   padding-top: 20px;
-  border-top: 1px solid #E5E7EB;
+  border-top: 1px solid var(--ts-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 .ts-delivery-info {
   font-size: 13px;
-  color: var(--ts-gray);
+  color: var(--ts-text-muted);
   line-height: 1.4;
 }
 .ts-delivery-value {
   display: block;
   font-weight: 700;
-  color: var(--ts-navy);
+  color: var(--ts-text);
 }
 .ts-card-add-btn {
   padding: 10px 24px;

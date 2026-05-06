@@ -51,11 +51,11 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 .lc-cooking-container {
-  background: #fff;
-  border: 1px solid #eaeaea;
+  background: var(--ts-bg-card);
+  border: 1px solid var(--ts-border);
   border-radius: 12px;
   padding: 32px 40px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.03);
+  box-shadow: var(--ts-shadow-sm);
 }
 .lc-cooking-header {
   text-align: center;
@@ -65,7 +65,7 @@
   display: inline-block;
   font-size: 20px;
   font-weight: 800;
-  color: #1a1a1a;
+  color: var(--ts-text-heading);
   margin: 0;
   position: relative;
   padding-bottom: 12px;
@@ -92,7 +92,7 @@
   position: relative;
   border-radius: 12px;
   overflow: hidden;
-  background: #f8f8f8;
+  background: var(--ts-bg-secondary);
 }
 .lc-cooking-media img, .lc-cooking-placeholder {
   width: 100%;
@@ -128,12 +128,12 @@
 .lc-cooking-subtitle {
   font-size: 16px;
   font-weight: 800;
-  color: #1a1a1a;
+  color: var(--ts-text-heading);
   margin: 0 0 16px;
 }
 .lc-cooking-richtext {
   font-size: 14px;
-  color: #444;
+  color: var(--ts-text);
   line-height: 1.6;
 }
 .lc-cooking-richtext p { margin-top: 0; margin-bottom: 12px; }
@@ -141,11 +141,11 @@
 .lc-cooking-note {
   margin-top: 24px;
   font-size: 13px;
-  color: #666;
+  color: var(--ts-text-muted);
   font-style: italic;
-  background: #fafafa;
+  background: var(--ts-bg-secondary);
   padding: 12px 16px;
-  border-left: 3px solid #ddd;
+  border-left: 3px solid var(--ts-border);
   border-radius: 0 4px 4px 0;
 }
 

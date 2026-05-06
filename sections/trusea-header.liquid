@@ -2,9 +2,9 @@
 
 <header class="ts-header {% if section.settings.sticky %}ts-header--sticky{% endif %}" id="ts-header"
   style="
-    --ts-header-bg: {{ section.settings.bg_color | default: '#0E2541' }};
-    --ts-header-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
-    --ts-header-text: {{ section.settings.text_color | default: '#FFFFFF' }};
+    --ts-header-bg: {{ section.settings.bg_color | default: 'var(--ts-bg-card)' }};
+    --ts-header-accent: {{ section.settings.accent_color | default: 'var(--ts-mint)' }};
+    --ts-header-text: {{ section.settings.text_color | default: 'var(--ts-text-heading)' }};
   "
 >
   <!-- Top bar: search overlay -->
@@ -107,6 +107,27 @@
         <svg width="15" height="15" viewBox="0 0 32 32" fill="currentColor"><path d="M16.04 2.003c-7.732 0-14.037 6.305-14.037 14.037 0 2.48.654 4.903 1.896 7.043L2 30l7.13-1.864a13.97 13.97 0 006.91 1.813h.006c7.73 0 14.036-6.305 14.036-14.037 0-3.747-1.459-7.268-4.11-9.92a13.95 13.95 0 00-9.93-3.99zm8.135 19.8c-.34.96-1.99 1.83-2.74 1.95-.71.11-1.63.16-2.63-.17-.6-.19-1.38-.45-2.38-.88-4.19-1.81-6.91-6.07-7.12-6.35-.21-.28-1.71-2.28-1.71-4.35 0-2.07 1.08-3.09 1.46-3.52.38-.43.83-.54 1.11-.54.28 0 .56 0 .8.01.26.01.61-.1.95.73.34.83 1.15 2.87 1.25 3.08.1.21.17.46.03.74-.14.28-.21.45-.42.69-.21.24-.44.53-.63.71-.21.21-.42.44-.18.86.24.42 1.07 1.77 2.3 2.87 1.58 1.41 2.91 1.85 3.33 2.06.42.21.67.18.92-.11.24-.28 1.06-1.24 1.35-1.67.28-.42.56-.35.95-.21.38.14 2.42 1.14 2.84 1.35.42.21.7.31.8.49.1.18.1 1.04-.24 2.01z"/></svg>
         <span>Support</span>
       </a>
+
+      <!-- Theme Toggle -->
+      <button
+        class="ts-icon-btn ts-theme-toggle-btn"
+        id="ts-theme-toggle"
+        aria-label="Switch to light mode"
+        title="Toggle dark/light mode"
+      >
+        <!-- Icon injected by trusea-theme-toggle.js -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
 
       <!-- Search -->
       <button class="ts-icon-btn" id="ts-search-trigger" aria-label="Search">
@@ -780,7 +801,7 @@
   right: 26px; 
   width: 14px;
   height: 14px;
-  background: #0E2541; 
+  background: var(--ts-bg-raised); 
   transform: rotate(45deg);
   z-index: 2;
   box-shadow: -2px -2px 5px rgba(0,0,0,0.1); /* Adds depth so it's visible */
@@ -798,7 +819,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 18px 24px;
-  background: #0E2541; /* Navy header to match reference style */
+  background: var(--ts-bg-raised); /* Theme-aware background */
   flex-shrink: 0;
 }
 .ts-minicart-title {
@@ -1054,6 +1075,148 @@
 
 @media (max-width: 420px) {
   .ts-minicart { width: 95vw; }
+}
+
+/* ===========================================
+   DARK MODE HEADER OVERRIDES
+   =========================================== */
+
+/* Minicart panel body */
+[data-theme="dark"] .ts-minicart {
+  background: var(--ts-bg-card, #111e31);
+  box-shadow: 0 16px 48px rgba(0,0,0,.55);
+}
+[data-theme="dark"] .ts-minicart::before {
+  background: #0d1829;
+}
+[data-theme="dark"] .ts-minicart-item {
+  border-bottom-color: rgba(255,255,255,.06);
+}
+[data-theme="dark"] .ts-minicart-item:hover {
+  background: rgba(255,255,255,.04);
+}
+[data-theme="dark"] .ts-minicart-item-title {
+  color: var(--ts-text-heading, #f0f6ff);
+}
+[data-theme="dark"] .ts-minicart-item-price {
+  color: var(--ts-mint);
+}
+[data-theme="dark"] .ts-minicart-item-variant {
+  color: var(--ts-text-muted);
+}
+[data-theme="dark"] .ts-minicart-footer {
+  background: #0d1829;
+  border-top-color: rgba(255,255,255,.07);
+}
+[data-theme="dark"] .ts-minicart-subtotal span,
+[data-theme="dark"] .ts-minicart-subtotal strong {
+  color: var(--ts-text-heading);
+}
+[data-theme="dark"] .ts-minicart-remove {
+  background: rgba(255,255,255,.08);
+  color: var(--ts-text-muted);
+}
+[data-theme="dark"] .ts-minicart-remove:hover {
+  background: rgba(239,68,68,.2);
+  color: #f87171;
+}
+[data-theme="dark"] .ts-qty-stepper {
+  border-color: rgba(255,255,255,.12);
+}
+[data-theme="dark"] .ts-qty-btn {
+  color: var(--ts-text-heading);
+}
+[data-theme="dark"] .ts-qty-btn:hover {
+  background: rgba(60,191,160,.12);
+  color: var(--ts-mint);
+}
+[data-theme="dark"] .ts-qty-val {
+  color: var(--ts-text-heading);
+}
+[data-theme="dark"] .ts-minicart-empty p {
+  color: var(--ts-text-muted);
+}
+
+/* Location dropdown */
+[data-theme="dark"] .ts-location-dropdown {
+  background: #111e31;
+  box-shadow: 0 12px 40px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.06);
+}
+[data-theme="dark"] .ts-location-dropdown::before {
+  background: #111e31;
+  border-color: rgba(255,255,255,.06);
+}
+[data-theme="dark"] .ts-location-title { color: var(--ts-text-heading); }
+[data-theme="dark"] .ts-pincode-row input {
+  background: #0d1829;
+  border-color: rgba(255,255,255,.1);
+  color: var(--ts-text-heading);
+}
+[data-theme="dark"] .ts-location-option {
+  background: rgba(255,255,255,.04);
+  color: var(--ts-text);
+}
+[data-theme="dark"] .ts-location-option:hover {
+  background: rgba(60,191,160,.1);
+  border-color: rgba(60,191,160,.3);
+}
+[data-theme="dark"] .ts-location-option span {
+  background: #0d1829;
+  border-color: rgba(255,255,255,.08);
+  color: var(--ts-text-muted);
+}
+[data-theme="dark"] .ts-location-or { color: var(--ts-text-muted); }
+[data-theme="dark"] .ts-location-or::before,
+[data-theme="dark"] .ts-location-or::after {
+  border-color: rgba(255,255,255,.08);
+}
+
+/* Search overlay */
+[data-theme="dark"] .ts-header-search-overlay {
+  background: rgba(4,8,16,.85);
+}
+[data-theme="dark"] .ts-search-form {
+  background: #111e31;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+[data-theme="dark"] .ts-search-form input {
+  background: transparent;
+  color: var(--ts-text-heading);
+}
+[data-theme="dark"] .ts-search-form input::placeholder {
+  color: var(--ts-text-muted);
+}
+[data-theme="dark"] .ts-search-close {
+  color: var(--ts-text-muted);
+}
+[data-theme="dark"] .ts-search-close:hover {
+  color: var(--ts-text-heading);
+}
+
+/* Mobile drawer */
+[data-theme="dark"] .ts-mobile-drawer {
+  background: #0d1829;
+  border-left: 1px solid rgba(255,255,255,.06);
+}
+[data-theme="dark"] .ts-drawer-link {
+  color: rgba(255,255,255,.8);
+  border-bottom-color: rgba(255,255,255,.05);
+}
+[data-theme="dark"] .ts-drawer-link:hover {
+  color: var(--ts-mint);
+}
+[data-theme="dark"] .ts-drawer-actions {
+  border-top-color: rgba(255,255,255,.08);
+}
+
+/* Theme toggle button subtle glow in dark mode */
+[data-theme="dark"] .ts-theme-toggle-btn:hover {
+  background: rgba(255,200,50,.1);
+  color: #ffd060;
+}
+[data-theme="light"] .ts-theme-toggle-btn:hover {
+  background: rgba(14,37,65,.1);
+  color: var(--ts-navy);
 }
 </style>
 
