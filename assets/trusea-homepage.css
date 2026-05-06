@@ -22,6 +22,7 @@
   --ts-bg:            #FFFFFF;
   --ts-bg-secondary:  #F5F9F7;
   --ts-bg-card:       #FFFFFF;
+  --ts-price:         #FB923C;
   --ts-bg-raised:     #EEF6F3;
   --ts-bg-hero:       linear-gradient(135deg, #0E2541 0%, #1a4a78 50%, #3CBFA0 100%);
 
@@ -81,7 +82,9 @@
 
   /* --- Semantic Border / Divider (dark) --- */
   --ts-border:        rgba(255, 255, 255, .07);
-  --ts-border-strong: rgba(255, 255, 255, .14);
+  --ts-bg-card: rgba(255, 255, 255, 0.03);
+  --ts-price: #3CBFA0;
+  --ts-price-color:   #3CBFA0;
   --ts-divider:       rgba(255, 255, 255, .06);
 
   /* --- Legacy aliases (dark) --- */
