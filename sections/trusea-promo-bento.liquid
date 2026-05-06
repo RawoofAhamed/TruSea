@@ -3,9 +3,9 @@
 {% if section.settings.show_section != false %}
 <section class="ts-bento ts-section" id="ts-bento"
   style="
-    --ts-bento-bg: {{ section.settings.bg_color | default: '#F5F9F7' }};
-    --ts-bento-heading: {{ section.settings.heading_color | default: '#0E2541' }};
-    --ts-bento-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
+    --ts-bento-bg: {{ section.settings.bg_color | default: 'var(--ts-bg-secondary)' }};
+    --ts-bento-heading: {{ section.settings.heading_color | default: 'var(--ts-text-heading)' }};
+    --ts-bento-accent: {{ section.settings.accent_color | default: 'var(--ts-mint)' }};
   "
 >
   <div class="ts-container">
@@ -25,7 +25,7 @@
           background-size: cover;
           background-position: center;
         {% else %}
-          background: linear-gradient(155deg, #1a4b82 0%, #0e2541 100%);
+          background: linear-gradient(155deg, var(--ts-navy-light) 0%, var(--ts-navy-dark) 100%);
         {% endif %}
       ">
         <!-- Decorative price tags -->
@@ -71,17 +71,17 @@
             background-size: cover;
             background-position: center;
           {% else %}
-            background: var(--ts-white);
+            background: var(--ts-bg-card);
           {% endif %}
         ">
           <div class="ts-bento-deal-badge">DEAL</div>
           <div class="ts-bento-deal-inner">
             <div>
-              <div class="ts-bento-eyebrow" style="color:var(--ts-navy)">{{ section.settings.card2_eyebrow | default: 'Fish Taco' }}</div>
+              <div class="ts-bento-eyebrow" style="color:var(--ts-text-heading)">{{ section.settings.card2_eyebrow | default: 'Fish Taco' }}</div>
               <h3 class="ts-bento-card-title ts-navy">{{ section.settings.card2_title | default: 'Meal Deals' }}</h3>
               <div class="ts-bento-deal-prices">
                 <span class="ts-bento-price-chip">₹{{ section.settings.card2_price1 | default: '513' }}</span>
-                <span class="ts-bento-price-line" style="text-decoration:line-through;color:var(--ts-gray);font-size:13px;">₹{{ section.settings.card2_original | default: '699' }}</span>
+                <span class="ts-bento-price-line" style="text-decoration:line-through;color:var(--ts-text-muted);font-size:13px;">₹{{ section.settings.card2_original | default: '699' }}</span>
               </div>
             </div>
             {% if section.settings.card2_image2 != blank %}
@@ -229,7 +229,7 @@
   margin: 0 0 10px;
   line-height: 1.2;
 }
-.ts-bento-card-title.ts-navy { color: var(--ts-navy); }
+.ts-bento-card-title.ts-navy { color: var(--ts-text-heading); }
 .ts-bento-card-desc {
   font-size: 14px;
   color: rgba(255,255,255,.65);
@@ -269,7 +269,7 @@
 /* Card 2: Meal deal */
 .ts-bento-card--deal {
   min-height: 200px;
-  border: 1px solid var(--ts-gray-light);
+  border: 1px solid var(--ts-border);
 }
 .ts-bento-deal-badge {
   position: absolute;

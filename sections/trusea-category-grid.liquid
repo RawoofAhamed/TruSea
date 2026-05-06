@@ -3,9 +3,9 @@
 {% if section.settings.show_section != false %}
 <section class="ts-cat-grid ts-section" id="ts-cat-grid"
   style="
-    --ts-cat-bg: {{ section.settings.bg_color | default: '#FFFFFF' }};
-    --ts-cat-heading: {{ section.settings.heading_color | default: '#0E2541' }};
-    --ts-cat-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
+    --ts-cat-bg: {{ section.settings.bg_color | default: 'var(--ts-bg)' }};
+    --ts-cat-heading: {{ section.settings.heading_color | default: 'var(--ts-text-heading)' }};
+    --ts-cat-accent: {{ section.settings.accent_color | default: 'var(--ts-mint)' }};
   "
 >
   <div class="ts-container">
@@ -146,7 +146,7 @@
 }
 .ts-cat-sub {
   font-size: 15px;
-  color: var(--ts-gray);
+  color: var(--ts-text);
   line-height: 1.65;
   margin: 0;
 }
@@ -228,13 +228,13 @@
   display: block;
   font-size: 18px;
   font-weight: 800;
-  color: var(--ts-navy);
+  color: var(--ts-text-heading);
   margin-bottom: 4px;
 }
 .ts-cat-sub-label {
   display: block;
   font-size: 14px;
-  color: var(--ts-gray);
+  color: var(--ts-text-muted);
   font-weight: 500;
 }
 

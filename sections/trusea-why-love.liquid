@@ -59,15 +59,15 @@
 <style>
   /* ── TOKENS ─────────────────────────────────────────── */
   .trusea-why-love {
-    --navy:      #0B2033;
-    --teal:      #2A9D8F;
-    --teal-light:#3ABFB0;
-    --teal-pale: #E8F6F5;
-    --cream:     #FAF7F2;
-    --white:     #FFFFFF;
-    --text-mid:  #4A6070;
-    --text-light:#8DA0AD;
-    --border:    rgba(11,32,51,0.08);
+    --navy:      var(--ts-text-heading);
+    --teal:      var(--ts-mint);
+    --teal-light:var(--ts-mint-light);
+    --teal-pale: var(--ts-mint-pale);
+    --cream:     var(--ts-bg-secondary);
+    --white:     var(--ts-bg-card);
+    --text-mid:  var(--ts-text);
+    --text-light:var(--ts-text-muted);
+    --border:    var(--ts-border);
 
     /* Inherit theme fonts — set by Shopify via Settings > Typography */
     --f-heading: var(--font-heading-family, var(--font-stack-heading, inherit));

@@ -3,8 +3,8 @@
 {% if section.settings.show_section != false %}
 <section class="ts-wa-reviews ts-section" id="ts-wa-reviews"
   style="
-    --ts-wa-bg: {{ section.settings.bg_color | default: '#F5F9F7' }};
-    --ts-wa-accent: #25D366;
+    --ts-wa-bg: {{ section.settings.bg_color | default: 'var(--ts-bg-secondary)' }};
+    --ts-wa-accent: var(--ts-mint);
   "
 >
   <!-- Decorative Assets -->
@@ -20,7 +20,7 @@
       <h2 class="ts-wa-heading">
         {{ section.settings.heading | default: 'WHAT OUR CUSTOMERS ARE SAYING (VIA WHATSAPP)' }}
         <span class="ts-wa-title-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="#0E2541"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.412 2.503 1.112 3.487l-.751 2.742 2.809-.736c.943.515 2.021.808 3.167.809 3.181 0 5.767-2.586 5.768-5.766 0-3.181-2.587-5.767-5.768-5.767-.001 0-.001 0 0 0zm3.428 8.169c-.147.414-.733.754-1.011.808-.242.046-.554.081-1.393-.266-.84-.347-1.381-1.196-1.423-1.252-.042-.056-.743-.986-.743-1.874 0-.888.461-1.321.628-1.503.167-.182.366-.227.487-.227h.346c.112 0 .261-.042.408.315.147.357.502 1.228.546 1.318.045.09.075.195.015.315s-.09.195-.181.299c-.09.105-.19.232-.271.315-.09.09-.184.188-.079.368.105.18.467.77.999 1.242.686.611 1.265.801 1.445.891.18.09.285.075.39-.045s.451-.525.571-.705c.12-.18.24-.15.405-.09.165.06 1.051.495 1.231.585s.3.135.345.225.147.611-.001 1.025zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.168L2 22l4.958-1.301C8.416 21.579 10.141 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.724 0-3.335-.486-4.704-1.324l-.337-.205-2.455.644.655-2.392-.225-.358C4.093 15.22 3.5 13.681 3.5 12c0-4.687 3.813-8.5 8.5-8.5s8.5 3.813 8.5 8.5-3.813 8.5-8.5 8.5z"/></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.412 2.503 1.112 3.487l-.751 2.742 2.809-.736c.943.515 2.021.808 3.167.809 3.181 0 5.767-2.586 5.768-5.766 0-3.181-2.587-5.767-5.768-5.767-.001 0-.001 0 0 0zm3.428 8.169c-.147.414-.733.754-1.011.808-.242.046-.554.081-1.393-.266-.84-.347-1.381-1.196-1.423-1.252-.042-.056-.743-.986-.743-1.874 0-.888.461-1.321.628-1.503.167-.182.366-.227.487-.227h.346c.112 0 .261-.042.408.315.147.357.502 1.228.546 1.318.045.09.075.195.015.315s-.09.195-.181.299c-.09.105-.19.232-.271.315-.09.09-.184.188-.079.368.105.18.467.77.999 1.242.686.611 1.265.801 1.445.891.18.09.285.075.39-.045s.451-.525.571-.705c.12-.18.24-.15.405-.09.165.06 1.051.495 1.231.585s.3.135.345.225.147.611-.001 1.025zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.168L2 22l4.958-1.301C8.416 21.579 10.141 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18c-1.724 0-3.335-.486-4.704-1.324l-.337-.205-2.455.644.655-2.392-.225-.358C4.093 15.22 3.5 13.681 3.5 12c0-4.687 3.813-8.5 8.5-8.5s8.5 3.813 8.5 8.5-3.813 8.5-8.5 8.5z"/></svg>
         </span>
       </h2>
     </div>
@@ -129,7 +129,7 @@
   text-align: center;
   font-size: clamp(18px, 4vw, 32px);
   font-weight: 900;
-  color: var(--ts-navy);
+  color: var(--ts-text-heading);
   margin-bottom: 40px;
   display: flex;
   align-items: center;
@@ -203,14 +203,13 @@
 
 /* Card Design */
 .ts-wa-card {
-  background: #FFFFFF;
+  background: var(--ts-bg-card);
   border-radius: 24px;
   padding: 32px;
-  box-shadow: 0 20px 50px rgba(14,37,65,0.08);
-  height: 100%;
+  box-shadow: var(--ts-shadow-md);
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(14,37,65,0.03);
+  border: 1px solid var(--ts-border);
 }
 .ts-wa-card-header {
   margin-bottom: 24px;
@@ -267,10 +266,10 @@
 .ts-wa-reviewer {
   font-size: 15px;
   font-weight: 700;
-  color: #1A2B3D;
+  color: var(--ts-text-heading);
 }
 .ts-wa-sep { color: #E5E7EB; margin: 0 4px; }
-.ts-wa-date { color: #9CA3AF; font-weight: 500; font-size: 14px; }
+.ts-wa-date { color: var(--ts-text-muted); font-weight: 500; font-size: 14px; }
 .ts-wa-stars { display: flex; gap: 2px; }
 
 .ts-wa-card-body {
@@ -279,7 +278,7 @@
 .ts-wa-review-title {
   font-size: 16px;
   font-weight: 800;
-  color: #0E2541;
+  color: var(--ts-text-heading);
   margin: 0 0 10px;
   text-transform: uppercase;
 }
@@ -287,13 +286,13 @@
 .ts-wa-review-text {
   font-size: 15px;
   line-height: 1.6;
-  color: #4B5563;
+  color: var(--ts-text);
   margin-bottom: 12px;
 }
 .ts-wa-hashtag {
   font-size: 14px;
   font-weight: 700;
-  color: #0E2541;
+  color: var(--ts-mint);
 }
 
 .ts-wa-card-footer {
@@ -307,13 +306,13 @@
   gap: 8px;
   font-size: 13px;
   font-weight: 600;
-  color: #9CA3AF;
+  color: var(--ts-text-muted);
 }
 
 /* Nav Buttons */
 .ts-wa-nav {
-  background: white;
-  border: none;
+  background: var(--ts-bg-raised);
+  border: 1px solid var(--ts-border);
   width: 44px;
   height: 44px;
   border-radius: 50%;

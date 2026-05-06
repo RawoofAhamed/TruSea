@@ -3,8 +3,8 @@
 {% if section.settings.show_section != false %}
 <section class="ts-video-showcase ts-section" id="ts-video-showcase"
   style="
-    --ts-video-bg: {{ section.settings.bg_color | default: '#0E2541' }};
-    --ts-video-text: {{ section.settings.text_color | default: '#FFFFFF' }};
+    --ts-video-bg: {{ section.settings.bg_color | default: 'var(--ts-bg-secondary)' }};
+    --ts-video-text: {{ section.settings.text_color | default: 'var(--ts-text)' }};
   "
 >
  
@@ -12,7 +12,7 @@
   <div class="ts-container">
     <div class="ts-video-header ts-reveal">
       <div class="ts-tag ts-tag-white">{{ section.settings.eyebrow | default: 'Our Process' }}</div>
-      <h2 class="ts-video-heading" style="color: #fff;">{{ section.settings.heading | default: 'From the Sea to Your Plate — Watch How It Works' }}</h2>
+      <h2 class="ts-video-heading" style="color: var(--ts-video-text);">{{ section.settings.heading | default: 'From the Sea to Your Plate — Watch How It Works' }}</h2>
     </div>
 
     <div class="ts-video-container ts-reveal ts-delay-1">
@@ -149,7 +149,7 @@
   width: 96px;
   height: 96px;
   background: white;
-  color: #0E2541;
+  color: var(--ts-navy-dark);
   border-radius: 50%;
   display: flex;
   align-items: center;

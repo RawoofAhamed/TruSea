@@ -5,20 +5,34 @@
 
   {%- paginate collection.products by section.settings.products_per_page -%}
 
-  <!-- ── Collection Header ── -->
-  <div class="lc-coll-header">
-    <div class="lc-coll-header__inner">
-      <div class="lc-coll-header__titles">
-        <h1 class="lc-coll-title">{{ collection.title }}</h1>
-        {% if collection.description != blank %}
-          <p class="lc-coll-desc">{{ collection.description | strip_html | truncatewords: 20 }}</p>
-        {% endif %}
-      </div>
-      <div class="lc-coll-count">
-        <span>{{ collection.products_count }} products</span>
+  {%- if collection.handle == 'limited-catch' -%}
+    <!-- ── Special Catch Banner ── -->
+    <div class="ts-catch-banner">
+      <div class="ts-catch-banner__content">
+        <div class="ts-catch-banner__tagline">
+          <span class="ts-catch-banner__emoji">🐟</span>
+          CHENNAI'S FRESHEST SEAFOOD
+        </div>
+        <h1 class="ts-catch-banner__heading">Daily Fresh Catch Straight to Your Door</h1>
+        <p class="ts-catch-banner__subtext">Sourced daily &middot; Cleaned &amp; packed &middot; FREE delivery</p>
       </div>
     </div>
-  </div>
+  {%- else -%}
+    <!-- ── Default Collection Header ── -->
+    <div class="lc-coll-header">
+      <div class="lc-coll-header__inner">
+        <div class="lc-coll-header__titles">
+          <h1 class="lc-coll-title">{{ collection.title }}</h1>
+          {% if collection.description != blank %}
+            <p class="lc-coll-desc">{{ collection.description | strip_html | truncatewords: 20 }}</p>
+          {% endif %}
+        </div>
+        <div class="lc-coll-count">
+          <span>{{ collection.products_count }} products</span>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
 
   <!-- ── Sort + Filter Bar ── -->
   <div class="lc-coll-toolbar">
@@ -117,6 +131,74 @@
 </div>
 
 <style>
+/* ── Special Catch Banner ── */
+.ts-catch-banner {
+  background: var(--ts-bg-hero, linear-gradient(135deg, #050c18 0%, #0d1f35 50%, #0a2d25 100%));
+  padding: 50px 30px;
+  text-align: center;
+  border-radius: 24px;
+  margin-bottom: 32px;
+  box-shadow: var(--ts-shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="light"] .ts-catch-banner {
+  background: #0E2541; /* Keep it dark as per reference image */
+}
+
+.ts-catch-banner__content {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.ts-catch-banner__tagline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--ts-mint, #3CBFA0);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.ts-catch-banner__heading {
+  color: #FFFFFF !important;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900;
+  line-height: 1.15;
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+  font-family: var(--ts-font, sans-serif);
+}
+
+.ts-catch-banner__subtext {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 768px) {
+  .ts-catch-banner {
+    padding: 35px 20px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+  .ts-catch-banner__heading {
+    font-size: 24px;
+  }
+  .ts-catch-banner__subtext {
+    font-size: 13px;
+  }
+}
+
 /* ── Collection Page Layout ── */
 .lc-coll-wrap {
   max-width: 1080px;
@@ -152,7 +234,7 @@
 .lc-coll-title {
     font-size: 32px;
     font-weight: 800;
-    color: #0d3d6e;
+    color: var(--ts-text-heading);
     margin: 0 0 4px;
     line-height: 1.1;
     font-family: var(--font-heading-family);
@@ -162,16 +244,16 @@
 }
 .lc-coll-desc {
   font-size: 13px;
-  color: #4a5568;
+  color: var(--ts-text);
   margin: 0;
   line-height: 1.5;
 }
 .lc-coll-count {
   font-size: 12px;
   font-weight: 700;
-  color: #1a6ea8;
-  background: #f0f8ff;
-  border: 1px solid #d8eeff;
+  color: var(--ts-mint);
+  background: var(--ts-bg-secondary);
+  border: 1px solid var(--ts-border);
   border-radius: 20px;
   padding: 4px 14px;
   white-space: nowrap;
@@ -182,8 +264,8 @@
   position: sticky;
   top: var(--header-height, 0);
   z-index: 3; /* Stay above content but below drawers/modals */
-  background: #fff;
-  border-bottom: 1px solid #eef2f7;
+  background: var(--ts-bg-card);
+  border-bottom: 1px solid var(--ts-border);
   margin-bottom: 24px;
   padding: 12px 0;
   transition: top 0.3s ease;
@@ -214,11 +296,11 @@
 }
 .lc-coll-filters-scroll-wrap::before {
   left: 0;
-  background: linear-gradient(to right, #fff, rgba(255,255,255,0));
+  background: linear-gradient(to right, var(--ts-bg-card), transparent);
 }
 .lc-coll-filters-scroll-wrap::after {
   right: 0;
-  background: linear-gradient(to left, #fff, rgba(255,255,255,0));
+  background: linear-gradient(to left, var(--ts-bg-card), transparent);
 }
 
 .lc-coll-filters {
@@ -236,25 +318,25 @@
   flex-shrink: 0; /* Prevent pills from squeezing */
   padding: 6px 16px;
   border-radius: 50px;
-  border: 1.5px solid #d8eeff;
-  background: #fff;
+  border: 1.5px solid var(--ts-border);
+  background: var(--ts-bg-raised);
   font-size: 12px;
   font-weight: 700;
-  color: #4a5568;
+  color: var(--ts-text);
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s;
 }
-.lc-filter-pill:hover { border-color: #1a6ea8; color: #0d3d6e; }
+.lc-filter-pill:hover { border-color: var(--ts-mint); color: var(--ts-mint); }
 .lc-filter-pill.active {
-  background: #0d3d6e;
-  border-color: #0d3d6e;
+  background: var(--ts-mint);
+  border-color: var(--ts-mint);
   color: #fff;
 }
 
 /* Sort */
 .lc-coll-sort { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.lc-sort-label { font-size: 11px; font-weight: 800; color: #0d3d6e; text-transform: uppercase; letter-spacing: 0.4px; }
+.lc-sort-label { font-size: 11px; font-weight: 800; color: var(--ts-text-heading); text-transform: uppercase; letter-spacing: 0.4px; }
 .lc-sort-select-wrap {
   position: relative;
   display: flex;
@@ -262,17 +344,17 @@
 }
 .lc-sort-select {
   appearance: none;
-  border: 1.5px solid #d8eeff;
+  border: 1.5px solid var(--ts-border);
   border-radius: 8px;
   padding: 6px 32px 6px 12px;
   font-size: 12px;
   font-weight: 600;
-  color: #0d3d6e;
-  background: #fff;
+  color: var(--ts-text);
+  background: var(--ts-bg-raised);
   cursor: pointer;
   outline: none;
 }
-.lc-sort-select:focus { border-color: #1a6ea8; }
+.lc-sort-select:focus { border-color: var(--ts-mint); }
 .lc-sort-caret {
   position: absolute;
   right: 10px;
@@ -370,20 +452,20 @@
 .lc-page-btn {
   padding: 8px 16px;
   border-radius: 8px;
-  border: 1.5px solid #d8eeff;
-  background: #fff;
-  color: #0d3d6e;
+  border: 1.5px solid var(--ts-border);
+  background: var(--ts-bg-raised);
+  color: var(--ts-text);
   font-size: 13px;
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.2s;
 }
-.lc-page-btn:hover { background: #0d3d6e; color: #fff; border-color: #0d3d6e; }
+.lc-page-btn:hover { background: var(--ts-mint); color: #fff; border-color: var(--ts-mint); }
 .lc-page-btn--active {
-  background: #0d3d6e;
+  background: var(--ts-mint);
   color: #fff;
-  border-color: #0d3d6e;
+  border-color: var(--ts-mint);
 }
 </style>
 

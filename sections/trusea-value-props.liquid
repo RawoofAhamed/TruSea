@@ -13,9 +13,9 @@
 <style>
 .lc-vprops-wrap {
   width: 100%;
-  background-color: {{ section.settings.bg_color }};
+  background-color: {{ section.settings.bg_color | default: 'var(--ts-bg-secondary)' }};
   padding: 50px 20px;
-  border-top: 1px solid #f2e6e6;
+  border-top: 1px solid var(--ts-border);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 .lc-vprops-container {
@@ -37,13 +37,13 @@
 .lc-vprops-title {
   font-size: 15px;
   font-weight: 800;
-  color: #1a1a1a;
+  color: var(--ts-text-heading);
   margin: 0 0 12px;
   line-height: 1.4;
 }
 .lc-vprops-text {
   font-size: 13px;
-  color: #555;
+  color: var(--ts-text);
   line-height: 1.6;
 }
 

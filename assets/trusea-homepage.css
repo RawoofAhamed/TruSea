@@ -3,34 +3,261 @@
    tokens · keyframes · utilities
    ===================================================== */
 
-/* --- Design Tokens --- */
+/* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* =====================================================
+   LIGHT THEME TOKENS (default)
+   ===================================================== */
 :root {
-  --ts-navy: #0E2541;
-  --ts-navy-dark: #081829;
-  --ts-mint: #3CBFA0;
-  --ts-mint-light: #5DD4B8;
-  --ts-mint-pale: #E8F9F5;
-  --ts-white: #FFFFFF;
-  --ts-off-white: #F5F9F7;
-  --ts-gray: #6B7280;
-  --ts-gray-light: #E5E7EB;
-  --ts-text: #1A2B3C;
+  /* --- Brand Palette (fixed, never changes) --- */
+  --ts-navy:          #0E2541;
+  --ts-navy-dark:     #081829;
+  --ts-mint:          #3CBFA0;
+  --ts-mint-light:    #5DD4B8;
+  --ts-mint-pale:     #E8F9F5;
+  --ts-white:         #FFFFFF;
 
-  --ts-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --ts-radius-sm: 8px;
-  --ts-radius-md: 16px;
-  --ts-radius-lg: 24px;
-  --ts-radius-full: 9999px;
+  /* --- Semantic Surface Tokens --- */
+  --ts-bg:            #FFFFFF;
+  --ts-bg-secondary:  #F5F9F7;
+  --ts-bg-card:       #FFFFFF;
+  --ts-bg-raised:     #EEF6F3;
+  --ts-bg-hero:       linear-gradient(135deg, #0E2541 0%, #1a4a78 50%, #3CBFA0 100%);
 
-  --ts-shadow-sm: 0 2px 8px rgba(14, 37, 65, .08);
-  --ts-shadow-md: 0 8px 32px rgba(14, 37, 65, .14);
-  --ts-shadow-lg: 0 20px 60px rgba(14, 37, 65, .2);
+  /* --- Semantic Text Tokens --- */
+  --ts-text:          #1A2B3C;
+  --ts-text-muted:    #6B7280;
+  --ts-text-heading:  #0E2541;
+  --ts-text-inverse:  #FFFFFF;
 
-  --ts-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* --- Semantic Border / Divider --- */
+  --ts-border:        rgba(14, 37, 65, .08);
+  --ts-border-strong: rgba(14, 37, 65, .18);
+  --ts-divider:       #E5E7EB;
+
+  /* --- Legacy aliases (keep for compatibility) --- */
+  --ts-off-white:     #F5F9F7;
+  --ts-gray:          #6B7280;
+  --ts-gray-light:    #E5E7EB;
+
+  /* --- Shadows --- */
+  --ts-shadow-sm:     0 2px 8px rgba(14, 37, 65, .08);
+  --ts-shadow-md:     0 8px 32px rgba(14, 37, 65, .14);
+  --ts-shadow-lg:     0 20px 60px rgba(14, 37, 65, .20);
+  --ts-shadow-card:   0 4px 24px rgba(14, 37, 65, .08);
+
+  /* --- Typography --- */
+  --ts-font:          'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ts-font-heading:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* --- Spacing / Shape --- */
+  --ts-radius-sm:     8px;
+  --ts-radius-md:     16px;
+  --ts-radius-lg:     24px;
+  --ts-radius-full:   9999px;
+
+  --ts-transition:    all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --ts-theme-transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
 }
 
-/* --- Google Font --- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* =====================================================
+   DARK THEME TOKENS
+   Applied via: <html data-theme="dark">
+   ===================================================== */
+[data-theme="dark"] {
+  /* --- Semantic Surface Tokens (dark) --- */
+  --ts-bg:            #070f1e;
+  --ts-bg-secondary:  #0d1829;
+  --ts-bg-card:       #111e31;
+  --ts-bg-raised:     #162035;
+  --ts-bg-hero:       linear-gradient(135deg, #050c18 0%, #0d1f35 50%, #0a2d25 100%);
+
+  /* --- Semantic Text Tokens (dark) --- */
+  --ts-text:          #dce8f5;
+  --ts-text-muted:    #7a9ab8;
+  --ts-text-heading:  #f0f6ff;
+  --ts-text-inverse:  #070f1e;
+
+  /* --- Semantic Border / Divider (dark) --- */
+  --ts-border:        rgba(255, 255, 255, .07);
+  --ts-border-strong: rgba(255, 255, 255, .14);
+  --ts-divider:       rgba(255, 255, 255, .06);
+
+  /* --- Legacy aliases (dark) --- */
+  --ts-white:         #dce8f5;
+  --ts-off-white:     #0d1829;
+  --ts-gray:          #7a9ab8;
+  --ts-gray-light:    rgba(255,255,255,.08);
+
+  /* --- Shadows (dark — deeper, more dramatic) --- */
+  --ts-shadow-sm:     0 2px 8px rgba(0, 0, 0, .3);
+  --ts-shadow-md:     0 8px 32px rgba(0, 0, 0, .4);
+  --ts-shadow-lg:     0 20px 60px rgba(0, 0, 0, .5);
+  --ts-shadow-card:   0 4px 24px rgba(0, 0, 0, .4);
+}
+
+/* =====================================================
+   SMOOTH THEME TRANSITION
+   All elements transition colours when theme switches
+   ===================================================== */
+html {
+  transition: background-color 0.35s ease;
+}
+
+body,
+.lc-card,
+.ts-product-card,
+.ts-section,
+.ts-header,
+.ts-mobile-drawer {
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+
+/* =====================================================
+   GLOBAL BODY DARK MODE OVERRIDES
+   ===================================================== */
+[data-theme="dark"] body {
+  background-color: var(--ts-bg) !important;
+  color: var(--ts-text) !important;
+}
+
+/* Cards */
+[data-theme="dark"] .lc-card,
+[data-theme="dark"] .ts-product-card {
+  background: var(--ts-bg-card);
+  border-color: var(--ts-border);
+}
+
+/* Generic white surfaces */
+[data-theme="dark"] .lc-card__info,
+[data-theme="dark"] .ts-card-body {
+  background: var(--ts-bg-card);
+  color: var(--ts-text);
+}
+
+[data-theme="dark"] .lc-card__title,
+[data-theme="dark"] .lc-card__title a,
+[data-theme="dark"] .lc-price-sale {
+  color: var(--ts-text-heading);
+}
+
+[data-theme="dark"] .lc-card__desc,
+[data-theme="dark"] .lc-card__meta,
+[data-theme="dark"] .lc-card__delivery {
+  color: var(--ts-text-muted);
+}
+
+[data-theme="dark"] .lc-card__bottom {
+  border-top-color: var(--ts-border);
+}
+
+[data-theme="dark"] .lc-card__media-wrap {
+  background: #0d1829;
+}
+
+/* Media background placeholder */
+[data-theme="dark"] .lc-btn-soldout {
+  background: #1e3050;
+  color: #4a6a8a;
+}
+
+/* Quantity control in dark */
+[data-theme="dark"] .lc-qty-control {
+  background: var(--ts-bg-raised);
+  border-color: var(--ts-border);
+}
+[data-theme="dark"] .lc-qty-control input {
+  color: var(--ts-text-heading);
+}
+
+/* Section backgrounds */
+[data-theme="dark"] .ts-section {
+  background-color: var(--ts-bg);
+}
+
+/* Misc text colours */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6 {
+  color: var(--ts-text-heading);
+}
+
+[data-theme="dark"] p {
+  color: var(--ts-text);
+}
+
+/* Inputs dark */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background: var(--ts-bg-raised);
+  color: var(--ts-text);
+  border-color: var(--ts-border-strong);
+}
+
+/* Tag pills dark */
+[data-theme="dark"] .ts-tag {
+  background: rgba(60,191,160,.15);
+  color: var(--ts-mint);
+}
+
+/* Specific section overrides to beat inline styles or hardcoded defaults */
+[data-theme="dark"] .ts-hero-heading,
+[data-theme="dark"] .ts-hero-sub,
+[data-theme="dark"] .ts-hero-countdown span,
+[data-theme="dark"] #ts-video-trigger span {
+  color: var(--ts-text-heading) !important;
+}
+
+[data-theme="dark"] .ts-hero-countdown > div {
+  background: var(--ts-bg-raised) !important;
+  border-color: var(--ts-border) !important;
+}
+
+[data-theme="dark"] .ts-hero-countdown span:last-child {
+  color: var(--ts-mint) !important;
+}
+
+/* WhatsApp Reviews snippet overrides */
+[data-theme="dark"] .ts-wa-reviews-snippet .ts-wa-heading { color: var(--ts-text-heading); }
+[data-theme="dark"] .ts-wa-heading-sub { color: var(--ts-text-muted); }
+[data-theme="dark"] .ts-wa-card { background: var(--ts-bg-card); border-color: var(--ts-border); }
+[data-theme="dark"] .ts-wa-name { color: var(--ts-text-heading); }
+[data-theme="dark"] .ts-wa-review-title { color: var(--ts-text-heading); }
+[data-theme="dark"] .ts-wa-review-text { color: var(--ts-text); }
+[data-theme="dark"] .ts-wa-hashtag { color: var(--ts-mint); }
+[data-theme="dark"] .ts-wa-nav { background: var(--ts-bg-raised); color: var(--ts-text); }
+
+/* Lab Viewer overrides */
+[data-theme="dark"] .ts-lab-card { background: var(--ts-bg-card); border-color: var(--ts-border); }
+[data-theme="dark"] .ts-lab-card-header { border-bottom-color: var(--ts-border); }
+[data-theme="dark"] .ts-lab-row span:first-child { color: var(--ts-text-muted); }
+[data-theme="dark"] .ts-lab-row span:last-child { color: var(--ts-text-heading); }
+[data-theme="dark"] .ts-lab-row span.ts-status-pass { color: var(--ts-mint); }
+
+/* Outline button dark */
+[data-theme="dark"] .ts-btn-outline {
+  color: var(--ts-text);
+  border-color: var(--ts-border-strong);
+}
+[data-theme="dark"] .ts-btn-outline:hover {
+  background: var(--ts-bg-raised);
+  color: var(--ts-text-heading);
+}
+
+/* White button dark */
+[data-theme="dark"] .ts-btn-white {
+  background: var(--ts-bg-raised);
+  color: var(--ts-text-heading);
+}
+[data-theme="dark"] .ts-btn-white:hover {
+  background: rgba(60,191,160,.15);
+  color: var(--ts-mint);
+}
 
 html,
 body {

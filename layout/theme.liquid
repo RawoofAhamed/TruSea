@@ -49,6 +49,18 @@
 
     {{ content_for_header }}
 
+    <!-- Anti-flash: apply stored theme before first paint -->
+    <script>
+      (function(){
+        try {
+          var t = localStorage.getItem('ts-theme') || 'dark';
+          document.documentElement.setAttribute('data-theme', t);
+        } catch(e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
     {%- liquid
       assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
       assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
@@ -480,6 +492,9 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    <!-- TruSea Theme Toggle -->
+    <script src="{{ 'trusea-theme-toggle.js' | asset_url }}" defer="defer"></script>
   <!-- Sticky WhatsApp Icon -->
 <!-- <a
   href="https://wa.me/+917397468800"

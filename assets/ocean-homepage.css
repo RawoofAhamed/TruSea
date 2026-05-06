@@ -3,25 +3,32 @@
    File: assets/ocean-homepage.css
    ============================================================ */
 
-/* ---- Google Fonts Import ---- */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap');
-
-/* ---- CSS Variables ---- */
+/* ---- CSS Variables (wired to semantic theme tokens) ---- */
 :root {
   --ocean-deep:    #0d3d6e;
   --ocean-mid:     #1a6ea8;
   --ocean-light:   #d8eeff;
-  --ocean-pale:    #f0f8ff;
+  --ocean-pale:    var(--ts-bg-secondary, #f0f8ff);
   --coral:         #e05f3d;
-  --sand:          #f5f0e8;
-  --white:         #ffffff;
-  --text-dark:     #1a2433;
-  --text-mid:      #4a5568;
+  --sand:          var(--ts-bg-secondary, #f5f0e8);
+  --white:         var(--ts-bg-card, #ffffff);
+  --text-dark:     var(--ts-text-heading, #1a2433);
+  --text-mid:      var(--ts-text-muted, #4a5568);
   --green-seaweed: #2d7a4f;
 
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-body:    'Lato', Arial, sans-serif;
+  --font-display: 'Inter', Georgia, sans-serif;
+  --font-body:    'Inter', Arial, sans-serif;
 }
+
+/* Dark overrides for ocean-homepage specific vars */
+[data-theme="dark"] {
+  --ocean-pale: var(--ts-bg-secondary);
+  --sand:       var(--ts-bg-secondary);
+  --white:      var(--ts-bg-card);
+  --text-dark:  var(--ts-text-heading);
+  --text-mid:   var(--ts-text-muted);
+}
+
 
 /* ---- Base Reset ---- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
