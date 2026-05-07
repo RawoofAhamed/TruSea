@@ -100,15 +100,15 @@
   .ts-addon-checkbox__box {
     width: 20px;
     height: 20px;
-    border: 2px solid #cbd5e1;
+    border: 2px solid var(--ts-border-strong, #cbd5e1);
     border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 10px;
     transition: all 0.2s;
-    background: #fff;
-    color: #fff;
+    background: var(--ts-bg-card, #fff);
+    color: var(--ts-white, #fff);
   }
   .ts-addon-checkbox input:checked + .ts-addon-checkbox__box {
     background: #177ff2;
@@ -117,7 +117,7 @@
   }
   .ts-addon-checkbox__label {
     font-size: 13px;
-    color: #4b5563;
+    color: var(--ts-text, #4b5563);
     font-weight: 500;
   }
   .ts-cut-selector {
@@ -128,7 +128,7 @@
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: #4b5563;
+    color: var(--ts-text-muted, #4b5563);
     margin-bottom: 12px;
     font-family: inherit;
   }
@@ -146,15 +146,15 @@
     text-align: left;
     width: 100%;
     padding: 16px 20px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--ts-border, #e5e7eb);
     border-radius: 12px;
-    background: #fff;
+    background: var(--ts-bg-card, #fff);
     cursor: pointer;
     transition: all 0.2s ease;
   }
   .ts-cut-card.is-active {
-    background: #eff6ff; /* light blue */
-    border-color: #177ff2;
+    background: var(--ts-bg-secondary, #eff6ff);
+    border-color: var(--ts-mint, #177ff2);
   }
   .ts-cut-card__top {
     display: flex;
@@ -165,12 +165,12 @@
   .ts-cut-card__title {
     font-size: 15px;
     font-weight: 700;
-    color: #1e293b;
+    color: var(--ts-text-heading, #1e293b);
   }
   .ts-cut-card__desc {
     display: block;
     font-size: 13px;
-    color: #64748b;
+    color: var(--ts-text-muted, #64748b);
     margin-top: 4px;
     font-weight: 400;
   }
@@ -179,10 +179,10 @@
     height: 20px;
   }
   .ts-cut-card.is-active .ts-cut-icon circle {
-    fill: #177ff2;
+    fill: var(--ts-mint, #177ff2);
   }
   .ts-cut-card:not(.is-active) .ts-cut-icon circle {
-    fill: #e5e7eb;
+    fill: var(--ts-border-strong, #e5e7eb);
   }
 </style>
 

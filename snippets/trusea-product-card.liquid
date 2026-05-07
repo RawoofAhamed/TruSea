@@ -587,12 +587,12 @@
 }
 .lc-modal__content {
   position: relative;
-  background: #fff;
+  background: var(--ts-bg-raised, #fff);
   width: 92%;
   max-width: 440px;
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+  box-shadow: var(--ts-shadow-lg, 0 25px 50px -12px rgba(0,0,0,0.25));
   display: flex;
   flex-direction: column;
   animation: lc-modal-open 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -604,7 +604,7 @@
 .lc-modal__close {
   position: absolute;
   top: 8px; right: 10px;
-  background: #f1f5f9;
+  background: var(--ts-bg-secondary, #f1f5f9);
   border: none;
   width: 32px; height: 32px;
   border-radius: 50%;
@@ -613,7 +613,7 @@
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  color: #64748b;
+  color: var(--ts-text-muted, #64748b);
   z-index: 5;
   transition: all 0.2s;
 }
@@ -629,18 +629,18 @@
 .lc-modal__title {
   font-size: 22px;
   font-weight: 900;
-  color: #0d3d6e;
+  color: var(--ts-text-heading, #0d3d6e);
   margin: 0;
   line-height: 1.25;
 }
 .lc-modal__subtitle {
   font-size: 14px;
-  color: #64748b;
+  color: var(--ts-text-muted, #64748b);
   margin-top: 8px;
   font-weight: 500;
 }
 .lc-modal__price {
-  color: #0d3d6e;
+  color: var(--ts-text-heading, #0d3d6e);
   font-weight: 900;
   font-size: 22px;
   white-space: nowrap;
@@ -654,7 +654,7 @@
 .lc-modal__label {
   font-size: 11px;
   font-weight: 800;
-  color: #64748b;
+  color: var(--ts-text-muted, #64748b);
   margin: 20px 0 12px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -672,11 +672,11 @@
   position: absolute; width: 0; height: 0; opacity: 0;
 }
 .lc-modal__cut-box {
-  border: 1.5px solid #f1f5f9;
+  border: 1.5px solid var(--ts-border, #f1f5f9);
   border-radius: 16px;
   padding: 16px;
   transition: all 0.25s;
-  background: #fdfdfd;
+  background: var(--ts-bg-raised, #fdfdfd);
   position: relative;
   height: 100%;
 }
@@ -684,18 +684,18 @@
   border-color: #cbd5e1;
 }
 .lc-modal__cut-item input:checked + .lc-modal__cut-box {
-  background: #f0f8ff;
-  border-color: #0d3d6e;
-  box-shadow: 0 4px 12px rgba(13,61,110,0.08);
+  background: var(--ts-bg-secondary, #f0f8ff);
+  border-color: var(--ts-mint, #0d3d6e);
+  box-shadow: 0 4px 12px rgba(60,191,160,0.15);
 }
 .lc-modal__cut-name {
   font-weight: 800;
-  color: #0d3d6e;
+  color: var(--ts-text-heading, #0d3d6e);
   font-size: 15px;
 }
 .lc-modal__cut-desc {
   font-size: 12px;
-  color: #64748b;
+  color: var(--ts-text-muted, #64748b);
   margin-top: 4px;
   line-height: 1.3;
 }
@@ -703,7 +703,7 @@
   position: absolute;
   top: 12px; right: 12px;
   width: 18px; height: 18px;
-  background: #0d3d6e;
+  background: var(--ts-mint, #0d3d6e);
   border-radius: 50%;
   display: none;
   align-items: center;
@@ -723,30 +723,41 @@
 .lc-modal__qty {
   display: flex;
   align-items: center;
-  background: #f1f5f9;
+  background: transparent;
+  border: 1.5px solid var(--ts-border);
   border-radius: 50px;
-  padding: 4px;
+  padding: 3px;
 }
 .lc-modal__qty-btn {
-  width: 36px; height: 36px;
+  width: 34px; height: 34px;
   border-radius: 50%;
   border: none;
-  background: #fff;
-  color: #1e293b;
-  font-size: 20px;
-  font-weight: 500;
+  background: var(--ts-bg-secondary, #f1f5f9);
+  color: var(--ts-text-heading, #1e293b);
+  font-size: 18px;
+  font-weight: 600;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: all 0.2s;
+}
+.lc-modal__qty-btn:hover {
+  background: var(--ts-mint);
+  color: #fff;
 }
 .lc-modal__qty-input {
-  width: 44px;
+  width: 50px;
   border: none;
   text-align: center;
   font-size: 16px;
   font-weight: 800;
-  color: #0d3d6e;
+  color: var(--ts-text-heading, #0d3d6e);
   background: transparent;
+  -moz-appearance: number-input;
+}
+.lc-modal__qty-input::-webkit-outer-spin-button,
+.lc-modal__qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: inner-spin-button !important;
+  opacity: 1 !important;
 }
 
 .lc-modal__footer {
@@ -844,7 +855,7 @@ if (typeof addTruSeaToCart !== 'function') {
               <div class="lc-modal__label" style="margin:0">QUANTITY</div>
               <div class="lc-modal__qty">
                 <button class="lc-modal__qty-btn js-minus">&minus;</button>
-                <input type="number" value="1" min="1" class="lc-modal__qty-input" readonly>
+                <input type="number" value="1" min="1" class="lc-modal__qty-input">
                 <button class="lc-modal__qty-btn js-plus">+</button>
               </div>
             </div>
@@ -879,6 +890,7 @@ if (typeof addTruSeaToCart !== 'function') {
 
     m.querySelector('.js-minus').onclick = () => { if(qtyInput.value > 1) { qtyInput.value--; m.updatePrice(); } };
     m.querySelector('.js-plus').onclick = () => { qtyInput.value++; m.updatePrice(); };
+    qtyInput.oninput = () => { if(qtyInput.value < 1) qtyInput.value = 1; m.updatePrice(); };
   }
 
   window.openTruSeaCutModal = function(btn, variantId, title, pricePaise, isPreorder, subtitle, group) {

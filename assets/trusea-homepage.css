@@ -82,7 +82,6 @@
 
   /* --- Semantic Border / Divider (dark) --- */
   --ts-border:        rgba(255, 255, 255, .07);
-  --ts-bg-card: rgba(255, 255, 255, 0.03);
   --ts-price: #3CBFA0;
   --ts-price-color:   #3CBFA0;
   --ts-divider:       rgba(255, 255, 255, .06);
@@ -98,6 +97,18 @@
   --ts-shadow-md:     0 8px 32px rgba(0, 0, 0, .4);
   --ts-shadow-lg:     0 20px 60px rgba(0, 0, 0, .5);
   --ts-shadow-card:   0 4px 24px rgba(0, 0, 0, .4);
+
+  /* --- Dawn Compatibility (dark) --- */
+  --color-background: 7, 15, 30;
+  --color-foreground: 220, 232, 245;
+  --color-button: 60, 191, 160;
+  --color-button-text: 7, 15, 30;
+  --color-secondary-button: 13, 24, 41;
+  --color-secondary-button-text: 220, 232, 245;
+  --color-link: 60, 191, 160;
+  --color-badge-background: 13, 24, 41;
+  --color-badge-foreground: 220, 232, 245;
+  --color-border: 255, 255, 255; /* for rgba border usage */
 }
 
 /* =====================================================
@@ -117,12 +128,61 @@ body,
   transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
 }
 
+/* Header Centering Overrides */
+@media screen and (min-width: 990px) {
+  .header--middle-left {
+    grid-template-columns: 1fr auto 1fr !important;
+  }
+  .header--middle-left .header__inline-menu {
+    justify-self: center !important;
+    display: block !important;
+  }
+  .header--middle-left .header__inline-menu > .list-menu--inline {
+    justify-content: center !important;
+  }
+  .header--middle-left .header__icons {
+    justify-self: end !important;
+  }
+  .header--middle-left .header__heading {
+    justify-self: start !important;
+  }
+}
+
 /* =====================================================
    GLOBAL BODY DARK MODE OVERRIDES
    ===================================================== */
-[data-theme="dark"] body {
+[data-theme="dark"] body,
+[data-theme="dark"] .gradient,
+[data-theme="dark"] [class*="color-scheme-"],
+[data-theme="dark"] [class*="color-"] {
   background-color: var(--ts-bg) !important;
   color: var(--ts-text) !important;
+  --color-background: 7, 15, 30 !important;
+  --color-foreground: 220, 232, 245 !important;
+}
+
+[data-theme="dark"] .cart-item__name,
+[data-theme="dark"] .cart-item__price-wrapper,
+[data-theme="dark"] .cart-item__totals,
+[data-theme="dark"] .title,
+[data-theme="dark"] .totals__total,
+[data-theme="dark"] .totals__total-value,
+[data-theme="dark"] .totals__subtotal-value,
+[data-theme="dark"] .cart__note label {
+  color: var(--ts-text-heading) !important;
+}
+
+[data-theme="dark"] .cart__checkout-button {
+  background-color: var(--ts-mint) !important;
+  color: var(--ts-navy) !important;
+  border-color: var(--ts-mint) !important;
+}
+
+[data-theme="dark"] .cart-item,
+[data-theme="dark"] .cart-items th,
+[data-theme="dark"] .cart-items td,
+[data-theme="dark"] .cart__footer {
+  border-color: var(--ts-border) !important;
 }
 
 /* Cards */
