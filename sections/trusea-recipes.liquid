@@ -28,46 +28,7 @@
           {% if block.type == 'recipe_article' %}
             {% assign article = block.settings.article %}
             {% if article != blank %}
-              {%- assign hero_image = article.metafields.custom.recipe_banner.value | default: article.image -%}
-              {%- assign prep_time = article.metafields.custom.recipe_prep_time.value -%}
-              {%- assign cook_time = article.metafields.custom.recipe_cook_time.value -%}
-              
-              <div class="ts-rec-card ts-reveal ts-delay-{{ forloop.index }}" {{ block.shopify_attributes }}>
-                <a href="{{ article.url }}" class="ts-rec-card-link">
-                  <div class="ts-rec-img-wrap">
-                    {% if hero_image != blank %}
-                      <img src="{{ hero_image | image_url: width: 600 }}" alt="{{ article.title }}" loading="lazy">
-                    {% else %}
-                      <div class="ts-rec-placeholder">
-                        {{ 'image' | placeholder_svg_tag }}
-                      </div>
-                    {% endif %}
-                    
-                    <div class="ts-rec-times">
-                      {% if prep_time != blank %}
-                        <div class="ts-rec-time-badge">
-                          <span class="label">Prep</span>
-                          <span class="val">{{ prep_time }}</span>
-                        </div>
-                      {% endif %}
-                      {% if cook_time != blank %}
-                        <div class="ts-rec-time-badge">
-                          <span class="label">Cook</span>
-                          <span class="val">{{ cook_time }}</span>
-                        </div>
-                      {% endif %}
-                    </div>
-                  </div>
-                  
-                  <div class="ts-rec-content">
-                    <h3 class="ts-rec-title">{{ article.title }}</h3>
-                    <div class="ts-rec-footer-cta">
-                      <span class="ts-text-link">View Recipe</span>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-                    </div>
-                  </div>
-                </a>
-              </div>
+              {%- render 'trusea-recipe-card', article: article, index: forloop.index -%}
             {% endif %}
           {% endif %}
         {% endfor %}

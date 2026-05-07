@@ -184,10 +184,7 @@
               <div class="lc-cut-wrapper" {{ block.shopify_attributes }}>
                 <div class="lc-cut-header">
                   <div class="lc-cut-label">SELECT CUT PREFERENCE</div>
-                  <button type="button" class="lc-cut-ask">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                    <span>Ask for changes</span>
-                  </button>
+                  
                 </div>
                 <div class="lc-cut-options">
                   {% if current_group == "A" %}
@@ -293,21 +290,21 @@
   margin-bottom: 15px !important;
 }
 
-#shopify-section-header-group,
-#MainContent {
-  max-width: 1080px;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 /* Scoped Styles for TruSea PDP */
 .lc-pdp-wrap {
   width: 100%;
   max-width: var(--lc-pdp-max-width, 1100px);
   margin: 0 auto;
-  padding: 20px;
+  padding: 40px 20px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: var(--ts-text);
+}
+@media (max-width: 960px) {
+  .lc-pdp-wrap {
+    padding: 20px 16px;
+    max-width: 100%;
+  }
 }
 .lc-breadcrumb {
   font-size: 11px;
@@ -327,21 +324,42 @@
 
 .lc-pdp-container {
   display: flex;
-  gap: 40px;
+  gap: 48px;
   align-items: flex-start;
+}
+
+@media screen and (max-width: 960px) {
+  .lc-pdp-container {
+    flex-direction: column;
+    gap: 32px;
+  }
 }
 
 /* Gallery Region */
 .lc-pdp-gallery {
-  flex: 0 0 50%;
-  max-width: 50%;
+  flex: 0 0 52%;
+  max-width: 52%;
+  position: sticky;
+  top: 100px;
+}
+@media screen and (max-width: 960px) {
+  .lc-pdp-gallery {
+    flex: 0 0 100%;
+    max-width: 100%;
+    position: static;
+  }
 }
 .lc-gallery__main {
   position: relative;
   background: var(--ts-bg-secondary);
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 3.2;
+}
+@media screen and (max-width: 960px) {
+  .lc-gallery__main {
+    aspect-ratio: 1;
+  }
 }
 .lc-gallery__ribbon {
   position: absolute;
@@ -713,7 +731,7 @@
   display: flex;
   align-items: center;
   border: 1.5px solid var(--ts-border);
-  border-radius: 10px;
+  border-radius: 12px;
   height: 44px;
   background: var(--ts-bg-card);
   overflow: hidden;
@@ -721,7 +739,7 @@
 .lc-pdp-qty__btn {
   background: transparent;
   border: none;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--ts-mint);
   width: 36px;
@@ -732,7 +750,7 @@
   justify-content: center;
   transition: background 0.15s;
 }
-.lc-pdp-qty__btn:hover { background: #f0f8ff; }
+.lc-pdp-qty__btn:hover { background: rgba(0,0,0,0.05); }
 .lc-pdp-qty__val {
   width: 34px;
   border: none;
@@ -745,22 +763,21 @@
 }
 .lc-pdp-add-btn {
   height: 44px;
-  padding: 0 22px;
+  padding: 0 24px;
   background: var(--ts-navy-dark);
   color: #fff;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.2s;
+  transition: all 0.2s;
   letter-spacing: 0.2px;
 }
-.lc-pdp-add-btn:hover { background: var(--ts-mint); }
-.lc-pdp-add-btn:disabled { background: #c8d5e0; cursor: not-allowed; }
+.lc-pdp-add-btn:hover { background: var(--ts-mint); transform: translateY(-1px); }
+.lc-pdp-add-btn:disabled { background: #c8d5e0; cursor: not-allowed; transform: none; }
 .lc-pdp-add-btn.lc-pdp-prebook-btn { background: #00C896; color: #fff; }
-.lc-pdp-add-btn.lc-pdp-prebook-btn:hover { background: #00b386; }
 
 /* Delivery text below the action row */
 .lc-pdp-delivery-text {
@@ -770,51 +787,52 @@
   gap: 5px;
   font-size: 11px;
   font-weight: 600;
-  color: #4a5568;
+  color: var(--ts-text-muted);
   margin-top: 8px;
   letter-spacing: 0.2px;
 }
-
-
-
 @media (max-width: 768px) {
-  .lc-pdp-wrap {
-    padding: 12px;
-  }
-  .lc-pdp-container {
-    flex-direction: column;
-    gap: 24px;
-  }
-  .lc-pdp-gallery {
-    max-width: 100%;
-    flex: 0 0 100%;
-  }
-  .lc-gallery__main {
-    border-radius: 12px;
-  }
-  .lc-pdp-title {
-    font-size: 20px;
-  }
-  .lc-pdp-meta {
-    gap: 8px;
-  }
-  .lc-pdp-meta__item {
-    font-size: 12px;
-    padding: 5px 10px;
-  }
-}
-
-@media (max-width: 480px) {
+  .lc-pdp-wrap { padding: 16px; }
+  .lc-pdp-title { font-size: clamp(24px, 6vw, 32px); }
+  .lc-pdp-meta { gap: 8px; }
+  .lc-pdp-meta__item { font-size: 12px; padding: 5px 10px; }
+  .lc-variant-pill { padding: 8px 14px; font-size: 13px; }
   .lc-pdp-buy-row {
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
+    gap: 20px;
+  }
+  .lc-pdp-price-col {
+    align-items: flex-start;
   }
   .lc-pdp-action-col {
-    justify-content: space-between;
     width: 100%;
+    justify-content: space-between;
+  }
+  .lc-pdp-qty {
+    flex: 1;
+    max-width: 140px;
   }
   .lc-pdp-add-btn {
+    flex: 2;
+  }
+  .lc-pdp-delivery-text {
+    justify-content: flex-start;
+  }
+}
+@media (max-width: 480px) {
+  .lc-pdp-title { font-size: 22px; }
+  .lc-pdp-price__sale { font-size: 28px; }
+  .lc-pdp-action-col {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .lc-pdp-qty {
+    width: 100%;
+    max-width: none;
+  }
+  .lc-pdp-add-btn {
+    width: 100%;
     flex: 1;
   }
   .lc-pdp-delivery-text {

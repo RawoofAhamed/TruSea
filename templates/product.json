@@ -105,17 +105,13 @@
         "badge_text": "{{ product.metafields.custom.recipe_title.value }}"
       }
     },
-    "cooking_methods": {
-      "type": "trusea-cooking",
-      "name": "Trusea Cooking Methods",
+    "product_recipes": {
+      "type": "trusea-product-recipes",
+      "name": "Product Specific Recipes",
       "settings": {
-        "max_width": 1100,
-        "heading": "Cooking Methods",
-        "badge_top": "Heat in",
-        "badge_bottom": "2 MINS",
-        "subheading": "How to cook",
-        "instructions": "<p>Peel open the foil a little on one corner of the tray.</p><p>Place the tray in the microwave and heat for 2 minutes.</p><p>Peel back the foil entirely and stir well before serving.</p>",
-        "note": "<p>For instructions on using a pan, please refer to the packaging.</p>"
+        "bg_color": "#ffffff",
+        "eyebrow": "TruSea Kitchen",
+        "heading": "What Are You Cooking Today?"
       }
     },
     "related_products": {
@@ -130,42 +126,6 @@
         "show_discount": true,
         "show_delivery": true,
         "image_ratio": "60%"
-      }
-    },
-    "value_props": {
-      "type": "trusea-value-props",
-      "blocks": {
-        "prop_1": {
-          "type": "value_prop",
-          "settings": {
-            "title": "We will sell only the meat that we would eat ourselves.",
-            "text": "At TruSea, we're big meat-lovers. And by big, we mean huge. So when it comes to the meat we put on your plate, we're extremely picky. Every single product is handpicked by a team with years of experience."
-          }
-        },
-        "prop_2": {
-          "type": "value_prop",
-          "settings": {
-            "title": "If it's not fresh, we won't sell it.",
-            "text": "For meat to stay fresh and retain its natural juices, it needs to be stored at a temperature between 0° and 4°C. We maintain this temperature from the time we procure the meat to cleaning, cutting and storing it, until it leaves for delivery."
-          }
-        },
-        "prop_3": {
-          "type": "value_prop",
-          "settings": {
-            "title": "We will charge only for what you buy.",
-            "text": "Doesn't everyone do this? Not really. Most other places first weigh the meat, then cut up the pieces, and throw out the parts which aren't fit to eat, such as offal, gizzard, wingtips, etc. But you still pay based on the original weight even though what you finally get is 10% to 30% less."
-          }
-        }
-      },
-      "block_order": [
-        "prop_1",
-        "prop_2",
-        "prop_3"
-      ],
-      "name": "Trusea Value Props",
-      "settings": {
-        "max_width": 1100,
-        "bg_color": "#faf5f6"
       }
     },
     "product_whatsapp_reviews_HqmqNU": {
@@ -234,9 +194,8 @@
   "order": [
     "main",
     "trusea_combo_buy_FY6LLT",
-    "cooking_methods",
+    "product_recipes",
     "related_products",
-    "value_props",
     "product_whatsapp_reviews_HqmqNU",
     "judge_me_reviews"
   ]
