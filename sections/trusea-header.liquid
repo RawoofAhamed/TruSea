@@ -597,8 +597,8 @@
   display: none;
   flex-direction: column;
   gap: 5px;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   align-items: center;
   justify-content: center;
   border: none;
@@ -606,19 +606,21 @@
   cursor: pointer;
   border-radius: var(--ts-radius-sm);
   transition: var(--ts-transition);
+  margin-left: 4px;
+  z-index: 10;
 }
 .ts-hamburger:hover { background: rgba(255,255,255,.1); }
 .ts-hamburger span {
   display: block;
-  width: 22px;
-  height: 2px;
-  background: var(--ts-header-text, rgba(255,255,255,.9));
-  border-radius: 2px;
+  width: 24px;
+  height: 2.5px;
+  background: var(--ts-header-text, #FFFFFF);
+  border-radius: 4px;
   transition: var(--ts-transition);
 }
-.ts-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.ts-hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
 .ts-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.ts-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.ts-hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
 
 /* ---- Mobile Drawer ---- */
 .ts-mobile-drawer {
@@ -735,17 +737,14 @@
   .ts-hamburger { display: flex; }
   .ts-location-btn span { display: none; }
   #ts-location-label { display: none; }
-  .ts-wa-support-btn span { display: none; }
-  .ts-wa-support-btn {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    justify-content: center;
-  }
+  .ts-wa-support-btn { display: none; }
 }
 @media (max-width: 560px) {
-  .ts-header-inner { padding: 0 16px; }
+  .ts-header-inner { padding: 0 16px; gap: 8px; }
+  .ts-header-logo img { height: 32px; }
   .ts-location-dropdown { right: -60px; width: 260px; }
+  .ts-hamburger { width: 40px; height: 40px; margin-left: 8px; }
+  .ts-header-actions { gap: 8px; }
 }
 
 /* ---- Mini-Cart Dropdown ---- */
