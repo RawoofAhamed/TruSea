@@ -188,11 +188,11 @@
                 </div>
                 <div class="lc-cut-options">
                   {% if current_group == "A" %}
-                    {%- assign cuts = "Premium Slices|Thick uniform center cuts,Regular Slices|Standard cuts with head & tail portions" | split: "," -%}
+                    {%- assign cuts = "Steaks|Premium thick uniform slices,Curry Cuts|Standard medium pieces,Fillets|Boneless skinless portions" | split: "," -%}
                   {% elsif current_group == "B" %}
                     {%- assign cuts = "Cleaned & Whole|Fully cleaned and ready to cook" | split: "," -%}
                   {% elsif current_group == "C" %}
-                    {%- assign cuts = "Whole Fish|Uncut whole fish" | split: "," -%}
+                    {%- assign cuts = "Whole Fish|Uncut whole fish,Thick Slices|Large uniform steaks" | split: "," -%}
                   {% endif %}
 
                   {%- for cut_pair in cuts -%}
