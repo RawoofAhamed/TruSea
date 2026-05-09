@@ -752,12 +752,14 @@
   font-weight: 800;
   color: var(--ts-text-heading, #0d3d6e);
   background: transparent;
-  -moz-appearance: number-input;
+  -moz-appearance: textfield; /* hide Firefox spinner */
+  padding: 0;
 }
 .lc-modal__qty-input::-webkit-outer-spin-button,
 .lc-modal__qty-input::-webkit-inner-spin-button {
-  -webkit-appearance: inner-spin-button !important;
-  opacity: 1 !important;
+  -webkit-appearance: none !important;
+  margin: 0;
+  display: none;
 }
 
 .lc-modal__footer {
@@ -792,39 +794,130 @@ document.addEventListener('DOMContentLoaded', () => {
     let intervalTime = intervalBase > 0 ? intervalBase : 1500; // Slide speed
     
     let container = carousel.querySelector('.lc-card__slides-container');
-    let slides = carousel.querySelectorAll('.lc-card__slide');
+    let originalSlides = carousel.querySelectorAll('.lc-card__slide');
     let dots = carousel.querySelectorAll('.lc-dot');
-    if(slides.length <= 1) return;
+    if(originalSlides.length <= 1) return;
 
-    let currentIndex = 0;
-    let slideTimer = null;
+    let wrapper = carousel.closest('.lc-card__media-wrap');
 
-    let updateSlide = () => {
+    // Infinite Loop Setup
+    const firstClone = originalSlides[0].cloneNode(true);
+    const lastClone = originalSlides[originalSlides.length - 1].cloneNode(true);
+    container.appendChild(firstClone);
+    container.insertBefore(lastClone, originalSlides[0]);
+
+    let slides = container.querySelectorAll('.lc-card__slide');
+    let currentIndex = 1; // Start at the first original slide
+    let isTransitioning = false;
+
+    // Initial position
+    container.style.transition = 'none';
+    container.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+    let updateSlide = (instant = false) => {
+      if (instant) container.style.transition = 'none';
+      else container.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      
       container.style.transform = `translateX(-${currentIndex * 100}%)`;
+      
+      // Update dots based on original index
+      let dotIndex = currentIndex - 1;
+      if (currentIndex === 0) dotIndex = originalSlides.length - 1;
+      if (currentIndex === slides.length - 1) dotIndex = 0;
+      
       dots.forEach(d => d.classList.remove('active'));
-      if(dots[currentIndex]) {
-        dots[currentIndex].classList.add('active');
+      if(dots[dotIndex]) {
+        dots[dotIndex].classList.add('active');
       }
     };
 
+    container.addEventListener('transitionend', () => {
+      isTransitioning = false;
+      if (currentIndex === 0) {
+        currentIndex = slides.length - 2;
+        updateSlide(true);
+      }
+      if (currentIndex === slides.length - 1) {
+        currentIndex = 1;
+        updateSlide(true);
+      }
+    });
+
+    let slideTimer = null;
     let startCarousel = () => {
+      if (slideTimer) clearInterval(slideTimer);
       slideTimer = setInterval(() => {
-        currentIndex = (currentIndex + 1) % slides.length;
+        if (isTransitioning) return;
+        isTransitioning = true;
+        currentIndex++;
         updateSlide();
       }, intervalTime);
     };
 
     let stopCarousel = () => {
-      clearInterval(slideTimer);
-      currentIndex = 0; // Reset to first slide
-      updateSlide();
+      if (slideTimer) {
+        clearInterval(slideTimer);
+        slideTimer = null;
+      }
     };
 
-    // Attach to the entire wrapper so leaving the image/icon triggers reset
-    let wrapper = carousel.closest('.lc-card__media-wrap');
-    
-    wrapper.addEventListener('mouseenter', startCarousel);
-    wrapper.addEventListener('mouseleave', stopCarousel);
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let isMouseDown = false;
+
+    if (wrapper) {
+      wrapper.addEventListener('mouseenter', startCarousel);
+      wrapper.addEventListener('mouseleave', stopCarousel);
+
+      // Prevent native drag on images and links which blocks JS swipe
+      wrapper.addEventListener('dragstart', (e) => e.preventDefault());
+
+      // Touch events
+      wrapper.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].clientX;
+        if (slideTimer) clearInterval(slideTimer);
+      }, { passive: true });
+
+      wrapper.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].clientX;
+        handleSwipe();
+      }, { passive: true });
+
+      // Mouse events
+      wrapper.addEventListener('mousedown', (e) => {
+        isMouseDown = true;
+        touchStartX = e.clientX;
+        if (slideTimer) clearInterval(slideTimer);
+      });
+
+      // Unified Mouse Up (within wrapper or window)
+      const onMouseUp = (e) => {
+        if (!isMouseDown) return;
+        isMouseDown = false;
+        touchEndX = e.clientX;
+        
+        // If it was a significant drag, handle swipe
+        if (Math.abs(touchEndX - touchStartX) > 10) {
+           handleSwipe();
+        }
+      };
+
+      window.addEventListener('mouseup', onMouseUp);
+    }
+
+    function handleSwipe() {
+      if (isTransitioning) return;
+      const swipeThreshold = 50;
+      if (touchEndX < touchStartX - swipeThreshold) {
+        isTransitioning = true;
+        currentIndex++;
+        updateSlide();
+      } else if (touchEndX > touchStartX + swipeThreshold) {
+        isTransitioning = true;
+        currentIndex--;
+        updateSlide();
+      }
+    }
   });
 });
 
@@ -911,6 +1004,12 @@ if (typeof addTruSeaToCart !== 'function') {
     }
     cutsContainer.innerHTML = cutsHTML;
 
+    // Show/hide the cut preference section based on whether the product has a cut group
+    const cutSection = modal.querySelector('.lc-modal__label');
+    const hasCutGroup = group === 'A' || group === 'B' || group === 'C';
+    if (cutSection) cutSection.style.display = hasCutGroup ? '' : 'none';
+    cutsContainer.style.display = hasCutGroup ? '' : 'none';
+
     modal._unitPrice = pricePaise;
     modal.querySelector('.lc-modal__title').innerText = title;
     modal.querySelector('.lc-modal__subtitle').innerText = subtitle || 'Premium Seafood';
@@ -937,7 +1036,8 @@ if (typeof addTruSeaToCart !== 'function') {
     }
 
     addBtn.onclick = async () => {
-      const cut = modal.querySelector('input[name="lc-cut"]:checked').value;
+      const checkedCut = modal.querySelector('input[name="lc-cut"]:checked');
+      const cut = checkedCut ? checkedCut.value : null;
       const qty = parseInt(modal.querySelector('.lc-modal__qty-input').value);
       addBtn.disabled = true;
       const originalHTML = addBtn.innerHTML;
