@@ -605,3 +605,26 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   .hero-title { font-size: 38px; }
   .products-grid { gap: 18px; }
 }
+/* --- Modal Input Fixes --- */
+.ts-minicart input,
+.ts-search-form input,
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="number"],
+input[type="password"] {
+  color: #000000 !important;
+}
+
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="tel"],
+[data-theme="dark"] input[type="email"],
+[data-theme="dark"] input[type="number"],
+[data-theme="dark"] input[type="password"] {
+  color: #000000 !important;
+}
+
+/* Ensure placeholder visibility if needed, but the user specifically asked for text color */
+::placeholder {
+  color: rgba(0,0,0,0.4) !important;
+}
