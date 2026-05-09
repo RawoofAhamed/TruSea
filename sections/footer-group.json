@@ -35,7 +35,8 @@
         "heading_color": "#ffffff",
         "text_color": "#8a96a3",
         "show_newsletter": true,
-        "show_trust_badges": true
+        "show_trust_badges": true,
+        "show_selfish_cta": false
       }
     },
     "footer": {
