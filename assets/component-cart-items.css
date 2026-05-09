@@ -365,3 +365,45 @@ cart-remove-button .icon-remove {
     padding-left: 0;
   }
 }
+
+/* ── TruSea: Dedicated delete column ── */
+.cart-items__heading--delete {
+  width: 48px;
+  text-align: center;
+}
+
+.cart-item__delete {
+  vertical-align: middle;
+  text-align: center;
+  width: 48px;
+  padding-top: 4rem;
+}
+
+.ts-cart-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: rgba(var(--color-foreground), 0.45);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.ts-cart-delete-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* Always show — override any hidden/opacity rules */
+cart-items cart-remove-button,
+.cart__contents cart-remove-button,
+cart-items cart-remove-button.hidden,
+.cart__contents cart-remove-button.hidden {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+

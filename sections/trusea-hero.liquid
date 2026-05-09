@@ -160,23 +160,70 @@
 @keyframes ts-pop-in-right { from { opacity:0; transform: translateX(50px); } to { opacity:1; transform: translateX(0); } }
 
 @media (max-width: 900px) {
-  .ts-hero { padding: 48px 0 60px; }
+  .ts-hero { padding: 48px 0 60px; overflow: visible; }
   .ts-hero-grid { grid-template-columns: 1fr; text-align: center; gap: 32px; }
   .ts-hero-content h1 { font-size: 34px !important; margin-bottom: 16px; }
   .ts-hero-sub { margin-left: auto; margin-right: auto; font-size: 15px; }
   .ts-hero-ctas { justify-content: center; gap: 16px; }
-  .ts-hero-image-wrap { order: -1; } /* Image on top for mobile */
+  .ts-hero-image-wrap { order: -1; }
   .ts-hero-image-wrap div { margin: 0 auto; max-width: 320px !important; }
-  
-  /* Hide decorative elements on mobile to prevent clutter/overlaps */
-  .ts-hero-deco { display: none !important; }
   .ts-hero-blob { opacity: 0.4; }
+
+  /* Allow decos to peek outside the edges */
+  .ts-hero-deco { display: block; overflow: visible; }
+
+  /* ── Left side: peek out from left edge (80% of desktop size) ── */
+  /* fish1 desktop: 120px → 96px */
+  .ts-deco--fish1      { top: 8%;  left: -20px; }
+  .ts-deco--fish1 img  { width: 96px; }
+  /* lobster desktop: 100px → 80px */
+  .ts-deco--lobster    { top: 40%; left: -28px; }
+  .ts-deco--lobster img{ width: 80px; }
+  /* crab (reused on left bottom) — hide original right placement below */
+  /* prawn-left desktop: 70px → 56px */
+  .ts-deco--prawn-left    { top: 22%; left: -16px; }
+  .ts-deco--prawn-left img{ width: 56px; }
+  /* fish-small desktop: 80px → 64px */
+  .ts-deco--fish-small    { top: 70%; left: -18px; }
+  .ts-deco--fish-small img{ width: 64px; }
+
+  /* ── Right side: peek out from right edge (80% of desktop size) ── */
+  /* fish-big desktop: 160px → 128px */
+  .ts-deco--fish-big      { top: 6%;  right: -24px; }
+  .ts-deco--fish-big img  { width: 128px; }
+  /* crab desktop: 110px → 88px */
+  .ts-deco--crab          { bottom: 10%; right: -20px; }
+  .ts-deco--crab img      { width: 88px; }
+  /* lobster-right desktop: 90px → 72px */
+  .ts-deco--lobster-right    { bottom: 35%; right: -22px; }
+  .ts-deco--lobster-right img{ width: 72px; }
+  /* fish-right-small desktop: 70px → 56px */
+  .ts-deco--fish-right-small    { top: 30%; right: -16px; }
+  .ts-deco--fish-right-small img{ width: 56px; }
+  /* prawn desktop: 90px → 72px — hide to reduce clutter */
+  .ts-deco--prawn { display: none; }
+
+  /* Sparkles — keep, slightly smaller */
+  .ts-deco--sparkle1 { transform: scale(0.7); }
+  .ts-deco--sparkle2 { transform: scale(0.7); }
 }
 
 @media (max-width: 480px) {
   .ts-hero-content h1 { font-size: 28px !important; }
   .ts-hero-ctas .ts-btn { width: 100%; justify-content: center; }
+
+  /* Extra small phones: reduce a further 15% */
+  .ts-deco--fish1 img      { width: 80px; }
+  .ts-deco--lobster img    { width: 68px; }
+  .ts-deco--prawn-left img { width: 48px; }
+  .ts-deco--fish-small img { width: 54px; }
+  .ts-deco--fish-big img   { width: 108px; }
+  .ts-deco--crab img       { width: 74px; }
+  .ts-deco--lobster-right img     { width: 60px; }
+  .ts-deco--fish-right-small img  { width: 48px; }
 }
+
+
 </style>
 
 <script>
