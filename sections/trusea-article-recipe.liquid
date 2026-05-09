@@ -599,6 +599,117 @@
   .ts-recipe-title { font-size: 32pt; }
   @page { margin: 2cm; }
 }
+
+/* --- Dark Mode Overrides --- */
+[data-theme="dark"] .ts-recipe-page {
+  background-color: var(--ts-bg-primary);
+  color: var(--ts-text-heading);
+}
+
+[data-theme="dark"] .ts-recipe-title {
+  color: var(--ts-text-heading);
+}
+
+[data-theme="dark"] .ts-recipe-desc {
+  color: var(--ts-text);
+  opacity: 1;
+}
+
+[data-theme="dark"] .ts-recipe-meta-grid {
+  background: var(--ts-bg-card);
+  border-color: var(--ts-border);
+}
+
+[data-theme="dark"] .ts-recipe-meta-val {
+  color: var(--ts-text-heading);
+}
+
+[data-theme="dark"] .ts-recipe-meta-label {
+  color: var(--ts-text-muted);
+  opacity: 1;
+}
+
+[data-theme="dark"] .ts-recipe-ingredients-card {
+  background: var(--ts-bg-card);
+  border-color: var(--ts-border);
+  box-shadow: none;
+}
+
+[data-theme="dark"] .ts-sidebar-title {
+  color: var(--ts-text-heading);
+}
+
+[data-theme="dark"] .ts-ing-name {
+  color: var(--ts-text);
+  opacity: 1;
+}
+
+[data-theme="dark"] .ts-ing-qty {
+  color: var(--ts-text-muted);
+  opacity: 1;
+}
+
+[data-theme="dark"] .ts-ingredient-item {
+  border-bottom-color: var(--ts-border);
+}
+
+[data-theme="dark"] .ts-nutrition-bento {
+  border-top-color: var(--ts-border);
+}
+
+[data-theme="dark"] .ts-nut-item span {
+  color: var(--ts-text-muted);
+}
+
+[data-theme="dark"] .ts-instructions-title {
+  color: var(--ts-text-heading);
+}
+
+[data-theme="dark"] .ts-step-num {
+  background: var(--ts-bg-secondary);
+  border-color: var(--ts-border);
+  color: var(--ts-mint);
+}
+
+[data-theme="dark"] .ts-step-content {
+  background: var(--ts-bg-card);
+  border-color: var(--ts-border);
+}
+
+[data-theme="dark"] .ts-step-title {
+  color: var(--ts-text-heading);
+}
+
+[data-theme="dark"] .ts-step-text {
+  color: var(--ts-text);
+  opacity: 1;
+}
+
+[data-theme="dark"] .ts-recipe-notes {
+  background: var(--ts-bg-secondary);
+  border-left-color: var(--ts-mint);
+}
+
+[data-theme="dark"] .ts-notes-title {
+  color: var(--ts-text-heading);
+}
+
+[data-theme="dark"] .ts-notes-content {
+  color: var(--ts-text);
+  opacity: 1;
+}
+
+[data-theme="dark"] .ts-recipe-tag {
+  background: var(--ts-bg-card);
+  color: var(--ts-text-heading);
+  border: 1px solid var(--ts-border);
+}
+
+[data-theme="dark"] .ts-tag-primary {
+  background: var(--ts-mint);
+  color: var(--ts-white);
+  border: none;
+}
 </style>
 
 <script>
