@@ -624,7 +624,41 @@ input[type="password"] {
   color: #000000 !important;
 }
 
-/* Ensure placeholder visibility if needed, but the user specifically asked for text color */
-::placeholder {
-  color: rgba(0,0,0,0.4) !important;
+/* --- Modal Text Visibility Fixes for Dark Mode --- */
+/* Target common identity/auth modal containers to force light-theme behavior */
+.ts-identity-modal,
+.lc-modal,
+.lc-modal__content,
+[id^="Otp"], 
+[class*="identity"], 
+[class*="login-modal"] {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.ts-identity-modal h1, .ts-identity-modal h2, .ts-identity-modal h3,
+.lc-modal h1, .lc-modal h2, .lc-modal h3,
+.ts-identity-modal p, .lc-modal p,
+.ts-identity-modal span, .lc-modal span,
+.ts-identity-modal label, .lc-modal label {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+
+/* Specific fix for "Congratulations", "Enter OTP" etc seen in screenshots */
+[data-theme="dark"] .lc-modal__content h1,
+[data-theme="dark"] .lc-modal__content h2,
+[data-theme="dark"] .lc-modal__content h3,
+[data-theme="dark"] .lc-modal__content p,
+[data-theme="dark"] .lc-modal__content span,
+[data-theme="dark"] .lc-modal__content label,
+[data-theme="dark"] .lc-modal__content div {
+  color: #1a1a1a !important;
+}
+
+/* Ensure inputs are also legible */
+[data-theme="dark"] .lc-modal__content input {
+  background-color: #f8fafc !important;
+  color: #000000 !important;
+  border-color: #e2e8f0 !important;
 }
