@@ -102,17 +102,12 @@
             {{ 'product-2' | placeholder_svg_tag: 'lc-img' }}
           </div>
         {% else %}
-          {% if product.featured_media != blank %}
-            <div class="lc-card__slide active">
-              <img src="{{ product.featured_media | image_url: width: 600 }}" alt="{{ product.featured_media.alt | escape }}" loading="lazy" class="lc-img">
-            </div>
-            {% for image in product.media offset: 1 limit: 3 %}
-              <div class="lc-card__slide">
-                <img src="{{ image | image_url: width: 600 }}" alt="{{ image.alt | escape }}" loading="lazy" class="lc-img">
-              </div>
-            {% endfor %}
-          {% elsif product.images.size > 0 %}
-            {% for image in product.images limit: 4 %}
+          {%- liquid
+            assign total_media = product.media.size
+            assign images_to_show = product.media | reverse | limit: 4
+          -%}
+          {% if total_media > 0 %}
+            {% for image in images_to_show %}
               <div class="lc-card__slide {% if forloop.first %}active{% endif %}">
                 <img src="{{ image | image_url: width: 600 }}" alt="{{ image.alt | escape }}" loading="lazy" class="lc-img">
               </div>

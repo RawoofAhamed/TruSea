@@ -35,6 +35,9 @@
               phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
               phoneInput.dispatchEvent(new Event('change', { bubbles: true }));
               
+              // Focus the input so the user can immediately edit or proceed
+              phoneInput.focus();
+              
               clearInterval(checkInput);
             }
             
