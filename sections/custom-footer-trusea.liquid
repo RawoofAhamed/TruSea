@@ -197,7 +197,9 @@
       <div class="tsf-divider-line"></div>
     </div>
 
-    {% render 'trusea-selfish-club-cta' %}
+    {% if section.settings.show_selfish_cta %}
+      {% render 'trusea-selfish-club-cta' %}
+    {% endif %}
 
     <!-- ── Bottom bar ── -->
     <div class="tsf-bottom">
@@ -772,6 +774,16 @@
       "type": "checkbox",
       "id": "show_trust_badges",
       "label": "Show Trust Badges",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Selfish Club CTA"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_selfish_cta",
+      "label": "Show Selfish Club CTA",
       "default": true
     }
   ],
