@@ -81,29 +81,39 @@
 
   <!-- ── Product Grid ── -->
   <div class="lc-coll-grid" id="lc-product-grid">
-    {%- assign popular_available = "" | split: "," -%}
+    {%- assign bestseller_available = "" | split: "," -%}
     {%- assign regular_available = "" | split: "," -%}
-    {%- assign popular_unavailable = "" | split: "," -%}
+    {%- assign bestseller_unavailable = "" | split: "," -%}
     {%- assign regular_unavailable = "" | split: "," -%}
 
     {%- for product in collection_to_show.products -%}
       {%- assign product_as_array = collection_to_show.products | where: "id", product.id -%}
+      {%- liquid
+        assign is_bestseller = false
+        for tag in product.tags
+          assign t = tag | downcase
+          if t == 'best seller' or t == 'bestseller'
+            assign is_bestseller = true
+            break
+          endif
+        endfor
+      -%}
       {%- if product.available -%}
-        {%- if product.tags contains 'popular' or product.tags contains 'Popular' -%}
-          {%- assign popular_available = popular_available | concat: product_as_array -%}
+        {%- if is_bestseller -%}
+          {%- assign bestseller_available = bestseller_available | concat: product_as_array -%}
         {%- else -%}
           {%- assign regular_available = regular_available | concat: product_as_array -%}
         {%- endif -%}
       {%- else -%}
-        {%- if product.tags contains 'popular' or product.tags contains 'Popular' -%}
-          {%- assign popular_unavailable = popular_unavailable | concat: product_as_array -%}
+        {%- if is_bestseller -%}
+          {%- assign bestseller_unavailable = bestseller_unavailable | concat: product_as_array -%}
         {%- else -%}
           {%- assign regular_unavailable = regular_unavailable | concat: product_as_array -%}
         {%- endif -%}
       {%- endif -%}
     {%- endfor -%}
 
-    {%- assign all_sorted_products = popular_available | concat: regular_available | concat: popular_unavailable | concat: regular_unavailable -%}
+    {%- assign all_sorted_products = bestseller_available | concat: regular_available | concat: bestseller_unavailable | concat: regular_unavailable -%}
 
     {%- for product in all_sorted_products -%}
       {% render 'trusea-product-card', product: product, section: section %}
