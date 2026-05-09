@@ -1,9 +1,16 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 
+{%- liquid
+  assign collection_to_show = collection
+  if collection.handle == 'limited-catch'
+    assign collection_to_show = collections.all
+  endif
+-%}
+
 <div class="lc-coll-wrap">
 
-  {%- paginate collection.products by section.settings.products_per_page -%}
+  {%- paginate collection_to_show.products by section.settings.products_per_page -%}
 
   {%- if collection.handle == 'limited-catch' -%}
     <!-- ── Special Catch Banner ── -->
@@ -28,7 +35,7 @@
           {% endif %}
         </div>
         <div class="lc-coll-count">
-          <span>{{ collection.products_count }} products</span>
+          <span>{{ collection_to_show.products_count }} products</span>
         </div>
       </div>
     </div>
@@ -41,7 +48,7 @@
       <div class="lc-coll-filters-scroll-wrap">
         <div class="lc-coll-filters" id="lc-filters">
           <button class="lc-filter-pill active" data-tag="all" onclick="lcFilterAll(this)">All</button>
-          {%- for tag in collection.all_tags limit: 10 -%}
+          {%- for tag in collection_to_show.all_tags limit: 10 -%}
             <button class="lc-filter-pill {% if current_tags contains tag %}active{% endif %}"
                     data-tag="{{ tag | handleize }}"
                     onclick="lcFilterTag(this, '{{ tag | escape }}')">
@@ -55,10 +62,10 @@
       <div class="lc-coll-sort">
         <label for="lc-sortby" class="lc-sort-label">Sort</label>
         <div class="lc-sort-select-wrap">
-          {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+          {%- assign sort_by = collection_to_show.sort_by | default: 'best-selling' -%}
           <select id="lc-sortby" class="lc-sort-select"
-                  onchange="window.location = '{{ collection.url }}?sort_by=' + this.value">
-            {%- for option in collection.sort_options -%}
+                  onchange="window.location = '{{ collection_to_show.url }}?sort_by=' + this.value">
+            {%- for option in collection_to_show.sort_options -%}
               <option value="{{ option.value }}"
                       {% if option.value == sort_by %}selected{% endif %}>
                 {{ option.name }}
@@ -79,8 +86,8 @@
     {%- assign popular_unavailable = "" | split: "," -%}
     {%- assign regular_unavailable = "" | split: "," -%}
 
-    {%- for product in collection.products -%}
-      {%- assign product_as_array = collection.products | where: "id", product.id -%}
+    {%- for product in collection_to_show.products -%}
+      {%- assign product_as_array = collection_to_show.products | where: "id", product.id -%}
       {%- if product.available -%}
         {%- if product.tags contains 'popular' or product.tags contains 'Popular' -%}
           {%- assign popular_available = popular_available | concat: product_as_array -%}
