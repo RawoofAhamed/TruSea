@@ -800,9 +800,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let wrapper = carousel.closest('.lc-card__media-wrap');
 
-    // Infinite Loop Setup
+    // Infinite Loop Setup - Clean clones of any existing active classes
     const firstClone = originalSlides[0].cloneNode(true);
     const lastClone = originalSlides[originalSlides.length - 1].cloneNode(true);
+    firstClone.classList.remove('active');
+    lastClone.classList.remove('active');
+    
     container.appendChild(firstClone);
     container.insertBefore(lastClone, originalSlides[0]);
 
@@ -815,8 +818,13 @@ document.addEventListener('DOMContentLoaded', () => {
     container.style.transform = `translateX(-${currentIndex * 100}%)`;
 
     let updateSlide = (instant = false) => {
-      if (instant) container.style.transition = 'none';
-      else container.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      if (instant) {
+        container.style.transition = 'none';
+        void container.offsetWidth; // Force reflow
+      } else {
+        container.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        isTransitioning = true;
+      }
       
       container.style.transform = `translateX(-${currentIndex * 100}%)`;
       
@@ -831,13 +839,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    container.addEventListener('transitionend', () => {
+    container.addEventListener('transitionend', (e) => {
+      if (e.target !== container) return;
       isTransitioning = false;
+      
+      // Infinite Jump logic
       if (currentIndex === 0) {
         currentIndex = slides.length - 2;
         updateSlide(true);
-      }
-      if (currentIndex === slides.length - 1) {
+      } else if (currentIndex === slides.length - 1) {
         currentIndex = 1;
         updateSlide(true);
       }
@@ -848,7 +858,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (slideTimer) clearInterval(slideTimer);
       slideTimer = setInterval(() => {
         if (isTransitioning) return;
-        isTransitioning = true;
         currentIndex++;
         updateSlide();
       }, intervalTime);
@@ -868,11 +877,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (wrapper) {
       wrapper.addEventListener('mouseenter', startCarousel);
       wrapper.addEventListener('mouseleave', stopCarousel);
-
-      // Prevent native drag on images and links which blocks JS swipe
       wrapper.addEventListener('dragstart', (e) => e.preventDefault());
 
-      // Touch events
       wrapper.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].clientX;
         if (slideTimer) clearInterval(slideTimer);
@@ -883,40 +889,39 @@ document.addEventListener('DOMContentLoaded', () => {
         handleSwipe();
       }, { passive: true });
 
-      // Mouse events
       wrapper.addEventListener('mousedown', (e) => {
         isMouseDown = true;
         touchStartX = e.clientX;
         if (slideTimer) clearInterval(slideTimer);
       });
 
-      // Unified Mouse Up (within wrapper or window)
-      const onMouseUp = (e) => {
+      window.addEventListener('mouseup', (e) => {
         if (!isMouseDown) return;
         isMouseDown = false;
         touchEndX = e.clientX;
-        
-        // If it was a significant drag, handle swipe
-        if (Math.abs(touchEndX - touchStartX) > 10) {
+        if (Math.abs(touchEndX - touchStartX) > 5) {
            handleSwipe();
         }
-      };
-
-      window.addEventListener('mouseup', onMouseUp);
+      });
     }
 
     function handleSwipe() {
-      if (isTransitioning) return;
-      const swipeThreshold = 50;
+      const swipeThreshold = 30;
+      let moved = false;
       if (touchEndX < touchStartX - swipeThreshold) {
-        isTransitioning = true;
-        currentIndex++;
-        updateSlide();
+        // Only move forward if not already at the cloned end
+        if (currentIndex < slides.length - 1) {
+          currentIndex++;
+          moved = true;
+        }
       } else if (touchEndX > touchStartX + swipeThreshold) {
-        isTransitioning = true;
-        currentIndex--;
-        updateSlide();
+        // Only move backward if not already at the cloned start
+        if (currentIndex > 0) {
+          currentIndex--;
+          moved = true;
+        }
       }
+      if (moved) updateSlide();
     }
   });
 });
@@ -1161,3 +1166,7 @@ if (typeof addTruSeaToCart !== 'function') {
   };
 }
 </script>
+
+<style>
+.lc-card__media-wrap { touch-action: pan-y; }
+</style>
