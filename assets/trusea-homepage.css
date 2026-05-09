@@ -36,6 +36,7 @@
   --ts-border:        rgba(14, 37, 65, .08);
   --ts-border-strong: rgba(14, 37, 65, .18);
   --ts-divider:       #E5E7EB;
+  --ts-backdrop:      rgba(14, 37, 65, 0.45);
 
   /* --- Legacy aliases (keep for compatibility) --- */
   --ts-off-white:     #F5F9F7;
@@ -85,6 +86,7 @@
   --ts-price: #3CBFA0;
   --ts-price-color:   #3CBFA0;
   --ts-divider:       rgba(255, 255, 255, .06);
+  --ts-backdrop:      rgba(0, 0, 0, 0.75);
 
   /* --- Legacy aliases (dark) --- */
   --ts-white:         #dce8f5;
@@ -152,9 +154,7 @@ body,
    GLOBAL BODY DARK MODE OVERRIDES
    ===================================================== */
 [data-theme="dark"] body,
-[data-theme="dark"] .gradient,
-[data-theme="dark"] [class*="color-scheme-"],
-[data-theme="dark"] [class*="color-"] {
+[data-theme="dark"] .gradient {
   background-color: var(--ts-bg) !important;
   color: var(--ts-text) !important;
   --color-background: 7, 15, 30 !important;
@@ -165,11 +165,16 @@ body,
 [data-theme="dark"] .cart-item__price-wrapper,
 [data-theme="dark"] .cart-item__totals,
 [data-theme="dark"] .title,
+[data-theme="dark"] .cart__heading,
 [data-theme="dark"] .totals__total,
 [data-theme="dark"] .totals__total-value,
 [data-theme="dark"] .totals__subtotal-value,
-[data-theme="dark"] .cart__note label {
+[data-theme="dark"] .cart__note label,
+[data-theme="dark"] .underlined-link {
   color: var(--ts-text-heading) !important;
+}
+[data-theme="dark"] .underlined-link:hover {
+  color: var(--ts-mint) !important;
 }
 
 [data-theme="dark"] .cart__checkout-button {
@@ -256,10 +261,16 @@ body,
 /* Inputs dark */
 [data-theme="dark"] input,
 [data-theme="dark"] textarea,
-[data-theme="dark"] select {
-  background: var(--ts-bg-raised);
-  color: var(--ts-text);
-  border-color: var(--ts-border-strong);
+[data-theme="dark"] select,
+[data-theme="dark"] .quantity,
+[data-theme="dark"] .quantity__input {
+  background: var(--ts-bg-raised) !important;
+  color: var(--ts-text-heading) !important;
+  border-color: var(--ts-border-strong) !important;
+}
+
+[data-theme="dark"] .quantity__button {
+  color: var(--ts-text-heading) !important;
 }
 
 /* Tag pills dark */

@@ -5,19 +5,19 @@
 
 /* ---- CSS Variables (wired to semantic theme tokens) ---- */
 :root {
-  --ocean-deep:    #0d3d6e;
-  --ocean-mid:     #1a6ea8;
-  --ocean-light:   #d8eeff;
-  --ocean-pale:    var(--ts-bg-secondary, #f0f8ff);
-  --coral:         #e05f3d;
-  --sand:          var(--ts-bg-secondary, #f5f0e8);
-  --white:         var(--ts-bg-card, #ffffff);
-  --text-dark:     var(--ts-text-heading, #1a2433);
-  --text-mid:      var(--ts-text-muted, #4a5568);
+  --ocean-deep: #0d3d6e;
+  --ocean-mid: #1a6ea8;
+  --ocean-light: #d8eeff;
+  --ocean-pale: var(--ts-bg-secondary, #f0f8ff);
+  --coral: #e05f3d;
+  --sand: var(--ts-bg-secondary, #f5f0e8);
+  --white: var(--ts-bg-card, #ffffff);
+  --text-dark: var(--ts-text-heading, #1a2433);
+  --text-mid: var(--ts-text-muted, #4a5568);
   --green-seaweed: #2d7a4f;
 
   --font-display: 'Inter', Georgia, sans-serif;
-  --font-body:    'Inter', Arial, sans-serif;
+  --font-body: 'Inter', Arial, sans-serif;
 }
 
 .utility-bar {
@@ -58,10 +58,12 @@
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(60, 191, 160, 0.7);
   }
+
   70% {
     transform: scale(1);
     box-shadow: 0 0 0 6px rgba(60, 191, 160, 0);
   }
+
   100% {
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(60, 191, 160, 0);
@@ -71,19 +73,45 @@
 /* Dark overrides for ocean-homepage specific vars */
 [data-theme="dark"] {
   --ocean-pale: var(--ts-bg-secondary);
-  --sand:       var(--ts-bg-secondary);
-  --white:      var(--ts-bg-card);
-  --text-dark:  var(--ts-text-heading);
-  --text-mid:   var(--ts-text-muted);
+  --sand: var(--ts-bg-secondary);
+  --white: var(--ts-bg-card);
+  --text-dark: var(--ts-text-heading);
+  --text-mid: var(--ts-text-muted);
 }
 
 
 /* ---- Base Reset ---- */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-body); color: var(--text-dark); background: var(--white); overflow-x: hidden; width: 100%; margin: 0; }
-#MainContent { width: 100%; max-width: 100%; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  background: var(--white);
+  overflow-x: hidden;
+  width: 100%;
+  margin: 0;
+}
+
+#MainContent {
+  width: 100%;
+  max-width: 100%;
+}
+
 @media (max-width: 960px) {
-  body, #MainContent, .content-for-layout { width: 100% !important; max-width: 100% !important; margin: 0 !important; }
+
+  body,
+  #MainContent,
+  .content-for-layout {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
 }
 
 .container {
@@ -107,7 +135,11 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   cursor: pointer;
   transition: background 0.25s, transform 0.2s;
 }
-.btn-primary:hover { background: var(--ocean-mid); transform: translateY(-2px); }
+
+.btn-primary:hover {
+  background: var(--ocean-mid);
+  transform: translateY(-2px);
+}
 
 .btn-secondary {
   display: inline-block;
@@ -121,7 +153,10 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   border-radius: 2px;
   transition: background 0.2s;
 }
-.btn-secondary:hover { background: var(--ocean-deep); }
+
+.btn-secondary:hover {
+  background: var(--ocean-deep);
+}
 
 /* ============================================================
    HERO SECTION
@@ -142,7 +177,7 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 70% 50%, rgba(255,255,255,0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse at 70% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -159,11 +194,11 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   line-height: 1.05;
   letter-spacing: -1px;
   margin-bottom: 18px;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.25);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
 }
 
 .hero-subtitle {
-  color: rgba(255,255,255,0.88);
+  color: rgba(255, 255, 255, 0.88);
   font-size: 15px;
   line-height: 1.65;
   margin-bottom: 36px;
@@ -179,16 +214,23 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   max-width: 450px;
 }
 
-.hero-image > img {
+.hero-image>img {
   width: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 20px 60px rgba(0,0,0,0.35));
+  filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.35));
   animation: floatUp 6s ease-in-out infinite;
 }
 
 @keyframes floatUp {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-12px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
 .hero-decorative {
@@ -196,8 +238,18 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   opacity: 0.35;
   pointer-events: none;
 }
-.hero-lobster-left { top: -20px; left: -60px; width: 140px; }
-.hero-fish-right   { bottom: 0; right: -40px; width: 120px; }
+
+.hero-lobster-left {
+  top: -20px;
+  left: -60px;
+  width: 140px;
+}
+
+.hero-fish-right {
+  bottom: 0;
+  right: -40px;
+  width: 120px;
+}
 
 /* ============================================================
    WAVE DIVIDERS
@@ -209,17 +261,30 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   background: var(--ocean-pale);
 
   position: absolute;
-    bottom: 0;
-    height: 80px;
-    left: 0px;
+  bottom: 0;
+  height: 80px;
+  left: 0px;
 }
-.wave-divider.top    {
-   background: transparent;
-    margin-top: -2px; 
-  }
-.wave-divider.middle { background: var(--white); margin-top: -2px; }
-.wave-divider.blue-bg { background: var(--white); margin-top: -2px; }
-.wave-divider svg { width: 100%; height: 80px; }
+
+.wave-divider.top {
+  background: transparent;
+  margin-top: -2px;
+}
+
+.wave-divider.middle {
+  background: var(--white);
+  margin-top: -2px;
+}
+
+.wave-divider.blue-bg {
+  background: var(--white);
+  margin-top: -2px;
+}
+
+.wave-divider svg {
+  width: 100%;
+  height: 80px;
+}
 
 /* ============================================================
    WEEKLY DEALS SECTION
@@ -265,8 +330,17 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   text-align: center;
   transition: box-shadow 0.2s;
 }
-.deal-card:hover { box-shadow: 0 4px 18px rgba(13,61,110,0.12); }
-.deal-card img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; }
+
+.deal-card:hover {
+  box-shadow: 0 4px 18px rgba(13, 61, 110, 0.12);
+}
+
+.deal-card img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
 
 .oysters-feature {
   display: flex;
@@ -279,7 +353,7 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   height: 180px;
   object-fit: cover;
   border-radius: 50%;
-  box-shadow: 0 8px 30px rgba(13,61,110,0.18);
+  box-shadow: 0 8px 30px rgba(13, 61, 110, 0.18);
   flex-shrink: 0;
 }
 
@@ -290,6 +364,7 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   margin-bottom: 10px;
   color: var(--text-dark);
 }
+
 .oysters-info p {
   font-size: 14px;
   line-height: 1.7;
@@ -314,13 +389,14 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   background: var(--white);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 24px rgba(13,61,110,0.08);
+  box-shadow: 0 4px 24px rgba(13, 61, 110, 0.08);
   transition: transform 0.25s, box-shadow 0.25s;
   position: relative;
 }
+
 .product-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 14px 40px rgba(13,61,110,0.16);
+  box-shadow: 0 14px 40px rgba(13, 61, 110, 0.16);
 }
 
 .product-image-wrap {
@@ -329,13 +405,17 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   overflow: hidden;
   background: var(--ocean-pale);
 }
+
 .product-image-wrap img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.4s;
 }
-.product-card:hover .product-image-wrap img { transform: scale(1.05); }
+
+.product-card:hover .product-image-wrap img {
+  transform: scale(1.05);
+}
 
 .seaweed-decoration {
   position: absolute;
@@ -398,7 +478,7 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   height: 200px;
   object-fit: cover;
   border-radius: 50%;
-  box-shadow: 0 10px 40px rgba(13,61,110,0.2);
+  box-shadow: 0 10px 40px rgba(13, 61, 110, 0.2);
 }
 
 .recipe-content h2 {
@@ -447,7 +527,11 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   gap: 14px;
   margin-bottom: 22px;
 }
-.condiment-item:last-child { margin-bottom: 0; }
+
+.condiment-item:last-child {
+  margin-bottom: 0;
+}
+
 .condiment-item img {
   width: 70px;
   height: 70px;
@@ -455,6 +539,7 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   border-radius: 6px;
   border: 1px solid var(--ocean-light);
 }
+
 .condiment-item strong {
   display: block;
   font-size: 15px;
@@ -462,6 +547,7 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   color: var(--text-dark);
   margin-bottom: 4px;
 }
+
 .condiment-item p {
   font-size: 12px;
   color: var(--text-mid);
@@ -492,7 +578,7 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
   width: auto;
   margin: 0 auto;
   object-fit: contain;
-  filter: drop-shadow(0 10px 30px rgba(0,0,0,0.15));
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.15));
 }
 
 /* ============================================================
@@ -510,6 +596,7 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
 .ocean-fresh-image {
   overflow: hidden;
 }
+
 .ocean-fresh-image img {
   width: 100%;
   height: 100%;
@@ -526,7 +613,7 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
 
 .sparkle-icon {
   font-size: 28px;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
   margin-bottom: 12px;
 }
 
@@ -543,7 +630,7 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
 
 .ocean-fresh-content p {
   font-size: 14px;
-  color: rgba(255,255,255,0.72);
+  color: rgba(255, 255, 255, 0.72);
   line-height: 1.7;
   max-width: 380px;
 }
@@ -553,7 +640,7 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
    ============================================================ */
 .site-footer {
   background: var(--ocean-deep);
-  border-top: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding: 20px 80px;
 }
 
@@ -566,45 +653,114 @@ body { font-family: var(--font-body); color: var(--text-dark); background: var(-
 }
 
 .footer-inner a {
-  color: rgba(255,255,255,0.65);
+  color: rgba(255, 255, 255, 0.65);
   font-size: 13px;
   font-weight: 400;
   letter-spacing: 0.5px;
   transition: color 0.2s;
 }
-.footer-inner a:hover { color: var(--white); }
+
+.footer-inner a:hover {
+  color: var(--white);
+}
 
 /* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width: 1024px) {
-  .hero-section          { padding: 48px 40px 72px; }
-  .products-grid         { grid-template-columns: repeat(2, 1fr); }
-  .condiments-inner      { grid-template-columns: 1fr 1fr; }
-  .condiments-bottles    { display: none; }
+  .hero-section {
+    padding: 48px 40px 72px;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .condiments-inner {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .condiments-bottles {
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {
-  .hero-section          { flex-direction: column; padding: 48px 24px 56px; text-align: center; }
-  .hero-image            { width: 100%; max-width: 380px; margin-top: 32px; }
-  .weekly-deals-section .container { grid-template-columns: 1fr; gap: 36px; }
-  .oysters-feature       { flex-direction: column; text-align: center; }
-  .products-grid         { grid-template-columns: 1fr; }
-  .recipe-inner          { grid-template-columns: 1fr; text-align: center; }
-  .recipe-image          { display: flex; justify-content: center; }
-  .recipe-icon           { display: none; }
-  .condiments-inner      { grid-template-columns: 1fr; }
-  .ocean-fresh-section   { grid-template-columns: 1fr; }
-  .ocean-fresh-image     { height: 240px; }
-  .ocean-fresh-content   { padding: 40px 24px; }
-  .site-footer           { padding: 20px 24px; }
-  .footer-inner          { justify-content: center; }
+  .hero-section {
+    flex-direction: column;
+    padding: 48px 24px 56px;
+    text-align: center;
+  }
+
+  .hero-image {
+    width: 100%;
+    max-width: 380px;
+    margin-top: 32px;
+  }
+
+  .weekly-deals-section .container {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .oysters-feature {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recipe-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .recipe-image {
+    display: flex;
+    justify-content: center;
+  }
+
+  .recipe-icon {
+    display: none;
+  }
+
+  .condiments-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .ocean-fresh-section {
+    grid-template-columns: 1fr;
+  }
+
+  .ocean-fresh-image {
+    height: 240px;
+  }
+
+  .ocean-fresh-content {
+    padding: 40px 24px;
+  }
+
+  .site-footer {
+    padding: 20px 24px;
+  }
+
+  .footer-inner {
+    justify-content: center;
+  }
 }
 
 @media (max-width: 480px) {
-  .hero-title { font-size: 38px; }
-  .products-grid { gap: 18px; }
+  .hero-title {
+    font-size: 38px;
+  }
+
+  .products-grid {
+    gap: 18px;
+  }
 }
+
 /* --- Modal Input Fixes --- */
 .ts-minicart input,
 .ts-search-form input,
@@ -622,43 +778,4 @@ input[type="password"] {
 [data-theme="dark"] input[type="number"],
 [data-theme="dark"] input[type="password"] {
   color: #000000 !important;
-}
-
-/* --- Modal Text Visibility Fixes for Dark Mode --- */
-/* Target common identity/auth modal containers to force light-theme behavior */
-.ts-identity-modal,
-.lc-modal,
-.lc-modal__content,
-[id^="Otp"], 
-[class*="identity"], 
-[class*="login-modal"] {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-}
-
-.ts-identity-modal h1, .ts-identity-modal h2, .ts-identity-modal h3,
-.lc-modal h1, .lc-modal h2, .lc-modal h3,
-.ts-identity-modal p, .lc-modal p,
-.ts-identity-modal span, .lc-modal span,
-.ts-identity-modal label, .lc-modal label {
-  color: #000000 !important;
-  opacity: 1 !important;
-}
-
-/* Specific fix for "Congratulations", "Enter OTP" etc seen in screenshots */
-[data-theme="dark"] .lc-modal__content h1,
-[data-theme="dark"] .lc-modal__content h2,
-[data-theme="dark"] .lc-modal__content h3,
-[data-theme="dark"] .lc-modal__content p,
-[data-theme="dark"] .lc-modal__content span,
-[data-theme="dark"] .lc-modal__content label,
-[data-theme="dark"] .lc-modal__content div {
-  color: #1a1a1a !important;
-}
-
-/* Ensure inputs are also legible */
-[data-theme="dark"] .lc-modal__content input {
-  background-color: #f8fafc !important;
-  color: #000000 !important;
-  border-color: #e2e8f0 !important;
 }

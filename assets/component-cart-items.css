@@ -274,6 +274,16 @@ cart-remove-button .icon-remove {
     align-items: flex-start;
     justify-content: flex-end;
   }
+
+  .cart-item__delete {
+    grid-column: 4 / 5;
+    grid-row: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 0 !important;
+    width: auto !important;
+  }
 }
 
 @media screen and (min-width: 750px) {

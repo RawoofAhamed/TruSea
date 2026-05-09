@@ -582,7 +582,7 @@
 }
 .lc-modal__content {
   position: relative;
-  background: var(--ts-bg-raised, #fff);
+  background: var(--ts-bg-card, #fff);
   width: 92%;
   max-width: 440px;
   border-radius: 24px;
@@ -667,11 +667,11 @@
   position: absolute; width: 0; height: 0; opacity: 0;
 }
 .lc-modal__cut-box {
-  border: 1.5px solid var(--ts-border, #f1f5f9);
+  border: 1.5px solid var(--ts-border, #e5e7eb);
   border-radius: 16px;
   padding: 16px;
   transition: all 0.25s;
-  background: var(--ts-bg-raised, #fdfdfd);
+  background: var(--ts-bg-card, #fff);
   position: relative;
   height: 100%;
 }
@@ -778,6 +778,70 @@
 }
 .lc-modal__add-btn:hover { background: #1a4a7e; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(13,61,110,0.2); }
 .lc-modal__add-btn:active { transform: translateY(0); }
+.lc-modal__add-btn.is-prebook {
+  background: #fff;
+  color: #0E2541;
+  border: 1.5px solid #0E2541;
+}
+.lc-modal__add-btn.is-prebook:hover {
+  background: #F5F9F7;
+  border-color: #1a4a7e;
+  color: #1a4a7e;
+}
+
+/* ── Modal Dark Theme ── */
+[data-theme="dark"] .lc-modal__content {
+  background: #111e31;
+}
+[data-theme="dark"] .lc-modal__title,
+[data-theme="dark"] .lc-modal__price {
+  color: #f0f6ff;
+}
+[data-theme="dark"] .lc-modal__subtitle,
+[data-theme="dark"] .lc-modal__cut-desc {
+  color: #7a9ab8;
+}
+[data-theme="dark"] .lc-modal__label {
+  color: #3CBFA0;
+}
+[data-theme="dark"] .lc-modal__close {
+  background: #162035;
+  color: #dce8f5;
+}
+[data-theme="dark"] .lc-modal__cut-box {
+  background: #162035;
+  border-color: rgba(255,255,255,0.1);
+}
+[data-theme="dark"] .lc-modal__cut-name {
+  color: #f0f6ff;
+}
+[data-theme="dark"] .lc-modal__cut-item input:checked + .lc-modal__cut-box {
+  background: #0d1829;
+  border-color: #3CBFA0;
+}
+[data-theme="dark"] .lc-modal__qty {
+  border-color: rgba(255,255,255,0.12);
+}
+[data-theme="dark"] .lc-modal__qty-btn {
+  background: #162035;
+  color: #f0f6ff;
+}
+[data-theme="dark"] .lc-modal__qty-input {
+  color: #f0f6ff;
+}
+[data-theme="dark"] .lc-modal__add-btn {
+  background: #162035;
+  color: #fff;
+  border: none;
+}
+[data-theme="dark"] .lc-modal__add-btn:hover {
+  background: #1a2d4a;
+}
+[data-theme="dark"] .lc-modal__add-btn.is-prebook {
+  background: #162035;
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.2);
+}
 </style>
 
 <script>
@@ -1029,8 +1093,10 @@ if (typeof addTruSeaToCart !== 'function') {
     
     if (addBtnSpan) {
       if (isPrebook) {
+        addBtn.classList.add('is-prebook');
         addBtnSpan.innerHTML = 'Prebook Now <span class="js-modal-btn-price"></span>';
       } else {
+        addBtn.classList.remove('is-prebook');
         addBtnSpan.innerHTML = 'Add to Cart <span class="js-modal-btn-price"></span>';
       }
     }
