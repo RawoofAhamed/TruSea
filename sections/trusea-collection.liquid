@@ -6,6 +6,18 @@
   if collection.handle == 'limited-catch'
     assign collection_to_show = collections.all
   endif
+
+  # Manual tag and sort detection
+  assign current_filter_tag = ""
+  assign current_sort_by = ""
+  assign capture_params = content_for_header | split: '\"'
+  for part in capture_params
+    if part contains 'tag='
+      assign current_filter_tag = part | split: 'tag=' | last | split: '&' | first | url_decode
+    elsif part contains 'sort_by='
+      assign current_sort_by = part | split: 'sort_by=' | last | split: '&' | first | url_decode
+    endif
+  endfor
 -%}
 
 <div class="lc-coll-wrap">
@@ -47,9 +59,17 @@
 
       <div class="lc-coll-filters-scroll-wrap">
         <div class="lc-coll-filters" id="lc-filters">
-          <button class="lc-filter-pill active" data-tag="all" onclick="lcFilterAll(this)">All</button>
-          {%- for tag in collection_to_show.all_tags limit: 10 -%}
-            <button class="lc-filter-pill {% if current_tags contains tag %}active{% endif %}"
+          <button class="lc-filter-pill {% if current_tags == blank and current_filter_tag == "" %}active{% endif %}" data-tag="all" onclick="lcFilterAll(this)">All</button>
+          {%- for tag in collection_to_show.all_tags limit: 12 -%}
+             {%- liquid
+               assign is_active = false
+               if current_tags contains tag
+                 assign is_active = true
+               elsif current_filter_tag == tag
+                 assign is_active = true
+               endif
+             -%}
+            <button class="lc-filter-pill {% if is_active %}active{% endif %}"
                     data-tag="{{ tag | handleize }}"
                     onclick="lcFilterTag(this, '{{ tag | escape }}')">
               {{ tag }}
@@ -62,12 +82,12 @@
       <div class="lc-coll-sort">
         <label for="lc-sortby" class="lc-sort-label">Sort</label>
         <div class="lc-sort-select-wrap">
-          {%- assign sort_by = collection_to_show.sort_by | default: 'best-selling' -%}
+          {%- assign active_sort = current_sort_by | default: collection_to_show.sort_by | default: 'best-selling' -%}
           <select id="lc-sortby" class="lc-sort-select"
-                  onchange="window.location = '{{ collection_to_show.url }}?sort_by=' + this.value">
+                  onchange="const url = new URL(window.location.href); url.searchParams.set('sort_by', this.value); window.location.href = url.toString();">
             {%- for option in collection_to_show.sort_options -%}
               <option value="{{ option.value }}"
-                      {% if option.value == sort_by %}selected{% endif %}>
+                      {% if option.value == active_sort %}selected{% endif %}>
                 {{ option.name }}
               </option>
             {%- endfor -%}
@@ -87,6 +107,36 @@
     {%- assign regular_unavailable = "" | split: "," -%}
 
     {%- for product in collection_to_show.products -%}
+      {%- comment -%} Check if product matches current_tags or current_filter_tag if we are on the limited-catch override {%- endcomment -%}
+      {%- if collection.handle == 'limited-catch' -%}
+        {%- if current_tags != blank or current_filter_tag != "" -%}
+          {%- assign matches_tags = true -%}
+          {%- if current_filter_tag != "" -%}
+            {%- liquid
+              assign has_tag = false
+              assign search_tag = current_filter_tag | downcase
+              for tag in product.tags
+                assign t = tag | downcase
+                if t == search_tag
+                  assign has_tag = true
+                  break
+                endif
+              endfor
+            -%}
+            {%- unless has_tag -%}
+              {%- assign matches_tags = false -%}
+            {%- endunless -%}
+          {%- else -%}
+            {%- for tag in current_tags -%}
+              {%- unless product.tags contains tag -%}
+                {%- assign matches_tags = false -%}
+                {%- break -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          {%- endif -%}
+          {%- if matches_tags == false -%}{%- continue -%}{%- endif -%}
+        {%- endif -%}
+      {%- endif -%}
       {%- assign product_as_array = collection_to_show.products | where: "id", product.id -%}
       {%- liquid
         assign is_bestseller = false
@@ -97,6 +147,16 @@
             break
           endif
         endfor
+        
+        if is_bestseller == false
+          for coll in product.collections
+            assign c = coll.handle | downcase
+            if c contains 'best-seller' or c contains 'bestseller' or c contains 'best-selling'
+              assign is_bestseller = true
+              break
+            endif
+          endfor
+        endif
       -%}
       {%- if product.available -%}
         {%- if is_bestseller -%}
@@ -489,14 +549,29 @@
 <script>
 // Tag filter (client-side URL redirect)
 function lcFilterTag(btn, tag) {
-  document.querySelectorAll('.lc-filter-pill').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  window.location = '{{ collection.url }}/' + tag;
+  {%- assign is_lc = false -%}
+  {%- if collection.handle == 'limited-catch' -%}{%- assign is_lc = true -%}{%- endif -%}
+  const isLimitedCatch = {{ is_lc | json }};
+  if (isLimitedCatch) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('tag', tag);
+    window.location.href = url.toString();
+  } else {
+    window.location.href = '{{ collection.url }}/' + tag;
+  }
 }
+
 function lcFilterAll(btn) {
-  document.querySelectorAll('.lc-filter-pill').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  window.location = '{{ collection.url }}';
+  {%- assign is_lc = false -%}
+  {%- if collection.handle == 'limited-catch' -%}{%- assign is_lc = true -%}{%- endif -%}
+  const isLimitedCatch = {{ is_lc | json }};
+  if (isLimitedCatch) {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('tag');
+    window.location.href = url.toString();
+  } else {
+    window.location.href = '{{ collection.url }}';
+  }
 }
 </script>
 
