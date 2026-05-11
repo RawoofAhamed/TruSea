@@ -3934,12 +3934,13 @@ a[class*="sw"] {
 /* Reward Rally Button Positioning */
 #reward-rally-floating-icon,
 .reward-rally-widget,
-.reward-rally-widget > div {
+.reward-rally-widget>div {
   z-index: 10001 !important;
   position: fixed !important;
 }
 
 @media screen and (min-width: 768px) {
+
   body:not(.mobile-cart-bar-active):not(.cart-drawer-open) .reward-rally-widget button,
   body:not(.mobile-cart-bar-active):not(.cart-drawer-open) .reward-rally-widget div[class*="sc-"] button {
     top: 50px !important;
@@ -3948,9 +3949,15 @@ a[class*="sw"] {
 }
 
 @media screen and (max-width: 767px) {
+
   .reward-rally-widget button,
   .reward-rally-widget div[class*="sc-"] button {
     top: -25px !important;
     position: relative !important;
   }
+}
+
+.lc-pdp-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
 }
