@@ -764,18 +764,18 @@ body {
 /* --- Modal Input Fixes --- */
 .ts-minicart input,
 .ts-search-form input,
-input[type="text"]:not(.lc-modal__qty-input),
+
 input[type="tel"],
 input[type="email"],
-input[type="number"]:not(.lc-modal__qty-input),
+
 input[type="password"] {
   color: #000000 !important;
 }
 
-[data-theme="dark"] input[type="text"]:not(.lc-modal__qty-input),
+
 [data-theme="dark"] input[type="tel"],
 [data-theme="dark"] input[type="email"],
-[data-theme="dark"] input[type="number"]:not(.lc-modal__qty-input),
+
 [data-theme="dark"] input[type="password"] {
   color: #000000 !important;
 }
