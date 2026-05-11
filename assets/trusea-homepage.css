@@ -699,3 +699,7 @@ body {
 #sotp .user-name-input {
   background-color: initial !important;
 }
+
+#sotp .input-box-content input {
+  color: #000 !important;
+}
