@@ -784,3 +784,34 @@ input[type="password"] {
 [data-theme="dark"] .lc-modal__qty-input {
   color: #ffffff !important;
 }
+
+.bcdp-method-wrap {
+  border-radius: 10px !important;
+  border-color: #000 !important;
+}
+
+[data-theme="dark"] .bcdp-method-wrap {
+  border-color: #fff !important;
+}
+
+[data-theme="dark"] .bcdp-zip-container .bcdp-postal-code-header {
+  color: #fff;
+}
+
+[data-theme="dark"] .bcdp-method-wrap {
+  color: #fff;
+}
+
+[data-theme="dark"] .bcdp-method-wrap svg path {
+  fill: #fff;
+}
+
+[data-theme="dark"] .bcdp-method-wrap.bcdp-method-active {
+  background: #3cc0a1 !important;
+  border-color: #3cc0a1 !important;
+  color: #000 !important;
+}
+
+[data-theme="dark"] .bcdp-method-active svg path {
+  fill: #000;
+}
