@@ -703,3 +703,7 @@ body {
 #sotp .input-box-content input {
   color: #000 !important;
 }
+
+#sotp .input-boxes-container input.otp-input-box {
+  background-color: transparent !important;
+}
