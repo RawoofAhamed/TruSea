@@ -696,3 +696,7 @@ body {
 #sotp .consent-links-wrapper a {
   color: initial !important;
 }
+
+#sotp .user-name-input {
+  background-color: initial !important;
+}
