@@ -11,55 +11,55 @@
    ===================================================== */
 :root {
   /* --- Brand Palette (fixed, never changes) --- */
-  --ts-navy:          #0E2541;
-  --ts-navy-dark:     #081829;
-  --ts-mint:          #3CBFA0;
-  --ts-mint-light:    #5DD4B8;
-  --ts-mint-pale:     #E8F9F5;
-  --ts-white:         #FFFFFF;
+  --ts-navy: #0E2541;
+  --ts-navy-dark: #081829;
+  --ts-mint: #3CBFA0;
+  --ts-mint-light: #5DD4B8;
+  --ts-mint-pale: #E8F9F5;
+  --ts-white: #FFFFFF;
 
   /* --- Semantic Surface Tokens --- */
-  --ts-bg:            #FFFFFF;
-  --ts-bg-secondary:  #F5F9F7;
-  --ts-bg-card:       #FFFFFF;
-  --ts-price:         #FB923C;
-  --ts-bg-raised:     #EEF6F3;
-  --ts-bg-hero:       linear-gradient(135deg, #0E2541 0%, #1a4a78 50%, #3CBFA0 100%);
+  --ts-bg: #FFFFFF;
+  --ts-bg-secondary: #F5F9F7;
+  --ts-bg-card: #FFFFFF;
+  --ts-price: #FB923C;
+  --ts-bg-raised: #EEF6F3;
+  --ts-bg-hero: linear-gradient(135deg, #0E2541 0%, #1a4a78 50%, #3CBFA0 100%);
 
   /* --- Semantic Text Tokens --- */
-  --ts-text:          #1A2B3C;
-  --ts-text-muted:    #6B7280;
-  --ts-text-heading:  #0E2541;
-  --ts-text-inverse:  #FFFFFF;
+  --ts-text: #1A2B3C;
+  --ts-text-muted: #6B7280;
+  --ts-text-heading: #0E2541;
+  --ts-text-inverse: #FFFFFF;
 
   /* --- Semantic Border / Divider --- */
-  --ts-border:        rgba(14, 37, 65, .08);
+  --ts-border: rgba(14, 37, 65, .08);
   --ts-border-strong: rgba(14, 37, 65, .18);
-  --ts-divider:       #E5E7EB;
-  --ts-backdrop:      rgba(14, 37, 65, 0.45);
+  --ts-divider: #E5E7EB;
+  --ts-backdrop: rgba(14, 37, 65, 0.45);
 
   /* --- Legacy aliases (keep for compatibility) --- */
-  --ts-off-white:     #F5F9F7;
-  --ts-gray:          #6B7280;
-  --ts-gray-light:    #E5E7EB;
+  --ts-off-white: #F5F9F7;
+  --ts-gray: #6B7280;
+  --ts-gray-light: #E5E7EB;
 
   /* --- Shadows --- */
-  --ts-shadow-sm:     0 2px 8px rgba(14, 37, 65, .08);
-  --ts-shadow-md:     0 8px 32px rgba(14, 37, 65, .14);
-  --ts-shadow-lg:     0 20px 60px rgba(14, 37, 65, .20);
-  --ts-shadow-card:   0 4px 24px rgba(14, 37, 65, .08);
+  --ts-shadow-sm: 0 2px 8px rgba(14, 37, 65, .08);
+  --ts-shadow-md: 0 8px 32px rgba(14, 37, 65, .14);
+  --ts-shadow-lg: 0 20px 60px rgba(14, 37, 65, .20);
+  --ts-shadow-card: 0 4px 24px rgba(14, 37, 65, .08);
 
   /* --- Typography --- */
-  --ts-font:          'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --ts-font-heading:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ts-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ts-font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   /* --- Spacing / Shape --- */
-  --ts-radius-sm:     8px;
-  --ts-radius-md:     16px;
-  --ts-radius-lg:     24px;
-  --ts-radius-full:   9999px;
+  --ts-radius-sm: 8px;
+  --ts-radius-md: 16px;
+  --ts-radius-lg: 24px;
+  --ts-radius-full: 9999px;
 
-  --ts-transition:    all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --ts-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --ts-theme-transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
 }
 
@@ -69,36 +69,36 @@
    ===================================================== */
 [data-theme="dark"] {
   /* --- Semantic Surface Tokens (dark) --- */
-  --ts-bg:            #070f1e;
-  --ts-bg-secondary:  #0d1829;
-  --ts-bg-card:       #111e31;
-  --ts-bg-raised:     #162035;
-  --ts-bg-hero:       linear-gradient(135deg, #050c18 0%, #0d1f35 50%, #0a2d25 100%);
+  --ts-bg: #070f1e;
+  --ts-bg-secondary: #0d1829;
+  --ts-bg-card: #111e31;
+  --ts-bg-raised: #162035;
+  --ts-bg-hero: linear-gradient(135deg, #050c18 0%, #0d1f35 50%, #0a2d25 100%);
 
   /* --- Semantic Text Tokens (dark) --- */
-  --ts-text:          #dce8f5;
-  --ts-text-muted:    #7a9ab8;
-  --ts-text-heading:  #f0f6ff;
-  --ts-text-inverse:  #070f1e;
+  --ts-text: #dce8f5;
+  --ts-text-muted: #7a9ab8;
+  --ts-text-heading: #f0f6ff;
+  --ts-text-inverse: #070f1e;
 
   /* --- Semantic Border / Divider (dark) --- */
-  --ts-border:        rgba(255, 255, 255, .07);
+  --ts-border: rgba(255, 255, 255, .07);
   --ts-price: #3CBFA0;
-  --ts-price-color:   #3CBFA0;
-  --ts-divider:       rgba(255, 255, 255, .06);
-  --ts-backdrop:      rgba(0, 0, 0, 0.75);
+  --ts-price-color: #3CBFA0;
+  --ts-divider: rgba(255, 255, 255, .06);
+  --ts-backdrop: rgba(0, 0, 0, 0.75);
 
   /* --- Legacy aliases (dark) --- */
-  --ts-white:         #dce8f5;
-  --ts-off-white:     #0d1829;
-  --ts-gray:          #7a9ab8;
-  --ts-gray-light:    rgba(255,255,255,.08);
+  --ts-white: #dce8f5;
+  --ts-off-white: #0d1829;
+  --ts-gray: #7a9ab8;
+  --ts-gray-light: rgba(255, 255, 255, .08);
 
   /* --- Shadows (dark — deeper, more dramatic) --- */
-  --ts-shadow-sm:     0 2px 8px rgba(0, 0, 0, .3);
-  --ts-shadow-md:     0 8px 32px rgba(0, 0, 0, .4);
-  --ts-shadow-lg:     0 20px 60px rgba(0, 0, 0, .5);
-  --ts-shadow-card:   0 4px 24px rgba(0, 0, 0, .4);
+  --ts-shadow-sm: 0 2px 8px rgba(0, 0, 0, .3);
+  --ts-shadow-md: 0 8px 32px rgba(0, 0, 0, .4);
+  --ts-shadow-lg: 0 20px 60px rgba(0, 0, 0, .5);
+  --ts-shadow-card: 0 4px 24px rgba(0, 0, 0, .4);
 
   /* --- Dawn Compatibility (dark) --- */
   --color-background: 7, 15, 30;
@@ -110,7 +110,8 @@
   --color-link: 60, 191, 160;
   --color-badge-background: 13, 24, 41;
   --color-badge-foreground: 220, 232, 245;
-  --color-border: 255, 255, 255; /* for rgba border usage */
+  --color-border: 255, 255, 255;
+  /* for rgba border usage */
 }
 
 /* =====================================================
@@ -135,16 +136,20 @@ body,
   .header--middle-left {
     grid-template-columns: 1fr auto 1fr !important;
   }
+
   .header--middle-left .header__inline-menu {
     justify-self: center !important;
     display: block !important;
   }
-  .header--middle-left .header__inline-menu > .list-menu--inline {
+
+  .header--middle-left .header__inline-menu>.list-menu--inline {
     justify-content: center !important;
   }
+
   .header--middle-left .header__icons {
     justify-self: end !important;
   }
+
   .header--middle-left .header__heading {
     justify-self: start !important;
   }
@@ -173,6 +178,7 @@ body,
 [data-theme="dark"] .underlined-link {
   color: var(--ts-text-heading) !important;
 }
+
 [data-theme="dark"] .underlined-link:hover {
   color: var(--ts-mint) !important;
 }
@@ -235,6 +241,7 @@ body,
   background: var(--ts-bg-raised);
   border-color: var(--ts-border);
 }
+
 [data-theme="dark"] .lc-qty-control input {
   color: var(--ts-text-heading);
 }
@@ -275,7 +282,7 @@ body,
 
 /* Tag pills dark */
 [data-theme="dark"] .ts-tag {
-  background: rgba(60,191,160,.15);
+  background: rgba(60, 191, 160, .15);
   color: var(--ts-mint);
 }
 
@@ -287,7 +294,7 @@ body,
   color: var(--ts-text-heading) !important;
 }
 
-[data-theme="dark"] .ts-hero-countdown > div {
+[data-theme="dark"] .ts-hero-countdown>div {
   background: var(--ts-bg-raised) !important;
   border-color: var(--ts-border) !important;
 }
@@ -297,27 +304,68 @@ body,
 }
 
 /* WhatsApp Reviews snippet overrides */
-[data-theme="dark"] .ts-wa-reviews-snippet .ts-wa-heading { color: var(--ts-text-heading); }
-[data-theme="dark"] .ts-wa-heading-sub { color: var(--ts-text-muted); }
-[data-theme="dark"] .ts-wa-card { background: var(--ts-bg-card); border-color: var(--ts-border); }
-[data-theme="dark"] .ts-wa-name { color: var(--ts-text-heading); }
-[data-theme="dark"] .ts-wa-review-title { color: var(--ts-text-heading); }
-[data-theme="dark"] .ts-wa-review-text { color: var(--ts-text); }
-[data-theme="dark"] .ts-wa-hashtag { color: var(--ts-mint); }
-[data-theme="dark"] .ts-wa-nav { background: var(--ts-bg-raised); color: var(--ts-text); }
+[data-theme="dark"] .ts-wa-reviews-snippet .ts-wa-heading {
+  color: var(--ts-text-heading);
+}
+
+[data-theme="dark"] .ts-wa-heading-sub {
+  color: var(--ts-text-muted);
+}
+
+[data-theme="dark"] .ts-wa-card {
+  background: var(--ts-bg-card);
+  border-color: var(--ts-border);
+}
+
+[data-theme="dark"] .ts-wa-name {
+  color: var(--ts-text-heading);
+}
+
+[data-theme="dark"] .ts-wa-review-title {
+  color: var(--ts-text-heading);
+}
+
+[data-theme="dark"] .ts-wa-review-text {
+  color: var(--ts-text);
+}
+
+[data-theme="dark"] .ts-wa-hashtag {
+  color: var(--ts-mint);
+}
+
+[data-theme="dark"] .ts-wa-nav {
+  background: var(--ts-bg-raised);
+  color: var(--ts-text);
+}
 
 /* Lab Viewer overrides */
-[data-theme="dark"] .ts-lab-card { background: var(--ts-bg-card); border-color: var(--ts-border); }
-[data-theme="dark"] .ts-lab-card-header { border-bottom-color: var(--ts-border); }
-[data-theme="dark"] .ts-lab-row span:first-child { color: var(--ts-text-muted); }
-[data-theme="dark"] .ts-lab-row span:last-child { color: var(--ts-text-heading); }
-[data-theme="dark"] .ts-lab-row span.ts-status-pass { color: var(--ts-mint); }
+[data-theme="dark"] .ts-lab-card {
+  background: var(--ts-bg-card);
+  border-color: var(--ts-border);
+}
+
+[data-theme="dark"] .ts-lab-card-header {
+  border-bottom-color: var(--ts-border);
+}
+
+[data-theme="dark"] .ts-lab-row span:first-child {
+  color: var(--ts-text-muted);
+}
+
+[data-theme="dark"] .ts-lab-row span:last-child {
+  color: var(--ts-text-heading);
+}
+
+[data-theme="dark"] .ts-lab-row span.ts-status-pass {
+  color: var(--ts-mint);
+}
 
 /* Outline button dark */
 [data-theme="dark"] .ts-btn-outline {
   color: var(--ts-text);
   border-color: var(--ts-border-strong);
 }
+
 [data-theme="dark"] .ts-btn-outline:hover {
   background: var(--ts-bg-raised);
   color: var(--ts-text-heading);
@@ -328,8 +376,9 @@ body,
   background: var(--ts-bg-raised);
   color: var(--ts-text-heading);
 }
+
 [data-theme="dark"] .ts-btn-white:hover {
-  background: rgba(60,191,160,.15);
+  background: rgba(60, 191, 160, .15);
   color: var(--ts-mint);
 }
 
@@ -640,4 +689,10 @@ body {
   margin-bottom: 12px;
 }
 
-/* --- Shared IntersectionObserver script (inline in each section) --- */
+/* Signal browser to treat these as light-scheme elements */
+
+#sotp .login-header,
+#sotp .consent-text,
+#sotp .consent-links-wrapper a {
+  color: initial !important;
+}

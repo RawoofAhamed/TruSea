@@ -225,6 +225,27 @@
   margin-top: 40px;
 }
 
+.ts-rec-all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #00C896;
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.ts-rec-all-link:hover {
+  color: #00b386;
+  gap: 12px;
+}
+.ts-rec-all-link svg {
+  transition: transform 0.25s;
+}
+.ts-rec-all-link:hover svg {
+  transform: translateX(4px);
+}
+
 @media (max-width: 1200px) {
   .ts-rec-card { flex: 0 0 calc(50% - 12px); }
 }

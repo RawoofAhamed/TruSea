@@ -764,18 +764,23 @@ body {
 /* --- Modal Input Fixes --- */
 .ts-minicart input,
 .ts-search-form input,
-input[type="text"],
+input[type="text"]:not(.lc-modal__qty-input),
 input[type="tel"],
 input[type="email"],
-input[type="number"],
+input[type="number"]:not(.lc-modal__qty-input),
 input[type="password"] {
   color: #000000 !important;
 }
 
-[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="text"]:not(.lc-modal__qty-input),
 [data-theme="dark"] input[type="tel"],
 [data-theme="dark"] input[type="email"],
-[data-theme="dark"] input[type="number"],
+[data-theme="dark"] input[type="number"]:not(.lc-modal__qty-input),
 [data-theme="dark"] input[type="password"] {
   color: #000000 !important;
+}
+
+/* Modal qty input always white in dark mode */
+[data-theme="dark"] .lc-modal__qty-input {
+  color: #ffffff !important;
 }
