@@ -100,7 +100,7 @@
       ],
       "name": "Trusea PDP Main",
       "settings": {
-        "max_width": 1100,
+        "max_width": 1200,
         "show_breadcrumbs": true,
         "badge_text": "{{ product.metafields.custom.recipe_title.value }}"
       }
