@@ -105,20 +105,28 @@
         "badge_text": "{{ product.metafields.custom.recipe_title.value }}"
       }
     },
+    "trusea_combo_buy_FY6LLT": {
+      "type": "trusea-combo-buy",
+      "name": "TruSea Combo Buy",
+      "settings": {
+        "heading": "Frequently Bought Together"
+      }
+    },
     "product_recipes": {
       "type": "trusea-product-recipes",
       "name": "Product Specific Recipes",
       "settings": {
         "bg_color": "#ffffff",
         "eyebrow": "TruSea Kitchen",
-        "heading": "What Are You Cooking Today?"
+        "heading": "What Are You Cooking Today?",
+        "all_recipes_url": ""
       }
     },
     "related_products": {
       "type": "trusea-related",
       "name": "Trusea Related Products",
       "settings": {
-        "max_width": 1100,
+        "max_width": 1200,
         "heading": "You may also like",
         "limit": 4,
         "show_desc": true,
@@ -181,13 +189,6 @@
       ],
       "settings": {
         "include_margins": true
-      }
-    },
-    "trusea_combo_buy_FY6LLT": {
-      "type": "trusea-combo-buy",
-      "name": "TruSea Combo Buy",
-      "settings": {
-        "heading": "Frequently Bought Together"
       }
     }
   },
