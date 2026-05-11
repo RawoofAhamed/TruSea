@@ -1,202 +1,6 @@
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 
-{%- liquid
-  assign collection_to_show = collection
-  if collection.handle == 'limited-catch'
-    assign collection_to_show = collections.all
-  endif
-
-  # Manual tag and sort detection
-  assign current_filter_tag = ""
-  assign current_sort_by = ""
-  assign capture_params = content_for_header | split: '\"'
-  for part in capture_params
-    if part contains 'tag='
-      assign current_filter_tag = part | split: 'tag=' | last | split: '&' | first | url_decode
-    elsif part contains 'sort_by='
-      assign current_sort_by = part | split: 'sort_by=' | last | split: '&' | first | url_decode
-    endif
-  endfor
--%}
-
-<div class="lc-coll-wrap">
-
-  {%- liquid
-    assign limit = section.settings.products_per_page
-    if collection.handle == 'limited-catch'
-      assign limit = 250
-    endif
-  -%}
-  {%- paginate collection_to_show.products by limit -%}
-
-  {%- if collection.handle == 'limited-catch' -%}
-    <!-- ── Special Catch Banner ── -->
-    <div class="ts-catch-banner">
-      <div class="ts-catch-banner__content">
-        <div class="ts-catch-banner__tagline">
-          <span class="ts-catch-banner__emoji">🐟</span>
-          CHENNAI'S FRESHEST SEAFOOD
-        </div>
-        <h1 class="ts-catch-banner__heading">Daily Fresh Catch Straight to Your Door</h1>
-        <p class="ts-catch-banner__subtext">Sourced daily &middot; Cleaned &amp; packed &middot; FREE delivery</p>
-      </div>
-    </div>
-  {%- else -%}
-    <!-- ── Default Collection Header ── -->
-    <div class="lc-coll-header">
-      <div class="lc-coll-header__inner">
-        <div class="lc-coll-header__titles">
-          <h1 class="lc-coll-title">{{ collection.title }}</h1>
-          {% if collection.description != blank %}
-            <p class="lc-coll-desc">{{ collection.description | strip_html | truncatewords: 20 }}</p>
-          {% endif %}
-        </div>
-        <div class="lc-coll-count">
-          <span>{{ collection_to_show.products_count }} products</span>
-        </div>
-      </div>
-    </div>
-  {%- endif -%}
-
-  <!-- ── Sort + Filter Bar ── -->
-  <div class="lc-coll-toolbar">
-    <div class="lc-coll-toolbar__inner">
-
-      <div class="lc-coll-filters-scroll-wrap">
-        <div class="lc-coll-filters" id="lc-filters">
-          <button class="lc-filter-pill {% if current_tags == blank and current_filter_tag == "" %}active{% endif %}" data-tag="all" onclick="lcFilterAll(this)">All</button>
-          {%- for tag in collection_to_show.all_tags limit: 12 -%}
-             {%- liquid
-               assign is_active = false
-               assign search_tag_lc = current_filter_tag | downcase
-               assign tag_lc = tag | downcase
-               if current_tags contains tag
-                 assign is_active = true
-               elsif search_tag_lc == tag_lc
-                 assign is_active = true
-               endif
-             -%}
-            <button class="lc-filter-pill {% if is_active %}active{% endif %}"
-                    data-tag="{{ tag | handleize }}"
-                    onclick="lcFilterTag(this, '{{ tag | escape }}')">
-              {{ tag }}
-            </button>
-          {%- endfor -%}
-        </div>
-      </div>
-
-      <!-- Sort -->
-      <div class="lc-coll-sort">
-        <label for="lc-sortby" class="lc-sort-label">Sort</label>
-        <div class="lc-sort-select-wrap">
-          {%- assign active_sort = current_sort_by | default: collection_to_show.sort_by | default: 'best-selling' -%}
-          <select id="lc-sortby" class="lc-sort-select"
-                  onchange="const url = new URL(window.location.href); url.searchParams.set('sort_by', this.value); window.location.href = url.toString();">
-            {%- for option in collection_to_show.sort_options -%}
-              <option value="{{ option.value }}"
-                      {% if option.value == active_sort %}selected{% endif %}>
-                {{ option.name }}
-              </option>
-            {%- endfor -%}
-          </select>
-          <svg class="lc-sort-caret" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ── Product Grid ── -->
-  <div class="lc-coll-grid" id="lc-product-grid">
-    {%- for product in collection_to_show.products -%}
-      {%- comment -%} Check if product matches current_tags or current_filter_tag if we are on the limited-catch override {%- endcomment -%}
-      {%- if collection.handle == 'limited-catch' -%}
-        {%- if current_tags != blank or current_filter_tag != "" -%}
-          {%- assign matches_tags = true -%}
-          {%- if current_filter_tag != "" -%}
-            {%- liquid
-              assign has_tag = false
-              assign search_tag = current_filter_tag | downcase
-              for tag in product.tags
-                assign t = tag | downcase
-                if t == search_tag
-                  assign has_tag = true
-                  break
-                endif
-              endfor
-            -%}
-            {%- unless has_tag -%}
-              {%- assign matches_tags = false -%}
-            {%- endunless -%}
-          {%- else -%}
-            {%- for tag in current_tags -%}
-              {%- unless product.tags contains tag -%}
-                {%- assign matches_tags = false -%}
-                {%- break -%}
-              {%- endunless -%}
-            {%- endfor -%}
-          {%- endif -%}
-          {%- if matches_tags == false -%}{%- continue -%}{%- endif -%}
-        {%- endif -%}
-      {%- endif -%}
-
-      {%- liquid
-        assign is_bestseller = false
-        for tag in product.tags
-          assign t = tag | downcase
-          if t == 'best seller' or t == 'bestseller'
-            assign is_bestseller = true
-            break
-          endif
-        endfor
-
-        if is_bestseller == false
-          for coll in product.collections
-            assign c = coll.handle | downcase
-            if c contains 'best-seller' or c contains 'bestseller' or c contains 'best-selling'
-              assign is_bestseller = true
-              break
-            endif
-          endfor
-        endif
-      -%}
-      <div class="lc-product-wrapper"
-           data-is-bestseller="{{ is_bestseller }}"
-           data-is-available="{{ product.available }}"
-           data-title="{{ product.title | escape }}">
-        {% render 'trusea-product-card', product: product, section: section %}
-      </div>
-    {%- else -%}
-      <div class="lc-coll-empty">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d8eeff" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <p>No products found in this collection.</p>
-      </div>
-    {%- endfor -%}
-  </div>
-
-  <!-- ── Pagination ── -->
-  {%- if paginate.pages > 1 -%}
-    <div class="lc-coll-pagination">
-      {%- if paginate.previous -%}
-        <a href="{{ paginate.previous.url }}" class="lc-page-btn">← Prev</a>
-      {%- endif -%}
-      {%- for part in paginate.parts -%}
-        {%- if part.is_link -%}
-          <a href="{{ part.url }}" class="lc-page-btn">{{ part.title }}</a>
-        {%- else -%}
-          <span class="lc-page-btn lc-page-btn--active">{{ part.title }}</span>
-        {%- endif -%}
-      {%- endfor -%}
-      {%- if paginate.next -%}
-        <a href="{{ paginate.next.url }}" class="lc-page-btn">Next →</a>
-      {%- endif -%}
-    </div>
-  {%- endif -%}
-
-  {%- endpaginate -%}
-</div>
-
 <style>
 /* ── Special Catch Banner ── */
 .ts-catch-banner {
@@ -493,8 +297,6 @@
   }
 }
 
-
-
 /* Empty state */
 .lc-coll-empty {
   grid-column: 1 / -1;
@@ -535,6 +337,202 @@
   border-color: var(--ts-mint);
 }
 </style>
+
+{%- liquid
+  assign collection_to_show = collection
+  if collection.handle == 'limited-catch'
+    assign collection_to_show = collections.all
+  endif
+
+  # Manual tag and sort detection
+  assign current_filter_tag = ""
+  assign current_sort_by = ""
+  assign capture_params = content_for_header | split: '\"'
+  for part in capture_params
+    if part contains 'tag='
+      assign current_filter_tag = part | split: 'tag=' | last | split: '&' | first | url_decode
+    elsif part contains 'sort_by='
+      assign current_sort_by = part | split: 'sort_by=' | last | split: '&' | first | url_decode
+    endif
+  endfor
+-%}
+
+<div class="lc-coll-wrap">
+
+  {%- liquid
+    assign limit = section.settings.products_per_page
+    if collection.handle == 'limited-catch'
+      assign limit = 250
+    endif
+  -%}
+  {%- paginate collection_to_show.products by limit -%}
+
+  {%- if collection.handle == 'limited-catch' -%}
+    <!-- ── Special Catch Banner ── -->
+    <div class="ts-catch-banner">
+      <div class="ts-catch-banner__content">
+        <div class="ts-catch-banner__tagline">
+          <span class="ts-catch-banner__emoji">🐟</span>
+          CHENNAI'S FRESHEST SEAFOOD
+        </div>
+        <h1 class="ts-catch-banner__heading">Daily Fresh Catch Straight to Your Door</h1>
+        <p class="ts-catch-banner__subtext">Sourced daily &middot; Cleaned &amp; packed &middot; FREE delivery</p>
+      </div>
+    </div>
+  {%- else -%}
+    <!-- ── Default Collection Header ── -->
+    <div class="lc-coll-header">
+      <div class="lc-coll-header__inner">
+        <div class="lc-coll-header__titles">
+          <h1 class="lc-coll-title">{{ collection.title }}</h1>
+          {% if collection.description != blank %}
+            <p class="lc-coll-desc">{{ collection.description | strip_html | truncatewords: 20 }}</p>
+          {% endif %}
+        </div>
+        <div class="lc-coll-count">
+          <span>{{ collection_to_show.products_count }} products</span>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <!-- ── Sort + Filter Bar ── -->
+  <div class="lc-coll-toolbar">
+    <div class="lc-coll-toolbar__inner">
+
+      <div class="lc-coll-filters-scroll-wrap">
+        <div class="lc-coll-filters" id="lc-filters">
+          <button class="lc-filter-pill {% if current_tags == blank and current_filter_tag == "" %}active{% endif %}" data-tag="all" onclick="lcFilterAll(this)">All</button>
+          {%- for tag in collection_to_show.all_tags limit: 12 -%}
+             {%- liquid
+               assign is_active = false
+               assign search_tag_lc = current_filter_tag | downcase
+               assign tag_lc = tag | downcase
+               if current_tags contains tag
+                 assign is_active = true
+               elsif search_tag_lc == tag_lc
+                 assign is_active = true
+               endif
+             -%}
+            <button class="lc-filter-pill {% if is_active %}active{% endif %}"
+                    data-tag="{{ tag | handleize }}"
+                    onclick="lcFilterTag(this, '{{ tag | escape }}')">
+              {{ tag }}
+            </button>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <!-- Sort -->
+      <div class="lc-coll-sort">
+        <label for="lc-sortby" class="lc-sort-label">Sort</label>
+        <div class="lc-sort-select-wrap">
+          {%- assign active_sort = current_sort_by | default: collection_to_show.sort_by | default: 'best-selling' -%}
+          <select id="lc-sortby" class="lc-sort-select"
+                  onchange="const url = new URL(window.location.href); url.searchParams.set('sort_by', this.value); window.location.href = url.toString();">
+            {%- for option in collection_to_show.sort_options -%}
+              <option value="{{ option.value }}"
+                      {% if option.value == active_sort %}selected{% endif %}>
+                {{ option.name }}
+              </option>
+            {%- endfor -%}
+          </select>
+          <svg class="lc-sort-caret" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Product Grid ── -->
+  <div class="lc-coll-grid" id="lc-product-grid">
+    {%- for product in collection_to_show.products -%}
+      {%- comment -%} Check if product matches current_tags or current_filter_tag if we are on the limited-catch override {%- endcomment -%}
+      {%- if collection.handle == 'limited-catch' -%}
+        {%- if current_tags != blank or current_filter_tag != "" -%}
+          {%- assign matches_tags = true -%}
+          {%- if current_filter_tag != "" -%}
+            {%- liquid
+              assign has_tag = false
+              assign search_tag = current_filter_tag | downcase
+              for tag in product.tags
+                assign t = tag | downcase
+                if t == search_tag
+                  assign has_tag = true
+                  break
+                endif
+              endfor
+            -%}
+            {%- unless has_tag -%}
+              {%- assign matches_tags = false -%}
+            {%- endunless -%}
+          {%- else -%}
+            {%- for tag in current_tags -%}
+              {%- unless product.tags contains tag -%}
+                {%- assign matches_tags = false -%}
+                {%- break -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          {%- endif -%}
+          {%- if matches_tags == false -%}{%- continue -%}{%- endif -%}
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- liquid
+        assign is_bestseller = false
+        for tag in product.tags
+          assign t = tag | downcase
+          if t == 'best seller' or t == 'bestseller'
+            assign is_bestseller = true
+            break
+          endif
+        endfor
+
+        if is_bestseller == false
+          for coll in product.collections
+            assign c = coll.handle | downcase
+            if c contains 'best-seller' or c contains 'bestseller' or c contains 'best-selling'
+              assign is_bestseller = true
+              break
+            endif
+          endfor
+        endif
+      -%}
+      <div class="lc-product-wrapper"
+           data-is-bestseller="{{ is_bestseller }}"
+           data-is-available="{{ product.available }}"
+           data-title="{{ product.title | escape }}">
+        {% render 'trusea-product-card', product: product, section: section %}
+      </div>
+    {%- else -%}
+      <div class="lc-coll-empty">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d8eeff" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <p>No products found in this collection.</p>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <!-- ── Pagination ── -->
+  {%- if paginate.pages > 1 -%}
+    <div class="lc-coll-pagination">
+      {%- if paginate.previous -%}
+        <a href="{{ paginate.previous.url }}" class="lc-page-btn">← Prev</a>
+      {%- endif -%}
+      {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}
+          <a href="{{ part.url }}" class="lc-page-btn">{{ part.title }}</a>
+        {%- else -%}
+          <span class="lc-page-btn lc-page-btn--active">{{ part.title }}</span>
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if paginate.next -%}
+        <a href="{{ paginate.next.url }}" class="lc-page-btn">Next →</a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- endpaginate -%}
+</div>
 
 <script>
 // ── Priority Sort ── runs immediately to reorder products on the limited-catch page

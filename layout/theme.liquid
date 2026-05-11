@@ -11,9 +11,31 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     {{ 'ocean-homepage.css' | asset_url | stylesheet_tag }}
+    {{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
+    
+    <style>
+      /* Smooth Page Fade-in */
+      body { opacity: 0; transition: opacity 0.4s ease; }
+      body.loaded { opacity: 1; }
+      
+      /* Pre-define critical layout tokens to prevent layout shift */
+      :root {
+        --ts-navy: #0E2541;
+        --ts-mint: #3CBFA0;
+      }
+    </style>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        document.body.classList.add('loaded');
+      });
+      // Fallback for very slow loads
+      window.onload = () => {
+        document.body.classList.add('loaded');
+      };
+    </script>
     
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
