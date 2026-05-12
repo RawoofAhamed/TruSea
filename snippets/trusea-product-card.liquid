@@ -298,11 +298,41 @@
 .lc-card__ribbon--soldout {
   background: #EF4444;
 }
-.lc-card__ribbon--prebook {
-  background: #00C896;
+.lc-card__ribbon--prebook,
+.lc-card__ribbon--popular {
+  overflow: hidden;
 }
+
+.lc-card__ribbon--prebook {
+  background: #4bae51;
+}
+
 .lc-card__ribbon--popular {
   background: #0d3d6e;
+}
+
+.lc-card__ribbon--prebook::after,
+.lc-card__ribbon--popular::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: skewX(-20deg);
+  animation: lc-ribbon-shimmer 5s infinite ease-in-out;
+}
+
+@keyframes lc-ribbon-shimmer {
+  0% { left: -100%; }
+  25% { left: 150%; }
+  100% { left: 150%; }
 }
 .lc-card__ribbon--stacked {
   top: 38px !important;
