@@ -23,10 +23,10 @@
         "reward_rally_user_balance_redeem_Vx3RNf": {
           "type": "shopify://apps/reward-rally/blocks/user-balance-redeem/7a5b3c5a-2c07-4679-abe0-3d120b89d95a",
           "settings": {
-            "max_redeem": 100,
+            "max_redeem": 10000,
             "reward_label": "Coins",
-            "bg_color_start": "#60EDBA",
-            "bg_color_end": "#D7F2F2",
+            "bg_color_start": "#60edba",
+            "bg_color_end": "#d7f2f2",
             "btn_color": "#00b96b"
           }
         },
