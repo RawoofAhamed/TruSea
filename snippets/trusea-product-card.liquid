@@ -143,14 +143,17 @@
       <a href="{{ product.url | default: '#' }}">{{ title }}</a>
     </h3>
 
-    {% if section.settings.show_desc %}
-      <div class="lc-card__desc">{{ subtitle }}</div>
-    {% endif %}
+
 
     {% if section.settings.show_weight %}
       <div class="lc-card__meta">
-        {% assign weight_meta = product.metafields.custom.weight_info | default: "500 g | 10-12 Pieces | Serves 2-3" %}
-        {{ weight_meta }}
+        <div class="lc-meta-row">
+          <span class="lc-meta-item"><span class="lc-meta-label">Gross:</span> <span class="lc-meta-value">{{ product.metafields.custom.gross_weight.value | default: '520-650g' }}</span></span>
+          <span class="lc-meta-item"><span class="lc-meta-label">Net:</span> <span class="lc-meta-value">{{ product.metafields.custom.net_weight.value | default: '360-450g' }}</span></span>
+          <span class="lc-meta-item"><span class="lc-meta-label">Pieces:</span> <span class="lc-meta-value">{{ product.metafields.custom.pieces.value | default: '4-5' }}</span></span>
+          <span class="lc-meta-item"><span class="lc-meta-label">Serves:</span> <span class="lc-meta-value">{{ product.metafields.custom.serves.value | default: '2-3' }}</span></span>
+          <span class="lc-meta-item"><span class="lc-meta-label">Cut:</span> <span class="lc-meta-value">{{ product.metafields.custom.cut.value | default: '10 mm' }}</span></span>
+        </div>
       </div>
     {% endif %}
 
@@ -172,8 +175,23 @@
     <!-- Bottom Row (Delivery + Button) -->
     <div class="lc-card__bottom">
       <div class="lc-card__delivery">
-        {% if section.settings.show_delivery and has_prebook %}
-          Delivery at the earliest
+        {% if section.settings.show_delivery %}
+          {%- liquid
+            assign status_text = ""
+            if has_prebook
+              assign status_text = "Ships as soon as available"
+            elsif available
+              assign status_text = "Immediately available"
+            endif
+          -%}
+          {% if status_text != "" %}
+            <div class="lc-delivery-wrap">
+              <div class="lc-delivery-info">
+                <span class="lc-delivery-label">Delivery time:</span>
+                <span class="lc-delivery-status">{{ status_text }}</span>
+              </div>
+            </div>
+          {% endif %}
         {% endif %}
       </div>
 
@@ -381,7 +399,7 @@
 
 .lc-card__title {
   margin: 0 0 8px;
-  font-size: 20px;
+  font-size: 18.4px;
   font-weight: 900;
   color: var(--ts-text-heading, #1a1a1a);
   line-height: 1.2;
@@ -415,10 +433,43 @@
 
 /* Meta info */
 .lc-card__meta {
-  font-size: 14px;
-  color: var(--ts-text-muted, #555);
-  margin-bottom: 16px;
-  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+  border-top: 1px solid var(--ts-border);
+  padding-top: 20px;
+  margin-top: 4px;
+}
+.lc-meta-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  line-height: 1.2;
+}
+.lc-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ts-text-muted, #94a3b8);
+  margin-bottom: 6px;
+}
+.lc-meta-item:not(:last-child)::after {
+    content: '|';
+    margin: 0 2px;
+    color: var(--text3);
+    opacity: 0.5;
+    font-size: 11px;
+}
+.lc-meta-label {
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.9;
+}
+.lc-meta-value {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--ts-text-heading, #fff);
 }
 
 /* Price block */
@@ -427,12 +478,12 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 .lc-price-sale {
   font-size: 26px;
   font-weight: 900;
-  color: var(--ts-price) !important;
+  color: #fb923c !important;
 }
 .lc-price-tax {
   font-size: 11px;
@@ -481,6 +532,35 @@
   font-size: 11px;
   color: var(--ts-text-muted, #777);
   font-weight: 500;
+  flex: 1;
+}
+.lc-delivery-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.lc-delivery-icon {
+  margin-top: 2px;
+  color: var(--ts-mint);
+  flex-shrink: 0;
+}
+.lc-delivery-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.lc-delivery-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: #24d365 !important;
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+.lc-delivery-status {
+  font-size: 11px;
+  color: var(--ts-text-muted, #94a3b8) !important;
+  font-weight: 500;
+  line-height: 1.2;
 }
 
 /* Button & Qty Control */
