@@ -183,6 +183,7 @@
   white-space: nowrap;
   -webkit-overflow-scrolling: touch; 
   padding: 8px 0;
+  justify-content: center;
 }
 .lc-coll-filters::-webkit-scrollbar { display: none; }
 .lc-filter-pill {
@@ -281,20 +282,6 @@
   
   .lc-filter-pill { padding: 6px 14px; font-size: 11px; }
   
-  .lc-coll-sort {
-    justify-content: space-between;
-    border-top: 1px solid #f8fafc;
-    padding-top: 12px;
-  }
-  
-  .lc-sort-label { display: inline-block; font-size: 10px; opacity: 0.6; } 
-
-  .lc-sort-select {
-    font-size: 13px;
-    padding: 8px 32px 8px 12px;
-    flex: 1;
-    max-width: 200px;
-  }
 }
 
 /* Empty state */
@@ -402,44 +389,13 @@
 
       <div class="lc-coll-filters-scroll-wrap">
         <div class="lc-coll-filters" id="lc-filters">
-          <button class="lc-filter-pill {% if current_tags == blank and current_filter_tag == "" %}active{% endif %}" data-tag="all" onclick="lcFilterAll(this)">All</button>
-          {%- for tag in collection_to_show.all_tags limit: 12 -%}
-             {%- liquid
-               assign is_active = false
-               assign search_tag_lc = current_filter_tag | downcase
-               assign tag_lc = tag | downcase
-               if current_tags contains tag
-                 assign is_active = true
-               elsif search_tag_lc == tag_lc
-                 assign is_active = true
-               endif
-             -%}
-            <button class="lc-filter-pill {% if is_active %}active{% endif %}"
-                    data-tag="{{ tag | handleize }}"
-                    onclick="lcFilterTag(this, '{{ tag | escape }}')">
-              {{ tag }}
-            </button>
-          {%- endfor -%}
+          <button class="lc-filter-pill active" data-view="best-sellers" onclick="lcSwitchView(this, 'best-sellers')">Best Sellers</button>
+          <button class="lc-filter-pill" data-view="in-stock" onclick="lcSwitchView(this, 'in-stock')">In Stock</button>
+          <button class="lc-filter-pill" data-view="pre-book" onclick="lcSwitchView(this, 'pre-book')">Pre Book</button>
+          <button class="lc-filter-pill" data-view="all" onclick="lcSwitchView(this, 'all')">All (Alphabetical)</button>
         </div>
       </div>
 
-      <!-- Sort -->
-      <div class="lc-coll-sort">
-        <label for="lc-sortby" class="lc-sort-label">Sort</label>
-        <div class="lc-sort-select-wrap">
-          {%- assign active_sort = current_sort_by | default: collection_to_show.sort_by | default: 'best-selling' -%}
-          <select id="lc-sortby" class="lc-sort-select"
-                  onchange="const url = new URL(window.location.href); url.searchParams.set('sort_by', this.value); window.location.href = url.toString();">
-            {%- for option in collection_to_show.sort_options -%}
-              <option value="{{ option.value }}"
-                      {% if option.value == active_sort %}selected{% endif %}>
-                {{ option.name }}
-              </option>
-            {%- endfor -%}
-          </select>
-          <svg class="lc-sort-caret" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-      </div>
 
     </div>
   </div>
@@ -480,11 +436,15 @@
 
       {%- liquid
         assign is_bestseller = false
+        assign is_prebook = false
+        
         for tag in product.tags
           assign t = tag | downcase
           if t == 'best seller' or t == 'bestseller'
             assign is_bestseller = true
-            break
+          endif
+          if t contains 'prebook' or t contains 'pre-book'
+            assign is_prebook = true
           endif
         endfor
 
@@ -501,6 +461,7 @@
       <div class="lc-product-wrapper"
            data-is-bestseller="{{ is_bestseller }}"
            data-is-available="{{ product.available }}"
+           data-is-prebook="{{ is_prebook }}"
            data-title="{{ product.title | escape }}">
         {% render 'trusea-product-card', product: product, section: section %}
       </div>
@@ -535,57 +496,102 @@
 </div>
 
 <script>
-// ── Priority Sort ── runs immediately to reorder products on the limited-catch page
+/**
+ * ── Unified Filter & Sort Engine ──
+ * Handles client-side views: Best Sellers, In Stock, Pre Book, All
+ */
 (function() {
   const grid = document.getElementById('lc-product-grid');
   if (!grid) return;
 
-  const cards = Array.from(grid.querySelectorAll('.lc-product-wrapper'));
-  if (cards.length === 0) return;
+  const allCards = Array.from(grid.querySelectorAll('.lc-product-wrapper'));
+  let currentView = 'best-sellers';
+  let currentSort = 'priority';
 
-  // Assign priority: 0 = bestseller+available, 1 = regular+available, 2 = bestseller+unavailable, 3 = regular+unavailable
-  cards.sort(function(a, b) {
-    function priority(el) {
-      const isBestseller = el.dataset.isBestseller === 'true';
-      const isAvailable  = el.dataset.isAvailable  === 'true';
-      if (isAvailable  && isBestseller)  return 0;
-      if (isAvailable  && !isBestseller) return 1;
-      if (!isAvailable && isBestseller)  return 2;
-      return 3;
+  // ── Global Applier ──
+  window.lcApplyView = function() {
+    let visibleCards = allCards;
+
+    // 1. Filtering
+    if (currentView === 'in-stock') {
+      // Filter: Available AND NOT prebook
+      visibleCards = allCards.filter(c => c.dataset.isAvailable === 'true' && c.dataset.isPrebook === 'false');
+    } else if (currentView === 'pre-book') {
+      // Filter: ONLY prebook
+      visibleCards = allCards.filter(c => c.dataset.isPrebook === 'true');
+    } else {
+      // "Best Sellers" (Default) and "All" views - show everything
+      visibleCards = allCards;
     }
-    return priority(a) - priority(b);
-  });
 
-  // Re-attach in sorted order
-  cards.forEach(function(card) { grid.appendChild(card); });
+    // 2. Sorting
+    visibleCards.sort((a, b) => {
+      const aAvail = a.dataset.isAvailable === 'true';
+      const bAvail = b.dataset.isAvailable === 'true';
+      const aBest  = a.dataset.isBestseller === 'true';
+      const bBest  = b.dataset.isBestseller === 'true';
+      const aPre   = a.dataset.isPrebook === 'true';
+      const bPre   = b.dataset.isPrebook === 'true';
+      const aTitle = a.dataset.title.toLowerCase();
+      const bTitle = b.dataset.title.toLowerCase();
+
+      if (currentSort === 'alphabetical') {
+        // Alphabetical: Available first, then Alpha
+        if (aAvail !== bAvail) return aAvail ? -1 : 1;
+        return aTitle.localeCompare(bTitle);
+      } else {
+        // Priority Sort (Default)
+        // Order: (Bestseller+In-stock) > (Prebook) > (Regular In-stock) > (Out of stock)
+        
+        function getWeight(avail, best, pre) {
+          if (avail && best && !pre) return 0; // Bestseller In-stock
+          if (pre)                   return 1; // Pre-book (Available or not, usually priority)
+          if (avail && !best)        return 2; // Regular In-stock
+          return 3; // Out of stock / Others
+        }
+        
+        return getWeight(aAvail, aBest, aPre) - getWeight(bAvail, bBest, bPre);
+      }
+    });
+
+    // 3. Render
+    grid.innerHTML = '';
+    if (visibleCards.length === 0) {
+      grid.innerHTML = '<div class="lc-coll-empty"><p>No products found in this view.</p></div>';
+    } else {
+      visibleCards.forEach(card => {
+        card.style.display = 'block';
+        grid.appendChild(card);
+      });
+    }
+    
+    // Hide non-visible cards (optional, since we clear grid, but good for reference)
+    allCards.forEach(c => { if (!visibleCards.includes(c)) c.style.display = 'none'; });
+  };
+
+  window.lcSwitchView = function(btn, view) {
+    currentView = view;
+    currentSort = (view === 'all') ? 'alphabetical' : 'priority';
+    
+    // Sync UI
+    document.querySelectorAll('.lc-filter-pill').forEach(p => p.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    else {
+      const activePill = document.querySelector(`.lc-filter-pill[data-view="${view}"]`);
+      if (activePill) activePill.classList.add('active');
+    }
+
+    const sortSelect = document.getElementById('lc-sort-select');
+    if (sortSelect) sortSelect.value = view;
+
+    lcApplyView();
+  };
+
+  // Remove lcApplyViewFromDropdown as the dropdown is removed
+
+  // Run on init
+  lcApplyView();
 })();
-
-// Tag filter
-function lcFilterTag(btn, tag) {
-  {%- assign is_lc = false -%}
-  {%- if collection.handle == 'limited-catch' -%}{%- assign is_lc = true -%}{%- endif -%}
-  const isLimitedCatch = {{ is_lc | json }};
-  if (isLimitedCatch) {
-    const url = new URL(window.location.href);
-    url.searchParams.set('tag', tag);
-    window.location.href = url.toString();
-  } else {
-    window.location.href = '{{ collection.url }}/' + tag;
-  }
-}
-
-function lcFilterAll(btn) {
-  {%- assign is_lc = false -%}
-  {%- if collection.handle == 'limited-catch' -%}{%- assign is_lc = true -%}{%- endif -%}
-  const isLimitedCatch = {{ is_lc | json }};
-  if (isLimitedCatch) {
-    const url = new URL(window.location.href);
-    url.searchParams.delete('tag');
-    window.location.href = url.toString();
-  } else {
-    window.location.href = '{{ collection.url }}';
-  }
-}
 </script>
 
 {% schema %}
