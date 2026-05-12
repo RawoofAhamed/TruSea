@@ -65,21 +65,6 @@
           "type": "shopify://apps/zippy-zipcode-validator/blocks/zippy_widget/14b4faf5-2197-4ce1-b361-3bf431fbc80f",
           "settings": {}
         },
-        "reward_rally_user_balance_display_ViqYeB": {
-          "type": "shopify://apps/reward-rally/blocks/user_balance_display/7a5b3c5a-2c07-4679-abe0-3d120b89d95a",
-          "settings": {
-            "show_box": true,
-            "gradient_start_color": "#00c950",
-            "gradient_end_color": "#009966",
-            "gradient_direction": "90deg",
-            "box_text_color": "#ffffff",
-            "button_text_color": "#00b96b",
-            "login_message": "Your rewards are waiting! Log-in now to unlock coins and grab instant discounts.",
-            "zero_balance_message": "Start shopping to earn coins and unlock exciting discounts!",
-            "rr_login_text": "Login",
-            "rr_redeem_text": "Redeem Now"
-          }
-        },
         "reward_rally_monthly_loyalty_pdp_H8g7Ak": {
           "type": "shopify://apps/reward-rally/blocks/monthly_loyalty_pdp/7a5b3c5a-2c07-4679-abe0-3d120b89d95a",
           "settings": {}
@@ -95,7 +80,6 @@
         "cut_preference",
         "price_and_buy",
         "zippy_zipcode_validator_zippy_widget_RiXcnt",
-        "reward_rally_user_balance_display_ViqYeB",
         "reward_rally_monthly_loyalty_pdp_H8g7Ak"
       ],
       "name": "Trusea PDP Main",
