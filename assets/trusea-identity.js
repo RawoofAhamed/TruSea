@@ -59,16 +59,25 @@
                 phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
                 phoneInput.dispatchEvent(new Event('change', { bubbles: true }));
                 
-                phoneInput.focus();
+                // 4. Populate and Focus
+                phoneInput.value = phoneNumber;
+                phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
+                phoneInput.dispatchEvent(new Event('change', { bubbles: true }));
                 
-                // Re-apply focus after a tiny delay to ensure it's not stolen by the modal's internal autofocus logic
-                requestAnimationFrame(() => {
-                  phoneInput.focus();
-                  setTimeout(() => phoneInput.focus(), 50);
+                // Aggressive focus strategy
+                const focusSequence = [0, 50, 150, 300, 500];
+                focusSequence.forEach(delay => {
+                  setTimeout(() => {
+                    if (document.activeElement !== phoneInput) {
+                      phoneInput.click();
+                      phoneInput.focus();
+                      if (typeof phoneInput.select === 'function') phoneInput.select();
+                    }
+                  }, delay);
                 });
 
                 clearInterval(checkInput);
-                console.log('TruSea Identity: Phone populated and focused successfully.');
+                console.log('TruSea Identity: Phone populated and focus sequence initiated.');
               }
               
               attempts++;
