@@ -60,8 +60,15 @@
                 phoneInput.dispatchEvent(new Event('change', { bubbles: true }));
                 
                 phoneInput.focus();
+                
+                // Re-apply focus after a tiny delay to ensure it's not stolen by the modal's internal autofocus logic
+                requestAnimationFrame(() => {
+                  phoneInput.focus();
+                  setTimeout(() => phoneInput.focus(), 50);
+                });
+
                 clearInterval(checkInput);
-                console.log('TruSea Identity: Phone populated successfully.');
+                console.log('TruSea Identity: Phone populated and focused successfully.');
               }
               
               attempts++;
