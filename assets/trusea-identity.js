@@ -9,58 +9,81 @@
     let phoneNumber = urlParams.get('q');
     
     if (phoneNumber) {
-      // Trim to last 10 digits if longer
+      // 1. Trim to last 10 digits if longer
       if (phoneNumber.length > 10) {
         phoneNumber = phoneNumber.slice(-10);
       }
       
       if (phoneNumber.length === 10) {
-      const token = localStorage.getItem('OtpLoginToken');
-      
-      // If no token, we need to log in
-      if (!token || token.trim() === '') {
-        // 1. Trigger the login modal by clicking the account button
-        const accountBtn = document.querySelector('.ts-icon-btn[aria-label="Account"], a[href="/account"]');
+        const token = localStorage.getItem('OtpLoginToken');
         
-        if (accountBtn) {
-          accountBtn.click();
+        // 2. If no token, we need to log in
+        if (!token || token.trim() === '' || token === 'null') {
+          // Find the login/account button. Trying multiple selectors.
+          const selectors = [
+            '.ts-icon-btn[aria-label="Account"]',
+            'a[href="/account"]',
+            '.login-btn',
+            '.account-link',
+            '[data-open-login]'
+          ];
           
-          // 2. Wait for the modal to render and find the phone input
-          let attempts = 0;
-          const maxAttempts = 50; // 5 seconds total (100ms intervals)
+          let accountBtn = null;
+          for (let s of selectors) {
+            accountBtn = document.querySelector(s);
+            if (accountBtn) break;
+          }
           
-          const checkInput = setInterval(() => {
-            // Target common selectors for phone inputs in these types of modals
-            const phoneInput = document.querySelector('input[placeholder*="Phone"], input[placeholder*="phone"], input[name*="phone"], input[type="tel"]');
+          if (accountBtn) {
+            console.log('TruSea Identity: Triggering login modal for phone:', phoneNumber);
             
-            if (phoneInput) {
-              // Pre-fill the phone number
-              phoneInput.value = phoneNumber;
-              
-              // Trigger events so reactive frameworks (React/Vue/etc) pick up the change
-              phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
-              phoneInput.dispatchEvent(new Event('change', { bubbles: true }));
-              
-              // Focus the input so the user can immediately edit or proceed
-              phoneInput.focus();
-              
-              clearInterval(checkInput);
-            }
+            // Programmatically click with a MouseEvent to ensure listeners are triggered
+            const clickEvent = new MouseEvent('click', {
+              view: window,
+              bubbles: true,
+              cancelable: true
+            });
+            accountBtn.dispatchEvent(clickEvent);
             
-            attempts++;
-            if (attempts >= maxAttempts) {
-              clearInterval(checkInput);
-            }
-          }, 100);
+            // 3. Wait for the modal to render and find the phone input
+            let attempts = 0;
+            const maxAttempts = 100; // 10 seconds total
+            
+            const checkInput = setInterval(() => {
+              const phoneInput = document.querySelector('input[placeholder*="Phone"], input[placeholder*="phone"], input[name*="phone"], input[type="tel"], .otp-phone-input');
+              
+              if (phoneInput && phoneInput.offsetParent !== null) { // Ensure it's visible
+                phoneInput.value = phoneNumber;
+                
+                // Trigger events for reactive frameworks
+                phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
+                phoneInput.dispatchEvent(new Event('change', { bubbles: true }));
+                
+                phoneInput.focus();
+                clearInterval(checkInput);
+                console.log('TruSea Identity: Phone populated successfully.');
+              }
+              
+              attempts++;
+              if (attempts >= maxAttempts) {
+                clearInterval(checkInput);
+                console.log('TruSea Identity: Could not find phone input after 10s.');
+              }
+            }, 100);
+          } else {
+            console.log('TruSea Identity: Account button not found.');
+          }
         }
       }
     }
   }
 
-  // Run on load
+  // Run on load and also try after a short delay
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
     initIdentityHelper();
   } else {
     window.addEventListener('DOMContentLoaded', initIdentityHelper);
   }
+  // Delayed check for cases where buttons render late
+  setTimeout(initIdentityHelper, 1000);
 })();
