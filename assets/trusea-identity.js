@@ -6,9 +6,15 @@
 (function() {
   function initIdentityHelper() {
     const urlParams = new URLSearchParams(window.location.search);
-    const phoneNumber = urlParams.get('q');
+    let phoneNumber = urlParams.get('q');
     
-    if (phoneNumber && phoneNumber.length >= 10) {
+    if (phoneNumber) {
+      // Trim to last 10 digits if longer
+      if (phoneNumber.length > 10) {
+        phoneNumber = phoneNumber.slice(-10);
+      }
+      
+      if (phoneNumber.length === 10) {
       const token = localStorage.getItem('OtpLoginToken');
       
       // If no token, we need to log in
