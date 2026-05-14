@@ -103,12 +103,12 @@
           </div>
         {% else %}
           {%- liquid
-            assign total_media = product.media.size
-            assign images_to_show = product.media | reverse | limit: 4
+            assign images_to_show = product.media | where: "media_type", "image" | reverse | limit: 4
+            assign total_images = images_to_show.size
           -%}
-          {% if total_media > 0 %}
+          {% if total_images > 0 %}
             {% for image in images_to_show %}
-              <div class="lc-card__slide {% if forloop.first %}active{% endif %}">
+              <div class="lc-card__slide {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}">
                 <img src="{{ image | image_url: width: 600 }}" alt="{{ image.alt | escape }}" loading="lazy" class="lc-img">
               </div>
             {% endfor %}
@@ -982,10 +982,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentIndex = 1; // Start at the first original slide
     let isTransitioning = false;
 
-    // Initial position
-    container.style.transition = 'none';
-    container.style.transform = `translateX(-${currentIndex * 100}%)`;
+    // Initial position - use requestAnimationFrame to ensure DOM is ready
+    const initPosition = () => {
+      container.style.transition = 'none';
+      container.style.transform = `translateX(-${currentIndex * 100}%)`;
+      void container.offsetWidth; // Force reflow
+      updateSlide(true);
+    };
 
+    requestAnimationFrame(initPosition);
+    setTimeout(initPosition, 50); // Failsafe for some browsers
+    
     let updateSlide = (instant = false) => {
       if (instant) {
         container.style.transition = 'none';
