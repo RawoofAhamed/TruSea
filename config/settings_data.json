@@ -541,6 +541,11 @@
         "type": "shopify://apps/otp-login-notify/blocks/app-embed-block/c26b7b17-273d-4800-af62-8ec88ba18251",
         "disabled": false,
         "settings": {}
+      },
+      "10062364562402706847": {
+        "type": "shopify://apps/kite-pickup-delivery/blocks/date-time-picker/019b694b-5a4a-7640-80b4-7ffc4e22acca",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
