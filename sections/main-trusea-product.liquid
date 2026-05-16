@@ -225,6 +225,7 @@
           {% when 'price_and_buy' %}
             <div class="lc-pdp-buy-box" {{ block.shopify_attributes }}>
               {% form 'product', product, id: 'lc-pdp-form', class: 'lc-pdp-form' %}
+                <input type="hidden" name="properties[Cut Preference]" id="lc-hidden-cut-preference" value="">
                 <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
                 <div class="lc-pdp-buy-row">
                   <div class="lc-pdp-price-col">
@@ -1147,6 +1148,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize on load
     updateVariantInfo();
+
+    // Sync Cut Preference
+    const cutRadios = document.querySelectorAll('.lc-cut-radio');
+    const hiddenCut = document.getElementById('lc-hidden-cut-preference');
+    if (cutRadios.length > 0 && hiddenCut) {
+      function syncCut() {
+        const checked = document.querySelector('.lc-cut-radio:checked');
+        if (checked) hiddenCut.value = checked.value;
+      }
+      cutRadios.forEach(r => r.addEventListener('change', syncCut));
+      syncCut(); // Initial sync
+    }
   }
 });
 </script>
