@@ -103,7 +103,7 @@
           </div>
         {% else %}
           {%- liquid
-            assign images_to_show = product.media | where: "media_type", "image" | reverse | limit: 4
+            assign images_to_show = product.media | where: "media_type", "image" | limit: 4
             assign total_images = images_to_show.size
           -%}
           {% if total_images > 0 %}
