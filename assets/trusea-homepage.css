@@ -363,6 +363,12 @@ body,
   color: var(--ts-mint);
 }
 
+[data-theme="dark"] .ts-section-heading,
+[data-theme="dark"] .ts-section-sub,
+[data-theme="dark"] .ts-cat-heading {
+  color: var(--ts-text-heading) !important;
+}
+
 html,
 body {
   overflow-x: hidden;

@@ -1,7 +1,7 @@
 {{ 'trusea-homepage.css' | asset_url | stylesheet_tag }}
 
 {% if section.settings.show_section != false %}
-<section class="ts-selfish-faqs ts-section" id="ts-selfish-faqs"
+<section class="ts-selfish-faqs ts-section" id="selfish-faqs"
   style="
     --ts-faq-bg: {{ section.settings.bg_color | default: '#F5F9F7' }};
     --ts-faq-accent: {{ section.settings.accent_color | default: '#3CBFA0' }};
@@ -125,7 +125,7 @@
 
 <script>
 (function() {
-  const revealEls = document.querySelectorAll('#ts-selfish-faqs .ts-reveal-up');
+  const revealEls = document.querySelectorAll('#selfish-faqs .ts-reveal-up');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {

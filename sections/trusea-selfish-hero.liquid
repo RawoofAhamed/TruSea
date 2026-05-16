@@ -46,10 +46,10 @@
       </p>
 
       <div class="ts-sh-ctas">
-        <a href="#{{ section.settings.plan_anchor | default: 'selfish-pricing' }}" class="ts-btn ts-btn-primary">
+       <!-- <a href="#{{ section.settings.plan_anchor | default: 'selfish-pricing' }}" class="ts-btn ts-btn-primary">
           {{ section.settings.plan_text | default: 'Membership Plans' }}
-        </a>
-        <a href="#{{ section.settings.faq_anchor | default: 'selfish-faq' }}" class="ts-btn ts-btn-outline" style="border-color: rgba(255,255,255,0.2); color: #fff;">
+        </a> -->
+        <a href="#{{ section.settings.faq_anchor | default: 'selfish-faqs' }}" class="ts-btn ts-btn-primary ts-sh-main-btn" >
           {{ section.settings.faq_text | default: 'FAQs' }}
         </a>
         {% if section.settings.whatsapp_link != blank %}
@@ -79,13 +79,13 @@
   padding: 100px 0;
   font-family: var(--ts-font);
   color: var(--ts-sh-text);
-  text-align: center;
+  text-align: left;
 }
 
 .ts-sh-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(14,37,65,0.9), rgba(14,37,65,0.7), rgba(14,37,65,0.85));
+  background: linear-gradient(to right, rgba(14,37,65,0.95), rgba(14,37,65,0.7), rgba(14,37,65,0.4));
   z-index: 1;
 }
 
@@ -93,7 +93,7 @@
   position: relative;
   z-index: 5;
   max-width: 800px;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .ts-sh-heading {
@@ -113,14 +113,14 @@
   color: rgba(255,255,255,0.8);
   margin-bottom: 48px;
   max-width: 600px;
-  margin-left: auto;
+  margin-left: 0;
   margin-right: auto;
 }
 
 .ts-sh-ctas {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 20px;
   flex-wrap: wrap;
 }
@@ -160,10 +160,16 @@
 }
 
 @media (max-width: 600px) {
-  .ts-sh-ctas { flex-direction: column; width: 100%; }
+  .ts-selfish-hero { text-align: center; }
+  .ts-sh-inner { margin: 0 auto; }
+  .ts-sh-sub { margin-left: auto; }
+  .ts-sh-ctas { justify-content: center; flex-direction: column; width: 100%; }
   .ts-sh-ctas .ts-btn { width: 100%; justify-content: center; }
   .ts-sh-inner { padding: 0 10px; }
   .ts-selfish-hero { min-height: 70vh; padding: 120px 0 80px; }
+  .ts-sh-overlay {
+    background: linear-gradient(to bottom, rgba(14,37,65,0.9), rgba(14,37,65,0.7), rgba(14,37,65,0.85));
+  }
 }
 </style>
 
@@ -267,7 +273,7 @@
       "type": "text",
       "id": "faq_anchor",
       "label": "FAQ Anchor ID",
-      "default": "selfish-faq"
+      "default": "selfish-faqs"
     },
     {
       "type": "text",
