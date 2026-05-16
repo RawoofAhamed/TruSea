@@ -1248,17 +1248,18 @@ if (typeof addTruSeaToCart !== 'function') {
     btn.disabled = true;
 
     try {
-      const payload = { 
-        id: variantId, 
-        quantity: quantity,
-        sections: "cart-drawer,cart-icon-bubble"
-      };
-      
       const props = {};
       if (isPreorder) props['Preorder'] = 'Yes';
       if (cutSelected) props['Cut Preference'] = cutSelected;
       
-      if (Object.keys(props).length > 0) payload.properties = props;
+      const payload = { 
+        items: [{
+          id: variantId, 
+          quantity: quantity,
+          properties: props
+        }],
+        sections: "cart-drawer,cart-icon-bubble"
+      };
 
       const res = await fetch('/cart/add.js', {
         method: 'POST',
