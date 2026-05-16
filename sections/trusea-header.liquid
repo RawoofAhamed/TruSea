@@ -35,6 +35,18 @@
       {% endif %}
     </a>
 
+    <!-- Header Location (Mobile Friendly) -->
+    {% if section.settings.show_location_picker %}
+    <div class="ts-header-location-box" id="ts-header-location-trigger">
+      <div class="ts-hl-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <div class="ts-hl-text">
+        <span class="ts-hl-pincode" id="ts-hl-pincode-val">Select Area</span>
+      </div>
+    </div>
+    {% endif %}
+
     <!-- Nav: desktop -->
     <nav class="ts-header-nav" aria-label="Main navigation">
       {% if section.settings.menu != blank %}
@@ -53,46 +65,7 @@
     <!-- Right icons -->
     <div class="ts-header-actions">
       <!-- Location selector -->
-      {% if section.settings.show_location_picker %}
-      <div class="ts-location-wrapper" id="ts-location-wrapper">
-        <button class="ts-location-btn" id="ts-location-btn" aria-label="Select location" aria-expanded="false">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <span id="ts-location-label">{{ section.settings.default_location | default: 'Select Area' }}</span>
-          <svg class="ts-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="ts-location-dropdown" id="ts-location-dropdown" aria-hidden="true">
-          <!-- Zippy Widget Block -->
-          <div id="ts-zippy-wrapper">
-            {% for block in section.blocks %}
-              {% if block.type == '@app' %}
-                {% render block %}
-              {% endif %}
-            {% endfor %}
-          </div>
-
-          {% assign has_locations = false %}
-          {% for block in section.blocks %}
-            {% if block.type == 'location' %}{% assign has_locations = true %}{% endif %}
-          {% endfor %}
-
-          {% if has_locations %}
-          <p class="ts-location-or">or choose area</p>
-          <ul class="ts-location-list">
-            {% for block in section.blocks %}
-              {% if block.type == 'location' %}
-                <li>
-                  <button type="button" class="ts-location-option" data-label="{{ block.settings.label }}" data-pincode="{{ block.settings.pincode }}" {{ block.shopify_attributes }}>
-                    {{ block.settings.label }}
-                    {% if block.settings.pincode != blank %}<span>{{ block.settings.pincode }}</span>{% endif %}
-                  </button>
-                </li>
-              {% endif %}
-            {% endfor %}
-          </ul>
-          {% endif %}
-        </div>
-      </div>
-      {% endif %}
+      <!-- WhatsApp Support -->
 
       <!-- WhatsApp Support -->
       {% assign wa_number = section.settings.whatsapp_number | default: '+917397468800' %}
@@ -229,6 +202,59 @@
     </div>
   </div>
   <div class="ts-drawer-backdrop" id="ts-drawer-backdrop"></div>
+
+  <!-- Forced Pincode Popup -->
+  <div class="ts-pincode-modal" id="ts-pincode-modal" aria-modal="true" role="dialog">
+    <div class="ts-pm-content">
+      <div class="ts-pm-header">
+        <div class="ts-pm-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h2 class="ts-pm-title">Where should we deliver?</h2>
+        <p class="ts-pm-sub">Enter your pincode to check availability and delivery time.</p>
+      </div>
+
+      <div class="ts-pm-body">
+        {% if customer and customer.addresses_count > 0 %}
+          <div class="ts-pm-saved-section">
+            <h3 class="ts-pm-label">Saved Addresses</h3>
+            <div class="ts-pm-addresses">
+              {% for address in customer.addresses %}
+                <div class="ts-pm-addr-item {% if address == customer.default_address %}active{% endif %}" 
+                     data-pincode="{{ address.zip }}" 
+                     data-address-id="{{ address.id }}"
+                     data-label="{{ address.address1 | escape }}">
+                  <div class="ts-pm-addr-info">
+                    <strong>{{ address.address1 }}</strong>
+                    <span>{{ address.city }}, {{ address.zip }}</span>
+                  </div>
+                  <div class="ts-pm-addr-actions">
+                    <label class="ts-pm-default-toggle" onclick="event.stopPropagation()">
+                      <input type="checkbox" class="js-make-default" {% if address == customer.default_address %}checked disabled{% endif %}>
+                      <span>Default</span>
+                    </label>
+                    <button type="button" class="ts-pm-select-btn">Select</button>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="ts-location-or"><span>or enter new pincode</span></div>
+        {% endif %}
+
+        <div class="ts-pm-zippy-container">
+          <div id="ts-zippy-wrapper">
+            {% for block in section.blocks %}
+              {% if block.type == '@app' %}
+                {% render block %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ts-pincode-backdrop" id="ts-pincode-backdrop"></div>
 </header>
 
 <div class="ts-header-updated-row">
@@ -282,6 +308,33 @@
 /* Logo */
 .ts-header-logo { display: flex; align-items: center; flex-shrink: 0; }
 .ts-header-logo img { height: 40px; width: auto; object-fit: contain; }
+/* Header Location Box */
+.ts-header-location-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 6px 14px;
+  border-radius: var(--ts-radius-full);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-left: 12px;
+  color: var(--ts-header-text);
+}
+.ts-header-location-box:hover {
+  background: rgba(60,191,160,0.15);
+  border-color: var(--ts-header-accent);
+}
+.ts-hl-icon { color: var(--ts-header-accent); display: flex; align-items: center; }
+.ts-hl-pincode { font-size: 13px; font-weight: 700; white-space: nowrap; }
+
+@media (max-width: 600px) {
+  .ts-header-location-box { padding: 5px 10px; margin-left: 8px; }
+  .ts-hl-pincode { font-size: 11px; }
+  .ts-hl-icon svg { width: 15px; height: 15px; }
+}
+
 .ts-logo-text {
   display: flex;
   align-items: center;
@@ -1229,6 +1282,125 @@
   background: rgba(14,37,65,.1);
   color: var(--ts-navy);
 }
+/* ---- Forced Pincode Modal ---- */
+.ts-pincode-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -45%);
+  width: 90%;
+  max-width: 450px;
+  background: var(--ts-bg-card, #fff);
+  z-index: 9999;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  padding: 40px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.ts-pincode-modal.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%);
+}
+.ts-pincode-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(14,37,65,0.85);
+  backdrop-filter: blur(8px);
+  z-index: 9998;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+.ts-pincode-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ts-pm-header { text-align: center; margin-bottom: 30px; }
+.ts-pm-icon {
+  width: 64px; height: 64px;
+  background: rgba(60,191,160,0.15);
+  color: var(--ts-mint);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+.ts-pm-title { font-size: 24px; font-weight: 900; color: var(--ts-text-heading); margin: 0 0 8px; }
+.ts-pm-sub { font-size: 14px; color: var(--ts-text-muted); line-height: 1.5; margin: 0; }
+
+.ts-pm-label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ts-text-muted); margin-bottom: 12px; }
+.ts-pm-addresses { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; max-height: 240px; overflow-y: auto; padding-right: 4px; }
+.ts-pm-addresses::-webkit-scrollbar { width: 4px; }
+.ts-pm-addresses::-webkit-scrollbar-thumb { background: var(--ts-border); border-radius: 4px; }
+
+.ts-pm-addr-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background: var(--ts-bg-secondary, #f8fafc);
+  border: 1.5px solid var(--ts-border);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.ts-pm-addr-item:hover { border-color: var(--ts-mint); background: rgba(60,191,160,0.05); }
+.ts-pm-addr-item.active { border-color: var(--ts-mint); background: rgba(60,191,160,0.08); }
+
+.ts-pm-addr-info { display: flex; flex-direction: column; gap: 2px; }
+.ts-pm-addr-info strong { font-size: 14px; color: var(--ts-text-heading); }
+.ts-pm-addr-info span { font-size: 12px; color: var(--ts-text-muted); }
+
+.ts-pm-addr-actions { display: flex; align-items: center; gap: 12px; }
+.ts-pm-default-toggle { display: flex; align-items: center; gap: 4px; cursor: pointer; }
+.ts-pm-default-toggle input { cursor: pointer; }
+.ts-pm-default-toggle span { font-size: 11px; font-weight: 700; color: var(--ts-text-muted); }
+.ts-pm-select-btn {
+  background: var(--ts-mint);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ts-pm-input-row { display: flex; gap: 12px; }
+.ts-pm-input-row input {
+  flex: 1;
+  background: var(--ts-bg-secondary, #f8fafc);
+  border: 1.5px solid var(--ts-border);
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  outline: none;
+  transition: border-color 0.2s;
+  color: var(--ts-text-heading);
+}
+.ts-pm-input-row input:focus { border-color: var(--ts-mint); }
+.ts-pm-error { color: #ef4444; font-size: 12px; font-weight: 600; margin-top: 8px; display: none; }
+
+.ts-location-or { display: flex; align-items: center; gap: 10px; margin: 20px 0; }
+.ts-location-or::before, .ts-location-or::after { content: ''; flex: 1; border-bottom: 1px solid var(--ts-border); }
+.ts-location-or span { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--ts-text-muted); }
+
+[data-theme="dark"] .ts-pincode-modal { background: #0f1a2a; border: 1px solid rgba(255,255,255,0.08); }
+[data-theme="dark"] .ts-pm-addr-item { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.08); }
+[data-theme="dark"] .ts-pm-input-row input { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.08); }
+
+@media (max-width: 480px) {
+  .ts-pincode-modal { padding: 30px 20px; }
+  .ts-pm-title { font-size: 20px; }
+  .ts-pm-addr-item { padding: 12px; }
+  .ts-pm-addr-info strong { font-size: 13px; }
+}
 </style>
 
 <script>
@@ -1342,6 +1514,84 @@
       }
     });
     observer.observe(zippyWrapper, { childList: true, subtree: true, characterData: true });
+  }
+
+  // ── Forced Pincode Modal Logic ──────────────────────────────────
+  const pmModal = document.getElementById('ts-pincode-modal');
+  const pmBackdrop = document.getElementById('ts-pincode-backdrop');
+  
+  const headerLocTrigger = document.getElementById('ts-header-location-trigger');
+  const headerPincodeVal = document.getElementById('ts-hl-pincode-val');
+
+  function openPincodeModal() {
+    if (!pmModal) return;
+    pmModal.classList.add('open');
+    pmBackdrop.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  if (headerLocTrigger) {
+    headerLocTrigger.addEventListener('click', openPincodeModal);
+  }
+
+  function closePincodeModal() {
+    if (!pmModal) return;
+    pmModal.classList.remove('open');
+    pmBackdrop.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handlePincodeSubmit(pincode, label) {
+    if (!/^\d{6}$/.test(pincode)) return;
+
+    const zippyInput = document.querySelector('#ts-zippy-wrapper input.pin');
+    const zippyCheckBtn = document.querySelector('#ts-zippy-wrapper button.checkPin');
+    
+    if (zippyInput && zippyCheckBtn) {
+      zippyInput.value = pincode;
+      zippyCheckBtn.click();
+    } else {
+      setLocation(label || pincode, pincode);
+    }
+  }
+
+  // If forced popup is enabled and no saved pincode, force the popup
+  {% if section.settings.force_pincode_popup %}
+    if (!localStorage.getItem('ts_location_pincode')) {
+      setTimeout(openPincodeModal, 1500);
+    }
+  {% endif %}
+
+  // Saved address clicks
+  document.querySelectorAll('.ts-pm-addr-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      const pin = item.dataset.pincode;
+      const lbl = item.dataset.label;
+      const addrId = item.dataset.addressId;
+      const makeDefault = item.querySelector('.js-make-default');
+
+      if (makeDefault && makeDefault.checked && !makeDefault.disabled) {
+        fetch(`/account/addresses/${addrId}/default`, { method: 'POST' });
+      }
+
+      handlePincodeSubmit(pin, lbl);
+    });
+  });
+
+  // Watch setLocation to close modal and update header
+  const _origSetLocation = setLocation;
+  setLocation = function(label, pincode) {
+    _origSetLocation(label, pincode);
+    if (headerPincodeVal) {
+      headerPincodeVal.textContent = pincode || label;
+    }
+    closePincodeModal();
+  };
+
+  // Sync header on load
+  const savedPin = localStorage.getItem('ts_location_pincode');
+  if (savedPin && headerPincodeVal) {
+    headerPincodeVal.textContent = savedPin;
   }
 
   // Mobile drawer
@@ -1668,6 +1918,13 @@ document.addEventListener('DOMContentLoaded', () => {
       "label": "Show Location / Pincode Picker",
       "info": "Toggle the location selector button in the header on or off.",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "force_pincode_popup",
+      "label": "Enable forced pincode popup",
+      "default": true,
+      "info": "Force users to select a pincode on first visit."
     },
     {
       "type": "header",
