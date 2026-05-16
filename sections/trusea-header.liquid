@@ -296,13 +296,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 24px;
   padding: 0 32px;
   height: 68px;
-  max-width: 1300px;
+  max-width: 1400px;
   margin: 0 auto;
-  width:100%;
-  position: relative;
+  width: 100%;
 }
 
 /* Logo */
@@ -313,14 +312,15 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
-  padding: 6px 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 6px 12px;
   border-radius: var(--ts-radius-full);
   cursor: pointer;
   transition: all 0.25s ease;
-  margin-left: 12px;
+  margin-left: 8px;
   color: var(--ts-header-text);
+  flex-shrink: 0;
 }
 .ts-header-location-box:hover {
   background: rgba(60,191,160,0.15);
@@ -349,10 +349,10 @@
 .ts-header-nav {
   display: flex;
   align-items: center;
-  gap: 6px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  justify-content: center;
+  gap: 4px;
+  flex: 1;
+  margin: 0 20px;
   white-space: nowrap;
 }
 
@@ -1400,6 +1400,29 @@
   .ts-pm-title { font-size: 20px; }
   .ts-pm-addr-item { padding: 12px; }
   .ts-pm-addr-info strong { font-size: 13px; }
+}
+/* Zippy Modal Container */
+.ts-pm-zippy-container {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: rgba(255,255,255,0.02);
+  border-radius: 16px;
+  padding: 10px;
+  border: 1px dashed rgba(255,255,255,0.05);
+}
+[data-theme="light"] .ts-pm-zippy-container {
+  background: rgba(0,0,0,0.02);
+  border-color: rgba(0,0,0,0.05);
+}
+
+#ts-zippy-wrapper {
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .ts-header-nav { display: none; }
 }
 </style>
 
