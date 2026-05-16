@@ -815,3 +815,9 @@ input[type="password"] {
 [data-theme="dark"] .bcdp-method-active svg path {
   fill: #000;
 }
+
+/* ---- Custom Kite Method Button Styling ---- */
+.kite-method-btn {
+  background-color: #3cbfa0 !important;
+  color: #ffffff !important;
+}
