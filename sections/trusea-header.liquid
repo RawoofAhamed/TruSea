@@ -1587,11 +1587,13 @@
         // Clone so caller can still read it
         const clone = response.clone();
         clone.json().then(data => {
-          if (data && data.title) {
+          const addedItem = (data && data.items && data.items[0]) ? data.items[0] : data;
+          if (addedItem && (addedItem.title || addedItem.product_title)) {
+            const itemTitle = addedItem.title || addedItem.product_title || 'Product';
             // Refresh badge
             fetch('/cart.js').then(r => r.json()).then(cart => {
               updateBadge(cart.item_count);
-              showToast(data.title + ' added!');
+              showToast(itemTitle + ' added!');
               openMiniCart();
             });
           }
