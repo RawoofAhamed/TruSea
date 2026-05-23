@@ -26,7 +26,7 @@
     <!-- Logo -->
     <a href="/" class="ts-header-logo" aria-label="{{ shop.name }}">
       {% if section.settings.logo != blank %}
-        <img src="{{ section.settings.logo | image_url: width: 160 }}" alt="{{ shop.name }}" width="130" height="40">
+        <img src="{{ section.settings.logo | image_url: width: 200 }}" alt="{{ shop.name }}" width="130" height="40">
       {% else %}
         <span class="ts-logo-text">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -289,7 +289,7 @@
 
 /* Logo */
 .ts-header-logo { display: flex; align-items: center; flex-shrink: 0; }
-.ts-header-logo img { height: 40px; width: auto; object-fit: contain; }
+.ts-header-logo img { height: 44px; width: auto; object-fit: contain; }
 
 
 .ts-logo-text {
@@ -804,7 +804,7 @@
 }
 @media (max-width: 560px) {
   .ts-header-inner { padding: 0 16px; gap: 8px; }
-  .ts-header-logo img { height: 32px; }
+  .ts-header-logo img { height: 33px; }
   .ts-location-dropdown { right: -60px; width: 260px; }
   .ts-hamburger { width: 40px; height: 40px; margin-left: 8px; }
   .ts-header-actions { gap: 8px; }
