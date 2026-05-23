@@ -114,9 +114,10 @@
         "loc_5"
       ],
       "settings": {
-        "logo": "shopify://shop_images/Trusea_light_c66dcf0a-cd06-4bd6-90f2-11174868db40.png",
+        "logo": "shopify://shop_images/WhatsApp_Image_2026-05-18_at_4.01.41_PM.png",
         "menu": "main-menu",
         "default_location": "Select Area",
+        "whatsapp_number": "+917397468800",
         "show_location_picker": false,
         "bg_color": "#0e2541",
         "accent_color": "#3cbfa0",
