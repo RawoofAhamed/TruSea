@@ -1270,7 +1270,9 @@ if (typeof addTruSeaToCart !== 'function') {
 
       if (res.ok) {
         // btn.style.display = 'none'; // Don't hide the add button
-        showToast(parsedAdd.title + ' added!');
+        const addedItem = (parsedAdd.items && parsedAdd.items[0]) ? parsedAdd.items[0] : parsedAdd;
+        const itemTitle = addedItem.title || addedItem.product_title || 'Product';
+        showToast(itemTitle + ' added!');
         
         // const qtyControl = parent.querySelector('.lc-qty-control');
         // qtyControl.style.display = 'flex';
