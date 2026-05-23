@@ -8,11 +8,14 @@
 >
   <!-- Top bar: search overlay -->
   <div class="ts-header-search-overlay" id="ts-search-overlay">
+    <button type="button" class="ts-search-overlay-close" id="ts-search-overlay-close" aria-label="Close search">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
     <div class="ts-header-search-inner">
       <form action="/search" method="get" class="ts-search-form">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="search" name="q" id="ts-search-input" placeholder="Search for fish, prawns, seafood…" autocomplete="off">
-        <button type="button" class="ts-search-close" id="ts-search-close" aria-label="Close search">
+        <button type="button" class="ts-search-clear" id="ts-search-clear" aria-label="Clear search text">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </form>
@@ -591,25 +594,66 @@
 .ts-search-form svg:first-child { color: var(--ts-header-accent, var(--ts-mint)); flex-shrink: 0; }
 .ts-search-form input {
   flex: 1;
-  border: none;
-  outline: none;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  color: var(--ts-navy, #0e2541) !important;
   font-size: 16px;
   font-family: var(--ts-font);
-  color: var(--ts-text);
-  background: transparent;
 }
-.ts-search-form input::placeholder { color: var(--ts-gray); }
-.ts-search-close {
+.ts-search-form input::placeholder {
+  color: var(--ts-gray, #888888) !important;
+}
+
+/* Remove standard search cross icon inside the input element */
+.ts-search-form input::-webkit-search-cancel-button,
+.ts-search-form input::-webkit-search-decoration,
+.ts-search-form input::-webkit-search-results-button,
+.ts-search-form input::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none !important;
+}
+
+/* Clear icon styling (green cross inside input bar) */
+.ts-search-clear {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--ts-gray);
+  color: var(--ts-header-accent, var(--ts-mint)) !important;
   display: flex;
   align-items: center;
   padding: 2px;
   transition: var(--ts-transition);
 }
-.ts-search-close:hover { color: var(--ts-navy); }
+.ts-search-clear:hover {
+  transform: scale(1.1);
+  color: var(--ts-header-accent, var(--ts-mint)) !important;
+}
+
+/* Backdrop close button at top right of viewport */
+.ts-search-overlay-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ts-white, #ffffff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  z-index: 2100;
+}
+.ts-search-overlay-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--ts-header-accent, var(--ts-mint));
+  transform: rotate(90deg);
+}
 
 /* ---- Hamburger ---- */
 .ts-hamburger {
@@ -1198,17 +1242,18 @@
   box-shadow: 0 20px 60px rgba(0,0,0,.5);
 }
 [data-theme="dark"] .ts-search-form input {
-  background: transparent;
-  color: var(--ts-text-heading);
+  background: transparent !important;
+  color: var(--ts-white, #ffffff) !important;
 }
 [data-theme="dark"] .ts-search-form input::placeholder {
-  color: var(--ts-text-muted);
+  color: rgba(255, 255, 255, 0.5) !important;
 }
-[data-theme="dark"] .ts-search-close {
-  color: var(--ts-text-muted);
+[data-theme="dark"] .ts-search-overlay-close {
+  color: var(--ts-white, #ffffff) !important;
 }
-[data-theme="dark"] .ts-search-close:hover {
-  color: var(--ts-text-heading);
+[data-theme="dark"] .ts-search-overlay-close:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: var(--ts-header-accent, var(--ts-mint)) !important;
 }
 
 /* Mobile drawer */
@@ -1244,8 +1289,9 @@
   // Search overlay
   const searchTrigger = document.getElementById('ts-search-trigger');
   const searchOverlay = document.getElementById('ts-search-overlay');
-  const searchClose   = document.getElementById('ts-search-close');
+  const searchOverlayClose = document.getElementById('ts-search-overlay-close');
   const searchInput   = document.getElementById('ts-search-input');
+  const searchClear   = document.getElementById('ts-search-clear');
 
   if (searchTrigger) {
     searchTrigger.addEventListener('click', () => {
@@ -1253,12 +1299,19 @@
       setTimeout(() => searchInput.focus(), 100);
     });
   }
-  if (searchClose) {
-    searchClose.addEventListener('click', () => searchOverlay.classList.remove('open'));
+  if (searchOverlayClose) {
+    searchOverlayClose.addEventListener('click', () => searchOverlay.classList.remove('open'));
   }
   if (searchOverlay) {
     searchOverlay.addEventListener('click', (e) => {
       if (e.target === searchOverlay) searchOverlay.classList.remove('open');
+    });
+  }
+  if (searchClear && searchInput) {
+    searchClear.addEventListener('click', (e) => {
+      e.preventDefault();
+      searchInput.value = '';
+      searchInput.focus();
     });
   }
 
