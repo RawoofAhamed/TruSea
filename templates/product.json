@@ -25,9 +25,11 @@
         "meta_info": {
           "type": "meta_info",
           "settings": {
-            "weight": "{{ product.metafields.custom.gross_weight.value }}",
-            "pieces": "{{ product.metafields.custom.pieces.value }}",
-            "serves": "{{ product.metafields.custom.serves.value }}"
+            "gross_weight": "520-590g",
+            "net_weight": "300-360g",
+            "pieces": "36-41",
+            "serves": "3-5",
+            "cut": "Cleaned"
           }
         },
         "offer_banner": {

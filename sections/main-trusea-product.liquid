@@ -84,19 +84,45 @@
             {% endif %}
 
           {% when 'meta_info' %}
+            {%- liquid
+              assign initial_variant = product.selected_or_first_available_variant
+              assign meta_gross  = initial_variant.metafields.custom.gross_weight | default: block.settings.gross_weight
+              assign meta_net    = initial_variant.metafields.custom.net_weight   | default: block.settings.net_weight
+              assign meta_pieces = initial_variant.metafields.custom.pieces       | default: block.settings.pieces
+              assign meta_serves = initial_variant.metafields.custom.serves       | default: block.settings.serves
+              assign meta_cut    = initial_variant.metafields.custom.cut          | default: block.settings.cut
+            -%}
             <div class="lc-pdp-meta" {{ block.shopify_attributes }}>
-              <div class="lc-pdp-meta__item">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
-                <span class="js-lc-meta-weight">{{ block.settings.weight | default: "500g" }}</span>
-              </div>
-              <div class="lc-pdp-meta__item">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                <span class="js-lc-meta-pieces">{{ block.settings.pieces | default: "8-10 Pieces" }}</span>
-              </div>
-              <div class="lc-pdp-meta__item">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                <span class="js-lc-meta-serves">{{ block.settings.serves | default: "Serves 2-3" }}</span>
-              </div>
+              {% if meta_gross != blank %}
+                <span class="lc-pdp-meta__pair">
+                  <span class="lc-pdp-meta__label">Gross:</span>
+                  <span class="lc-pdp-meta__val js-lc-meta-gross">{{ meta_gross }}</span>
+                </span>
+              {% endif %}
+              {% if meta_net != blank %}
+                <span class="lc-pdp-meta__pair">
+                  <span class="lc-pdp-meta__label">Net:</span>
+                  <span class="lc-pdp-meta__val js-lc-meta-net">{{ meta_net }}</span>
+                </span>
+              {% endif %}
+              {% if meta_pieces != blank %}
+                <span class="lc-pdp-meta__pair">
+                  <span class="lc-pdp-meta__label">Pieces:</span>
+                  <span class="lc-pdp-meta__val js-lc-meta-pieces">{{ meta_pieces }}</span>
+                </span>
+              {% endif %}
+              {% if meta_serves != blank %}
+                <span class="lc-pdp-meta__pair">
+                  <span class="lc-pdp-meta__label">Serves:</span>
+                  <span class="lc-pdp-meta__val js-lc-meta-serves">{{ meta_serves }}</span>
+                </span>
+              {% endif %}
+              {% if meta_cut != blank %}
+                <span class="lc-pdp-meta__pair">
+                  <span class="lc-pdp-meta__label">Cut:</span>
+                  <span class="lc-pdp-meta__val js-lc-meta-cut">{{ meta_cut }}</span>
+                </span>
+              {% endif %}
             </div>
 
           {% when 'offer_banner' %}
@@ -287,8 +313,6 @@
 .jdgm-preview-badge,
 .jdgm-widget {
   display: none !important;
-}
-  margin-bottom: 15px !important;
 }
 
 
@@ -528,22 +552,31 @@
   margin-bottom: 16px;
 }
 .lc-pdp-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px 10px;
   margin-bottom: 20px;
-}
-.lc-pdp-meta__item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
   font-size: 13px;
-  color: var(--ts-mint);
-  font-weight: 600;
-  background: var(--ts-bg-secondary);
-  padding: 6px 12px;
+  line-height: 1.5;
+  background-color: #0d1726;
+  padding: 16px;
   border-radius: 8px;
-  border: 1px solid var(--ts-border);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+}
+.lc-pdp-meta__pair {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  white-space: nowrap;
+}
+.lc-pdp-meta__label {
+  font-weight: 500;
+  color: #798c9f;
+}
+.lc-pdp-meta__val {
+  font-weight: 800;
+  color: #ffffff;
 }
 /* Offer Banner */
 .lc-pdp-offer {
@@ -793,9 +826,22 @@
   letter-spacing: 0.2px;
 }
 @media (max-width: 768px) {
+  .lc-pdp-meta__pair:nth-child(1),
+  .lc-pdp-meta__pair:nth-child(2) {
+    grid-column: span 2;
+  }
+}
+@media (max-width: 768px) {
   .lc-pdp-wrap { padding: 16px; }
   .lc-pdp-title { font-size: clamp(24px, 6vw, 32px); }
-  .lc-pdp-meta { gap: 8px; }
+  .lc-pdp-meta { padding: 10px; font-size: 12px; grid-template-columns: repeat(6, 1fr); }
+  /* Mobile Layout: 2 in first row (span 3), 3 in second row (span 2) */
+
+  .lc-pdp-meta__pair:nth-child(3),
+  .lc-pdp-meta__pair:nth-child(4),
+  .lc-pdp-meta__pair:nth-child(5) {
+    grid-column: span 2;
+  }
   .lc-pdp-meta__item { font-size: 12px; padding: 5px 10px; }
   .lc-variant-pill { padding: 8px 14px; font-size: 13px; }
   .lc-pdp-buy-row {
@@ -821,20 +867,28 @@
     justify-content: flex-start;
   }
 }
+@media (max-width: 400px) {
+  .lc-pdp-meta {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .lc-pdp-meta__pair:nth-child(n) {
+    grid-column: span 1;
+  }
+}
 @media (max-width: 480px) {
   .lc-pdp-title { font-size: 22px; }
   .lc-pdp-price__sale { font-size: 28px; }
   .lc-pdp-action-col {
-    flex-direction: column;
+    flex-direction: row;
     gap: 12px;
+    align-items: center;
   }
   .lc-pdp-qty {
-    width: 100%;
-    max-width: none;
+    flex: 1;
+    max-width: 120px;
   }
   .lc-pdp-add-btn {
-    width: 100%;
-    flex: 1;
+    flex: 2;
   }
   .lc-pdp-delivery-text {
     justify-content: center;
@@ -1089,77 +1143,85 @@ document.addEventListener('DOMContentLoaded', () => {
   const radioInputs = document.querySelectorAll('.lc-variant-radio');
   const jsonEl = document.querySelector('.lc-variants-json');
   const formIdInput = document.querySelector('form.lc-pdp-form input[name="id"]');
+
+  function updateVariantInfo(selectedVariant) {
+    if (!selectedVariant) return;
+
+    if (formIdInput) formIdInput.value = selectedVariant.id;
+
+    // Switch gallery image if variant has featured image
+    if (selectedVariant.featured_media) {
+      const mediaId = selectedVariant.featured_media.id;
+      const targetSlide = document.querySelector(`.lc-gallery__slide[data-media-id="${mediaId}"]`);
+      if (targetSlide) {
+        const index = Array.from(slides).indexOf(targetSlide);
+        if (index !== -1) switchSlide(index);
+      }
+    }
+
+    const priceSale = document.querySelector('.lc-pdp-price__sale');
+    if (priceSale) {
+      priceSale.innerHTML = '₹' + (selectedVariant.price / 100).toFixed(2);
+    }
+    const priceReg = document.querySelector('.lc-pdp-price__regular');
+    const priceDisc = document.querySelector('.lc-pdp-price__discount');
+    if (selectedVariant.compare_at_price > selectedVariant.price) {
+      if (priceReg) priceReg.innerHTML = 'MRP ₹' + (selectedVariant.compare_at_price / 100).toFixed(2);
+      if (priceDisc) priceDisc.innerHTML = '(' + Math.round((selectedVariant.compare_at_price - selectedVariant.price) / selectedVariant.compare_at_price * 100) + '% off)';
+      if (priceReg) priceReg.style.display = 'inline';
+      if (priceDisc) priceDisc.style.display = 'inline';
+    } else {
+      if (priceReg) priceReg.style.display = 'none';
+      if (priceDisc) priceDisc.style.display = 'none';
+    }
+
+    const addBtn = document.querySelector('.lc-pdp-add-btn');
+    if (addBtn) {
+      addBtn.disabled = !selectedVariant.available;
+      addBtn.innerHTML = selectedVariant.available ? 'Add to Cart' : 'Sold Out';
+    }
+
+    // Update Meta Info (Weight, Pieces, Serves) — update only if variant has a value
+    const metaWeight = document.querySelector('.js-lc-meta-weight');
+    const metaPieces = document.querySelector('.js-lc-meta-pieces');
+    const metaServes = document.querySelector('.js-lc-meta-serves');
+    if (metaWeight && selectedVariant.weight) metaWeight.textContent = selectedVariant.weight;
+    if (metaPieces && selectedVariant.pieces) metaPieces.textContent = selectedVariant.pieces;
+    if (metaServes && selectedVariant.serves) metaServes.textContent = selectedVariant.serves;
+  }
+
   if (radioInputs.length > 0 && jsonEl && formIdInput) {
+    // Multi-variant product: wire up radio change events
     const variants = JSON.parse(jsonEl.textContent);
+
+    function getSelectedVariant() {
+      const checkedValues = Array.from(document.querySelectorAll('.lc-variant-radio:checked')).map(el => el.value);
+      return variants.find(variant => variant.options.every((val, idx) => val === checkedValues[idx]));
+    }
+
     radioInputs.forEach(radio => {
-      radio.addEventListener('change', updateVariantInfo);
+      radio.addEventListener('change', () => updateVariantInfo(getSelectedVariant()));
     });
 
-    function updateVariantInfo() {
-      const checkedValues = Array.from(document.querySelectorAll('.lc-variant-radio:checked')).map(el => el.value);
-      const selectedVariant = variants.find(variant => {
-        return variant.options.every((val, index) => val === checkedValues[index]);
-      });
-      if (selectedVariant) {
-        formIdInput.value = selectedVariant.id;
-        
-        // Switch gallery image if variant has featured image
-        if (selectedVariant.featured_media) {
-           const mediaId = selectedVariant.featured_media.id;
-           const targetSlide = document.querySelector(`.lc-gallery__slide[data-media-id="${mediaId}"]`);
-           if (targetSlide) {
-             const index = Array.from(slides).indexOf(targetSlide);
-             if (index !== -1) switchSlide(index);
-           }
-        }
+    // Initialize on load with the first checked variant
+    updateVariantInfo(getSelectedVariant());
 
-        const priceSale = document.querySelector('.lc-pdp-price__sale');
-        if(priceSale) {
-          priceSale.innerHTML = '₹' + (selectedVariant.price / 100).toFixed(2);
-        }
-        const priceReg = document.querySelector('.lc-pdp-price__regular');
-        const priceDisc = document.querySelector('.lc-pdp-price__discount');
-        if(selectedVariant.compare_at_price > selectedVariant.price) {
-          if(priceReg) priceReg.innerHTML = 'MRP ₹' + (selectedVariant.compare_at_price / 100).toFixed(2);
-          if(priceDisc) priceDisc.innerHTML = '(' + Math.round((selectedVariant.compare_at_price - selectedVariant.price) / selectedVariant.compare_at_price * 100) + '% off)';
-          if(priceReg) priceReg.style.display = 'inline';
-          if(priceDisc) priceDisc.style.display = 'inline';
-        } else {
-          if(priceReg) priceReg.style.display = 'none';
-          if(priceDisc) priceDisc.style.display = 'none';
-        }
+  } else if (jsonEl) {
+    // Single-variant product: still parse and apply meta from the only variant
+    const variants = JSON.parse(jsonEl.textContent);
+    if (variants.length > 0) updateVariantInfo(variants[0]);
+  }
 
-        const addBtn = document.querySelector('.lc-pdp-add-btn');
-        if(addBtn) {
-          addBtn.disabled = !selectedVariant.available;
-          addBtn.innerHTML = selectedVariant.available ? 'Add to Cart' : 'Sold Out';
-        }
-
-        // Update Meta Info (Weight, Pieces, Serves)
-        const metaWeight = document.querySelector('.js-lc-meta-weight');
-        const metaPieces = document.querySelector('.js-lc-meta-pieces');
-        const metaServes = document.querySelector('.js-lc-meta-serves');
-
-        if (metaWeight && selectedVariant.weight) metaWeight.textContent = selectedVariant.weight;
-        if (metaPieces && selectedVariant.pieces) metaPieces.textContent = selectedVariant.pieces;
-        if (metaServes && selectedVariant.serves) metaServes.textContent = selectedVariant.serves;
-      }
+  // Sync Cut Preference
+  const cutRadios = document.querySelectorAll('.lc-cut-radio');
+  const hiddenCut = document.getElementById('lc-hidden-cut-preference');
+  if (cutRadios.length > 0 && hiddenCut) {
+    function syncCut() {
+      const checked = document.querySelector('.lc-cut-radio:checked');
+      if (checked) hiddenCut.value = checked.value;
     }
-
-    // Initialize on load
-    updateVariantInfo();
-
-    // Sync Cut Preference
-    const cutRadios = document.querySelectorAll('.lc-cut-radio');
-    const hiddenCut = document.getElementById('lc-hidden-cut-preference');
-    if (cutRadios.length > 0 && hiddenCut) {
-      function syncCut() {
-        const checked = document.querySelector('.lc-cut-radio:checked');
-        if (checked) hiddenCut.value = checked.value;
-      }
-      cutRadios.forEach(r => r.addEventListener('change', syncCut));
-      syncCut(); // Initial sync
-    }
+    cutRadios.forEach(r => r.addEventListener('change', syncCut));
+    syncCut();
   }
 });
 </script>
@@ -1214,21 +1276,33 @@ document.addEventListener('DOMContentLoaded', () => {
       "settings": [
         {
           "type": "text",
-          "id": "weight",
-          "label": "Weight Text",
-          "default": "500g"
+          "id": "gross_weight",
+          "label": "Gross Weight",
+          "default": "520-650g"
+        },
+        {
+          "type": "text",
+          "id": "net_weight",
+          "label": "Net Weight",
+          "default": "360-450g"
         },
         {
           "type": "text",
           "id": "pieces",
-          "label": "Pieces Text",
-          "default": "8-10 Pieces"
+          "label": "Pieces",
+          "default": "4-5"
         },
         {
           "type": "text",
           "id": "serves",
-          "label": "Serves Text",
-          "default": "Serves 2-3"
+          "label": "Serves",
+          "default": "2-3"
+        },
+        {
+          "type": "text",
+          "id": "cut",
+          "label": "Cut",
+          "default": "12 mm"
         }
       ]
     },
