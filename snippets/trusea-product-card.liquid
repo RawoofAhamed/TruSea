@@ -229,7 +229,7 @@
   </div>
 </div>
 
-<style>
+<style data-trusea-card-styles>
 .lc-card {
   background: var(--ts-bg-card);
   border-radius: var(--card-radius, 24px);
@@ -987,6 +987,12 @@
 </style>
 
 <script>
+// Move card styles to head to prevent them from being cleared during client-side filtering
+document.querySelectorAll('style[data-trusea-card-styles]').forEach(style => {
+  if (style.parentNode !== document.head) {
+    document.head.appendChild(style);
+  }
+});
 // Hover Slide Carousel
 document.addEventListener('DOMContentLoaded', () => {
   const carousels = document.querySelectorAll('.lc-card__carousel');
@@ -1384,6 +1390,6 @@ if (typeof addTruSeaToCart !== 'function') {
 }
 </script>
 
-<style>
+<style data-trusea-card-styles>
 .lc-card__media-wrap { touch-action: pan-y; }
 </style>
