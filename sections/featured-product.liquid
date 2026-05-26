@@ -39,6 +39,19 @@
         padding-bottom: {{ section.settings.padding_bottom }}px;
       }
     }
+    .lc-fp__protein-badge {
+      position: absolute;
+      top: 15px;
+      left: 0;
+      background: #ffffff;
+      color: #000000;
+      padding: 6px 14px 6px 8px;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 0 20px 20px 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      z-index: 10;
+    }
   {%- endstyle -%}
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
@@ -71,8 +84,12 @@
   <section class="color-{{ section.settings.color_scheme }} {% if section.settings.secondary_background %}background-secondary{% else %}gradient{% endif %}">
     <div class="page-width section-{{ section.id }}-padding{% if section.settings.secondary_background %} isolate{% endif %}">
       <div class="featured-product product product--{{ section.settings.media_size }} grid grid--1-col gradient color-{{ section.settings.color_scheme }} product--{{ section.settings.media_position }}{% if section.settings.secondary_background == false %} isolate{% endif %} {% if product.media.size > 0 or section.settings.product == blank %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
-        <div class="grid__item product__media-wrapper">
+        <div class="grid__item product__media-wrapper" style="position: relative;">
           {%- unless placeholder -%}
+            {% assign fp_protein_val = product.metafields.custom.protein.value | default: product.metafields.custom.protein %}
+            {% if fp_protein_val != blank %}
+              <div class="lc-fp__protein-badge">Protein: {{ fp_protein_val }}</div>
+            {% endif %}
             {% render 'product-media-gallery', product: product, variant_images: variant_images, limit: 1 %}
           {%- else -%}
             <div class="product__media-item">

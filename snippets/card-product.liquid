@@ -113,11 +113,18 @@
                 >
               {%- endif -%}
             </div>
-            {% if has_prebook %}
-              <div class="lc-card__ribbon lc-card__ribbon--prebook">Pre-Book</div>
-            {% elsif card_product.available == false %}
-              <div class="lc-card__ribbon lc-card__ribbon--soldout">Sold Out</div>
-            {% endif %}
+            <div class="lc-card__badges">
+              {% assign protein_val = card_product.metafields.custom.protein.value | default: card_product.metafields.custom.protein %}
+              {% if protein_val != blank %}
+                <div class="lc-card__protein">Protein: {{ protein_val }}</div>
+              {% endif %}
+              
+              {% if has_prebook %}
+                <div class="lc-card__ribbon lc-card__ribbon--prebook">Pre-Book</div>
+              {% elsif card_product.available == false %}
+                <div class="lc-card__ribbon lc-card__ribbon--soldout">Sold Out</div>
+              {% endif %}
+            </div>
           </div>
         {%- endif -%}
         <div class="card__content">
@@ -640,10 +647,26 @@
 {%- endif -%}
 
 <style>
-.lc-card__ribbon {
+.lc-card__badges {
   position: absolute;
   top: 10px;
   left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  z-index: 10;
+}
+.lc-card__protein {
+  background: #ffffff;
+  color: #000000;
+  padding: 6px 14px 6px 8px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 0 20px 20px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.lc-card__ribbon {
   background: #0d3d6e;
   color: #fff;
   padding: 4px 14px 4px 8px;
@@ -651,7 +674,6 @@
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  z-index: 10;
   display: flex;
   align-items: center;
   clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);

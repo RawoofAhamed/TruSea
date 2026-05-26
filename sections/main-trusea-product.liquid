@@ -25,11 +25,20 @@
           endfor
         -%}
 
-        {% if has_prebook %}
-          <div class="lc-gallery__ribbon lc-gallery__ribbon--prebook">Pre-Book</div>
-        {% elsif product.available == false %}
-          <div class="lc-gallery__ribbon lc-gallery__ribbon--soldout">Sold Out</div>
-        {% endif %}
+        <div class="lc-gallery__badges">
+          {%- if product -%}
+            {% assign protein_val = product.metafields.custom.protein.value | default: product.metafields.custom.protein %}
+            {% if protein_val != blank %}
+              <div class="lc-gallery__protein">Protein: {{ protein_val }}</div>
+            {% endif %}
+          {%- endif -%}
+
+          {% if has_prebook %}
+            <div class="lc-gallery__ribbon lc-gallery__ribbon--prebook">Pre-Book</div>
+          {% elsif product.available == false %}
+            <div class="lc-gallery__ribbon lc-gallery__ribbon--soldout">Sold Out</div>
+          {% endif %}
+        </div>
         
         <div class="lc-gallery__nv-icon">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" stroke="#D2213F" stroke-width="2"/><path d="M8 3L13 12H3L8 3Z" fill="#D2213F"/></svg>
@@ -386,6 +395,29 @@
     aspect-ratio: 1;
   }
 }
+.lc-gallery__badges {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  z-index: 10;
+}
+.lc-gallery__badges .lc-gallery__ribbon {
+  position: static;
+}
+.lc-gallery__protein {
+  background: #ffffff;
+  color: #000000;
+  padding: 6px 14px 6px 8px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 0 20px 20px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
 .lc-gallery__ribbon {
   position: absolute;
   top: 15px;

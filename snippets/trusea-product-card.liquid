@@ -67,21 +67,30 @@
       endfor
     -%}
 
-    {% if has_popular %}
-      <div class="lc-card__ribbon lc-card__ribbon--popular">
-        Popular
-      </div>
-    {% endif %}
+    <div class="lc-tpc__badges">
+      {%- if product -%}
+        {% assign protein_val = product.metafields.custom.protein.value | default: product.metafields.custom.protein %}
+        {% if protein_val != blank %}
+          <div class="lc-tpc__protein">Protein: {{ protein_val }}</div>
+        {% endif %}
+      {%- endif -%}
 
-    {% if has_prebook %}
-      <div class="lc-card__ribbon lc-card__ribbon--prebook {% if has_popular %}lc-card__ribbon--stacked{% endif %}">
-        Pre-Book
-      </div>
-    {% elsif available == false %}
-      <div class="lc-card__ribbon lc-card__ribbon--soldout {% if has_popular %}lc-card__ribbon--stacked{% endif %}">
-        Sold Out
-      </div>
-    {% endif %}
+      {% if has_popular %}
+        <div class="lc-card__ribbon lc-card__ribbon--popular">
+          Popular
+        </div>
+      {% endif %}
+
+      {% if has_prebook %}
+        <div class="lc-card__ribbon lc-card__ribbon--prebook">
+          Pre-Book
+        </div>
+      {% elsif available == false %}
+        <div class="lc-card__ribbon lc-card__ribbon--soldout">
+          Sold Out
+        </div>
+      {% endif %}
+    </div>
 
     <!-- Top right icon (Non-Veg indicator) -->
     <div class="lc-card__icon-nv">
@@ -270,6 +279,29 @@
   z-index: 2;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   display: flex;
+}
+
+.lc-tpc__badges {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  z-index: 10;
+}
+.lc-tpc__badges .lc-card__ribbon {
+  position: static;
+}
+.lc-tpc__protein {
+  background: #ffffff;
+  color: #000000;
+  padding: 6px 14px 6px 8px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 0 20px 20px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 /* Ribbon badge */
