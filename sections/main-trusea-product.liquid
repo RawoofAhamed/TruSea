@@ -1,4 +1,13 @@
 <div class="lc-pdp-wrap" style="--lc-pdp-max-width: {{ section.settings.max_width }}px;">
+{%- liquid
+  assign meta_info_block = nil
+  for block in section.blocks
+    if block.type == 'meta_info'
+      assign meta_info_block = block
+      break
+    endif
+  endfor
+-%}
   <!-- Breadcrumbs -->
   {% if section.settings.show_breadcrumbs %}
     <div class="lc-breadcrumb">
@@ -95,11 +104,11 @@
           {% when 'meta_info' %}
             {%- liquid
               assign initial_variant = product.selected_or_first_available_variant
-              assign meta_gross  = initial_variant.metafields.custom.gross_weight | default: block.settings.gross_weight
-              assign meta_net    = initial_variant.metafields.custom.net_weight   | default: block.settings.net_weight
-              assign meta_pieces = initial_variant.metafields.custom.pieces       | default: block.settings.pieces
-              assign meta_serves = initial_variant.metafields.custom.serves       | default: block.settings.serves
-              assign meta_cut    = initial_variant.metafields.custom.cut          | default: block.settings.cut
+              assign meta_gross  = initial_variant.metafields.custom.gross_weight.value | default: initial_variant.metafields.custom.gross_weight | default: product.metafields.custom.gross_weight.value | default: product.metafields.custom.gross_weight | default: block.settings.gross_weight
+              assign meta_net    = initial_variant.metafields.custom.net_weight.value   | default: initial_variant.metafields.custom.net_weight   | default: product.metafields.custom.net_weight.value   | default: product.metafields.custom.net_weight   | default: block.settings.net_weight
+              assign meta_pieces = initial_variant.metafields.custom.pieces.value       | default: initial_variant.metafields.custom.pieces       | default: product.metafields.custom.pieces.value       | default: product.metafields.custom.pieces       | default: block.settings.pieces
+              assign meta_serves = initial_variant.metafields.custom.serves.value       | default: initial_variant.metafields.custom.serves       | default: product.metafields.custom.serves.value       | default: product.metafields.custom.serves       | default: block.settings.serves
+              assign meta_cut    = initial_variant.metafields.custom.cut.value          | default: initial_variant.metafields.custom.cut          | default: product.metafields.custom.cut.value          | default: product.metafields.custom.cut          | default: block.settings.cut
             -%}
             <div class="lc-pdp-meta" {{ block.shopify_attributes }}>
               {% if meta_gross != blank %}
@@ -176,8 +185,11 @@
                         "compare_at_price": {{ variant.compare_at_price | default: 0 }},
                         "available": {{ variant.available }},
                         "weight": {{ variant.metafields.custom.weight | default: variant.option1 | json }},
-                        "pieces": {{ variant.metafields.custom.pieces | default: "8-10 Pieces" | json }},
-                        "serves": {{ variant.metafields.custom.serves | default: "Serves 2-3" | json }},
+                        "gross_weight": {{ variant.metafields.custom.gross_weight.value | default: variant.metafields.custom.gross_weight | default: product.metafields.custom.gross_weight.value | default: product.metafields.custom.gross_weight | default: meta_info_block.settings.gross_weight | json }},
+                        "net_weight": {{ variant.metafields.custom.net_weight.value | default: variant.metafields.custom.net_weight | default: product.metafields.custom.net_weight.value | default: product.metafields.custom.net_weight | default: meta_info_block.settings.net_weight | json }},
+                        "pieces": {{ variant.metafields.custom.pieces.value | default: variant.metafields.custom.pieces | default: product.metafields.custom.pieces.value | default: product.metafields.custom.pieces | default: meta_info_block.settings.pieces | json }},
+                        "serves": {{ variant.metafields.custom.serves.value | default: variant.metafields.custom.serves | default: product.metafields.custom.serves.value | default: product.metafields.custom.serves | default: meta_info_block.settings.serves | json }},
+                        "cut": {{ variant.metafields.custom.cut.value | default: variant.metafields.custom.cut | default: product.metafields.custom.cut.value | default: product.metafields.custom.cut | default: meta_info_block.settings.cut | json }},
                         "featured_media": {{ variant.featured_media | json }}
                       }{% unless forloop.last %},{% endunless %}
                     {% endfor %}
@@ -1213,13 +1225,63 @@ document.addEventListener('DOMContentLoaded', () => {
       addBtn.innerHTML = selectedVariant.available ? 'Add to Cart' : 'Sold Out';
     }
 
-    // Update Meta Info (Weight, Pieces, Serves) — update only if variant has a value
-    const metaWeight = document.querySelector('.js-lc-meta-weight');
+    // Update Meta Info (Gross Weight, Net Weight, Pieces, Serves, Cut Style)
+    const metaGross  = document.querySelector('.js-lc-meta-gross');
+    const metaNet    = document.querySelector('.js-lc-meta-net');
     const metaPieces = document.querySelector('.js-lc-meta-pieces');
     const metaServes = document.querySelector('.js-lc-meta-serves');
-    if (metaWeight && selectedVariant.weight) metaWeight.textContent = selectedVariant.weight;
-    if (metaPieces && selectedVariant.pieces) metaPieces.textContent = selectedVariant.pieces;
-    if (metaServes && selectedVariant.serves) metaServes.textContent = selectedVariant.serves;
+    const metaCut    = document.querySelector('.js-lc-meta-cut');
+
+    if (metaGross) {
+      if (selectedVariant.gross_weight) {
+        metaGross.textContent = selectedVariant.gross_weight;
+        const pair = metaGross.closest('.lc-pdp-meta__pair');
+        if (pair) pair.style.display = '';
+      } else {
+        const pair = metaGross.closest('.lc-pdp-meta__pair');
+        if (pair) pair.style.display = 'none';
+      }
+    }
+    if (metaNet) {
+      if (selectedVariant.net_weight) {
+        metaNet.textContent = selectedVariant.net_weight;
+        const pair = metaNet.closest('.lc-pdp-meta__pair');
+        if (pair) pair.style.display = '';
+      } else {
+        const pair = metaNet.closest('.lc-pdp-meta__pair');
+        if (pair) pair.style.display = 'none';
+      }
+    }
+    if (metaPieces) {
+      if (selectedVariant.pieces) {
+        metaPieces.textContent = selectedVariant.pieces;
+        const pair = metaPieces.closest('.lc-pdp-meta__pair');
+        if (pair) pair.style.display = '';
+      } else {
+        const pair = metaPieces.closest('.lc-pdp-meta__pair');
+        if (pair) pair.style.display = 'none';
+      }
+    }
+    if (metaServes) {
+      if (selectedVariant.serves) {
+        metaServes.textContent = selectedVariant.serves;
+        const pair = metaServes.closest('.lc-pdp-meta__pair');
+        if (pair) pair.style.display = '';
+      } else {
+        const pair = metaServes.closest('.lc-pdp-meta__pair');
+        if (pair) pair.style.display = 'none';
+      }
+    }
+    if (metaCut) {
+      if (selectedVariant.cut) {
+        metaCut.textContent = selectedVariant.cut;
+        const pair = metaCut.closest('.lc-pdp-meta__pair');
+        if (pair) pair.style.display = '';
+      } else {
+        const pair = metaCut.closest('.lc-pdp-meta__pair');
+        if (pair) pair.style.display = 'none';
+      }
+    }
   }
 
   if (radioInputs.length > 0 && jsonEl && formIdInput) {
