@@ -212,7 +212,7 @@
           assign is_preorder = 'false'
           if has_prebook
             assign is_preorder = 'true'
-          elsif first_variant.available and first_variant.inventory_quantity <= 0 and first_variant.inventory_management != blank
+          elsif first_variant.inventory_management != blank and first_variant.inventory_quantity <= 0
             assign is_preorder = 'true'
           endif
         -%}
