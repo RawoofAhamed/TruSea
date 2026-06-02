@@ -212,18 +212,18 @@
           assign is_preorder = 'false'
           if has_prebook
             assign is_preorder = 'true'
-          elsif first_variant.inventory_management != blank and first_variant.inventory_quantity <= 0
+          elsif first_variant.available and first_variant.inventory_quantity <= 0 and first_variant.inventory_management != blank
             assign is_preorder = 'true'
           endif
         -%}
         
-        {% if is_preorder == 'true' %}
-  <button class="lc-btn-add lc-btn-prebook" onclick="openTruSeaCutModal(this, {{ variant_id }}, '{{ product.title | escape }}', {{ price }}, {{ is_preorder }}, '{{ subtitle | escape }}', '{{ card_group }}')">Prebook</button>
-{% elsif available == false %}
-  <button class="lc-btn-add lc-btn-soldout" disabled>Sold Out</button>
-{% else %}
-  <button class="lc-btn-add" onclick="openTruSeaCutModal(this, {{ variant_id }}, '{{ product.title | escape }}', {{ price }}, {{ is_preorder }}, '{{ subtitle | escape }}', '{{ card_group }}')">Add <span>+</span></button>
-{% endif %}
+        {% if has_prebook %}
+          <button class="lc-btn-add lc-btn-prebook" onclick="openTruSeaCutModal(this, {{ variant_id }}, '{{ product.title | escape }}', {{ price }}, {{ is_preorder }}, '{{ subtitle | escape }}', '{{ card_group }}')">Prebook</button>
+        {% elsif available == false %}
+          <button class="lc-btn-add lc-btn-soldout" disabled>Sold Out</button>
+        {% else %}
+          <button class="lc-btn-add" onclick="openTruSeaCutModal(this, {{ variant_id }}, '{{ product.title | escape }}', {{ price }}, {{ is_preorder }}, '{{ subtitle | escape }}', '{{ card_group }}')">Add <span>+</span></button>
+        {% endif %}
       </div>
     </div>
   </div>
