@@ -436,17 +436,24 @@
 
       {%- liquid
         assign is_bestseller = false
-        assign is_prebook = false
-        
-        for tag in product.tags
-          assign t = tag | downcase
-          if t == 'best seller' or t == 'bestseller'
-            assign is_bestseller = true
-          endif
-          if t contains 'prebook' or t contains 'pre-book'
-            assign is_prebook = true
-          endif
-        endfor
+
+for tag in product.tags
+  assign t = tag | downcase
+
+  if t == 'best seller' or t == 'bestseller'
+    assign is_bestseller = true
+  endif
+endfor
+
+assign is_prebook = false
+
+if product.available == false
+  assign is_prebook = true
+endif
+
+if product.selected_or_first_available_variant.inventory_quantity <= 0
+  assign is_prebook = true
+endif
 
         if is_bestseller == false
           for coll in product.collections
