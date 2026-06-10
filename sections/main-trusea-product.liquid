@@ -377,6 +377,7 @@
 @media screen and (max-width: 960px) {
   .lc-pdp-container {
     flex-direction: column;
+    align-items: stretch;
     gap: 32px;
   }
 }
@@ -390,7 +391,7 @@
 }
 @media screen and (max-width: 960px) {
   .lc-pdp-gallery {
-    flex: 0 0 100%;
+    width: 100%;
     max-width: 100%;
     position: static;
   }
@@ -1221,8 +1222,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const addBtn = document.querySelector('.lc-pdp-add-btn');
     if (addBtn) {
-      addBtn.disabled = !selectedVariant.available;
-      addBtn.innerHTML = selectedVariant.available ? 'Add to Cart' : 'Sold Out';
+      if (addBtn.classList.contains('lc-pdp-prebook-btn')) {
+        addBtn.disabled = false;
+        addBtn.innerHTML = 'Prebook Now';
+      } else {
+        addBtn.disabled = !selectedVariant.available;
+        addBtn.innerHTML = selectedVariant.available ? 'Add to Cart' : 'Sold Out';
+      }
     }
 
     // Update Meta Info (Gross Weight, Net Weight, Pieces, Serves, Cut Style)
