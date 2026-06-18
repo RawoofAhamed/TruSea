@@ -119,9 +119,9 @@
         "default_location": "Select Area",
         "whatsapp_number": "+917397468800",
         "show_location_picker": false,
-        "bg_color": "#0e2541",
+        "bg_color": "#ffffff",
         "accent_color": "#3cbfa0",
-        "text_color": "#ffffff",
+        "text_color": "#0e2541",
         "sticky": true
       }
     }
